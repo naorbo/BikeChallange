@@ -1,0 +1,44 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeFile="Site.master.cs" Inherits="SiteMaster" %>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<head id="Head1" runat="server">
+    <title></title>
+    <link href="~/Styles/Site.css" rel="stylesheet" type="text/css" />
+    <asp:ContentPlaceHolder ID="HeadContent" runat="server" >
+    </asp:ContentPlaceHolder>
+</head>
+<body dir="rtl">
+    <form id="Form1" runat="server" dir="rtl">
+    <div class="page" dir="rtl">
+        <div class="header" dir="rtl">
+            <div class="title" dir="rtl">
+                <h1>
+                    Bike Challange
+                </h1>
+            </div>
+            
+            <div class="clear hideSkiplink" dir="rtl">
+                <asp:Menu ID="NavigationMenu" runat="server" CssClass="menu" EnableViewState="true"
+                    IncludeStyleBlock="true" Orientation="Horizontal" >
+                    <StaticSelectedStyle BackColor="ActiveCaption" />
+                    <Items >
+                        <asp:MenuItem NavigateUrl="~/AddProducts.aspx" Text="Add Products" />
+                        <asp:MenuItem NavigateUrl="~/ShowProducts.aspx" Text="Show Products" />
+                        <asp:MenuItem NavigateUrl="~/Discount.aspx" Text="Discount" />
+
+                    </Items>
+                </asp:Menu>
+            </div>
+        </div>
+        <div class="main" dir="rtl">
+            <asp:ContentPlaceHolder ID="MainContent" runat="server" />
+        </div>
+        <div class="clear" dir="rtl">
+        </div>
+    </div>
+    <div class="footer" dir="rtl">
+    </div>
+    </form>
+</body>
+</html>
