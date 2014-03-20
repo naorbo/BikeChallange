@@ -1,0 +1,59 @@
+﻿
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h1> User Registration</h1>
+    <hr />
+    
+    
+    <form ng-submit="registerUser()" name="newUser" novalidate>
+
+        <label>שם פרטי</label>
+        <input type="text" ng-model="newUser.fName" required/><br/>
+        <label>שם משפחה</label>
+        <input type="text" ng-model="newUser.lName" required /><br />
+        <label>דואר אלקטרוני</label>
+        <input type="email" ng-model="newUser.email" required /><br />
+        
+        <label>מין</label>
+        <input type="radio" name="sex" value="m" ng-model="newUser.sex" required/>זכר
+        <input type="radio" name="sex" value="f" ng-model="newUser.sex" required/>נקבה<br />
+
+
+        <label>שם משתמש</label>
+        <input type="text" ng-model="newUser.userName" required /><br />
+        <label>תמונה</label>
+        <input type="text" ng-model="newUser.lName" required /><br />
+        <label>כתובת</label>
+        <input type="text" ng-model="newUser.address" required /><br />
+        <label>עיר</label>
+        <input type="text" ng-model="newUser.city" required /><br />
+        <label>טלפון</label>
+        <input type="tel" ng-model="newUser.phone" required /><br />
+        <label>סוג מסלול</label>
+        <input type="text" ng-model="newUser.rideType" required /><br />
+        <label>סוג אופניים</label>
+        <input type="radio" name="bType" value="m" ng-model="newUser.bType" required />הרים
+        <input type="radio" name="bType" value="r" ng-model="newUser.bType" required />כביש
+        <input type="radio" name="bType" value="e" ng-model="newUser.bType" required />חשמליים<br />
+        <label>מרחק</label>
+        <input type="number" ng-model="newUser.owLength" required /><br />
+        <label>קבוצה</label>
+        <input type="text" ng-model="newUser.team" required /><br />
+
+        <button type="submit" ng-disabled="newUser.$invalid">Submit</button>
+
+
+    </form>
+   
+
+
+</body>
+</html>
+
+
+
+
