@@ -43,7 +43,7 @@ public partial class Organizations : System.Web.UI.Page
     {
 
         auxiliary aux = new auxiliary();
-        dt.Columns[0].ColumnName = "ארגון (ID)";
+       /* dt.Columns[0].ColumnName = "ארגון (ID)";
         dt.Columns[1].ColumnName = "קוד הארגון";
         dt.Columns[2].ColumnName = "איש קשר (ID)";
         dt.Columns[3].ColumnName = "עיר (ID)";
@@ -51,7 +51,7 @@ public partial class Organizations : System.Web.UI.Page
         dt.Columns[5].ColumnName = "מייל הארגון";
         dt.Columns[6].ColumnName = "כתובת הארגון";
         dt.Columns[7].ColumnName = "טלפון הארגון";
-        dt.Columns[8].ColumnName = "סוג הארגון";
+        dt.Columns[8].ColumnName = "סוג הארגון";*/
         Table tbl = aux.createTable(dt);
         tablePH.Controls.Add(tbl);
     }
@@ -83,6 +83,8 @@ public partial class Organizations : System.Web.UI.Page
         organization.OrganizationAddress = OrganizationAddressTB.Text;
         organization.OrganizationPhone = OrganizationPhoneTB.Text;
         organization.OrganizationType = OrganizationTypeTB.Text;
+        organization.OrganizationCity = Convert.ToInt16( CityDDL.SelectedValue ) ;
+
 
         organization.updateTable();
         ShowTable(new auxiliary().getTableFromSession("organizationsDataSet"));

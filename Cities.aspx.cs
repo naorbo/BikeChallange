@@ -43,10 +43,10 @@ public partial class Cities : System.Web.UI.Page
     {
 
         auxiliary aux = new auxiliary();
-        dt.Columns["City"].ColumnName = "עיר (ID)";
+        /*dt.Columns["City"].ColumnName = "עיר (ID)";
         dt.Columns["CityName"].ColumnName = "קוד העיר";
         dt.Columns["CityDes"].ColumnName = "שם העיר";
-        dt.Columns["CityCountry"].ColumnName = "ארץ";
+        dt.Columns["CityCountry"].ColumnName = "ארץ";*/
         Table tbl = aux.createTable(dt);
         tablePH.Controls.Add(tbl);
     }

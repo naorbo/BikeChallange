@@ -53,6 +53,13 @@ public class Organization
         get { return organizationType; }
         set { organizationType = value; }
     }
+    
+    int organizationCity;
+    public int OrganizationCity
+    {
+        get { return organizationCity; }
+        set { organizationCity = value; }
+    }
 
     public Organization()
 	    {
@@ -90,6 +97,7 @@ public class Organization
             organizationAddress = (string)dr["organizationAdress"];
             organizationPhone = (string)dr["organizationPhone"];
             organizationType = (string)dr["organizationType"];
+            organizationCity = (int)dr["organizationCity"];
          /*     dt.Columns[0].ColumnName = "ארגון (ID)";
        dt.Columns[1].ColumnName = "קוד הארגון";
         dt.Columns[2].ColumnName = "איש קשר (ID)";
@@ -144,23 +152,24 @@ public class Organization
 
         DataRow dr = dbs.dt.NewRow();
         dr[1] = organizationName;
-        dr[4] = organizationDes;
-        dr[5] = organizationEmail;
-        dr[6] = organizationAddress;
-        dr[7] = organizationPhone;
-        dr[8] = organizationType;
+        dr[3] = organizationCity ;
+       dr[4] = organizationDes;
+       dr[5] = organizationEmail;
+       dr[6] = organizationAddress;
+       dr[7] = organizationPhone;
+       dr[8] = organizationType;
 
-        /*
-         dt.Columns[0].ColumnName = "ארגון (ID)";
-        dt.Columns[1].ColumnName = "קוד הארגון";
-        dt.Columns[2].ColumnName = "איש קשר (ID)";
-        dt.Columns[3].ColumnName = "עיר (ID)";
-        dt.Columns[4].ColumnName = "שם הארגון";
-        dt.Columns[5].ColumnName = "מייל הארגון";
-        dt.Columns[6].ColumnName = "כתובת הארגון";
-        dt.Columns[7].ColumnName = "טלפון הארגון";
-        dt.Columns[8].ColumnName = "סוג הארגון";
-         */
+      /*
+        dt.Columns[0].ColumnName = "ארגון (ID)";
+       dt.Columns[1].ColumnName = "קוד הארגון";
+       dt.Columns[2].ColumnName = "איש קשר (ID)";
+       dt.Columns[3].ColumnName = "עיר (ID)";
+       dt.Columns[4].ColumnName = "שם הארגון";
+       dt.Columns[5].ColumnName = "מייל הארגון";
+       dt.Columns[6].ColumnName = "כתובת הארגון";
+       dt.Columns[7].ColumnName = "טלפון הארגון";
+       dt.Columns[8].ColumnName = "סוג הארגון";
+        */
         dbs.dt.Rows.Add(dr);
 
     }

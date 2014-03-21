@@ -29,6 +29,18 @@
                     <asp:TextBox ID="OrganizationEmailTB" runat="server"></asp:TextBox>
                 </td>
             </tr>
+            
+                <tr>
+            <td>
+                עיר:
+            </td>
+            <td>
+                <asp:DropDownList ID="CityDDL" runat="server" DataSourceID="CitiesDataSource" DataTextField="CityDes" DataValueField="City">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="CitiesDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:bikechallangeDBConnectionString %>" SelectCommand="SELECT [CityDes], [CityName], [City] FROM [Cities]"></asp:SqlDataSource>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidato" runat="server" ErrorMessage="Value missing" ControlToValidate="CityDDL" CssClass="validators"></asp:RequiredFieldValidator>
+            </td>
+        </tr>
             <tr>
                 <td>
                     כתובת הארגון:</td>
