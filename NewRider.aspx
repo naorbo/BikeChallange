@@ -73,11 +73,11 @@
             </td>
             <td>
                 <asp:TextBox ID="imgPathTB" runat="server"></asp:TextBox>
-                <%--<asp:RequiredFieldValidator ID="imgURLTBRequiredFieldValidator" runat="server" ErrorMessage="Value missing"
-                    ControlToValidate="imgURLTB" CssClass="validators"></asp:RequiredFieldValidator>
-                <asp:RegularExpressionValidator ID="imgURLTBREValidator" runat="server" ErrorMessage="invalid URL"
+                <<asp:RequiredFieldValidator ID="imgURLTBRequiredFieldValidator" runat="server" ErrorMessage="Value missing"
+                    ControlToValidate="imgPathTB" CssClass="validators"></asp:RequiredFieldValidator>
+                <!--<asp:RegularExpressionValidator ID="imgURLTBREValidator" runat="server" ErrorMessage="invalid URL"
                     CssClass="validators" ControlToValidate="imgURLTB" ValidationExpression="(http|https)://([\w-]+\.)+[\w-]+(/[\w- ./?%&=]*)?">
-                </asp:RegularExpressionValidator>--%>
+                </asp:RegularExpressionValidator>-->
             </td>
         </tr>
 
@@ -101,9 +101,10 @@
                 עיר:
             </td>
             <td>
-                <asp:TextBox ID="CityTB" runat="server" ></asp:TextBox>
-                <asp:RequiredFieldValidator ID="RequiredFieldValidator3" runat="server" ErrorMessage="Value missing"
-                    ControlToValidate="CityTB" CssClass="validators"></asp:RequiredFieldValidator>
+                <asp:DropDownList ID="CityDDL" runat="server" DataSourceID="CitiesDataSource" DataTextField="CityDes" DataValueField="City">
+                </asp:DropDownList>
+                <asp:SqlDataSource ID="CitiesDataSource" runat="server" ConnectionString="<%$ ConnectionStrings:bikechallangeDBConnectionString %>" SelectCommand="SELECT [CityDes], [CityName], [City] FROM [Cities]"></asp:SqlDataSource>
+                <asp:RequiredFieldValidator ID="RequiredFieldValidato" runat="server" ErrorMessage="Value missing" ControlToValidate="CityDDL" CssClass="validators"></asp:RequiredFieldValidator>
             </td>
         </tr>
         <tr>

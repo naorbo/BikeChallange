@@ -8,7 +8,6 @@ using System.Data;
 using System.Text;
 
 
-
 /// <summary>
 /// Class designed to provide access to the data layer
 /// </summary>
@@ -94,8 +93,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        sb.AppendFormat("Values('{0}', '{1}' ,'{2}', '{3}', '{4}', '{5}', '{6}' ,{7}, '{8}', '{9}', '{10}','{11}')", user.UserName, user.UserFname, user.UserLname, user.UserDes, user.Gender, user.UserEmail, user.UserAddres, 0, user.UserPhone, user.BicycleType, user.ImagePath, DateTime.Now);
-        String prefix = "INSERT INTO Users(UserName, UserFname, UserLname, UserDes, Gender, UserEmail, UserAddress, City, UserPhone, BicycleType, ImagePath, CurDate) ";
+        String prefix = "INSERT INTO Users(UserName, UserFname, UserLname, UserDes, Gender, UserEmail, UserAddress, City, UserPhone, BicycleType, ImagePath, [CurDate]) ";
+        sb.AppendFormat("Values('{0}', '{1}' ,'{2}', '{3}', '{4}', '{5}', '{6}' ,{7}, '{8}', '{9}', '{10}','{11}')", user.UserName, user.UserFname, user.UserLname, user.UserDes, user.Gender, user.UserEmail, user.UserAddres, user.City, user.UserPhone, user.BicycleType, user.ImagePath, DateTime.Now.Date.ToString("yyyy-MM-dd"));
         command = prefix + sb.ToString();
 
         return command;
@@ -159,43 +158,7 @@ public class DBservices
     }
 
 
-    public void updateDiscount(StringBuilder strSql)
-    {
-        SqlConnection con;
-        SqlCommand cmd = new SqlCommand();
-
-        try
-        {
-            con = connect("bikechallangeDBConnectionString"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            throw (ex);
-        }
-        try
-        {
-            cmd.CommandType = CommandType.Text;
-            cmd.CommandText = strSql.ToString();
-            cmd.Connection = con;
-            //con.Open();
-            //cmd = CreateCommand(strSql.ToString(), con); 
-            cmd.ExecuteNonQuery();
-        }
-        catch (SqlException ex)
-        {
-            string errorMsg = "Error in Updation";
-            errorMsg += ex.Message;
-            throw new Exception(errorMsg);
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-    }
+    
 
     internal void Update()
     {

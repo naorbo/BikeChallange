@@ -29,9 +29,9 @@ public class User
         get { return organization; }
         set { organization = value; }
     }
-    private string city;
+    private int city;
 
-    public string City
+    public int City
     {
         get { return city; }
         set { city = value; }
@@ -131,7 +131,7 @@ public class User
     public User(string username, string userfname, string userlname, string gender, string useremail, string useraddres, string usercity, string userphone, string bicycletype, string imagePath)
     {
         UserName = username;
-        UserDes = userfname + userlname;
+        UserDes = userfname + " " + userlname;
         UserFname = userfname;
         UserLname = userlname;
         Gender = gender;
@@ -139,7 +139,7 @@ public class User
         UserAddres = useraddres;
         UserPhone = userphone;
         BicycleType = bicycletype;
-        City = usercity;
+        City = Convert.ToInt16(usercity);
         WebClient wb = new WebClient();
         string fileFullPath = HttpContext.Current.Server.MapPath("~/images/") + username + Path.GetExtension(imagePath);
         wb.DownloadFile(imagePath, fileFullPath);
@@ -165,94 +165,11 @@ public class User
     }
     public DataTable readUserDB()
     {
-        if (HttpContext.Current.Session["showdDiscount"] != null)
-        {
-            if ((int)HttpContext.Current.Session["showdDiscount"] == 1)
-            {
-                HttpContext.Current.Session["showdDiscount"] = 0;
-                HttpContext.Current.Session["discountDbs"] = HttpContext.Current.Session["productsDataSet"];
-                return ((DBservices)HttpContext.Current.Session["productsDataSet"]).dt;
-            }
-        }
         DBservices dbs = new DBservices();
-        dbs = dbs.ReadFromDataBase("bikechallangeDBConnectionString", "Products");
+        dbs = dbs.ReadFromDataBase("bikechallangeDBConnectionString", "Users");
         // save the dataset in a session object
-        HttpContext.Current.Session["productsDataSet"] = dbs;
+        HttpContext.Current.Session["usersDataSet"] = dbs;
         return dbs.dt;
-
-    }
-
-
-
-    public void showDiscount(double minInventory, double discount)
-    {
-        DBservices dbs = new DBservices();
-        dbs = (DBservices)HttpContext.Current.Session["productsDataSet"];
-        foreach (DataRow item in dbs.dt.Rows)
-        {
-            if (Convert.ToDouble(item[4]) > minInventory)
-            {
-
-                item[2] = Convert.ToDouble(item[2]) * (1 - discount / 100);
-                item[5] = 1;
-
-            }
-        }
-        HttpContext.Current.Session["productsDataSet"] = dbs;
-        HttpContext.Current.Session["showdDiscount"] = 1;
-
-    }
-
-    public void updateDatabase()
-    {
-        if (HttpContext.Current.Session["discountDbs"] == null) return;
-
-        DBservices dbs = (DBservices)HttpContext.Current.Session["discountDbs"];
-
-        dbs.Update();
-    }
-
-    public DataTable readDBForShooping()
-    {
-        DBservices dbs = new DBservices();
-        dbs = dbs.ReadFromDataBase("bikechallangeDBConnectionString", "Products");
-        // save the dataset in a session object
-        HttpContext.Current.Session["productsDataSet"] = dbs;
-        if (HttpContext.Current.Session["tbarr"] == null)
-        {
-            string[] tbArr = new string[System.Int16.MaxValue];
-            HttpContext.Current.Session["tbarr"] = tbArr;
-        }
-        return dbs.dt;
-
-    }
-    public DataTable readDBForCashier()
-    {
-        DBservices dbs = new DBservices();
-        if (HttpContext.Current.Session["productsDataSet"] != null)
-        {
-            dbs = HttpContext.Current.Session["productsDataSet"] as DBservices;
-            return dbs.dt;
-        }
-        else
-        {
-            return dbs.dt;
-        }
-
-    }
-
-    public void ApprovePurchase()
-    {
-        DBservices dbs = HttpContext.Current.Session["productsDataSet"] as DBservices;
-        string[] tbArr = HttpContext.Current.Session["tbarr"] as string[];
-
-        foreach (DataRow item in dbs.dt.Rows)
-        {
-            item[4] = Convert.ToInt16(item[4].ToString()) - Convert.ToInt16(tbArr[Convert.ToInt16(item[0].ToString()) - 1]);
-        }
-
-
-        dbs.Update();
 
     }
 }

@@ -25,7 +25,7 @@ public partial class NewRider : System.Web.UI.Page
 
         try
         {
-            user = new User(UserNameTB.Text, FnameTB.Text, LnameTB.Text, GenderList.SelectedValue, EmailTB.Text, StreetTB.Text, CityTB.Text, PhoneTB.Text, BicycleTypeButtonList1.SelectedValue, imgPathTB.Text);
+            user = new User(UserNameTB.Text, FnameTB.Text, LnameTB.Text, GenderList.SelectedValue, EmailTB.Text, StreetTB.Text, CityDDL.SelectedValue, PhoneTB.Text, BicycleTypeButtonList1.SelectedValue, imgPathTB.Text);
             //user = new User(nameTB.Text, Convert.ToDouble(priceTB.Text), imgURLTB.Text, Convert.ToInt16(amountTB.Text), Convert.ToInt16(discountRBL.SelectedIndex));
         }
         catch (Exception ex)
@@ -47,4 +47,5 @@ public partial class NewRider : System.Web.UI.Page
             LabelErrorMessage.Text = ex.Message;
         }
     }
+
 }
