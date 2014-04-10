@@ -20,7 +20,7 @@ app.config(['$routeProvider',
       $routeProvider.
         when('/userRegistration', {
             templateUrl: 'app/partials/userRegistration.html',
-            controller: 'registerController'
+            controller: 'signUpController'
         }).
         when('/about', {
             templateUrl: 'app/partials/about.html',
@@ -35,6 +35,11 @@ app.config(['$routeProvider',
         when('/logIn', {
             templateUrl: 'app/partials/logIn.html',
             controller: 'userAuthController'
+        }).
+
+        when('/userProfile', {
+            templateUrl: 'app/partials/userProfile.html',
+            controller: 'userProfileController'
         }).
 
         otherwise({

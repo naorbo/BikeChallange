@@ -1,55 +1,46 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
+
+
+//app.controller('mainController', function ($scope) {
+   
+//    $scope.$watch(function () { return $location.path(); }, function (newValue, oldValue) {
+//        if ($scope.loggedIn == false && newValue != '/login') {
+//            $location.path('/login')}
+//        else {
+//            $location.path('/userProfile')
+//        }
+//    });
+//});
+
 app.controller('registerController', function ($scope) {
-     
-    
+   
 });
 
 app.controller('aboutController', function ($scope) {
 
-
- 
 });
 
 
 
 app.controller('homeController', function ($scope) {
 
-
-
 });
 
 app.controller('userAuthController', function ($scope, authFactory) {
-
-    $scope.imHere = function () {
-        alert("Im IN");
-    }
-
     $scope.signIn = function () {
-        authFactory.login($scope.userName, $scope.password);      
+        authFactory.login($scope.loginDetails.userName, $scope.loginDetails.password);
+        //console.log($scope.loginDetails.userName + " " + $scope.loginDetails.password)
     }
-
-    
-    $scope.loginData 
-
 });
 
-app.controller('logInController', function ($scope, $http, $window) {
-    $scope.user = { username: 'john.doe', password: 'foobar' };
-    $scope.message = '';
-    $scope.submit = function () {
-        $http
-          .post('/authenticate', $scope.user)
-          .success(function (data, status, headers, config) {
-              $window.sessionStorage.token = data.token;
-              $scope.message = 'Welcome';
-          })
-          .error(function (data, status, headers, config) {
-              // Erase the token if the user fails to log in
-              delete $window.sessionStorage.token;
+app.controller('signUpController', function ($scope, authFactory) {
+    $scope.signUp = function () {
+        authFactory.register($scope.regDetails.userName, $scope.regDetails.password, $scope.regDetails.confirmPassword);
+        //console.log(" " + $scope.regDetails.userName + " " + $scope.regDetails.password + " " + $scope.regDetails.confirmPassword);
+    }
+});
 
-              // Handle login errors here
-              $scope.message = 'Error: Invalid user or password';
-          });
-    };
+app.controller('userProfileController', function ($scope, authFactory) {
+
 });

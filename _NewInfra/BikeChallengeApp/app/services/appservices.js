@@ -25,6 +25,7 @@
         })
             .success(function (response) {
                 service.loginToken = response;
+                loggedIn = true; 
                 deferred.resolve(response);
             })
             .error(function (response) {
@@ -44,6 +45,7 @@
         })
             .success(function (response) {
                 service.loginToken = [];
+                loggedIn = false;
                 deferred.resolve(response);
             })
             .error(function (response) {
@@ -52,6 +54,33 @@
 
         return deferred.promise;
     };
+
+    service.register = function (userName, password, confirmPassword) {
+        var deferred = $q.defer();
+        $http({
+            method: 'POST',
+            url: '/api/Account/Register',
+            headers: '{Content-Type: application/json}',
+            data: 
+                {
+                    "UserName": userName,
+                    "Password": password,
+                    "ConfirmPassword": confirmPassword
+                }
+                ,
+        })
+            .success(function (response) {
+                service.loginToken = [];
+                deferred.resolve(response);
+            })
+            .error(function (response) {
+                deferred.reject(response);
+            });
+
+        return deferred.promise;
+
+
+    }
 
     return service;
 });

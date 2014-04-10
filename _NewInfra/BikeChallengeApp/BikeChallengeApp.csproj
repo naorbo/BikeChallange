@@ -208,6 +208,7 @@
     <Content Include="app\partials\about.html" />
     <Content Include="app\partials\home.html" />
     <Content Include="app\partials\logIn.html" />
+    <Content Include="app\partials\userProfile.html" />
     <Content Include="app\partials\userRegistration.html" />
     <Content Include="app\services\appservices.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
@@ -238,6 +239,8 @@
     <Content Include="Scripts\angular-scenario.js" />
     <Content Include="Scripts\angular-touch.js" />
     <Content Include="Scripts\angular-touch.min.js" />
+    <Content Include="Scripts\angular-ui-router.js" />
+    <Content Include="Scripts\angular-ui-router.min.js" />
     <Content Include="Scripts\angular.js" />
     <Content Include="Scripts\angular.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
