@@ -211,6 +211,7 @@
     <Content Include="app\partials\userProfile.html" />
     <Content Include="app\partials\userRegistration.html" />
     <Content Include="app\services\appservices.js" />
+    <Content Include="app\services\dataServices.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
     <Content Include="Content\appStyles.css" />
     <Content Include="Content\bootstrap-rtl.css" />

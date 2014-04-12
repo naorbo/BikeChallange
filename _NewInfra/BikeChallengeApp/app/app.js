@@ -32,9 +32,9 @@ app.config(['$routeProvider',
             controller: 'homeController'
         }).
 
-        when('/logIn', {
+        when('/login', {
             templateUrl: 'app/partials/logIn.html',
-            controller: 'userAuthController'
+            controller: 'loginController'
         }).
 
         when('/userProfile', {
@@ -46,6 +46,20 @@ app.config(['$routeProvider',
             redirectTo: '/home'
         });
   }]);
+
+
+
+
+app.constant('AUTH_EVENTS', {
+    loginSuccess: 'auth-login-success',
+    loginFailed: 'auth-login-failed',
+    logoutSuccess: 'auth-logout-success',
+    sessionTimeout: 'auth-session-timeout',
+    notAuthenticated: 'auth-not-authenticated',
+    notAuthorized: 'auth-not-authorized'
+});
+
+
 
 
 

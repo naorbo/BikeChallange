@@ -9,33 +9,36 @@
     <link href="Content/bootstrap.css" rel="stylesheet" />
     
 </head>
-<body ng-app="bChallenge" >
+<body ng-app="bChallenge" ng-controller="mainController" >
 
     <!--Navigation Bar Fixed-->
     <div class="navBar">
 
-
-    </div>
-
-    <!-- Partials-->
-
-    <div>
-
         <a href="#userRegistration">User registration</a> |
         <a href="#about">About</a> |
-        <a href="#logIn">LogIn</a> |
+        <a href="#login">Login</a> |
         <a href="#home">home</a> |
         <br />
 
-        <br/>
+        <br />
+        
+        <div ng-if="currentUser"> Welcome, {{ currentUser }} , <a ng-if="currentUser" ng-click="signOut()">Logout...</a></div>  
+        
+
         <hr />
-
-        <div ng-view></div>
-
-        <hr />
-
     </div>
+       
+        <!--<div ng-if="isAuthorized(userRoles.admin)">You're admin.</div>
+        <div ng-switch on="currentUser.role">
+            <div ng-switch-when="userRoles.admin">You're admin.</div>
+            <div ng-switch-when="userRoles.editor">You're editor.</div>
+            <div ng-switch-default>You're something else.</div>
+        </div>-->
 
+
+        <div class="mainFrame" ng-view>        </div>
+
+        <hr />
 
     <!-- Vendor Libs: jQuery  used for Bootstrap functionality -->
     <script src="Scripts/angular.js"></script>
@@ -49,10 +52,8 @@
 
     <script src="app/app.js"></script>
     <script src="app/controllers/controllers.js"></script>
-
     <script src="app/services/appservices.js"></script>
-
-
+    <script src="app/services/dataServices.js"></script>
 
 </body>
 </html>

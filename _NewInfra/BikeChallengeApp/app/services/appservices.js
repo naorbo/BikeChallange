@@ -1,8 +1,12 @@
-﻿app.factory('authFactory', function ($http, $q) {
+﻿// Authentication services (signin, signout, signup, logout) 
+// ********************************************************* //
+app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS) {
 
     var service = {};
-
     service.loginToken = {};
+    var currentSession = {};
+
+   
 
     service.getAccessToken = function () {
         return loginToken.access_token;
@@ -25,7 +29,12 @@
         })
             .success(function (response) {
                 service.loginToken = response;
-                loggedIn = true; 
+                console.log(response)
+                session.create(response.access_token, response.userName);
+                //service.isAuthenticated();
+                //currentSession = session.userId;
+                //$scope.testModel = "worksAsWell"
+                //$scope.currentUser = response.userName;
                 deferred.resolve(response);
             })
             .error(function (response) {
@@ -35,9 +44,15 @@
         return deferred.promise;
     };
 
+    service.isAuthenticated = function () {
+        console.log(!!session.userId)
+        return !!session.userId;
+    };
+
+  
     service.logout = function () {
         var deferred = $q.defer();
-
+        console.log("out..");
         $http({
             method: 'POST',
             url: '/api/Account/Logout',
@@ -84,3 +99,26 @@
 
     return service;
 });
+
+
+// Session handler (userId as username , id as AccessToken) 
+// ********************************************************* //
+
+
+app.service('session', function () {
+    this.create = function (sessionId, userId /*, userRole */) {
+        this.id = sessionId;
+        this.userId = userId;
+
+        console.log("this is your info"+this.id + this.userId)
+        // this.userRole = userRole;
+    };
+    this.destroy = function () {
+        this.id = null;
+        this.userId = null;
+       // this.userRole = null;
+    };
+    return this;
+});
+
+

@@ -15,10 +15,12 @@
         <br />
 
         <button type="submit" ng-disabled="loginDetails.$invalid">Submit</button>
-
+        
+        
     </form>
-
-    <button ng-click="imHere()">Click</button>
+    <br/>
+      
+    <div ng-if="failFlag">{{failMSG}}</div>
 
 
 </body>
