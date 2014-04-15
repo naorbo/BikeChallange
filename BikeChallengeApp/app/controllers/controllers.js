@@ -48,12 +48,10 @@ app.controller('signUpController', function ($rootScope, $scope, authFactory, AU
     }
 });
 
-app.controller('userProfileController', function ($scope, authFactory) {
-
-});
 
 
-app.controller('mainController', function ($rootScope, $location, $scope, authFactory, session, AUTH_EVENTS) {
+
+app.controller('mainController', function ($rootScope, $location, $scope,  authFactory, session, AUTH_EVENTS) {
     
     //User login handling (display user info and redirection)
 
@@ -70,7 +68,7 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
 
     $scope.$on('auth-login-failed', function () { console.log("Login Failed") });
 
-
+    
 
 
 
@@ -81,6 +79,7 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
         authFactory.logout().then(function () {
             $rootScope.$broadcast(AUTH_EVENTS.logoutSuccess);
             console.log("Event BC - user logged out ");
+                
         }, function () {
             
             console.log("Event BC - failed to log out ");
@@ -90,6 +89,8 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
 
     $scope.$on('auth-logout-success', function () {
         $scope.currentUser = null;
+        session.userId = null;
+        session.id = null;
         $location.url("/home");
     });
 
@@ -105,11 +106,20 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 
     console.log("inside upc");
     $scope.getMyData = function () {
+        api = "Values";
         console.log("trying to fetch....");
-        myData = valuesFactory.getValues();
-
+        myData = valuesFactory.getValues(api);
+        $scope.uiData = myData;
+   
     };
 
 
 
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("You are not Authorized to view this page ... Please sign in");
+        $location.url("/login")
+    });
+
+
 });
+

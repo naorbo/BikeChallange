@@ -13,61 +13,92 @@
 
 
 <body ng-app="bChallenge" ng-controller="mainController" >
-    <h1></h1>
-    <div class="container">
-       
-        <!--Navigation Bar Fixed-->
+    
 
-        <div class="navbar navbar-default" role="navigation">
-            
+    <div class="nav navbar-inverse navbar-static-top">
 
-                <div class="navbar-header pull-right">
-                    <a class="navbar-brand " href="#">BikeChallenge</a>
-                </div>
+        <div class="container">
 
-                <div>
-                    <ul class="nav navbar-nav pull-right">                     
-                        <li><a href="#about">אודות</a></li>
-                        <li><a href="#userRegistration">רישום</a> </li>
-                        <li><a href="#login">התחברות</a></li>
-                    </ul>
-                    
-                    <ul ng-if="currentUser" class="nav navbar-nav pull-left">
-                        <li class="dropdown">
-                            <a  class="dropdown-toggle" data-toggle="dropdown">{{ currentUser }}<b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li ng-if="currentUser"><a href="#userProfile">פרופיל אישי</a></li>
-                                <li class="divider"></li>
-                                <li><a ng-if="currentUser" ng-click="signOut()">התנתק</a></li>
+            <a href="#" class="navbar-brand">Bike Challenge</a>
 
-                            </ul>
-                    </ul>
+            <!-- Nav Bar Responsive Icon Stack-->
+            <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
 
-                </div>
-            
+            <!-- NavBar Items-->
+            <div class="collapse navbar-collapse navHeaderCollapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="#about">אודות</a></li>
+                    <li><a href="#userRegistration">רישום</a> </li>
+                    <li><a href="#login">התחברות</a></li>
+                </ul>
+
+                <ul ng-if="currentUser" class="nav navbar-nav pull-left">
+                    <li class="dropdown">
+                        <a class="dropdown-toggle" data-toggle="dropdown">{{ currentUser }}<b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li ng-if="currentUser"><a href="#userProfile">פרופיל אישי</a></li>
+                            <li class="divider"></li>
+                            <li><a ng-if="currentUser" ng-click="signOut()">התנתק</a></li>
+
+                        </ul>
+                </ul>
+
+            </div>
+
         </div>
 
+    </div>
+    
+    
+    
+    
+    
+    
+    <div class="container">
+    
         <!-- Main Frame Partial Injection -->   
          
         <div class="mainFrame" ng-view></div>
-
-                   
+           
     </div>
 
-            <!-- Vendor Libs: jQuery  used for Bootstrap functionality -->
-            <script src="Scripts/angular.js"></script>
-            <script src="Scripts/angular-route.js"></script>
-            <script src="Scripts/jquery-2.1.0.js"></script>
 
-            <!-- UI Libs -->
-            <script src="Scripts/bootstrap.js"></script>
+    <!-- Footer Nav Bar-->
 
-            <!-- App libs -->
+    <div class="navbar navbar-inverse navbar-fixed-bottom">
+        <div class="container">
+            <div class="collapse navbar-collapse navHeaderCollapse">
+                <ul class="nav navbar-nav navbar-left">
+                    <li><a href="#about">&copy    All rights reserved - Bike Challenge Israel 2014</a></li>    
+                </ul>
+            </div>
+        </div>
 
-            <script src="app/app.js"></script>
-            <script src="app/controllers/controllers.js"></script>
-            <script src="app/services/appservices.js"></script>
-            <script src="app/services/dataServices.js"></script>
+
+    </div>
+
+    <!-- UI Libs: jQuery  used for Bootstrap functionality -->
+    <script src="Scripts/jquery-2.1.0.js"></script>
+    <script src="Scripts/bootstrap.js"></script>
+    
+    
+    <!-- Vendor Libs -->
+            
+    <script src="Scripts/angular.js"></script>
+    <script src="Scripts/angular-route.js"></script>
+            
+        
+    <!-- App libs -->
+
+    <script src="app/app.js"></script>
+    <script src="app/controllers/controllers.js"></script>
+    <script src="app/services/appservices.js"></script>
+    <script src="app/services/dataServices.js"></script>
+    <script src="app/services/angular-http-auth.js"></script>
     
 </body>
 </html>
