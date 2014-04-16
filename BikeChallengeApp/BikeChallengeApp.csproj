@@ -210,7 +210,6 @@
     <Content Include="app\partials\logIn.html" />
     <Content Include="app\partials\userProfile.html" />
     <Content Include="app\partials\userRegistration.html" />
-    <Content Include="app\services\angular-http-auth.js" />
     <Content Include="app\services\appservices.js" />
     <Content Include="app\services\dataServices.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />

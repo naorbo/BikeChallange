@@ -121,5 +121,32 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
     });
 
 
+    //Organization Picker ... Just a temp 
+
+    $scope.myOrg = function () {
+        console.log($scope.value);
+        $('#myModal').modal('hide');
+        return;
+    }
+
+
+    $scope.orgs = [
+                    { Organizationname: "CEVA", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group1" },
+                    { Organizationname: "Elbit", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group2" },
+                    { Organizationname: "Quartus", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group3" },
+                    { Organizationname: "Verint", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group4" },
+                    { Organizationname: "Microsoft", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group5" },
+                    { Organizationname: "Google", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group6" },
+                    { Organizationname: "Ruppin", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group7" },
+                    { Organizationname: "RedHat", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group8" }
+
+    ];
+    
+
+
+
+
+
+
 });
 

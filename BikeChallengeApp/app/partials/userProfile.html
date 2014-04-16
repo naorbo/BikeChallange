@@ -12,10 +12,68 @@
         <button type="submit" ng-click="getMyData()"> Get My Data </button>
 
     <h1>this is your data {{uiData}}</h1>
-    <h1>{{tester}}</h1>
+    
+    <h1>Your organization is : {{value}}</h1>
+    
+    
+        
+
+
+        <!-- Button trigger modal -->
+        <button class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal">
+            בחר קבוצה 
+        </button>
+
+        <!-- Modal -->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="myModalLabel">בחר את הקבוצה שלך</h4>
+                    </div>
+                    <div class="modal-body">
+                      <div>
+                        <div class="panel panel-primary " ng-repeat="org in orgs">
+                            <div class="panel-heading">{{org.Organizationname}} <input type="radio" name=radio2 value={{org.Organizationname}} ng-model="$parent.value" /></div>
+                            <div class="panel-body">
+                                <p>{{org.OrganizationAddress}}</p>
+                                <p>{{org.OrganizationType}}</p>
+                            </div>       
+                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <button type="button" class="btn btn-primary" ng-click="myOrg()">Save changes</button> 
+                        </div>
+                    </div>
+            </div>
+        </div>
+        </div>
+     </div>
+
+       
+        
+        
+        
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
     </div>
     
     
+
+
+
+
 
 </body>
 </html>
