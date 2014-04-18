@@ -114,13 +114,29 @@ namespace BikeChallengeApp.Models
             set { bicycletype = value; }
         }
 
+        private string id;
+
+        public string Id
+        {
+            get { return id; }
+            set { id = value; }
+        }
+
+        private int captain;
+
+        public int Captain
+        {
+            get { return captain; }
+            set { captain = value; }
+        }
+
         public Rider()
         {
             //
             // TODO: Add constructor logic here
             //
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, int ridercity, string riderphone, string bicycletype, string imagePath, string birthDate)
+        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, int ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string id, int captain)
         {
             RiderEmail = rideremail;
             RiderDes = riderfname + " " + riderlname;
@@ -133,6 +149,8 @@ namespace BikeChallengeApp.Models
             City = ridercity;
             ImagePath = imagePath;
             BirthDate = birthDate;
+            Id = id;
+            Captain = captain;
         }
         
         public DataTable readData()

@@ -224,8 +224,8 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Users(  UserEmail, [Group], [Organization] , [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate] ) ";
-        sb.AppendFormat("Values('{0}', {1} ,{2}, {3}, {4}, '{5}', '{6}' ,'{7}', '{8}', '{9}', '{10}','{11}', '{12}','{13}', '{14}')", rdr.RiderEmail, 0, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"));
+        String prefix = "INSERT INTO Users(  UserEmail, [Group], [Organization] , [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain ) ";
+        sb.AppendFormat("Values('{0}', {1} ,{2}, {3}, {4}, '{5}', '{6}' ,'{7}', '{8}', '{9}', '{10}','{11}', '{12}','{13}', '{14}', '{15}', {16})", rdr.RiderEmail, 0, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Id, rdr.Captain);
         command = prefix + sb.ToString();
 
         return command;
