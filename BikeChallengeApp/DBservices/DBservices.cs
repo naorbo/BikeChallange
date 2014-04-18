@@ -161,7 +161,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Organizations(  OrganizationsName, [City], OrganizationDes, OrganizationEmail, OrganizationAddress, OrganizationPhone, OrganizationType ) ";
-        sb.AppendFormat("Values('{0}', {1} ,'{2}', '{3}', '{4}', '{5}', '{6}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationEmail, org.OrganizationAddress, org.OrganizationPhone, org.OrganizationType);
+        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}', '{4}', '{5}', '{6}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationEmail, org.OrganizationAddress, org.OrganizationPhone, org.OrganizationType);
         command = prefix + sb.ToString();
 
         return command;
@@ -225,7 +225,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Users(  UserEmail, [Group], [Organization] , [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain ) ";
-        sb.AppendFormat("Values('{0}', {1} ,{2}, {3}, {4}, '{5}', '{6}' ,'{7}', '{8}', '{9}', '{10}','{11}', '{12}','{13}', '{14}', '{15}', {16})", rdr.RiderEmail, 0, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Id, rdr.Captain);
+        sb.AppendFormat("Values('{0}', {1} ,{2}, {3}, (select city from Cities where CityName = '{4}' ), '{5}', '{6}' ,'{7}', '{8}', '{9}', '{10}','{11}', '{12}','{13}', '{14}', (select id from AspNetUsers where UserName = '{15}'), {16})", rdr.RiderEmail, 0, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain);
         command = prefix + sb.ToString();
 
         return command;

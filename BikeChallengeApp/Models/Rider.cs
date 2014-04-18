@@ -23,9 +23,9 @@ namespace BikeChallengeApp.Models
             get { return organization; }
             set { organization = value; }
         }
-        private int city;
+        private string city;
 
-        public int City
+        public string City
         {
             get { return city; }
             set { city = value; }
@@ -114,12 +114,12 @@ namespace BikeChallengeApp.Models
             set { bicycletype = value; }
         }
 
-        private string id;
+        private string username;
 
-        public string Id
+        public string Username
         {
-            get { return id; }
-            set { id = value; }
+            get { return username; }
+            set { username = value; }
         }
 
         private int captain;
@@ -136,7 +136,7 @@ namespace BikeChallengeApp.Models
             // TODO: Add constructor logic here
             //
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, int ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string id, int captain)
+        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain)
         {
             RiderEmail = rideremail;
             RiderDes = riderfname + " " + riderlname;
@@ -149,7 +149,7 @@ namespace BikeChallengeApp.Models
             City = ridercity;
             ImagePath = imagePath;
             BirthDate = birthDate;
-            Id = id;
+            Username = username;
             Captain = captain;
         }
         

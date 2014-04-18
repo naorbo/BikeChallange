@@ -27,7 +27,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST / Insert Rider into the DB 
-        //{ "RiderEmail":"NAOR@NAOR.COM", "RiderFname":"john" , "RiderLname":"qwerty", "Gender": "זכר", "RiderAddress":"joh" ,  "City ":0, "RiderPhone":"היט",  "BicycleType": "12erty" , "ImagePath":"kl;kl;" , "BirthDate":"01-01-1985", "Id":"tester", "Captain":0}
+        //{ "RiderEmail":"NAOR@NAOR.COM", "RiderFname":"naor" , "RiderLname":"boiarsky", "Gender": "זכר", "RiderAddress":"יצחק בן צבי 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester", "Captain":0}
         public bool updateDB([FromBody]Rider rdr)
         {
 

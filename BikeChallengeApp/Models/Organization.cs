@@ -52,8 +52,8 @@ namespace BikeChallengeApp.Models
             set { organizationType = value; }
         }
 
-        int organizationCity;
-        public int OrganizationCity
+        string organizationCity;
+        public string OrganizationCity
         {
             get { return organizationCity; }
             set { organizationCity = value; }
@@ -66,7 +66,7 @@ namespace BikeChallengeApp.Models
             //
         }
 
-        public Organization(string organizationName, int organizationCity, string organizationDes, string organizationEmail, string organizationAddress, string organizationPhone, string organizationType)
+        public Organization(string organizationName, string organizationCity, string organizationDes, string organizationEmail, string organizationAddress, string organizationPhone, string organizationType)
         {
             Organizationname = organizationName;
             OrganizationCity = organizationCity;
