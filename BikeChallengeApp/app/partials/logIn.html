@@ -1,0 +1,37 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <h1>התחברות</h1>
+
+    
+    <div class="input-group input-group-lg col-md-4">
+        <form ng-submit="signIn()" name="loginDetails" novalidate>
+
+
+            <input type="text" class="form-control"  ng-model="loginDetails.userName" placeholder="כתובת דואר אלקטרוני" required /><br />
+            <br />
+            <input type="password" class="form-control" ng-model="loginDetails.password" placeholder="סיסמא " required /><br />
+            
+            <br/>
+            
+
+            <button type="submit" class="btn btn-primary" ng-disabled="loginDetails.$invalid">התחבר</button>
+
+            <div ng-if="failFlag" style="color:red">
+                <p class="glyphicon glyphicon-remove"></p> {{failMSG}}
+            </div>
+
+        </form>
+    </div>
+        <br />
+
+       
+
+   
+
+
+</body>
+</html>
