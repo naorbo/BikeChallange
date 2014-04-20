@@ -16,6 +16,18 @@ namespace BikeChallengeApp.Controllers
 {
     public class RiderController : ApiController
     {
+        bool insert_flag = false;
+
+        // GET api/Rider?groupname=[The name of the group] - Not case sensative
+        public DataTable Get(string groupname)
+        {
+            Rider rdr = new Rider();
+
+            DataTable dt = rdr.readDataPerGroup(groupname);
+
+            return dt;
+        }
+
         // GET api/Rider
         public DataTable GetAll()
         {
@@ -27,7 +39,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST / Insert Rider into the DB 
-        //{ "RiderEmail":"NAOR@NAOR.COM", "RiderFname":"naor" , "RiderLname":"boiarsky", "Gender": "זכר", "RiderAddress":"יצחק בן צבי 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester", "Captain":0}
+        //{"RiderEmail":"Moshe@Moshe.COM", "RiderFname":"Moshe" , "RiderLname":"Moshe", "Gender": "זכר", "RiderAddress":"יצMoshe 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester4", "Captain":1, "Organization":"orgname", "Group":"groupname"}
         public bool updateDB([FromBody]Rider rdr)
         {
 
@@ -41,6 +53,7 @@ namespace BikeChallengeApp.Controllers
                 string Response = ("Error updating the Organization database " + ex.Message);
                 return false;
             }
+
             return true;
         }
     }

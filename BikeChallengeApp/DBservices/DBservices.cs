@@ -94,8 +94,94 @@ public class DBservices
             }
         }
     }
+    
+    public DBservices ReadFromDataBaseRider(string conString, string groupname)
+    {
+
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+
+            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.[User]
+                                FROM UsersGroups UG, Users U, AspNetUsers anu
+                                Where U.[User] <> 0
+                                AND U.Id = anu.Id                            
+                                AND UG.[User] = U.[User]
+                                AND UG.[Group] = ( Select [GROUP] From Groups Where GroupName = '" + groupname + "' )"; // create the select that will be used by the adapter to select data from the DB
+
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+
+            DataTable dt = ds.Tables[0];
+
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+
+            return dbS;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
 
 
+    public DBservices ReadFromDataBaseGroup(string conString, string orgname)
+    {
+
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+
+            String selectStr = @" SELECT [GroupName],[GroupDes]
+                                FROM [Groups]
+                                WHERE [GROUP] <> 0 
+                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationsName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB
+                                      
+
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+
+            DataTable dt = ds.Tables[0];
+
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+
+            return dbS;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
     
 
     internal void Update()
@@ -173,6 +259,7 @@ public class DBservices
 
         SqlConnection con;
         SqlCommand cmd;
+        SqlCommand crmd;
 
         try
         {
@@ -185,6 +272,89 @@ public class DBservices
         }
 
         String cStr = BuildInsertRidersCommand(rdr);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected_2 = 0;
+            if (numEffected > 0)
+            {
+                String ins = BuildInsertRidersGroup(rdr);
+                crmd = CreateCommand(ins, con);
+                numEffected_2 = crmd.ExecuteNonQuery();
+            }
+            return numEffected + numEffected_2;
+        }
+        catch (Exception ex)
+        {
+
+            // write to log
+            throw (ex);
+            //return 0;
+        }
+
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+
+
+
+    //--------------------------------------------------------------------
+    // Build the Insert command String
+    //--------------------------------------------------------------------
+    private String BuildInsertRidersCommand(Rider rdr)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = "INSERT INTO Users(  UserEmail, [Group], [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
+        sb.AppendFormat("Values('{0}', {1}, {2}, (select city from Cities where CityName = '{3}' ), '{4}', '{5}' ,'{6}', '{7}', '{8}', '{9}','{10}', '{11}','{12}', '{13}', (select id from AspNetUsers where UserName = '{14}'), {15}, (select Organization from Organizations where OrganizationsName = '{16}'))", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+    private String BuildInsertRidersGroup(Rider rdr)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = "INSERT INTO [UsersGroups]([Group],[User]) ";
+        sb.AppendFormat(" Values( ( Select [Group] From Groups Where GroupName = '{0}'), ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '{1}' ) ) ) ", rdr.Group, rdr.Username);
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    //  **********************Groups***********************************************
+    public int insertGroup(Group grp)
+    {
+
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildInsertGroupCommand(grp);      // helper method to build the insert string
 
         cmd = CreateCommand(cStr, con);             // create the command
 
@@ -218,14 +388,14 @@ public class DBservices
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
-    private String BuildInsertRidersCommand(Rider rdr)
+    private String BuildInsertGroupCommand(Group grp)
     {
         String command;
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Users(  UserEmail, [Group], [Organization] , [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain ) ";
-        sb.AppendFormat("Values('{0}', {1} ,{2}, {3}, (select city from Cities where CityName = '{4}' ), '{5}', '{6}' ,'{7}', '{8}', '{9}', '{10}','{11}', '{12}','{13}', '{14}', (select id from AspNetUsers where UserName = '{15}'), {16})", rdr.RiderEmail, 0, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain);
+        String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
+        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationsName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationsName, grp.GroupDes);
         command = prefix + sb.ToString();
 
         return command;

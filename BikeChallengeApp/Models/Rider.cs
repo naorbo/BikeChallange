@@ -9,16 +9,16 @@ namespace BikeChallengeApp.Models
 {
     public class Rider
     {
-        private int group;
+        private string group;
 
-        public int Group
+        public string Group
         {
             get { return group; }
             set { group = value; }
         }
-        private int organization;
+        private string organization;
 
-        public int Organization
+        public string Organization
         {
             get { return organization; }
             set { organization = value; }
@@ -136,7 +136,7 @@ namespace BikeChallengeApp.Models
             // TODO: Add constructor logic here
             //
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain)
+        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
         {
             RiderEmail = rideremail;
             RiderDes = riderfname + " " + riderlname;
@@ -151,6 +151,8 @@ namespace BikeChallengeApp.Models
             BirthDate = birthDate;
             Username = username;
             Captain = captain;
+            Organization = organization;
+            Group = group;
         }
         
         public DataTable readData()
@@ -162,6 +164,14 @@ namespace BikeChallengeApp.Models
 
         }
 
+        public DataTable readDataPerGroup(string groupname)
+        {
+            string conString = "DefaultConnection";
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBaseRider(conString, groupname);
+            return dbs.dt;
+
+        } 
         public void updateDatabase(Rider rdr)
         {
 
