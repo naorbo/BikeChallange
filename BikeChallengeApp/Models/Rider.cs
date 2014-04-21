@@ -9,23 +9,23 @@ namespace BikeChallengeApp.Models
 {
     public class Rider
     {
-        private int group;
+        private string group;
 
-        public int Group
+        public string Group
         {
             get { return group; }
             set { group = value; }
         }
-        private int organization;
+        private string organization;
 
-        public int Organization
+        public string Organization
         {
             get { return organization; }
             set { organization = value; }
         }
-        private int city;
+        private string city;
 
-        public int City
+        public string City
         {
             get { return city; }
             set { city = value; }
@@ -114,13 +114,29 @@ namespace BikeChallengeApp.Models
             set { bicycletype = value; }
         }
 
+        private string username;
+
+        public string Username
+        {
+            get { return username; }
+            set { username = value; }
+        }
+
+        private int captain;
+
+        public int Captain
+        {
+            get { return captain; }
+            set { captain = value; }
+        }
+
         public Rider()
         {
             //
             // TODO: Add constructor logic here
             //
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, int ridercity, string riderphone, string bicycletype, string imagePath, string birthDate)
+        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
         {
             RiderEmail = rideremail;
             RiderDes = riderfname + " " + riderlname;
@@ -133,6 +149,10 @@ namespace BikeChallengeApp.Models
             City = ridercity;
             ImagePath = imagePath;
             BirthDate = birthDate;
+            Username = username;
+            Captain = captain;
+            Organization = organization;
+            Group = group;
         }
         
         public DataTable readData()
@@ -144,6 +164,14 @@ namespace BikeChallengeApp.Models
 
         }
 
+        public DataTable readDataPerGroup(string groupname)
+        {
+            string conString = "DefaultConnection";
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBaseRider(conString, groupname);
+            return dbs.dt;
+
+        } 
         public void updateDatabase(Rider rdr)
         {
 
