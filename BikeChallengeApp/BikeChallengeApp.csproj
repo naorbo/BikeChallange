@@ -204,7 +204,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />
+    <Content Include="app\directives\directives.js" />
     <Content Include="app\partials\about.html" />
     <Content Include="app\partials\home.html" />
     <Content Include="app\partials\logIn.html" />
@@ -517,6 +519,7 @@
     <Content Include="Scripts\i18n\angular-locale_zh.js" />
     <Content Include="Scripts\i18n\angular-locale_zu-za.js" />
     <Content Include="Scripts\i18n\angular-locale_zu.js" />
+    <Content Include="Scripts\icheck.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
@@ -528,6 +531,37 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="skins\square\aero%402x.png" />
+    <Content Include="skins\square\aero.css" />
+    <Content Include="skins\square\aero.png" />
+    <Content Include="skins\square\blue%402x.png" />
+    <Content Include="skins\square\blue.css" />
+    <Content Include="skins\square\blue.png" />
+    <Content Include="skins\square\green%402x.png" />
+    <Content Include="skins\square\green.css" />
+    <Content Include="skins\square\green.png" />
+    <Content Include="skins\square\grey%402x.png" />
+    <Content Include="skins\square\grey.css" />
+    <Content Include="skins\square\grey.png" />
+    <Content Include="skins\square\orange%402x.png" />
+    <Content Include="skins\square\orange.css" />
+    <Content Include="skins\square\orange.png" />
+    <Content Include="skins\square\pink%402x.png" />
+    <Content Include="skins\square\pink.css" />
+    <Content Include="skins\square\pink.png" />
+    <Content Include="skins\square\purple%402x.png" />
+    <Content Include="skins\square\purple.css" />
+    <Content Include="skins\square\purple.png" />
+    <Content Include="skins\square\red%402x.png" />
+    <Content Include="skins\square\red.css" />
+    <Content Include="skins\square\red.png" />
+    <Content Include="skins\square\square%402x.png" />
+    <Content Include="skins\square\square.css" />
+    <Content Include="skins\square\square.png" />
+    <Content Include="skins\square\yellow%402x.png" />
+    <Content Include="skins\square\yellow.css" />
+    <Content Include="skins\square\yellow.png" />
+    <Content Include="skins\square\_all.css" />
     <Content Include="sources\images\bc_cover.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
@@ -547,9 +581,9 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\version.json" />
+    <Content Include="skins\square\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="app\directives\" />
     <Folder Include="App_Data\" />
   </ItemGroup>
   <ItemGroup>

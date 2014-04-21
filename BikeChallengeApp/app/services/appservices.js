@@ -96,6 +96,11 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
 
     }
 
+    service.detailsRegistration = function () {
+
+
+    }
+
     return service;
 });
 

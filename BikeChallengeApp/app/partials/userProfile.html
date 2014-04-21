@@ -13,10 +13,8 @@
 
     <h1>this is your data {{uiData}}</h1>
     
-    <h1>Your organization is : {{value}}</h1>
-    
-    
-        
+   
+       
 
 
         <!-- Button trigger modal -->
@@ -30,16 +28,25 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title" id="myModalLabel">בחר את הקבוצה שלך</h4>
+                        <h4 class="modal-title" id="myModalLabel">בחר קבוצה</h4>
                     </div>
-                    <div class="modal-body">
-                      <div>
-                        <div class="panel panel-primary " ng-repeat="org in orgs">
-                            <div class="panel-heading">{{org.Organizationname}} <input type="radio" name=radio2 value={{org.Organizationname}} ng-model="$parent.value" /></div>
-                            <div class="panel-body">
-                                <p>{{org.OrganizationAddress}}</p>
-                                <p>{{org.OrganizationType}}</p>
-                            </div>       
+                    <div class="modal-body row">
+                          <input ng-model="query" />
+                          <br/>
+                        <div ng-repeat="org in orgs | filter:query">
+                            <div class="col-md-4">
+                                <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.Organizationname}} ng-model="$parent.value" />
+                                <div class="col-md-11">
+                                    <div class="panel panel-primary ">
+                                        <div class="panel-heading">{{org.Organizationname}} </div>
+                                        <div class="panel-body">
+                                            <p>{{org.OrganizationAddress}}</p>
+                                            <p>{{org.OrganizationType}}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -48,31 +55,21 @@
                     </div>
             </div>
         </div>
-        </div>
-     </div>
+        
+        <button type="button" ng-click="clearSelection()" class="btn-danger glyphicon glyphicon-remove">נקה</button>
+        <br />
+        <br />
+        <br />
+        <input type="text" placeholder="הקבוצה שנבחרה" ng-readonly="value!==null" value={{value}} />
+    
+    </div>
+        
+
+   
 
        
         
         
-        
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    </div>
-    
-    
-
-
-
 
 
 </body>

@@ -49,6 +49,10 @@ app.config(['$routeProvider',
 
 
 app.constant('AUTH_EVENTS', {
+    registrationFailed: 'reg-failed',
+    registrationSuccess: 'reg-success',
+    registrationFailedEF: 'reg-failed-ef',
+    registrationSuccessEF: 'reg-success-ef',
     loginSuccess: 'auth-login-success',
     loginFailed: 'auth-login-failed',
     logoutSuccess: 'auth-logout-success',
