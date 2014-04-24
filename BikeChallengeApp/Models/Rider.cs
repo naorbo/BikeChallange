@@ -174,10 +174,8 @@ namespace BikeChallengeApp.Models
         } 
         public void updateDatabase(Rider rdr)
         {
-
             DBservices dbs = new DBservices();
             dbs.insertRider(rdr);
-
         }
     }
 }

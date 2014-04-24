@@ -40,7 +40,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST api/<controller>
         // {"GroupName":"groupName", "OrganizationsName":"", "GroupDes":"groupDes"}
-        public bool updateDB([FromBody]Group grp)
+        public string updateDB([FromBody]Group grp)
         {
             try
             {
@@ -49,10 +49,11 @@ namespace BikeChallengeApp.Controllers
             }
             catch (Exception ex)
             {
-                string Response = ("Error updating the Organization database " + ex.Message);
-                return false;
+                string Response = ("Error updating the Group database " + ex.Message);
+                return Response;
+                
             }
-            return true;
+            return "OK";
         }
     }
 }

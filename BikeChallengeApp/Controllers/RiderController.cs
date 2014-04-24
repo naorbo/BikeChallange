@@ -16,9 +16,8 @@ namespace BikeChallengeApp.Controllers
 {
     public class RiderController : ApiController
     {
-        bool insert_flag = false;
-
-        // GET api/Rider?groupname=[The name of the group] - Not case sensative
+        // GET RIDER PER GRUOP
+        // api/Rider?groupname=[The name of the group] - Not case sensative
         public DataTable Get(string groupname)
         {
             Rider rdr = new Rider();
@@ -28,7 +27,8 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
-        // GET api/Rider
+        // GET ALL RIDERS
+        // api/Rider
         public DataTable GetAll()
         {
             Rider rdr = new Rider();
@@ -38,23 +38,53 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
-        // POST / Insert Rider into the DB 
+        // POST - Insert new Rider into the DB 
         //{"RiderEmail":"Moshe@Moshe.COM", "RiderFname":"Moshe" , "RiderLname":"Moshe", "Gender": "זכר", "RiderAddress":"יצMoshe 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester4", "Captain":1, "Organization":"orgname", "Group":"groupname"}
-        public bool updateDB([FromBody]Rider rdr)
+        public string updateDB([FromBody]Rider rdr)
         {
-
             try
             {
                 rdr.updateDatabase(rdr);
-
             }
             catch (Exception ex)
             {
-                string Response = ("Error updating the Organization database " + ex.Message);
-                return false;
+                string Response = ("Error while trying to INSERT the new Rider(user) to the database " + ex.Message);
+                return Response;
             }
+            return "OK";
+        }
 
-            return true;
+        // DELETE 
+        // api/Rider?username=[UserName]
+        public string Delete(string username)
+        {
+            DBservices dbs = new DBservices();
+            try
+            {
+                dbs.delteRider(username);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error in the Delete process the Rider(user) database " + ex.Message);
+                return Response;
+            }
+            return "The Rider " + username +" was Deleted from the Database";    
+        }
+        // PUT api/Rider?username=[UserName you want to update]
+        //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "Updated val", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
+        public string Put(string username, [FromBody]Rider rdr)
+        {
+            try
+            {
+                DBservices dbs = new DBservices();
+                dbs.updateRiderInDatabase(username, rdr);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error while trying to Update the Rider(user) " + username + "to the database " + ex.Message);
+                return Response;
+            }
+            return "OK";
         }
     }
 }

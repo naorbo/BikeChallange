@@ -7,7 +7,7 @@ using System.Web.Http;
 
 namespace BikeChallengeApp.Controllers
 {
-    public class ValuesController1 : ApiController
+    public class VController : ApiController
     {
         // GET api/<controller>
         public IEnumerable<string> Get()
