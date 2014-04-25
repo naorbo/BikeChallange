@@ -35,7 +35,7 @@ namespace BikeChallengeApp.Controller
 
         // POST / Insert organization into the DB 
         //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationDes":"מידעטק טכנולוגיות" , "OrganizationEmail":"Medatech@medatech.com", "OrganizationAddress": "טירת הכרמל האתגר 3", "OrganizationPhone":"0487929771" , "OrganizationType":"הייטק"}
-        public bool updateDB([FromBody]Organization org)
+        public string updateDB([FromBody]Organization org)
         {
             //Organization org = new Organization(organizationName, organizationCity, organizationDes, organizationEmail,  organizationAddress, organizationPhone, organizationType);
             
@@ -47,9 +47,9 @@ namespace BikeChallengeApp.Controller
             catch (Exception ex)
             {
                 string Response = ("Error updating the Organization database " + ex.Message);
-                return false;
+                return Response;
             }
-            return true;
+            return "OK";
         }
         
 

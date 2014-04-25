@@ -254,9 +254,89 @@ public class DBservices
     }
 
     //  ********************** RIDERS  ***********************************************
+    
+    public int updateRiderInDatabase(string username, Rider rdr)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildUpdateRiderCommand(username, rdr);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    public int delteRider(string username)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+        }
+
+        String cStr = BuildDelteRiderCommand(username);      // helper method to build the insert string
+
+        cmd = CreateCommand(cStr, con);             // create the command
+
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            throw (ex);
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
     public int insertRider(Rider rdr)
     {
-
         SqlConnection con;
         SqlCommand cmd;
         SqlCommand crmd;
@@ -332,6 +412,52 @@ public class DBservices
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO [UsersGroups]([Group],[User]) ";
         sb.AppendFormat(" Values( ( Select [Group] From Groups Where GroupName = '{0}'), ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '{1}' ) ) ) ", rdr.Group, rdr.Username);
+        command = prefix + sb.ToString();
+
+        return command;
+    }
+
+    private String BuildDelteRiderCommand(string username)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        String prefix = @"Declare @val int;
+                        SET @val = ( SELECT u.[User]
+				                        FROM [Users] u , [AspNetUsers] asp
+				                        Where asp.UserName = '" + username + @"'
+				                        AND   asp.ID = u.id );
+                        DELETE FROM [UsersGroups] Where [USER] = @val;
+                        DELETE FROM [Users] Where [USER] = @val;"; 
+        command = prefix;
+
+        return command;
+    }
+
+    private String BuildUpdateRiderCommand(string username, Rider rdr)
+    {
+        String command;
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = "UPDATE [Users] ";
+        sb.AppendFormat(@"SET [UserEmail] ='{0}'
+                              ,[Group] = {1}
+                              ,[Route] = {2}
+                              ,[City] = (select city from Cities where CityName = '{3}' )
+                              ,[UserDes] = '{4}'
+                              ,[UserFname] = '{5}'
+                              ,[UserLname] = '{6}'
+                              ,[Gender] = '{7}'
+                              ,[UserAddress] ='{8}'
+                              ,[UserPhone] = '{9}'
+                              ,[BicycleType] = '{10}'
+                              ,[ImagePath] = '{11}'
+                              ,[BirthDate] ='{12}'
+                              ,[CurDate] = '{13}'
+                              ,[Captain] = {14}
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationsName = '{15}')
+                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
 
         return command;
