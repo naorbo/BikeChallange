@@ -28,7 +28,7 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 });
 
 
-app.controller('signUpController', function ($rootScope, $scope, authFactory, AUTH_EVENTS) {
+app.controller('signUpController', function ($rootScope, $scope, $http, dataFactory, authFactory, AUTH_EVENTS) {
 
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
@@ -59,33 +59,150 @@ app.controller('signUpController', function ($rootScope, $scope, authFactory, AU
 
     }
 
-    //Organization Picker ... Just a temp 
+    ///////Organization Picker  
 
-    $scope.myOrg = function () {
-        console.log($scope.value);
+    //Passes selected Org from modal windows to attribute
+    $scope.myOrg = function (chosenOrg) {
+        console.log("org is " + chosenOrg);
+        $scope.personalDetails.org = chosenOrg;
         $('#myModal').modal('hide');
         return;
     }
 
+    
+    //Refresh orgs list from DB
+    $scope.refreshOrgs = function () {
+        console.log("Inside refresher orgs");
+        
+        $scope.orgHolder = angular.fromJson(dataFactory.getValues('Organization'));
+        console.log("This is the data :" +  $scope.orgHolder);
 
-    $scope.orgs = [
-                    { Organizationname: "CEVA", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group1" },
-                    { Organizationname: "Elbit", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group2" },
-                    { Organizationname: "Quartus", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group3" },
-                    { Organizationname: "Verint", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group4" },
-                    { Organizationname: "Microsoft", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group5" },
-                    { Organizationname: "Google", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group6" },
-                    { Organizationname: "Ruppin", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group7" },
-                    { Organizationname: "RedHat", OrganizationCity: 0, OrganizationDes: "john q", OrganizationEmail: "qwerty", OrganizationAddress: "12345qwerty", OrganizationPhone: "john q", OrganizationType: "Group8" }
+    }
 
-    ];
+    $scope.getOrgs = function () {
+        dataFactory.getValues('Organization')
+             .success(function (values) {
+                 $scope.orgs = angular.fromJson(values);
+                 console.log($scope.orgs);
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to load Orgs data: ' + error.message;
+             });
+    }
 
-
+    //Clears org selection
     $scope.clearSelection = function () {
-        console.log("Im reseting this one - " + $scope.value);
-        $scope.personalDetails.team = null;
+        console.log("Im reseting this one ");
+        $scope.orgSelection = null;
+        $scope.personalDetails.org = null;
         return;
     };
+
+    // New Organization Creator 
+
+    $scope.regOrg = function (org) {
+
+
+
+    }
+
+    $scope.newOrgFlag = false;
+
+    $scope.flagReset = function () {
+        if ($scope.newOrgFlag == false) 
+            $scope.newOrgFlag = true;
+        else
+            $scope.newOrgFlag = false;
+
+    }
+
+    // Upload image handling 
+
+    $scope.files = [];
+    //listen for the file selected event
+    $scope.$on("fileSelected", function (event, args) {
+        $scope.$apply(function () {
+            //add the file object to the scope's files collection
+            $scope.files.push(args.file);
+        });
+    });
+
+    //the save method
+    $scope.save = function() {
+        $http({
+            method: 'POST',
+            url: "/Api/PostStuff",
+            //IMPORTANT!!! You might think this should be set to 'multipart/form-data' 
+            // but this is not true because when we are sending up files the request 
+            // needs to include a 'boundary' parameter which identifies the boundary 
+            // name between parts in this multi-part request and setting the Content-type 
+            // manually will not set this boundary parameter. For whatever reason, 
+            // setting the Content-type to 'false' will force the request to automatically
+            // populate the headers properly including the boundary parameter.
+            headers: { 'Content-Type': false },
+            //This method will allow us to change how the data is sent up to the server
+            // for which we'll need to encapsulate the model data in 'FormData'
+            transformRequest: function (data) {
+                var formData = new FormData();
+                //need to convert our json object to a string version of json otherwise
+                // the browser will do a 'toString()' on the object which will result 
+                // in the value '[Object object]' on the server.
+                formData.append("model", angular.toJson(data.model));
+                //now add all of the assigned files
+                for (var i = 0; i < data.files; i++) {
+                    //add each file to the form data and iteratively name them
+                    formData.append("file" + i, data.files[i]);
+                }
+                return formData;
+            },
+            //Create an object that contains the model and files which will be transformed
+            // in the above transformRequest method
+            data: { model: $scope.model, files: $scope.files }
+        }).
+        success(function (data, status, headers, config) {
+            alert("success!");
+        }).
+        error(function (data, status, headers, config) {
+            alert("failed!");
+        });
+
+        
+    };
+
+
+
+    // Post Test 
+    $scope.dataObj = {
+        RiderEmail: "tester@bc.com",
+        RiderFname: "Tester",
+        RiderLname: "Testeron",
+        Gender: "זכר",
+        RiderAddress: "testing adderess",
+        City: "חיפה",
+        RiderPhone: "0505550000",
+        BicycleType: "חשמליות",
+        ImagePath: "pic location",
+        BirthDate: "01-01-1985",
+        UserName: "tester15",
+        Captain: 1,
+        Organization: "orgname",
+        Group: "groupname"
+    };
+
+    
+    // GET Test
+
+    $scope.status;
+    $scope.orgs;
+    $scope.orders;
+
+   
+
+ 
+
+    
+    
+
 
     // Event Handlers
 
@@ -102,7 +219,7 @@ app.controller('signUpController', function ($rootScope, $scope, authFactory, AU
 
 
 
-app.controller('mainController', function ($rootScope, $location, $scope,  authFactory, session, AUTH_EVENTS) {
+app.controller('mainController', function ($rootScope, $location, $scope ,authFactory, session, AUTH_EVENTS) {
     
     //User login handling (display user info and redirection)
 
