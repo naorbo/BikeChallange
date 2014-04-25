@@ -49,7 +49,7 @@ namespace BikeChallengeApp.Models
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Groups");
+            dbs = dbs.ReadFromDataBase(conString, "Groups", "Group");
             return dbs.dt;
 
         }

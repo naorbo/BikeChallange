@@ -27,21 +27,19 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
-        // GET api/<controller>
+        // GET api/Group
         public DataTable GetAll()
         {
             Group tmp = new Group();
-
             DataTable dt = tmp.readData();
-
-
             return dt;
         }
 
-        // POST api/<controller>
+        // POST api/Group
         // {"GroupName":"groupName", "OrganizationsName":"", "GroupDes":"groupDes"}
         public string updateDB([FromBody]Group grp)
         {
+            LogFiles lf = new LogFiles();
             try
             {
                 grp.updateDatabase(grp);
@@ -50,10 +48,10 @@ namespace BikeChallengeApp.Controllers
             catch (Exception ex)
             {
                 string Response = ("Error updating the Group database " + ex.Message);
-                return Response;
-                
+                lf.Main("Groups", Response);
+                return "Error";
             }
-            return "OK";
+            return "Success";
         }
     }
 }

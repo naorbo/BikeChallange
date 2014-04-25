@@ -182,13 +182,13 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
+    <Compile Include="Controllers\OrganizationImageController.cs" />
     <Compile Include="Controllers\FilesController.cs" />
-    <Compile Include="Controllers\ImageController.cs" />
+    <Compile Include="Controllers\UserImageController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\RiderController.cs" />
-    <Compile Include="Controllers\UploadfileController.cs" />
     <Compile Include="Controllers\VController.cs" />
     <Compile Include="DBservices\auxiliary.cs" />
     <Compile Include="DBservices\DBservices.cs" />
@@ -200,6 +200,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BikeChallengeAppContext.cs" />
     <Compile Include="Models\Cities.cs" />
+    <Compile Include="Models\LogFiles.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Rider.cs" />

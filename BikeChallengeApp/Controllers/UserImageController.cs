@@ -11,9 +11,9 @@ using Newtonsoft.Json;
 
 namespace BikeChallengeApp.Controllers
 {
-    public class ImageController : ApiController
+    public class UserImageController : ApiController
     {
-        [HttpPost] // api/Image?UserName=[username]
+        [HttpPost] // api/UserImage?UserName=[username]
         public async Task<HttpResponseMessage> Upload(string UserName)
         {
             if (!Request.Content.IsMimeMultipartContent())
@@ -31,7 +31,20 @@ namespace BikeChallengeApp.Controllers
             // uploadedFileInfo object will give you some additional stuff like file length,
             // creation time, directory name, a few filesystem methods etc..
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
-            System.IO.File.Move(uploadedFileInfo.ToString(), uploadedFileInfo.Directory.ToString() + "\\profileImage" + System.DateTime.Now.ToShortDateString().Replace('/', '_') + ".jpg");
+            var suffix = "\\ProfileImage" + DateTime.Now.ToString("dd_M_yyyy") + ".jpg";
+            var new_file_name = uploadedFileInfo.Directory.ToString() + suffix;
+            if(File.Exists(new_file_name))
+            {
+                System.IO.File.Move(new_file_name, uploadedFileInfo.Directory.ToString() + "\\OLD_ProfileImage" + DateTime.Now.ToString("dd_M_yyyy_HHmm") + ".jpg");
+            }
+            try
+            {
+                System.IO.File.Move(uploadedFileInfo.ToString(), new_file_name);
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
             // Remove this line as well as GetFormData method if you're not
             // sending any form data with your upload request
            // var fileUploadObj = GetFormData<UploadDataModel>(result);
@@ -39,7 +52,7 @@ namespace BikeChallengeApp.Controllers
             // Through the request response you can return an object to the Angular controller
             // You will be able to access this in the .success callback through its data attribute
             // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = "ReturnTest";
+            var returnData = "\\ProfileImages\\Users\\" + UserName + suffix;
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 
@@ -49,7 +62,7 @@ namespace BikeChallengeApp.Controllers
         {
             // IMPORTANT: replace "(tilde)" with the real tilde character
             // (our editor doesn't allow it, so I just wrote "(tilde)" instead)
-            var uploadFolder = "~/users/" + UserName ; // you could put this to web.config
+            var uploadFolder = "~\\ProfileImages\\Users\\" + UserName; // you could put this to web.config
             var root = HttpContext.Current.Server.MapPath(uploadFolder);
             Directory.CreateDirectory(root);
             return new MultipartFormDataStreamProvider(root);

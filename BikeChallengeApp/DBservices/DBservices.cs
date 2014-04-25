@@ -15,6 +15,7 @@ public class DBservices
 {
     public SqlDataAdapter da;
     public DataTable dt;
+    LogFiles lf = new LogFiles(); 
 
     public DBservices()
     {
@@ -56,17 +57,17 @@ public class DBservices
         return cmd;
     }
 
-    public DBservices ReadFromDataBase(string conString, string tableName)
+    public DBservices ReadFromDataBase(string conString, string tableName, string AU_Column)
     {
 
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
-
+        
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
 
-            String selectStr = "SELECT * FROM " + tableName; // create the select that will be used by the adapter to select data from the DB
+            String selectStr = "SELECT * FROM " + tableName + " Where " + AU_Column + " <> 0"; // create the select that will be used by the adapter to select data from the DB
 
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
 
@@ -84,6 +85,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main(tableName, ex.Message);
             throw ex;
         }
         finally
@@ -128,6 +130,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw ex;
         }
         finally
@@ -172,6 +175,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Groups", ex.Message);
             throw ex;
         }
         finally
@@ -203,6 +207,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Organizations", ex.Message);
             throw (ex);
         }
 
@@ -219,6 +224,7 @@ public class DBservices
         {
 
             // write to log
+            lf.Main("Organizations", ex.Message);
             throw (ex);
             //return 0;
         }
@@ -267,6 +273,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
         }
 
@@ -282,6 +289,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
             //return 0;
         }
@@ -307,6 +315,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
         }
 
@@ -322,6 +331,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
             //return 0;
         }
@@ -348,6 +358,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
         }
 
@@ -371,6 +382,7 @@ public class DBservices
         {
 
             // write to log
+            lf.Main("Users", ex.Message);
             throw (ex);
             //return 0;
         }
@@ -426,7 +438,8 @@ public class DBservices
                         SET @val = ( SELECT u.[User]
 				                        FROM [Users] u , [AspNetUsers] asp
 				                        Where asp.UserName = '" + username + @"'
-				                        AND   asp.ID = u.id );
+				                        AND   asp.ID = u.id
+                                        AND   u.[User] <> 0 );
                         DELETE FROM [UsersGroups] Where [USER] = @val;
                         DELETE FROM [Users] Where [USER] = @val;"; 
         command = prefix;
@@ -493,6 +506,7 @@ public class DBservices
         {
 
             // write to log
+            lf.Main("Groups", ex.Message);
             throw (ex);
             //return 0;
         }

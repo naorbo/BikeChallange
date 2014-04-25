@@ -81,7 +81,7 @@ namespace BikeChallengeApp.Models
         {
             string conString  = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Organizations") ;    
+            dbs = dbs.ReadFromDataBase(conString, "Organizations", "Organization") ;    
             return dbs.dt; 
             
         }

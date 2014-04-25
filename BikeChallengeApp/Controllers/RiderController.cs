@@ -49,9 +49,9 @@ namespace BikeChallengeApp.Controllers
             catch (Exception ex)
             {
                 string Response = ("Error while trying to INSERT the new Rider(user) to the database " + ex.Message);
-                return Response;
+                return "Error";
             }
-            return "OK";
+            return "Success";
         }
 
         // DELETE 
@@ -59,21 +59,24 @@ namespace BikeChallengeApp.Controllers
         public string Delete(string username)
         {
             DBservices dbs = new DBservices();
+            string Response= "";
             try
             {
                 dbs.delteRider(username);
             }
             catch (Exception ex)
             {
-                string Response = ("Error in the Delete process the Rider(user) database " + ex.Message);
-                return Response;
+                 Response = ("Error in the Delete process the Rider(user) database " + ex.Message);
+                return "Error";
             }
-            return "The Rider " + username +" was Deleted from the Database";    
+             Response = "The Rider " + username +" was Deleted from the Database";
+             return "Success";
         }
         // PUT api/Rider?username=[UserName you want to update]
         //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "Updated val", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
         public string Put(string username, [FromBody]Rider rdr)
         {
+            LogFiles lf = new LogFiles();
             try
             {
                 DBservices dbs = new DBservices();
@@ -82,9 +85,10 @@ namespace BikeChallengeApp.Controllers
             catch (Exception ex)
             {
                 string Response = ("Error while trying to Update the Rider(user) " + username + "to the database " + ex.Message);
-                return Response;
+                lf.Main("Groups", Response);
+                return "Error";
             }
-            return "OK";
+            return "Success";
         }
     }
 }

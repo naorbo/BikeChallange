@@ -38,18 +38,18 @@ namespace BikeChallengeApp.Controller
         public string updateDB([FromBody]Organization org)
         {
             //Organization org = new Organization(organizationName, organizationCity, organizationDes, organizationEmail,  organizationAddress, organizationPhone, organizationType);
-            
+            LogFiles lf = new LogFiles();
             try
             {
-                org.updateDatabase(org);
-                
+                org.updateDatabase(org);      
             }
             catch (Exception ex)
             {
                 string Response = ("Error updating the Organization database " + ex.Message);
-                return Response;
+                lf.Main("Groups", Response);
+                return "Error";
             }
-            return "OK";
+            return "Success";
         }
         
 
