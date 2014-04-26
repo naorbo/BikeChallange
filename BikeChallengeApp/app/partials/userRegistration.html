@@ -31,70 +31,78 @@
                         <!-- SUBMIT BUTTON -->
                         <button type="submit" class="btn btn-primary" ng-disabled="regDetails.$invalid">הרשם</button>
                 </form>
-            </div>
-            <!-- Test Uploading a file -->
+                <!-- Test Uploading a file -->
 
-            <input type="file" data-file-upload />
-            <ul>
-                <li ng-repeat="file in files">{{file.name}}</li>
-            </ul>
-            <button class="btn btn-primary" ng-click="save()">Send</button>
-
-            <!-- End Of test -->
+                
+            
+             </div>
+            
         
         </div>
     
         
             <!--<!-- FORM - BC Registration -->
-            <div class="col-lg-4 pull-right" >
-                <!--<div class="col-lg-6" ng-if="showDetails">-->
-                    <!-- Details form is hidden till main registration is completed-->
+            
+        <div class="col-lg-6" ng-if="showDetails">
+            <!-- Details form is hidden till main registration is completed-->
+            <!---->
+            <div class="input-group input-group-lg">
+                <form  novalidate>
+                    <h3><small>פרטים אישיים</small></h3>
+                    <input type="text" class="form-control" ng-model="personalDetails.firstName" placeholder="שם פרטי" required /><br />
+                    <br />
+                    <input type="text" class="form-control" ng-model="personalDetails.lastName" placeholder="שם משפחה" required /><br />
+                    <br />
+                    <input type="email" class="form-control" ng-model="personalDetails.email" placeholder="כתובת דואר אלקטרוני" required /><br />
+                    <h3><small>מין</small></h3>
+                    <input type="radio" data-icheck ng-model="personalDetails.gender" value="זכר" required />&nbsp זכר &nbsp &nbsp &nbsp
+                    <input type="radio" data-icheck ng-model="personalDetails.gender" value="נקבה" required />&nbsp נקבה<br />
+                    <br />
 
-                    <div class="input-group input-group-lg">
-                        <form ng-submit="pesronalInfoRegister()" name="personalDetails" novalidate>
+                    <input type="text" class="form-control" ng-model="personalDetails.address" placeholder="כתובת" required /><br />
+                    <br />
+                    <h3><small>עיר מגורים</small></h3>
+                    <select id="citySelect" ng-model="personalDetails.city" ng-options="c.CityName for c in citiesHolder" required> </select>
+                    
+                    <br />
+                    <input type="date" class="form-control" ng-model="personalDetails.bDay" placeholder="תאריך לידה" /><br />
+                    <br />
+                    <input type="tel" class="form-control" ng-model="personalDetails.phone" placeholder="טלפון" /><br />
+                    <h3><small>תמונת פרופיל</small></h3>
+                    <input type="file" ng-file-select="onFileSelect($files)" class="form-control" ng-model="personalDetails.imagePath" placeholder="תמונה" required /><br />
+                    
 
-                            <input type="text" class="form-control" ng-model="personalDetails.firstName" placeholder="שם פרטי" required /><br />
-                            <br />
-                            <input type="text" class="form-control" ng-model="personalDetails.lastName" placeholder="שם משפחה" required /><br />
-                            
-                            <h3 ><small>מין</small></h3>
-                            <input type="radio" data-icheck ng-model="personalDetails.gender" value="f" required />&nbsp זכר &nbsp &nbsp &nbsp
-                            <input type="radio" data-icheck ng-model="personalDetails.gender" value="m" required />&nbsp נקבה<br />
-                            <br />
-                            <input type="file" class="form-control" ng-model="personalDetails.photo" placeholder="??תמונה" required /><br />
-                            <br />
-                            <input type="text" class="form-control" ng-model="personalDetails.address" placeholder="כתובת" required /><br />
-                            <br />
-                            <input type="text" class="form-control" ng-model="personalDetails.city" placeholder="עיר" required /><br />
-                            <br />
-                            <input type="tel" class="form-control" ng-model="personalDetails.city" placeholder="טלפון" /><br />
-                            <br />
-                            <h3><small>סוג האופניים</small></h3>
-                            <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="m" required />&nbsp הרים &nbsp &nbsp &nbsp
+                    <h3><small>סוג האופניים</small></h3>
+                    <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="הרים" required />&nbsp הרים &nbsp &nbsp &nbsp
 
-                            <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="r" required />&nbsp כביש &nbsp &nbsp &nbsp
+                    <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="כביש" required />&nbsp כביש &nbsp &nbsp &nbsp
 
-                            <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="e" required />&nbsp חשמליים
-                            <br /><br />
+                    <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="חשמליים" required />&nbsp חשמליים
+                    <br /><br />
 
-                            <input type="number" class="form-control" ng-model="personalDetails.owLength" placeholder=" אורך נסיעה בקילומטרים" min="0"/><br />
-                            <br />
-                            <input type="text" class="form-control" placeholder="ארגון" ng-readonly="personalDetails.org!==null" ng-model="personalDetails.org" />
-                             <br/>
-                            <br />
-                            <br />
-                            <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="getOrgs()">
-                                בחר ארגון
-                            </button>
-                            <button type="button" ng-click="clearSelection()" class="btn btn-danger ">נקה</button>
-                            <button type="button" data-toggle="modal" data-target="#myNewOrgModal" class="btn btn-info">ארגון חדש</button>
-                            <br />
-                            <br />
-                            <select id="teamSelect" ng-model="personalDetails.team" ng-options="t.GroupName for t in teamPerOrg"> </select>
-                            <button type="button" data-toggle="modal" data-target="#myNewTeamModal" class="btn btn-info" ng-disabled="personalDetails.org == undefined">קבוצה חדשה</button>
-                        </form>
-                    </div>
-                </div>
+                    <input type="number" class="form-control" ng-model="personalDetails.owLength" placeholder=" אורך נסיעה בקילומטרים" min="0" required /><br />
+                    <br />
+                    <h3><small>ארגון</small></h3>
+                    <input type="text" class="form-control" placeholder="ארגון" ng-readonly="personalDetails.org!==null" ng-model="personalDetails.org" required />
+                    
+                    <br />
+                    <br />
+                    
+                    <button class="btn btn-primary" data-toggle="modal" data-target="#myModal" ng-click="getOrgs()">
+                        בחר ארגון
+                    </button>
+                    <button type="button" ng-click="clearSelection()" class="btn btn-danger ">נקה</button>
+                    <button type="button" data-toggle="modal" data-target="#myNewOrgModal" class="btn btn-info">ארגון חדש</button>
+                    <br />
+                    
+                    <h3><small>קבוצה</small></h3>
+                    <select id="teamSelect" ng-model="personalDetails.team" ng-options="t.GroupName for t in teamPerOrg" required> </select>
+                    <button type="button" data-toggle="modal" data-target="#myNewTeamModal" class="btn btn-info" ng-disabled="personalDetails.org == undefined">קבוצה חדשה</button>
+                    <br />
+                    <button type="submit" ng-disabled="personalDetails.org == undefined" ng-click="userRegistration()" class="btn btn-primary">השלם רישום</button>
+                </form>
+            </div>
+        </div>
 
             <!-- Organization Picker Modal Window  -->
 
@@ -175,7 +183,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
-                        <button type="submit" class="btn btn-primary" ng-click="regNewTeam(newTeam, personalDetails.org)">שמור</button>
+                        <button type="submit" class="btn btn-primary" ng-click="regNewTeam(newTeam, $scope.$$childHead.personalDetails.org)">שמור</button>
                     </div>
                 </div>
             </div>

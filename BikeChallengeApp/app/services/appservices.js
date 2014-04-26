@@ -69,22 +69,26 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
         return deferred.promise;
     };
 
+    
+
+
+
     service.register = function (userName, password, confirmPassword) {
         var deferred = $q.defer();
         $http({
             method: 'POST',
             url: '/api/Account/Register',
-            headers: '{Content-Type: application/json}',
+            headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: 
                 {
                     "UserName": userName,
                     "Password": password,
                     "ConfirmPassword": confirmPassword
                 }
-                ,
+                
         })
             .success(function (response) {
-                service.loginToken = [];
+                //service.loginToken = [];
                 deferred.resolve(response);
             })
             .error(function (response) {

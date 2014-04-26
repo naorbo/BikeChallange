@@ -264,6 +264,14 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\HelpPageApiModel.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload-html5-shim.js" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload-html5-shim.min.js" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload-shim.js" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload-shim.min.js" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload.js" />
+    <Content Include="Scripts\AngularFileUpload\angular-file-upload.min.js" />
+    <Content Include="Scripts\AngularFileUpload\FileAPI.flash.swf" />
+    <Content Include="Scripts\AngularFileUpload\FileAPI.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\errors.json" />
@@ -280,6 +288,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="Content\bootstrap-theme.css.map" />
     <Content Include="Content\bootstrap.css.map" />
+    <Content Include="Scripts\AngularFileUpload\bower.json" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />

@@ -13,7 +13,7 @@
 
 //This configures the routes and associates each route with a view and a controller
 
-var app = angular.module('bChallenge', ['ngRoute']);
+var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
