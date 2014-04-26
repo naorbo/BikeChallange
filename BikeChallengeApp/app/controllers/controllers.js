@@ -1,15 +1,32 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
 
+// ####################################################################################################################################################### // 
+// #########################################                aboutController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
+
 app.controller('aboutController', function ($scope) {
 
 });
 
 
+// ####################################################################################################################################################### // 
+// #########################################                homeController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
 
 app.controller('homeController', function ($scope) {
 
 });
+
+
+// ####################################################################################################################################################### // 
+// #########################################                loginController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
 
 app.controller('loginController', function ($rootScope, $scope, authFactory, AUTH_EVENTS) {
     
@@ -26,6 +43,11 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
         });
     }
 });
+
+// ####################################################################################################################################################### // 
+// #########################################                signUpController               ############################################################### // 
+// ####################################################################################################################################################### // 
+
 
 
 app.controller('signUpController', function ($rootScope, $scope, $http, dataFactory, authFactory, AUTH_EVENTS) {
@@ -59,13 +81,15 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
 
     }
 
-    ///////Organization Picker  
+    ///////Organization Handling 
 
-    //Passes selected Org from modal windows to attribute
+    
+    //Save & Close - Modal Window - Passes selected Org from modal windows to attribute 
     $scope.myOrg = function (chosenOrg) {
         console.log("org is " + chosenOrg);
         $scope.personalDetails.org = chosenOrg;
         $('#myModal').modal('hide');
+        $scope.getTeamByOrg(chosenOrg);
         return;
     }
 
@@ -74,16 +98,18 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
     $scope.refreshOrgs = function () {
         console.log("Inside refresher orgs");
         
-        $scope.orgHolder = angular.fromJson(dataFactory.getValues('Organization'));
+        $scope.orgHolder = angular.fromJson(dataFactory.getValues('Organization', false, 0));
         console.log("This is the data :" +  $scope.orgHolder);
 
     }
 
     $scope.getOrgs = function () {
-        dataFactory.getValues('Organization')
+        dataFactory.getValues('Organization', false, 0)
              .success(function (values) {
                  $scope.orgs = angular.fromJson(values);
                  console.log($scope.orgs);
+                 
+               
              })
              .error(function (error) {
                  $scope.status = 'Unable to load Orgs data: ' + error.message;
@@ -100,13 +126,24 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
 
     // New Organization Creator 
 
-    $scope.regOrg = function (org) {
-
-
-
+    $scope.regNewOrg = function (newOrgObj) {
+        dataFactory.postValues(newOrgObj,'Organization')
+             .success(function (response) {
+                 console.log(response);
+                 $scope.newOrgFlag = true;
+                 alert("  הארגון  " + newOrgObj.OrganizationName + "  נוצר בהצלחה ! ");
+                 // Closing Modal window 
+                 $scope.personalDetails.org = newOrgObj.OrganizationName;
+                 $('#myNewOrgModal').modal('hide');
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to load Orgs data: ' + error.message;
+                 alert("שגיאה ביצירת ארגון חדש");
+             });
     }
 
     $scope.newOrgFlag = false;
+    $scope.newTeamFlag = false;
 
     $scope.flagReset = function () {
         if ($scope.newOrgFlag == false) 
@@ -114,6 +151,38 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
         else
             $scope.newOrgFlag = false;
 
+    }
+
+    // Team Handlers 
+
+    // Fetch team per Org
+    $scope.getTeamByOrg = function (orgName) {
+        console.log('trying to get teams')
+        dataFactory.getValues('Group', true, 'orgname=' + orgName)
+            .success(function (values) {
+                $scope.teamPerOrg = angular.fromJson(values);
+            }) 
+    }
+
+    // Register a new team 
+
+    $scope.regNewTeam = function (newTeamObj, org) {
+        newTeamObj.OrganizationsName = org;
+        dataFactory.postValues(newTeamObj, 'Group')
+             .success(function (response) {
+                 console.log(response);
+                 newTeamObj.OrganizationsName = $scope.personalDetails.org;
+                 $scope.newTeamFlag = true;
+                 alert("  הקבוצה  " + newTeamObj.GroupName + "  נוצרה בהצלחה ! ");
+                 // Closing Modal window 
+                 $scope.personalDetails.team = newTeamObj.GroupName;
+                 $('#myNewTeamModal').modal('hide');
+                 $scope.getTeamByOrg(newTeamObj.OrganizationsName);
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to create a new team: ' + error.message;
+                 alert("שגיאה ביצירת קבוצה חדשה");
+             });
     }
 
     // Upload image handling 
@@ -189,21 +258,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
         Group: "groupname"
     };
 
-    
-    // GET Test
-
-    $scope.status;
-    $scope.orgs;
-    $scope.orders;
-
    
-
- 
-
-    
-    
-
-
     // Event Handlers
 
     $scope.$on('reg-success-ef', function () {
@@ -216,6 +271,9 @@ app.controller('signUpController', function ($rootScope, $scope, $http, dataFact
 
 });
 
+// ####################################################################################################################################################### // 
+// #########################################                mainController               ################################################################ // 
+// ####################################################################################################################################################### // 
 
 
 
@@ -262,6 +320,9 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 });
 
 
+// ####################################################################################################################################################### // 
+// #########################################               userProfileController               ########################################################### // 
+// ####################################################################################################################################################### // 
 
 
 //User Profile - Get Data 
