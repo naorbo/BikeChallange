@@ -188,7 +188,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\RiderController.cs" />
-    <Compile Include="Controllers\UploadfileController.cs" />
     <Compile Include="Controllers\VController.cs" />
     <Compile Include="DBservices\auxiliary.cs" />
     <Compile Include="DBservices\DBservices.cs" />
