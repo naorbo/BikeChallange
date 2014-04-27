@@ -64,11 +64,11 @@ namespace BikeChallengeApp.Models
         } 
 
         
-        public void updateDatabase(Group org)
+        public void updateDatabase(Group grp)
         {
 
             DBservices dbs = new DBservices();
-            dbs.insertGroup(org);
+            dbs.insertGroup(grp);
 
         }
     }

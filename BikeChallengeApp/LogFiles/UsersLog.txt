@@ -1,0 +1,7 @@
+The Users LOG file
+23:03:45 : String or binary data would be truncated.
+The statement has been terminated.
+23:05:42 : String or binary data would be truncated.
+The statement has been terminated.
+23:12:22 : String or binary data would be truncated.
+The statement has been terminated.

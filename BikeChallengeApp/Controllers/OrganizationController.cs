@@ -22,14 +22,12 @@ namespace BikeChallengeApp.Controller
     //[RoutePrefix("api/Organization")]
     public class OrganizationController : ApiController
     {
-
+        LogFiles lf = new LogFiles();
+        int return_val = 0;
         public DataTable GetAll()
         {
             Organization tmp = new Organization();
-
             DataTable dt = tmp.readData();
-
-
             return dt;
         }
 
@@ -38,17 +36,18 @@ namespace BikeChallengeApp.Controller
         public string updateDB([FromBody]Organization org)
         {
             //Organization org = new Organization(organizationName, organizationCity, organizationDes, organizationEmail,  organizationAddress, organizationPhone, organizationType);
-            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             try
             {
-                org.updateDatabase(org);      
+                return_val = dbs.insertOrganization(org);     
             }
             catch (Exception ex)
             {
                 string Response = ("Error updating the Organization database " + ex.Message);
-                lf.Main("Groups", Response);
+                lf.Main("Organizations", Response);
                 return "Error";
             }
+            if (return_val == 0) { return "Error"; }
             return "Success";
         }
         

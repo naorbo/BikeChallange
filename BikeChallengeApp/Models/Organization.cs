@@ -90,7 +90,6 @@ namespace BikeChallengeApp.Models
 
             DBservices dbs = new DBservices();
             dbs.insertOrganization(org);
-
         }
     }
 }
