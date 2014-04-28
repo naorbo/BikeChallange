@@ -63,7 +63,6 @@ namespace BikeChallengeApp.Models
 
         } 
 
-        
         public void updateDatabase(Group grp)
         {
 

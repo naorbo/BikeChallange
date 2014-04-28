@@ -92,5 +92,10 @@ namespace BikeChallengeApp.Controllers
         {
             return fileData.Headers.ContentDisposition.FileName;
         }
+        //get the files
+          //  foreach (var file in result.FileData)
+         //   {
+               //TODO: Do something with each uploaded file
+          //  }
     }
 }

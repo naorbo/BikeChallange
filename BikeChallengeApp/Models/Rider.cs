@@ -170,12 +170,6 @@ namespace BikeChallengeApp.Models
             DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBaseRider(conString, groupname);
             return dbs.dt;
-
         } 
-        public void updateDatabase(Rider rdr)
-        {
-            DBservices dbs = new DBservices();
-            dbs.insertRider(rdr);
-        }
     }
 }

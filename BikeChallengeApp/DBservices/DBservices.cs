@@ -226,7 +226,10 @@ public class DBservices
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
             dbS.dt = dt;
             dbS.da = da;
-            return dbS.dt.Rows[0].ItemArray[0].ToString();
+            if (dbS.dt.Rows.Count > 0)
+                return dbS.dt.Rows[0].ItemArray[0].ToString();
+            else
+                return "NOT EXISTS";
         }
         catch (Exception ex)
         {
@@ -345,6 +348,8 @@ public class DBservices
                 crmd = CreateCommand(ins, con);
                 numEffected_2 = crmd.ExecuteNonQuery();
             }
+            if ( numEffected_2 == 0 )
+                lf.Main("UsersGroups","No record was inserted to the table check if the group " + rdr.Group +" or the username " + rdr.Username + " exists ");
             return numEffected + numEffected_2;
         }
         catch (Exception ex)
@@ -382,9 +387,17 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO [UsersGroups]([Group],[User]) ";
-        sb.AppendFormat(" Values( ( Select [Group] From Groups Where GroupName = '{0}'), ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '{1}' ) ) ) ", rdr.Group, rdr.Username);
-        command = prefix + sb.ToString();
+        String prefix1 = @"Declare @Group_val int;
+                          Declare @User_val int;
+                          Set @Group_val = 0;
+                          Set @User_val = 0;
+                          Set @Group_val = ( Select [Group] From Groups Where GroupName = '"+ rdr.Group + @"');
+                          Set @User_val = ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '" + rdr.Username + @"' ) ) ;";
+        String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
+                            begin
+                            INSERT INTO [UsersGroups]([Group],[User]) Values( @Group_val, @User_val )
+                            end";
+        command = prefix1 + prefix;
         return command;
     }
     private String BuildDelteRiderCommand(string username)
