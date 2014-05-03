@@ -1,0 +1,3 @@
+The Organizations LOG file
+19:38:55 : Cannot insert the value NULL into column 'City', table 'igroup1_prod.dbo.Organizations'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

@@ -42,6 +42,12 @@ app.config(['$routeProvider',
             controller: 'userProfileController'
         }).
 
+        when('/myTeam', {
+            templateUrl: 'app/partials/myTeam.html',
+            controller: 'myTeamController'
+        }).
+
+
         otherwise({
             redirectTo: '/home'
         });

@@ -211,6 +211,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\partials\myTeam.html" />
     <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />
     <Content Include="app\directives\directives.js" />
@@ -579,6 +580,7 @@
     <Content Include="skins\square\yellow.png" />
     <Content Include="skins\square\_all.css" />
     <Content Include="sources\images\bc_cover.jpg" />
+    <Content Include="sources\images\defaultUserImage.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

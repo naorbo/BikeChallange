@@ -16,7 +16,6 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
 
     service.login = function (userName, password) {
         var deferred = $q.defer();
-
         var loginData = {
             grant_type: "password",
             username: userName,

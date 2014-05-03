@@ -33,9 +33,16 @@
             <!-- NavBar Items-->
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#about">אודות</a></li>
-                    <li><a href="#userRegistration">רישום</a> </li>
-                    <li><a href="#login">התחברות</a></li>
+                    <li ng-if="!currentUser"><a href="#about">אודות</a></li>
+                    <li ng-if ="!currentUser"><a href="#userRegistration">רישום</a> </li>
+                    <li ng-if="!currentUser"><a href="#myTeam">התחברות</a></li>
+                    
+                    
+
+                    <!-- Logged User Nav-Bar Items-->
+                    <li ng-if="currentUser"><a href="#myTeam">הקבוצה שלי</a></li>
+                    <li ng-if="currentUser"><a href="#login">רכיבות</a></li>
+                    
                 </ul>
                 
                 <ul ng-if="currentUser" class="nav navbar-nav pull-left">

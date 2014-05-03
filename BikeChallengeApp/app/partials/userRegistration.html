@@ -25,7 +25,7 @@
                     </div>
                         <!-- Password Confirm -->
                     <div class="form-group" ng-class="{ 'has-error' : regDetails.confirmPassword.$invalid && regDetails.confirmPassword.$dirty  }">
-                        <input type="password" name="confirmPassword" class="form-control" ng-model="confirmPassword" placeholder="סיסמא" ng-readonly="showDetails" ng-minlength="6" data-valid-password-c required> <br /><br />
+                        <input type="password" name="confirmPassword" class="form-control" ng-model="confirmPassword" placeholder="אימות סיסמא" ng-readonly="showDetails" ng-minlength="6" data-valid-password-c required> <br /><br />
                         <p ng-show="regDetails.confirmPassword.$dirty && regDetails.confirmPassword.$error.noMatch" class="help-block">אימות הססמא אינו תואם את הססמא שנבחרה</p>
                     </div>
                         <!-- SUBMIT BUTTON -->
