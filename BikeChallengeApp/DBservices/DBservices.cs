@@ -29,57 +29,39 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     public SqlConnection connect(String conString)
     {
-
         // read the connection string from the configuration file
         string cStr = WebConfigurationManager.ConnectionStrings[conString].ConnectionString;
         SqlConnection con = new SqlConnection(cStr);
         con.Open();
         return con;
     }
-
-    
-    //---------------------------------------------------------------------------------
+      //---------------------------------------------------------------------------------
     // Create the SqlCommand
     //---------------------------------------------------------------------------------
     private SqlCommand CreateCommand(String CommandSTR, SqlConnection con)
     {
-
         SqlCommand cmd = new SqlCommand(); // create the command object
-
         cmd.Connection = con;              // assign the connection to the command object
-
         cmd.CommandText = CommandSTR;      // can be Select, Insert, Update, Delete 
-
         cmd.CommandTimeout = 10;           // Time to wait for the execution' The default is 30 seconds
-
         cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
-
         return cmd;
     }
-
     public DBservices ReadFromDataBase(string conString, string tableName, string AU_Column)
     {
-
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
-        
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-
             String selectStr = "SELECT * FROM " + tableName + " Where " + AU_Column + " <> 0"; // create the select that will be used by the adapter to select data from the DB
-
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-
             DataTable dt = ds.Tables[0];
-
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
             dbS.dt = dt;
             dbS.da = da;
-
             return dbS;
         }
         catch (Exception ex)
@@ -99,32 +81,24 @@ public class DBservices
     
     public DBservices ReadFromDataBaseRider(string conString, string groupname)
     {
-
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
-
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-
             String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.[User]
                                 FROM UsersGroups UG, Users U, AspNetUsers anu
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = ( Select [GROUP] From Groups Where GroupName = '" + groupname + "' )"; // create the select that will be used by the adapter to select data from the DB
-
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-
             DataTable dt = ds.Tables[0];
-
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
             dbS.dt = dt;
             dbS.da = da;
-
             return dbS;
         }
         catch (Exception ex)
@@ -145,31 +119,22 @@ public class DBservices
 
     public DBservices ReadFromDataBaseGroup(string conString, string orgname)
     {
-
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
-
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-
             String selectStr = @" SELECT [GroupName],[GroupDes]
                                 FROM [Groups]
                                 WHERE [GROUP] <> 0 
-                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationsName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB
-                                      
-
+                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationsName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-
             DataTable dt = ds.Tables[0];
-
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
             dbS.dt = dt;
             dbS.da = da;
-
             return dbS;
         }
         catch (Exception ex)
@@ -185,9 +150,8 @@ public class DBservices
                 con.Close();
             }
         }
-    }
-    
-
+    } 
+   
     internal void Update()
     {
         SqlCommandBuilder builder = new SqlCommandBuilder(da);
@@ -196,10 +160,8 @@ public class DBservices
 //  **********************ORGANIZATION***********************************************
     public int insertOrganization(Organization org)
     {
-
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -208,13 +170,10 @@ public class DBservices
         {
             // write to log
             lf.Main("Organizations", ex.Message);
-            throw (ex);
+            return 0;
         }
-
         String cStr = BuildInsertOrganizationCommand(org);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
-
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -222,13 +181,11 @@ public class DBservices
         }
         catch (Exception ex)
         {
-
             // write to log
             lf.Main("Organizations", ex.Message);
-            throw (ex);
+            return 0;
             //return 0;
         }
-
         finally
         {
             if (con != null)
@@ -237,35 +194,63 @@ public class DBservices
                 con.Close();
             }
         }
-
     }
-
-
-
-
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
     private String BuildInsertOrganizationCommand(Organization org)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Organizations(  OrganizationsName, [City], OrganizationDes, OrganizationEmail, OrganizationAddress, OrganizationPhone, OrganizationType ) ";
         sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}', '{4}', '{5}', '{6}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationEmail, org.OrganizationAddress, org.OrganizationPhone, org.OrganizationType);
         command = prefix + sb.ToString();
-
         return command;
     }
-
+    // ******************** Get USERNAME  *****************************
+    public string ReadFromDataBaseUserName(string conString, string username)
+    {
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+            String selectStr = @" SELECT 'Exists'
+                                FROM AspNetUsers
+                                WHERE [UserName] = '" + username + "' ;";
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+            DataTable dt = ds.Tables[0];
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+            if (dbS.dt.Rows.Count > 0)
+                return dbS.dt.Rows[0].ItemArray[0].ToString();
+            else
+                return "NOT EXISTS";
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("AspNetUsers", ex.Message);
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    } 
     //  ********************** RIDERS  ***********************************************
     
     public int updateRiderInDatabase(string username, Rider rdr)
     {
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -274,13 +259,10 @@ public class DBservices
         {
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0;
         }
-
         String cStr = BuildUpdateRiderCommand(username, rdr);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
-
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -290,7 +272,7 @@ public class DBservices
         {
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0;
             //return 0;
         }
         finally
@@ -301,13 +283,11 @@ public class DBservices
                 con.Close();
             }
         }
-
     }
     public int delteRider(string username)
     {
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -316,13 +296,10 @@ public class DBservices
         {
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0;
         }
-
         String cStr = BuildDelteRiderCommand(username);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
-
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -332,7 +309,7 @@ public class DBservices
         {
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0;
             //return 0;
         }
         finally
@@ -343,14 +320,12 @@ public class DBservices
                 con.Close();
             }
         }
-
     }
     public int insertRider(Rider rdr)
     {
         SqlConnection con;
         SqlCommand cmd;
         SqlCommand crmd;
-
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -359,13 +334,10 @@ public class DBservices
         {
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0; 
         }
-
         String cStr = BuildInsertRidersCommand(rdr);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
-
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
@@ -376,17 +348,17 @@ public class DBservices
                 crmd = CreateCommand(ins, con);
                 numEffected_2 = crmd.ExecuteNonQuery();
             }
+            if ( numEffected_2 == 0 )
+                lf.Main("UsersGroups","No record was inserted to the table check if the group " + rdr.Group +" or the username " + rdr.Username + " exists ");
             return numEffected + numEffected_2;
         }
         catch (Exception ex)
         {
-
             // write to log
             lf.Main("Users", ex.Message);
-            throw (ex);
+            return 0;
             //return 0;
         }
-
         finally
         {
             if (con != null)
@@ -397,60 +369,60 @@ public class DBservices
         }
 
     }
-
-
-
-
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
     private String BuildInsertRidersCommand(Rider rdr)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Users(  UserEmail, [Group], [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
         sb.AppendFormat("Values('{0}', {1}, {2}, (select city from Cities where CityName = '{3}' ), '{4}', '{5}' ,'{6}', '{7}', '{8}', '{9}','{10}', '{11}','{12}', '{13}', (select id from AspNetUsers where UserName = '{14}'), {15}, (select Organization from Organizations where OrganizationsName = '{16}'))", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
-
         return command;
     }
     private String BuildInsertRidersGroup(Rider rdr)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO [UsersGroups]([Group],[User]) ";
-        sb.AppendFormat(" Values( ( Select [Group] From Groups Where GroupName = '{0}'), ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '{1}' ) ) ) ", rdr.Group, rdr.Username);
-        command = prefix + sb.ToString();
-
+        String prefix1 = @"Declare @Group_val int;
+                          Declare @User_val int;
+                          Set @Group_val = 0;
+                          Set @User_val = 0;
+                          Set @Group_val = ( Select [Group] From Groups Where GroupName = '"+ rdr.Group + @"');
+                          Set @User_val = ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '" + rdr.Username + @"' ) ) ;";
+        String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
+                            begin
+                            INSERT INTO [UsersGroups]([Group],[User]) Values( @Group_val, @User_val )
+                            end";
+        command = prefix1 + prefix;
         return command;
     }
-
     private String BuildDelteRiderCommand(string username)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         String prefix = @"Declare @val int;
+                        Set @val = 0;
                         SET @val = ( SELECT u.[User]
 				                        FROM [Users] u , [AspNetUsers] asp
 				                        Where asp.UserName = '" + username + @"'
 				                        AND   asp.ID = u.id
                                         AND   u.[User] <> 0 );
-                        DELETE FROM [UsersGroups] Where [USER] = @val;
-                        DELETE FROM [Users] Where [USER] = @val;"; 
+                        if @val <> 0
+                        begin
+			                   DELETE FROM [UsersGroups] Where [USER] = @val;
+                        DELETE FROM [Users] Where [USER] = @val;
+                        end"; 
         command = prefix;
-
         return command;
     }
 
     private String BuildUpdateRiderCommand(string username, Rider rdr)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "UPDATE [Users] ";
@@ -472,17 +444,13 @@ public class DBservices
                               ,[Organization] = (select [Organization] from Organizations where OrganizationsName = '{15}')
                          WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
-
         return command;
     }
-
     //  **********************Groups***********************************************
     public int insertGroup(Group grp)
     {
-
         SqlConnection con;
         SqlCommand cmd;
-
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -490,27 +458,22 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
-            throw (ex);
+            lf.Main("Groups", ex.Message);
+            return 0; 
         }
-
         String cStr = BuildInsertGroupCommand(grp);      // helper method to build the insert string
-
         cmd = CreateCommand(cStr, con);             // create the command
-
-        try
+       try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
             return numEffected;
         }
         catch (Exception ex)
         {
-
             // write to log
             lf.Main("Groups", ex.Message);
-            throw (ex);
-            //return 0;
+            return 0;
         }
-
         finally
         {
             if (con != null)
@@ -521,23 +484,17 @@ public class DBservices
         }
 
     }
-
-
-
-
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
     private String BuildInsertGroupCommand(Group grp)
     {
         String command;
-
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
         sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationsName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationsName, grp.GroupDes);
         command = prefix + sb.ToString();
-
         return command;
     }
 }

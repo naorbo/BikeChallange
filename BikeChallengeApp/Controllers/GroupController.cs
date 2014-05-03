@@ -16,14 +16,14 @@ namespace BikeChallengeApp.Controllers
 {
     public class GroupController : ApiController
     {
+        int return_val = 0;
+        LogFiles lf = new LogFiles();
 
         // GET api/Group?orgname=[The name of the organization] - Not case sensative
         public DataTable Get(string orgname)
         {
             Group grp = new Group();
-
             DataTable dt = grp.readDataPerORG(orgname);
-
             return dt;
         }
 
@@ -39,11 +39,10 @@ namespace BikeChallengeApp.Controllers
         // {"GroupName":"groupName", "OrganizationsName":"", "GroupDes":"groupDes"}
         public string updateDB([FromBody]Group grp)
         {
-            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             try
             {
-                grp.updateDatabase(grp);
-
+                return_val = dbs.insertGroup(grp);
             }
             catch (Exception ex)
             {
@@ -51,6 +50,7 @@ namespace BikeChallengeApp.Controllers
                 lf.Main("Groups", Response);
                 return "Error";
             }
+            if (return_val == 0) { return "Error"; }
             return "Success";
         }
     }
