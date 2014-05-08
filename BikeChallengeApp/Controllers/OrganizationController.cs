@@ -24,6 +24,15 @@ namespace BikeChallengeApp.Controller
     {
         LogFiles lf = new LogFiles();
         int return_val = 0;
+        // GET organization 
+        // api/Organization?orgname=[The name of the organization] - Not case sensative
+        public DataTable GetUser(string orgname)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBaseforRiderorgname("DefaultConnection", orgname);
+            return dbs.dt;
+        }
+
         public DataTable GetAll()
         {
             Organization tmp = new Organization();
@@ -32,7 +41,7 @@ namespace BikeChallengeApp.Controller
         }
 
         // POST / Insert organization into the DB 
-        //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationDes":"מידעטק טכנולוגיות" , "OrganizationEmail":"Medatech@medatech.com", "OrganizationAddress": "טירת הכרמל האתגר 3", "OrganizationPhone":"0487929771" , "OrganizationType":"הייטק"}
+        //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationDes":"מידעטק טכנולוגיות" , "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
         public string updateDB([FromBody]Organization org)
         {
             //Organization org = new Organization(organizationName, organizationCity, organizationDes, organizationEmail,  organizationAddress, organizationPhone, organizationType);

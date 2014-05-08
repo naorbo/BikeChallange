@@ -27,6 +27,14 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
+        // GET api/Group?orgname=[The name of the organization] - Not case sensative
+        public DataTable GetGroup(string grpname)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBaseforGroup("DefaultConnection", grpname);
+            return dbs.dt;
+        }
+
         // GET api/Group
         public DataTable GetAll()
         {
@@ -36,7 +44,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST api/Group
-        // {"GroupName":"groupName", "OrganizationsName":"", "GroupDes":"groupDes"}
+        // {"GroupName":"groupName", "OrganizationName":"", "GroupDes":"groupDes"}
         public string updateDB([FromBody]Group grp)
         {
             DBservices dbs = new DBservices();

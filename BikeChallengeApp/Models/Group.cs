@@ -17,11 +17,11 @@ namespace BikeChallengeApp.Models
             set { groupName = value; }
         }
 
-        string organizationsName;
-        public string OrganizationsName
+        string organizationName;
+        public string OrganizationName
         {
-            get { return organizationsName; }
-            set { organizationsName = value; }
+            get { return organizationName; }
+            set { organizationName = value; }
         }
 
         string groupDes;
@@ -38,10 +38,10 @@ namespace BikeChallengeApp.Models
             //
         }
 
-        public Group(string groupName, string organizationsName, string groupDes)
+        public Group(string groupName, string organizationName, string groupDes)
         {
             GroupName = groupName;
-            OrganizationsName = organizationsName;
+            OrganizationName = organizationName;
             GroupDes = groupDes;
         }
 
@@ -49,7 +49,7 @@ namespace BikeChallengeApp.Models
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Groups", "Group");
+            dbs = dbs.ReadFromDataBase(conString, "Groups", "[Group]");
             return dbs.dt;
 
         }

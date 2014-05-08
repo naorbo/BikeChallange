@@ -15,3 +15,9 @@ The statement has been terminated.
 The statement has been terminated.
 22:50:35 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
 22:53:11 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+02:20:38 : Invalid column name 'Group'.
+02:23:30 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+02:25:13 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+02:26:16 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+02:27:05 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+02:37:29 : The Rider tester3 was Deleted from the Database

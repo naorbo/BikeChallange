@@ -29,6 +29,15 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
+        // GET RIDER from USERNAME
+        // api/Rider?username=[The username of the rider] - Not case sensative
+        public DataTable GetUser(string username)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBaseforRider("DefaultConnection", username);
+            return dbs.dt;
+        }
+
         // GET ALL RIDERS
         // api/Rider
         public DataTable GetAll()
@@ -80,6 +89,7 @@ namespace BikeChallengeApp.Controllers
              if (return_val == 0) { return "Error"; } 
             return "Success";
         }
+
         // PUT api/Rider?username=[UserName you want to update]
         //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "זכר/נקבה", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
         public string Put(string username, [FromBody]Rider rdr)
