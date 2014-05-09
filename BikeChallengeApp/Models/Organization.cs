@@ -24,25 +24,11 @@ namespace BikeChallengeApp.Models
             set { organizationDes = value; }
         }
 
-        string organizationEmail;
-        public string OrganizationEmail
+        string organizationImage;
+        public string OrganizationImage
         {
-            get { return organizationEmail; }
-            set { organizationEmail = value; }
-        }
-
-        string organizationAddress;
-        public string OrganizationAddress
-        {
-            get { return organizationAddress; }
-            set { organizationAddress = value; }
-        }
-
-        string organizationPhone;
-        public string OrganizationPhone
-        {
-            get { return organizationPhone; }
-            set { organizationPhone = value; }
+            get { return organizationImage; }
+            set { organizationImage = value; }
         }
 
         string organizationType;
@@ -66,14 +52,12 @@ namespace BikeChallengeApp.Models
             //
         }
 
-        public Organization(string organizationName, string organizationCity, string organizationDes, string organizationEmail, string organizationAddress, string organizationPhone, string organizationType)
+        public Organization(string organizationName, string organizationCity, string organizationDes, string organizationImage, string organizationType)
         {
             Organizationname = organizationName;
             OrganizationCity = organizationCity;
             OrganizationDes = organizationDes ;
-            OrganizationEmail = organizationEmail ;
-            OrganizationAddress = organizationAddress ;
-            OrganizationPhone = organizationPhone;
+            OrganizationImage = organizationImage;
             OrganizationType = organizationType ;
         }
 

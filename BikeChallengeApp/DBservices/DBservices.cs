@@ -68,7 +68,7 @@ public class DBservices
         {
             // write to log
             lf.Main(tableName, ex.Message);
-            throw ex;
+            return dbS;
         }
         finally
         {
@@ -116,6 +116,43 @@ public class DBservices
         }
     }
 
+    public DBservices ReadFromDataBaseforRider(string conString, string username)
+    {
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, G.GroupName
+                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G
+                                Where U.[User] <> 0
+                                AND U.Id = anu.Id                            
+                                AND UG.[User] = U.[User]
+                                AND UG.[Group] = G.[Group]
+                                AND anu.UserName = '" + username + "';"; // create the select that will be used by the adapter to select data from the DB
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+            DataTable dt = ds.Tables[0];
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+            return dbS;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Users", ex.Message);
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
 
     public DBservices ReadFromDataBaseGroup(string conString, string orgname)
     {
@@ -127,7 +164,7 @@ public class DBservices
             String selectStr = @" SELECT [GroupName],[GroupDes]
                                 FROM [Groups]
                                 WHERE [GROUP] <> 0 
-                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationsName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
+                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
@@ -157,7 +194,44 @@ public class DBservices
         SqlCommandBuilder builder = new SqlCommandBuilder(da);
         da.Update(dt);
     }
-//  **********************ORGANIZATION***********************************************
+//  **********************ORGANIZATION*********************************************** 
+
+    public DBservices ReadFromDataBaseforRiderorgname(string conString, string orgname)
+    {
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+            String selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionsImage, C.CityName
+                                FROM Organizations O, Cities C
+                                Where O.Organization <> 0
+                                AND O.OrganizationName = '" + orgname + @"'
+                                AND O.City = C.City ; " ; // create the select that will be used by the adapter to select data from the DB
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+            DataTable dt = ds.Tables[0];
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+            return dbS;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Organizations", ex.Message);
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
+
     public int insertOrganization(Organization org)
     {
         SqlConnection con;
@@ -203,8 +277,8 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Organizations(  OrganizationsName, [City], OrganizationDes, OrganizationEmail, OrganizationAddress, OrganizationPhone, OrganizationType ) ";
-        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}', '{4}', '{5}', '{6}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationEmail, org.OrganizationAddress, org.OrganizationPhone, org.OrganizationType);
+        String prefix = "INSERT INTO Organizations(  OrganizationName, [City], OrganizationDes, OrganizationType, OrganizationImage ) ";
+        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
         command = prefix + sb.ToString();
         return command;
     }
@@ -377,8 +451,8 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Users(  UserEmail, [Group], [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
-        sb.AppendFormat("Values('{0}', {1}, {2}, (select city from Cities where CityName = '{3}' ), '{4}', '{5}' ,'{6}', '{7}', '{8}', '{9}','{10}', '{11}','{12}', '{13}', (select id from AspNetUsers where UserName = '{14}'), {15}, (select Organization from Organizations where OrganizationsName = '{16}'))", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        String prefix = "INSERT INTO Users(  UserEmail, [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
+        sb.AppendFormat("Values('{0}', {1}, (select [city] from Cities where CityName = '{2}' ), '{3}', '{4}' ,'{5}', '{6}', '{7}', '{8}','{9}', '{10}','{11}', '{12}', (select id from AspNetUsers where UserName = '{13}'), {14}, (select Organization from Organizations where OrganizationName = '{15}'))", rdr.RiderEmail, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -427,26 +501,62 @@ public class DBservices
         // use a string builder to create the dynamic string
         String prefix = "UPDATE [Users] ";
         sb.AppendFormat(@"SET [UserEmail] ='{0}'
-                              ,[Group] = {1}
-                              ,[Route] = {2}
-                              ,[City] = (select city from Cities where CityName = '{3}' )
-                              ,[UserDes] = '{4}'
-                              ,[UserFname] = '{5}'
-                              ,[UserLname] = '{6}'
-                              ,[Gender] = '{7}'
-                              ,[UserAddress] ='{8}'
-                              ,[UserPhone] = '{9}'
-                              ,[BicycleType] = '{10}'
-                              ,[ImagePath] = '{11}'
-                              ,[BirthDate] ='{12}'
-                              ,[CurDate] = '{13}'
-                              ,[Captain] = {14}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationsName = '{15}')
-                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, 0, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
+                              ,[Route] = {1}
+                              ,[City] = (select city from Cities where CityName = '{2}' )
+                              ,[UserDes] = '{3}'
+                              ,[UserFname] = '{4}'
+                              ,[UserLname] = '{5}'
+                              ,[Gender] = '{6}'
+                              ,[UserAddress] ='{7}'
+                              ,[UserPhone] = '{8}'
+                              ,[BicycleType] = '{9}'
+                              ,[ImagePath] = '{10}'
+                              ,[BirthDate] ='{11}'
+                              ,[CurDate] = '{12}'
+                              ,[Captain] = {13}
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{14}')
+                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
     //  **********************Groups***********************************************
+
+    public DBservices ReadFromDataBaseforGroup(string conString, string grpname)
+    {
+        DBservices dbS = new DBservices(); // create a helper class
+        SqlConnection con = null;
+        try
+        {
+            con = dbS.connect(conString); // open the connection to the database/
+            String selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganizationImage, C.CityName
+                                FROM Groups G, Organizations O, Cities C 
+                                Where G.[Group] <> 0
+                                AND G.GroupName = '" + grpname + @"'
+                                AND G.Organization = O.Organization;
+                                AND O.City = C.City ";// create the select that will be used by the adapter to select data from the DB
+            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
+            DataTable dt = ds.Tables[0];
+            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
+            dbS.dt = dt;
+            dbS.da = da;
+            return dbS;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Organizations", ex.Message);
+            throw ex;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                con.Close();
+            }
+        }
+    }
     public int insertGroup(Group grp)
     {
         SqlConnection con;
@@ -493,7 +603,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
-        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationsName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationsName, grp.GroupDes);
+        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationName, grp.GroupDes);
         command = prefix + sb.ToString();
         return command;
     }
