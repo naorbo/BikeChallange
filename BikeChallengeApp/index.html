@@ -35,7 +35,7 @@
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!currentUser"><a href="#about">אודות</a></li>
                     <li ng-if ="!currentUser"><a href="#userRegistration">רישום</a> </li>
-                    <li ng-if="!currentUser"><a href="#myTeam">התחברות</a></li>
+                    <li ng-if="!currentUser"><a href="#login">התחברות</a></li>
                     
                     
 
@@ -79,41 +79,44 @@
     <!-- Footer Nav Bar-->
 
    <footer>    
-       <div class="container">
-           <div class="navbar navbar-inverse navbar navbar-fixed-bottom">
-               <p class="navbar-text ">&copy;    All rights reserved - Bike Challenge Israel 2014</p>
+       <div class="navbar-inverse">
+          <div class="container">
+           <p class="navbar-text  ">&copy;    All rights reserved - Bike Challenge Israel 2014</p>
            </div>
        </div>
     </footer>
-    
-    
-    
-    
 
+
+    
+    
+    
     <!-- UI Libs: jQuery  used for Bootstrap functionality -->
     <script src="Scripts/jquery-2.1.0.js"></script>
     <script src="Scripts/icheck.js"></script>
     <script src="Scripts/bootstrap.js"></script>
-    
-    
+
+  
     <!-- Vendor Libs -->
-   
     <script src="Scripts/AngularFileUpload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angular.js"></script>
     <script src="Scripts/AngularFileUpload/angular-file-upload.min.js"></script>
     <script src="Scripts/angular-route.js"></script>
-            
-        
-    <!-- App libs -->
+    
+    
+    <!-- Google/Angular Maps -->
+    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    <script src="Scripts/underscore-min.js"></script>
 
+    <script src="Scripts/angular-google-maps.min.js"></script>
+    
+    
+    <!-- App libs -->
     <script src="app/app.js"></script>
     <script src="app/controllers/controllers.js"></script>
     <script src="app/services/appservices.js"></script>
     <script src="app/services/dataServices.js"></script>
     <script src="app/directives/directives.js"></script>
-    
-    
-    
+
 
 </body>
 </html>

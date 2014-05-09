@@ -183,14 +183,11 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\OrganizationImageController.cs" />
-    <Compile Include="Controllers\FilesController.cs" />
     <Compile Include="Controllers\UserImageController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\RiderController.cs" />
     <Compile Include="Controllers\UserNameExistsController.cs" />
-    <Compile Include="Controllers\VController.cs" />
     <Compile Include="DBservices\auxiliary.cs" />
     <Compile Include="DBservices\DBservices.cs" />
     <Compile Include="Global.asax.cs">
@@ -239,6 +236,7 @@
     <Content Include="Scripts\angular-cookies.js" />
     <Content Include="Scripts\angular-cookies.min.js" />
     <Content Include="Scripts\angular-csp.css" />
+    <Content Include="Scripts\angular-google-maps.js" />
     <Content Include="Scripts\angular-loader.js" />
     <Content Include="Scripts\angular-loader.min.js" />
     <Content Include="Scripts\angular-mocks.js" />
@@ -549,6 +547,7 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\underscore-min.js" />
     <Content Include="skins\square\aero%402x.png" />
     <Content Include="skins\square\aero.css" />
     <Content Include="skins\square\aero.png" />

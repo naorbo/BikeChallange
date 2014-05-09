@@ -75,3 +75,49 @@ app.directive('fileUpload', function () {
 
 
 
+// User name existance directive 
+
+app.directive('usernameValidate', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.unshift(function (viewValue){
+                console.log("Got the Direc");
+                var shortUserName = true;
+                var Unique = true;
+               // if ($scope.regDetails.userName.$viewValue == undefined) { }
+                //else{
+                    if ($scope.regDetails.userName.$viewValue.length > 5) {
+                        $ctrl.$setValidity('shorti', shortUserName);
+                        dataFactory.getValues("UserNameExists", 1, "username=" + $scope.regDetails.userName.$viewValue)
+                        .success(function (response) {
+                            console.log(response);
+                            if (response == "false")
+                            {
+                                console.log("Usename is available");
+                                $ctrl.$setValidity('unique', true);
+                            }
+
+                            else
+                            {
+                                console.log("Username is NA");
+                                $ctrl.$setValidity('unique', false);
+                            }
+                        })
+                         .error(function (error) {
+                             console.log("Unable to fetch username existance");
+                         }
+                            );
+                    }
+
+                    else {
+                        $ctrl.$setValidity('shorti', !shortUserName);
+                        console.log($scope.regDetails.userName.$error.shorti)
+                    };
+                //};
+            }
+        )}
+    };
+});
+
+

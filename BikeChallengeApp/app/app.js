@@ -13,7 +13,7 @@
 
 //This configures the routes and associates each route with a view and a controller
 
-var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload']);
+var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', 'google-maps']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {

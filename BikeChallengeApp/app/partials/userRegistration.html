@@ -13,18 +13,19 @@
 
                 <form name="regDetails" ng-submit="signUp()" novalidate>
                     <!-- USERNAME -->
-                    <div class="form-group" ng-class="{ 'has-error' : regDetails.userName.$invalid && regDetails.userName.$dirty  }">
-                        <input type="text" name="userName" class="form-control" ng-model="userName" placeholder="שם משתמש" ng-readonly="showDetails" ng-minlength="6" ng-maxlength="20" required> <br /><br />
+                    <div class="form-group" ng-class="{ 'has-error' : regDetails.userName.$invalid && regDetails.userName.$dirty , 'has-success' : regDetails.userName.$valid }">
+                        <input type="text" name="userName" class="form-control" ng-model="userName" placeholder="שם משתמש" ng-readonly="showDetails" ng-minlength="6" ng-maxlength="20" data-username-validate required> <br /><br />
                         <p ng-show="regDetails.userName.$error.minlength" class="help-block">שם המשתמש קצר משישה תווים</p>
-                        <p ng-show="regDetails.userName.$error.maxlength" class="help-block">שם המשתמש ארוך מעשרים תווים</p>
+                        <p ng-show="regDetails.userName.$error.shorti" class="help-block">שם המשתמש קצר משישה תווים</p>
+                        <p ng-show="regDetails.userName.$error.unique" class="help-block">שם המשתמש המבוקש תפוס</p>
                     </div>
                     <!-- Password -->
-                    <div class="form-group" ng-class="{ 'has-error' : regDetails.password.$invalid && regDetails.password.$dirty  }">
+                    <div class="form-group" ng-class="{ 'has-error' : regDetails.password.$invalid && regDetails.password.$dirty , 'has-success' : regDetails.password.$valid  }">
                         <input type="password" name="password" class="form-control" ng-model="password" placeholder="סיסמא" ng-readonly="showDetails" ng-minlength="6" required> <br /><br />
                         <p ng-show="regDetails.password.$error.minlength" class="help-block">הססמא קצרה משישה תווים</p>
                     </div>
                         <!-- Password Confirm -->
-                    <div class="form-group" ng-class="{ 'has-error' : regDetails.confirmPassword.$invalid && regDetails.confirmPassword.$dirty  }">
+                    <div class="form-group" ng-class="{ 'has-error' : regDetails.confirmPassword.$invalid && regDetails.confirmPassword.$dirty , 'has-success' : regDetails.confirmPassword.$valid    }">
                         <input type="password" name="confirmPassword" class="form-control" ng-model="confirmPassword" placeholder="אימות סיסמא" ng-readonly="showDetails" ng-minlength="6" data-valid-password-c required> <br /><br />
                         <p ng-show="regDetails.confirmPassword.$dirty && regDetails.confirmPassword.$error.noMatch" class="help-block">אימות הססמא אינו תואם את הססמא שנבחרה</p>
                     </div>
