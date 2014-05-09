@@ -209,6 +209,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\partials\dashboard.html" />
     <Content Include="app\partials\myTeam.html" />
     <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />

@@ -200,17 +200,17 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
     $scope.regNewTeam = function (newTeamObj, org) {
         console.log("This is the Org PAssed" + $scope.$$childHead.personalDetails.org)
-        newTeamObj.OrganizationsName = $scope.$$childHead.personalDetails.org;
+        newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
         dataFactory.postValues(newTeamObj, 'Group')
              .success(function (response) {
                  console.log(response);
-                 newTeamObj.OrganizationsName = $scope.$$childHead.personalDetails.org;
+                 newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
                  $scope.newTeamFlag = true;
                  alert("  הקבוצה  " + newTeamObj.GroupName + "  נוצרה בהצלחה ! ");
                  // Closing Modal window 
                  $scope.$$childHead.personalDetails.team = newTeamObj.GroupName;
                  $('#myNewTeamModal').modal('hide');
-                 $scope.getTeamByOrg(newTeamObj.OrganizationsName);
+                 $scope.getTeamByOrg(newTeamObj.OrganizationName);
              })
              .error(function (error) {
                  $scope.status = 'Unable to create a new team: ' + error.message;
@@ -356,16 +356,28 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 
 //User Profile - Get Data 
 
-app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http) {
+app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
+    
 
+    
+    console.log($scope.currentUser);
+    dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                .success(function (values) {
+                    $scope.personalInfoHolder = values[0];
+                    console.log("Fetch user info for " + $scope.currentUser);
+                    console.log($scope.personalInfoHolder);
+
+                })
+
+                .error(function (value) {
+                    console.log("error");
+
+                });
+                    
+
+    
     console.log("inside upc");
-    $scope.getMyData = function () {
-        api = "Values";
-        console.log("trying to fetch....");
-        myData = valuesFactory.getValues(api);
-        $scope.uiData = myData;
-
-    };
+    
 
     $scope.$on('event:auth-loginRequired', function () {
         alert("You are not Authorized to view this page ... Please sign in");

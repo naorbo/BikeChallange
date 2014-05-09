@@ -46,7 +46,11 @@ app.config(['$routeProvider',
             templateUrl: 'app/partials/myTeam.html',
             controller: 'myTeamController'
         }).
-
+        
+        when('/dashboard', {
+            templateUrl: 'app/partials/dashboard.html',
+            controller: 'dashboardController'
+        }).
 
         otherwise({
             redirectTo: '/home'

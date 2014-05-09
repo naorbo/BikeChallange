@@ -119,10 +119,10 @@
                             <br />
                             <div ng-repeat="org in orgs | filter:query">
                                 <div class="col-md-4">
-                                    <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationsName}} ng-model="$parent.orgSelection" />
+                                    <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationName}} ng-model="$parent.orgSelection" />
                                     <div class="col-md-11">
                                         <div class="panel panel-primary ">
-                                            <div class="panel-heading">{{org.OrganizationsName}} </div>
+                                            <div class="panel-heading">{{org.OrganizationName}} </div>
                                             <div class="panel-body">
                                                 <p>{{org.OrganizationAddress}}</p>
                                                 <p>{{org.OrganizationType}}</p>
