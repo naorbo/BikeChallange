@@ -21,3 +21,12 @@ The statement has been terminated.
 02:26:16 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
 02:27:05 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
 02:37:29 : The Rider tester3 was Deleted from the Database
+21:51:53 : Invalid object name 'Organization'.
+21:53:27 : Cannot call methods on int.
+Invalid column name 'OrganizatioName'.
+Invalid column name 'OrganiztionsImage'.
+21:54:48 : Cannot call methods on int.
+Invalid column name 'OrganiztionsImage'.
+21:58:30 : Cannot call methods on int.
+22:05:37 : Cannot call methods on int.
+22:09:48 : Cannot call methods on int.

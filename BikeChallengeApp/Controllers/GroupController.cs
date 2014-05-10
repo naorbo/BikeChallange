@@ -27,11 +27,11 @@ namespace BikeChallengeApp.Controllers
             return dt;
         }
 
-        // GET api/Group?orgname=[The name of the organization] - Not case sensative
-        public DataTable GetGroup(string grpname)
+        // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+        public DataTable GetGroup(string grpname, string orgname)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseforGroup("DefaultConnection", grpname);
+            dbs = dbs.ReadFromDataBaseforGroup("DefaultConnection", grpname, orgname);
             return dbs.dt;
         }
 

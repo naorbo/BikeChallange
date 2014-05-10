@@ -125,3 +125,7 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Cors.dll
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.dll
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.xml
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Cors.dll
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.dll
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.xml
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache

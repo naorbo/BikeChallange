@@ -19,12 +19,12 @@ namespace BikeChallengeApp.Controllers
         int return_val = 0;
         LogFiles lf = new LogFiles();
         // GET RIDER PER GRUOP
-        // api/Rider?groupname=[The name of the group] - Not case sensative
-        public DataTable Get(string groupname)
+        // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+        public DataTable Get(string grpname, string orgname)
         {
             Rider rdr = new Rider();
 
-            DataTable dt = rdr.readDataPerGroup(groupname);
+            DataTable dt = rdr.readDataPerGroup(grpname,orgname);
 
             return dt;
         }

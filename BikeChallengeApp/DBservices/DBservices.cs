@@ -79,19 +79,23 @@ public class DBservices
         }
     }
     
-    public DBservices ReadFromDataBaseRider(string conString, string groupname)
+    public DBservices ReadFromDataBaseRider(string conString, string groupname, string orgname)
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.[User]
-                                FROM UsersGroups UG, Users U, AspNetUsers anu
+            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.BicycleType, U.BirthDate, U.UserAddress, G.GroupName, O.OrganizationName, O.OrganiztionImage
+                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
                                 Where U.[User] <> 0
-                                AND U.Id = anu.Id                            
+                                AND U.Id = anu.Id  
+                                AND G.[Organization] = O.[Organization]
                                 AND UG.[User] = U.[User]
-                                AND UG.[Group] = ( Select [GROUP] From Groups Where GroupName = '" + groupname + "' )"; // create the select that will be used by the adapter to select data from the DB
+                                AND UG.[Group] = G.[Group]
+                                AND G.GroupName = '" + groupname + @"'
+                                AND O.OrganizationName = '" + orgname + "';";
+                                //AND UG.[Group] = ( Select [GROUP] From Groups Where GroupName = '" + groupname + "' AND Organization = ( Selcet Organization From Organizations Where OrganizationName = '" + orgname + "') )"; // create the select that will be used by the adapter to select data from the DB
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
@@ -123,10 +127,11 @@ public class DBservices
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, G.GroupName
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G
+            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, G.GroupName, O.OrganizationName, O.OrganiztionImage
+                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
                                 Where U.[User] <> 0
-                                AND U.Id = anu.Id                            
+                                AND U.Id = anu.Id
+                                AND G.Organization = O.Organization                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
                                 AND anu.UserName = '" + username + "';"; // create the select that will be used by the adapter to select data from the DB
@@ -162,9 +167,11 @@ public class DBservices
         {
             con = dbS.connect(conString); // open the connection to the database/
             String selectStr = @" SELECT [GroupName],[GroupDes]
-                                FROM [Groups]
+                                FROM [Groups] G, Organizations O
                                 WHERE [GROUP] <> 0 
-                                AND [Organization] = (SELECT Organization From Organizations Where OrganizationName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
+                                AND G.[Organization] = O.[Organization]
+                                AND O.OrganizationName = '" + orgname + "' ;";
+                                //(SELECT Organization From Organizations Where OrganizationName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
@@ -203,7 +210,7 @@ public class DBservices
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionsImage, C.CityName
+            String selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionImage, C.CityName
                                 FROM Organizations O, Cities C
                                 Where O.Organization <> 0
                                 AND O.OrganizationName = '" + orgname + @"'
@@ -277,7 +284,7 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Organizations(  OrganizationName, [City], OrganizationDes, OrganizationType, OrganizationImage ) ";
+        String prefix = "INSERT INTO Organizations(  OrganizationName, [City], OrganizationDes, OrganizationType, OrganiztionImage ) ";
         sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
         command = prefix + sb.ToString();
         return command;
@@ -521,19 +528,20 @@ public class DBservices
     }
     //  **********************Groups***********************************************
 
-    public DBservices ReadFromDataBaseforGroup(string conString, string grpname)
+    public DBservices ReadFromDataBaseforGroup(string conString, string grpname,string orgname)
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
         try
         {
             con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganizationImage, C.CityName
+            String selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName
                                 FROM Groups G, Organizations O, Cities C 
                                 Where G.[Group] <> 0
                                 AND G.GroupName = '" + grpname + @"'
-                                AND G.Organization = O.Organization;
-                                AND O.City = C.City ";// create the select that will be used by the adapter to select data from the DB
+                                AND G.Organization = O.Organization
+                                AND O.OrganizationName = '" + orgname + @"'
+                                AND O.City = C.City ;";// create the select that will be used by the adapter to select data from the DB
             SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command

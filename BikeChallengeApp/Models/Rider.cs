@@ -164,11 +164,11 @@ namespace BikeChallengeApp.Models
 
         }
 
-        public DataTable readDataPerGroup(string groupname)
+        public DataTable readDataPerGroup(string groupname, string orgname)
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseRider(conString, groupname);
+            dbs = dbs.ReadFromDataBaseRider(conString, groupname, orgname);
             return dbs.dt;
         } 
     }
