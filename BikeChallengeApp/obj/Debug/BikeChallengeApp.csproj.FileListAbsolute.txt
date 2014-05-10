@@ -122,3 +122,6 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Owin.xml
+C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Cors.dll
+C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.dll
+C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.xml

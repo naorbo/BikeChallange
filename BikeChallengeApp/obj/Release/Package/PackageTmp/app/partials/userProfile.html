@@ -1,0 +1,123 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    
+    <div class="row" style="padding-top:50px">
+        <table >
+            <tr>
+                <td rowspan="3"> <img src='{{personalInfoHolder.ImagePath}}' style="width:150px; border:solid; border-width:1px"> </td>
+                <td></td>
+            </tr>
+            <tr><td></td><td></td></tr>
+            <tr>
+                <td></td>
+                <td valign="bottom" ><h1>&nbsp; {{personalInfoHolder.UserFname}} &nbsp; {{personalInfoHolder.UserLname}}</h1></td>
+            </tr>
+        </table>
+    </div>
+     
+   <br/>
+    
+       <!-- My Personal Info -->
+    <div class="row">
+        <div class="col-md-6 pull-right">
+            
+            <div class="panel panel-primary ">
+                <div class="panel-heading">פרטים אישיים</div>
+                <div class="panel-body">
+                   <table class="table col-md-6">
+                       <tr>
+                           <td>כתובת דואר אלקטרוני</td>
+                           <td>{{personalInfoHolder.UserEmail}}</td>
+                           
+                       </tr>
+                       <tr>
+                           <td>כתובת</td>
+                           <td></td>
+                       </tr>
+                       <tr>
+                           <td>עיר</td>
+                           <td></td>
+                       </tr>
+                       <tr>
+                           <td>תאריך לידה</td>
+                           <td></td>
+                       </tr>
+
+                   </table>    
+                </div>
+            </div>
+        </div> 
+            
+        <div class="col-md-6 pull-right">
+
+            <div class="panel panel-primary ">
+                <div class="panel-heading">פרטי הקבוצה</div>
+                <div class="panel-body">
+                    <table class="table col-md-6">
+                        <tr>
+                            <td>שם הארגון</td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td>עיר</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>שם הקבוצה</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>קפטן</td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div> 
+           
+        </div>
+    <div class="row">
+        <div class="col-md-6 pull-right">
+
+            <div class="panel panel-primary ">
+                <div class="panel-heading">מסלול מועדף</div>
+                <div class="panel-body">
+                    <table class="table col-md-6">
+                        <tr>
+                            <td>שם המסלול</td>
+                            <td></td>
+
+                        </tr>
+                        <tr>
+                            <td>אורך המסלול</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>מקור</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>יעד</td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+        </div>
+
+       
+
+    </div>
+
+     
+        
+
+</body>
+</html>

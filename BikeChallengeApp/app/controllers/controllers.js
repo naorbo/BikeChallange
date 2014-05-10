@@ -230,7 +230,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/UserImage?UserName=" + $scope.userName, // webapi url
+                    url: "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
