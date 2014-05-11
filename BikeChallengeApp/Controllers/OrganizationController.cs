@@ -29,7 +29,7 @@ namespace BikeChallengeApp.Controller
         public DataTable GetUser(string orgname)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseforRiderorgname("DefaultConnection", orgname);
+            dbs = dbs.ReadFromDataBase(4, orgname, "");
             return dbs.dt;
         }
 

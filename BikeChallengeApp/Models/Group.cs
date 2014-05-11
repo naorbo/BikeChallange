@@ -47,18 +47,18 @@ namespace BikeChallengeApp.Models
 
         public DataTable readData()
         {
-            string conString = "DefaultConnection";
+           
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Groups", "[Group]");
+            dbs = dbs.ReadFromDataBase(7, "Groups", "[Group]");
             return dbs.dt;
 
         }
 
         public DataTable readDataPerORG(string orgname)
         {
-            string conString = "DefaultConnection";
+            
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseGroup(conString, orgname);
+            dbs = dbs.ReadFromDataBase(3, orgname, "");
             return dbs.dt;
 
         } 

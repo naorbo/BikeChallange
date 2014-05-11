@@ -10,15 +10,18 @@ namespace BikeChallengeApp.Controllers
     public class UserNameExistsController : ApiController
     {
         // GET api/UserNameExists?username=<tester9>
-        public bool Get(string username)
+        public string Get(string username)
         {
-            string return_val = "";
             DBservices dbs = new DBservices();
-            return_val = dbs.ReadFromDataBaseUserName("DefaultConnection", username);
-            if (return_val == "Exists")
-                return true;
+            dbs = dbs.ReadFromDataBase(5, username, "");
+            if (dbs.dt.Rows.Count > 0)
+                return dbs.dt.Rows[0].ItemArray[0].ToString();
             else
-            return false;
+                return "NOT EXISTS";
+            //if (return_val == "Exists")
+           //     return true;
+           // else
+           // return false;
         }
     }
 }

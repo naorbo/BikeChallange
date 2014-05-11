@@ -193,6 +193,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\OrganizationImageController.cs" />
+    <Compile Include="Controllers\RouteController.cs" />
     <Compile Include="Controllers\UserImageController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />

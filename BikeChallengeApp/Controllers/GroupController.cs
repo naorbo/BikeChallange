@@ -31,7 +31,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable GetGroup(string grpname, string orgname)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseforGroup("DefaultConnection", grpname, orgname);
+            dbs = dbs.ReadFromDataBase(6, grpname, orgname);
             return dbs.dt;
         }
 

@@ -47,95 +47,73 @@ public class DBservices
         cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
         return cmd;
     }
-    public DBservices ReadFromDataBase(string conString, string tableName, string AU_Column)
+    // *************************************************************************************
+    public DBservices ReadFromDataBase(int select, string data1, string data2)
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
         try
         {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = "SELECT * FROM " + tableName + " Where " + AU_Column + " <> 0"; // create the select that will be used by the adapter to select data from the DB
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            return dbS;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main(tableName, ex.Message);
-            return dbS;
-        }
-        finally
-        {
-            if (con != null)
+            con = dbS.connect("DefaultConnection"); // open the connection to the database/
+            String selectStr = "";
+            switch(select)
             {
-                con.Close();
-            }
-        }
-    }
-    
-    public DBservices ReadFromDataBaseRider(string conString, string groupname, string orgname)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.BicycleType, U.BirthDate, U.UserAddress, G.GroupName, O.OrganizationName, O.OrganiztionImage
+			case 1:
+			selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.BicycleType, U.BirthDate, U.UserAddress, U.Captain, G.GroupName, O.OrganizationName, O.OrganiztionImage
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
                                 AND G.[Organization] = O.[Organization]
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
-                                AND G.GroupName = '" + groupname + @"'
-                                AND O.OrganizationName = '" + orgname + "';";
-                                //AND UG.[Group] = ( Select [GROUP] From Groups Where GroupName = '" + groupname + "' AND Organization = ( Selcet Organization From Organizations Where OrganizationName = '" + orgname + "') )"; // create the select that will be used by the adapter to select data from the DB
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            return dbS;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Users", ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    }
-
-    public DBservices ReadFromDataBaseforRider(string conString, string username)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, G.GroupName, O.OrganizationName, O.OrganiztionImage
+                                AND G.GroupName = '" + data1 + @"'
+                                AND O.OrganizationName = '" + data2 + "';"; //ReadFromDataBaseRider
+                                
+			break;
+			case 2:
+			selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, G.GroupName, O.OrganizationName, O.OrganiztionImage
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
                                 AND G.Organization = O.Organization                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
-                                AND anu.UserName = '" + username + "';"; // create the select that will be used by the adapter to select data from the DB
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+                                AND anu.UserName = '" + data1 + "';"; //ReadFromDataBaseforRider
+			break;
+			case 3:
+			selectStr = @" SELECT [GroupName],[GroupDes]
+                                FROM [Groups] G, Organizations O
+                                WHERE [GROUP] <> 0 
+                                AND G.[Organization] = O.[Organization]
+                                AND O.OrganizationName = '" + data1 + "' ;"; // ReadFromDataBaseGroup
+			break;
+			case 4:
+			selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionImage, C.CityName
+                                FROM Organizations O, Cities C
+                                Where O.Organization <> 0
+                                AND O.OrganizationName = '" + data1 + @"'
+                                AND O.City = C.City ; " ; //ReadFromDataBaseforRiderorgname
+			break;
+			case 5:
+			selectStr = @" SELECT 'Exists'
+                                FROM AspNetUsers
+                                WHERE [UserName] = '" + data1 + "' ;";
+             // ReadFromDataBaseUserName
+			break;
+			case 6:
+			selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName
+                                FROM Groups G, Organizations O, Cities C 
+                                Where G.[Group] <> 0
+                                AND G.GroupName = '" + data1 + @"'
+                                AND G.Organization = O.Organization
+                                AND O.OrganizationName = '" + data2 + @"'
+                                AND O.City = C.City ;";//ReadFromDataBaseforGroup
+			break;
+			case 7:
+			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
+			break;
+        }
+			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
             DataTable dt = ds.Tables[0];
@@ -144,10 +122,11 @@ public class DBservices
             dbS.da = da;
             return dbS;
         }
+    
         catch (Exception ex)
         {
             // write to log
-            lf.Main("Users", ex.Message);
+            lf.Main("SelectError", ex.Message);
             throw ex;
         }
         finally
@@ -158,43 +137,7 @@ public class DBservices
             }
         }
     }
-
-    public DBservices ReadFromDataBaseGroup(string conString, string orgname)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT [GroupName],[GroupDes]
-                                FROM [Groups] G, Organizations O
-                                WHERE [GROUP] <> 0 
-                                AND G.[Organization] = O.[Organization]
-                                AND O.OrganizationName = '" + orgname + "' ;";
-                                //(SELECT Organization From Organizations Where OrganizationName = '"+ orgname +"' ) " ; // create the select that will be used by the adapter to select data from the DB                                   
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            return dbS;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Groups", ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    } 
+    // **************************************************************************************
    
     internal void Update()
     {
@@ -202,42 +145,6 @@ public class DBservices
         da.Update(dt);
     }
 //  **********************ORGANIZATION*********************************************** 
-
-    public DBservices ReadFromDataBaseforRiderorgname(string conString, string orgname)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionImage, C.CityName
-                                FROM Organizations O, Cities C
-                                Where O.Organization <> 0
-                                AND O.OrganizationName = '" + orgname + @"'
-                                AND O.City = C.City ; " ; // create the select that will be used by the adapter to select data from the DB
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            return dbS;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Organizations", ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    }
 
     public int insertOrganization(Organization org)
     {
@@ -289,43 +196,6 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
-    // ******************** Get USERNAME  *****************************
-    public string ReadFromDataBaseUserName(string conString, string username)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT 'Exists'
-                                FROM AspNetUsers
-                                WHERE [UserName] = '" + username + "' ;";
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            if (dbS.dt.Rows.Count > 0)
-                return dbS.dt.Rows[0].ItemArray[0].ToString();
-            else
-                return "NOT EXISTS";
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("AspNetUsers", ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    } 
     //  ********************** RIDERS  ***********************************************
     
     public int updateRiderInDatabase(string username, Rider rdr)
@@ -528,43 +398,7 @@ public class DBservices
     }
     //  **********************Groups***********************************************
 
-    public DBservices ReadFromDataBaseforGroup(string conString, string grpname,string orgname)
-    {
-        DBservices dbS = new DBservices(); // create a helper class
-        SqlConnection con = null;
-        try
-        {
-            con = dbS.connect(conString); // open the connection to the database/
-            String selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName
-                                FROM Groups G, Organizations O, Cities C 
-                                Where G.[Group] <> 0
-                                AND G.GroupName = '" + grpname + @"'
-                                AND G.Organization = O.Organization
-                                AND O.OrganizationName = '" + orgname + @"'
-                                AND O.City = C.City ;";// create the select that will be used by the adapter to select data from the DB
-            SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
-            DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
-            // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
-            dbS.dt = dt;
-            dbS.da = da;
-            return dbS;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Organizations", ex.Message);
-            throw ex;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                con.Close();
-            }
-        }
-    }
+ 
     public int insertGroup(Group grp)
     {
         SqlConnection con;

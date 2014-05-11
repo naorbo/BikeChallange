@@ -159,7 +159,7 @@ namespace BikeChallengeApp.Models
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Users", "[User]");
+            dbs = dbs.ReadFromDataBase(7, "Users", "[User]");
             return dbs.dt;
 
         }
@@ -168,7 +168,7 @@ namespace BikeChallengeApp.Models
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBaseRider(conString, groupname, orgname);
+            dbs = dbs.ReadFromDataBase(1, groupname, orgname);
             return dbs.dt;
         } 
     }

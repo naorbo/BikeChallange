@@ -34,7 +34,7 @@ namespace BikeChallengeApp.Models
         public List<Cities> readCitiesDB()
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase("DefaultConnection", "Cities", "[City]");
+            dbs = dbs.ReadFromDataBase(7, "Cities", "[City]");
             List<Cities> cities = new List<Cities>();
             foreach (DataRow dr in dbs.dt.Rows)
             {
@@ -51,7 +51,7 @@ namespace BikeChallengeApp.Models
         {
             string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(conString, "Cities","[City]");
+            dbs = dbs.ReadFromDataBase(7, "Cities","[City]");
             return dbs.dt;
 
         }
