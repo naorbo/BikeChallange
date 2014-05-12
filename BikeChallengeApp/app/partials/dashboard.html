@@ -1,9 +1,33 @@
 ﻿<!DOCTYPE html>
+
+<style>
+
+    
+
+</style>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
 </head>
+
+
+
 <body>
 
+    <div ng-model="calMonth" class="row col-md-6">
+        
+        
+        <div id="myCal"  class="row pull-left col-md-12" data-calendar month={{calMonth+1}} dates="calDates"> </div>
+        <div class="col-md-6" style="padding-top:185px">
+            <button class="glyphicon glyphicon-chevron-left  btn btn-success" ng-click="calMonth = calMonth  -1"></button>
+            
+            <button class="glyphicon glyphicon-chevron-right pull-right btn btn-success" ng-click="calMonth = calMonth +1"></button>
+            <button class="glyphicon glyphicon-ban-circle pull-right btn btn-success" ng-click="calMonth = setToday()"></button>
+        </div>
+        
+    </div>
+
+    
 </body>
 </html>

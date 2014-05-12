@@ -790,15 +790,57 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 });
 
 
+// ####################################################################################################################################################### // 
+// #########################################               myTeamController               ########################################################### // 
+// ####################################################################################################################################################### // 
+
+
+
 app.controller('myTeamController', function ($rootScope, $scope,dataFactory, authFactory, AUTH_EVENTS) {
 
     console.log("Inside myTeam View");
-    var riderdata 
+    
+    var teamMembers = [
+        { UserFname: "ראשון פרטי", UserLname: "משפחה", UserCity: "עיר" , ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: true},
+        { UserFname: "שני פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "שלישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "רביעי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "חמישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "שישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "שביעי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
+        { UserFname: "שמיני פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false }
+    ];
+
+
     //Fetch team data 
-    $scope.teamData = function () {
-        // get user team info
-    }
+    $scope.teamData = teamMembers;
+    
+    
 
 
 });
 
+// ####################################################################################################################################################### // 
+// #########################################               dashboardController               ########################################################### // 
+// ####################################################################################################################################################### // 
+
+
+app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
+    console.log("Inside dashboard View");
+    todayVar = new Date(); 
+    
+    $scope.setToday = function () {
+        
+        todayVar = new Date();
+        varToday = todayVar.getMonth();
+        return varToday;
+
+    }
+
+    $scope.calMonth = todayVar.getMonth();
+    
+
+    $scope.calDates =  [1,12,15,29,31]; // Holds cal days a ride was reported 
+
+
+});
