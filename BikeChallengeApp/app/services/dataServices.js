@@ -77,3 +77,32 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
 
 
 
+//app.factory('userProfileFactory', function ($rootScope, $scope, session, dataFactory) {
+
+//    var userProfileFactory = {};
+
+
+//    // ############# GET ############################## // 
+//    // ################################################ // 
+
+//    userProfileFactory.storeUserProfile = function (){
+
+//    dataFactory.getUserProfile('Rider', true, "username=" + $scope.currentUser)
+//            .success(function (values) {
+//                sessionProfile.create(values);
+//                $rootScope.personalProfile = values[0];
+//                console.log("personalProfile " + $scope.currentUser);
+//                console.log($scope.personalInfoHolder);
+//            })
+
+//            .error(function (value) {
+//                console.log("error");
+
+//            });
+//    }
+
+//    return userProfileFactory;
+
+
+//});
+

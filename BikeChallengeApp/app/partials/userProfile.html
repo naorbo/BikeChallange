@@ -14,7 +14,7 @@
             <tr><td></td><td></td></tr>
             <tr>
                 <td></td>
-                <td valign="bottom" ><h1>&nbsp; {{personalInfoHolder.UserFname}} &nbsp; {{personalInfoHolder.UserLname}}</h1></td>
+                <td valign="bottom" ><h1>&nbsp; {{personalInfoHolder.UserFname}}  {{personalInfoHolder.UserLname}}</h1></td>
             </tr>
         </table>
     </div>
@@ -36,7 +36,7 @@
                        </tr>
                        <tr>
                            <td>כתובת</td>
-                           <td></td>
+                           <td>{{personalInfoHolder.Gender}}</td>
                        </tr>
                        <tr>
                            <td>עיר</td>
@@ -60,16 +60,16 @@
                     <table class="table col-md-6">
                         <tr>
                             <td>שם הארגון</td>
-                            <td></td>
+                            <td>{{personalInfoHolder.OrganizationName}}</td>
 
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td></td>
+                            <td>{{myGroup.CityName}}</td>
                         </tr>
                         <tr>
                             <td>שם הקבוצה</td>
-                            <td></td>
+                            <td>{{personalInfoHolder.GroupName}}</td>
                         </tr>
                         <tr>
                             <td>קפטן</td>
@@ -77,6 +77,8 @@
                         </tr>
 
                     </table>
+
+                    <!--div class="col-md-6"><img src={{myGroup.OrganizationImage}} class="img-responsive"/> </!--div>-->
                 </div>
             </div>
         </div> 

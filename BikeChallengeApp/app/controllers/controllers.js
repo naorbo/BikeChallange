@@ -358,37 +358,38 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 
 app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
     
-
-    
     console.log($scope.currentUser);
     dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
                 .success(function (values) {
+                   // sessionProfile.create(values);
                     $scope.personalInfoHolder = values[0];
+                    $rootScope.userPersonalInfo = values[0];
                     console.log("Fetch user info for " + $scope.currentUser);
                     console.log($scope.personalInfoHolder);
-
                 })
-
                 .error(function (value) {
                     console.log("error");
-
                 });
-                    
+    
+    // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
 
-    
-    console.log("inside upc");
-    
+    dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                .success(function (values) {
+                    $scope.myGroup = values;
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
+
+
 
     $scope.$on('event:auth-loginRequired', function () {
         alert("You are not Authorized to view this page ... Please sign in");
         $location.url("/login")
     });
 
-
-
-
     ////////// Maps Test 
-
+    
     var onMarkerClicked = function (marker) {
         marker.showWindow = true;
         $scope.$apply();
@@ -794,30 +795,19 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 // #########################################               myTeamController               ########################################################### // 
 // ####################################################################################################################################################### // 
 
-
-
 app.controller('myTeamController', function ($rootScope, $scope,dataFactory, authFactory, AUTH_EVENTS) {
 
     console.log("Inside myTeam View");
-    
-    var teamMembers = [
-        { UserFname: "ראשון פרטי", UserLname: "משפחה", UserCity: "עיר" , ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: true},
-        { UserFname: "שני פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "שלישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "רביעי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "חמישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "שישי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "שביעי פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false },
-        { UserFname: "שמיני פרטי", UserLname: "משפחה", UserCity: "עיר", ImagePath: "/sources/images/defaultUserImage.jpg", captainFlag: false }
-    ];
-
-
     //Fetch team data 
-    $scope.teamData = teamMembers;
-    
-    
-
-
+    $scope.userDetails = $rootScope.userPersonalInfo;
+    $scope.myGroupName = $scope.userDetails.GroupName;
+    dataFactory.getValues('Rider', true, "grpname=" + $scope.userDetails.GroupName + "&orgname=" + $scope.userDetails.OrganizationName)
+                .success(function (values) {
+                    $scope.teamData = values;
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
 });
 
 // ####################################################################################################################################################### // 
@@ -838,8 +828,13 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     }
 
     $scope.calMonth = todayVar.getMonth();
-    
 
+    $('#testBtn').popover({
+        placement: 'bottom',
+        title: 'Title',
+        content: 'test'
+    });
+    //$('#testBtn').popover(title = "test");
     $scope.calDates =  [1,12,15,29,31]; // Holds cal days a ride was reported 
 
 

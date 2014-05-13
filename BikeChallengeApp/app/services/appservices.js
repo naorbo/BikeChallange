@@ -124,6 +124,7 @@ app.service('session', function () {
         this.id = sessionId;
         this.userId = userId;
 
+
         console.log("this is your info"+this.id + this.userId)
         // this.userRole = userRole;
     };
@@ -135,6 +136,26 @@ app.service('session', function () {
     };
     return this;
 });
+
+
+//app.service('sessionProfile', function () {
+//    this.create = function (userProfile) {
+//        this.userProfile = userProfile;
+//        console.log("Inside session Prof");
+//        console.log(this.userProfile)
+//        // this.userRole = userRole;
+//    };
+//    this.get = function () {
+//        return userProfile;
+
+//    };
+//    this.destroy = function () {
+//        this.userProfile = null;
+//        console.log("session destroyed")
+//        // this.userRole = null;
+//    };
+//    return this;
+//});
 
 
 
