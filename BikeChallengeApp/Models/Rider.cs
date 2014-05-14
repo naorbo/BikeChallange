@@ -154,22 +154,5 @@ namespace BikeChallengeApp.Models
             Organization = organization;
             Group = group;
         }
-        
-        public DataTable readData()
-        {
-            string conString = "DefaultConnection";
-            DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(7, "Users", "[User]");
-            return dbs.dt;
-
-        }
-
-        public DataTable readDataPerGroup(string groupname, string orgname)
-        {
-            string conString = "DefaultConnection";
-            DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(1, groupname, orgname);
-            return dbs.dt;
-        } 
-    }
+     }
 }

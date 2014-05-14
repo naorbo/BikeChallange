@@ -22,11 +22,10 @@ namespace BikeChallengeApp.Controllers
         // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
         public DataTable Get(string grpname, string orgname)
         {
-            Rider rdr = new Rider();
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(1, grpname, orgname);
+            return dbs.dt;
 
-            DataTable dt = rdr.readDataPerGroup(grpname,orgname);
-
-            return dt;
         }
 
         // GET RIDER from USERNAME
@@ -42,11 +41,9 @@ namespace BikeChallengeApp.Controllers
         // api/Rider
         public DataTable GetAll()
         {
-            Rider rdr = new Rider();
-
-            DataTable dt = rdr.readData();
-
-            return dt;
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(7, "Users", "[User]");
+            return dbs.dt;
         }
 
         // POST - Insert new Rider into the DB 

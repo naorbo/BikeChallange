@@ -49,7 +49,6 @@ namespace BikeChallengeApp.Models
         }
         public DataTable readData()
         {
-            string conString = "DefaultConnection";
             DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(7, "Cities","[City]");
             return dbs.dt;

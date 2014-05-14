@@ -1,0 +1,6 @@
+The SelectError LOG file
+22:18:53 : Incorrect syntax near 'UserName'.
+22:41:30 : The multi-part identifier "C.City" could not be bound.
+The multi-part identifier "C.CityName" could not be bound.
+22:45:44 : Invalid column name 'OrganiztionsType'.
+22:46:39 : Invalid column name 'OrganiztionType'.
