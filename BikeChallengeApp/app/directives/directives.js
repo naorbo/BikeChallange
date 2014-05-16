@@ -99,7 +99,7 @@ app.directive('usernameValidate', function (dataFactory) {
                         dataFactory.getValues("UserNameExists", 1, "username=" + $scope.regDetails.userName.$viewValue)
                         .success(function (response) {
                             console.log(response);
-                            if (response == "false")
+                            if (response == '"NOT EXISTS\"')
                             {
                                 console.log("Usename is available");
                                 $ctrl.$setValidity('unique', true);
@@ -127,11 +127,12 @@ app.directive('usernameValidate', function (dataFactory) {
 });
 
 
+
 // ############################
 // Calendar dashboard directive 
 // ############################
 
-app.directive('calendar', ['$compile',  function ($compile,$watch,$scope,attrs) {
+app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs) {
 
     var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
     var days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
@@ -159,7 +160,7 @@ app.directive('calendar', ['$compile',  function ($compile,$watch,$scope,attrs) 
           startDay = firstDay.getDay(),
           monthLength = daysInMonth(firstDay),
           heading = formatDateHeading(firstDay);
-        
+
         if (!dates || !dates.length) { dates = [currentDate.getDate()] };
 
         var tpl = [
@@ -181,15 +182,30 @@ app.directive('calendar', ['$compile',  function ($compile,$watch,$scope,attrs) 
             for (j = 0; j < 7; j++) {
                 row.push('<td class="cellCal">');
                 if (day <= monthLength && (i > 0 || j >= startDay)) {
-                    if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth())==month) {
-                        row.push('<div class="cal-highlight-today" id="' + year + '/' + month + '/' + day + '">'); // cal-day class attrb was removed ** 
+                    if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
+                        row.push('<div class="cal-highlight-today" data-rel="popover" ng-click="testPop($event)" id="' + day + '">'); // cal-day class attrb was removed ** 
                         //row.push('<div class="cal-day cal-highlight-today" data-cal="' + year + '/' + month + '/' + day + '">');
                     };
-                    if (dates.indexOf(day) != -1) row.push('<div class="cal-day cal-highlight" id="' + year + '/' + month + '/' + day + '">');
-                    if (dates.indexOf(day) == -1) row.push('<div class="cal-day" id="' + year + '/' + month + '/' + day + '">');
+                    if (dates.indexOf(day) != -1) row.push('<div class="cal-day cal-highlight" data-rel="popover" ng-click="testPop($event)" id="' + day + '">');
+                    if (dates.indexOf(day) == -1) row.push('<div class="cal-day" data-rel="popover" ng-click="testPop($event)" id="' + day + '">');
                     row.push(day + '</div>');
                     day++;
                 }
+
+
+                //if (day <= monthLength && (i > 0 || j >= startDay)) {
+                //    if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
+                //        row.push('<div class="cal-highlight-today" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">'); // cal-day class attrb was removed ** 
+                //        //row.push('<div class="cal-day cal-highlight-today" data-cal="' + year + '/' + month + '/' + day + '">');
+                //    };
+                //    if (dates.indexOf(day) != -1) row.push('<div class="cal-day cal-highlight" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">');
+                //    if (dates.indexOf(day) == -1) row.push('<div class="cal-day" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">');
+                //    row.push(day + '</div>');
+                //    day++;
+                //}
+
+
+
                 row.push('</td>');
             }
             row.push('</tr>');
@@ -197,32 +213,42 @@ app.directive('calendar', ['$compile',  function ($compile,$watch,$scope,attrs) 
             tpl.push(row.join(''));
         }
         tpl.push('</table></div>');
-       
+
         return tpl.join('');
     }
 
     return {
         restrict: 'A',
         replace: true,
-        scope: {        // Isolated scope 
-            month: '@', // Data binding for the current month (ng-model inside controller scope)
-            dates: '=', // Data binding for the dates array
+        scope: true,
 
-        },
-
-        link: 
+        link:
             function ($scope, $element, attrs, $watch) {
-                $scope.$watch('month', function () {
-                    
-                    $element.html(getTemplate(parseInt(attrs.month), parseInt(attrs.year), $scope.dates));
-                        $compile($element.contents());
-                        console.log("Inside Dir");
-                    
+                $scope.$watch('calMonth', function () {
+
+                    $element.html(getTemplate(parseInt($scope.calMonth)+1, parseInt(attrs.year), $scope.calDates));
+                    $compile($element.contents())($scope);
+                    console.log("Inside Dir");
                 })
             }
-            
     }
-    
-    }]);
+}]);
 
 
+
+app.directive('customPopover', function () {
+    return {
+        restrict: 'A',
+        template: '<span>{{label}}</span>',
+        link: function ($scope, el, attrs) {
+            $scope.label = attrs.popoverLabel;
+
+            $(el).popover({
+                trigger: 'click',
+                html: true,
+                content: attrs.popoverHtml,
+                placement: attrs.popoverPlacement
+            });
+        }
+    };
+});

@@ -364,6 +364,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                    // sessionProfile.create(values);
                     $scope.personalInfoHolder = values[0];
                     $rootScope.userPersonalInfo = values[0];
+                    $scope.getGroup();
                     console.log("Fetch user info for " + $scope.currentUser);
                     console.log($scope.personalInfoHolder);
                 })
@@ -373,14 +374,19 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
     
     // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
 
-    dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+
+    $scope.getGroup = function () {
+        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                 .success(function (values) {
                     $scope.myGroup = values;
                 })
                 .error(function (value) {
                     console.log("error");
                 });
+    };
 
+
+    
 
 
     $scope.$on('event:auth-loginRequired', function () {
@@ -829,13 +835,43 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
     $scope.calMonth = todayVar.getMonth();
 
-    $('#testBtn').popover({
-        placement: 'bottom',
-        title: 'Title',
-        content: 'test'
-    });
-    //$('#testBtn').popover(title = "test");
-    $scope.calDates =  [1,12,15,29,31]; // Holds cal days a ride was reported 
+    $scope.testPop = function ($event) {
+        var daily = $event.target.id.valueOf();
+        angular.element("#"+ daily).popover({
+            html: true,
+            placement: 'right',
+            title: '<button class= btn close" id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
+                //'<button class="btn close" id="close" >&times;</button>',
+               // '<button class="btn">Test</button>',
+               
+                content: 'test is my small message for you'
+        }
 
+        //'<span class="text-info"><strong>title</strong></span>'+
+                //
 
+                
+        );
+        //alert($event.target.id.valueOf());
+        return
+    }
+    
+    //$('#testBtn').popover({
+    //    placement: 'bottom',
+    //    title: 'Title this is my big message for you ',
+    //    content: 'test is my small message for you'
+    //});
+   
+    
+    $scope.calDates =  [15,10,2,3]; // Holds cal days a ride was reported 
+
+    $scope.testAlert = function ($event) {
+        console.log($event.target);
+        //alert($event.target.id);
+            
+
+    $scope.label = attrs.popoverLabel;
+        
+        return
+    }
 });

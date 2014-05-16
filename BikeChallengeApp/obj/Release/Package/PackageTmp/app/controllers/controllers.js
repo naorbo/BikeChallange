@@ -230,7 +230,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/UserImage?UserName=" + $scope.userName, // webapi url
+                    url: "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -358,37 +358,44 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 
 app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
     
-
-    
     console.log($scope.currentUser);
     dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
                 .success(function (values) {
+                   // sessionProfile.create(values);
                     $scope.personalInfoHolder = values[0];
+                    $rootScope.userPersonalInfo = values[0];
+                    $scope.getGroup();
                     console.log("Fetch user info for " + $scope.currentUser);
                     console.log($scope.personalInfoHolder);
-
                 })
-
                 .error(function (value) {
                     console.log("error");
-
                 });
-                    
+    
+    // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+
+
+    $scope.getGroup = function () {
+        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                .success(function (values) {
+                    $scope.myGroup = values;
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
+    };
+
 
     
-    console.log("inside upc");
-    
+
 
     $scope.$on('event:auth-loginRequired', function () {
         alert("You are not Authorized to view this page ... Please sign in");
         $location.url("/login")
     });
 
-
-
-
     ////////// Maps Test 
-
+    
     var onMarkerClicked = function (marker) {
         marker.showWindow = true;
         $scope.$apply();
@@ -790,15 +797,81 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 });
 
 
+// ####################################################################################################################################################### // 
+// #########################################               myTeamController               ########################################################### // 
+// ####################################################################################################################################################### // 
+
 app.controller('myTeamController', function ($rootScope, $scope,dataFactory, authFactory, AUTH_EVENTS) {
 
     console.log("Inside myTeam View");
-    var riderdata 
     //Fetch team data 
-    $scope.teamData = function () {
-        // get user team info
-    }
-
-
+    $scope.userDetails = $rootScope.userPersonalInfo;
+    $scope.myGroupName = $scope.userDetails.GroupName;
+    dataFactory.getValues('Rider', true, "grpname=" + $scope.userDetails.GroupName + "&orgname=" + $scope.userDetails.OrganizationName)
+                .success(function (values) {
+                    $scope.teamData = values;
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
 });
 
+// ####################################################################################################################################################### // 
+// #########################################               dashboardController               ########################################################### // 
+// ####################################################################################################################################################### // 
+
+
+app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
+    console.log("Inside dashboard View");
+    todayVar = new Date(); 
+    
+    $scope.setToday = function () {
+        
+        todayVar = new Date();
+        varToday = todayVar.getMonth();
+        return varToday;
+
+    }
+
+    $scope.calMonth = todayVar.getMonth();
+
+    $scope.testPop = function ($event) {
+        var daily = $event.target.id.valueOf();
+        angular.element("#"+ daily).popover({
+            html: true,
+            placement: 'right',
+            title: '<button class= btn close" id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
+                //'<button class="btn close" id="close" >&times;</button>',
+               // '<button class="btn">Test</button>',
+               
+                content: 'test is my small message for you'
+        }
+
+        //'<span class="text-info"><strong>title</strong></span>'+
+                //
+
+                
+        );
+        //alert($event.target.id.valueOf());
+        return
+    }
+    
+    //$('#testBtn').popover({
+    //    placement: 'bottom',
+    //    title: 'Title this is my big message for you ',
+    //    content: 'test is my small message for you'
+    //});
+   
+    
+    $scope.calDates =  [15,10,2,3]; // Holds cal days a ride was reported 
+
+    $scope.testAlert = function ($event) {
+        console.log($event.target);
+        //alert($event.target.id);
+            
+
+    $scope.label = attrs.popoverLabel;
+        
+        return
+    }
+});

@@ -4,12 +4,35 @@
     <title></title>
 </head>
 <body>
-    <h1> My Team View </h1>
+    <h1> חברי הקבוצה  {{myGroupName}}</h1> 
+    <br/>
+    <div class="row">
+        <div class="col-md-4 pull-right" ng-repeat="user in teamData">
+
+            <div class="panel panel-primary ">
+                <div class="panel-heading">{{user.UserFname}} {{user.UserLname}} &nbsp;&nbsp;<div ng-show={{user.Captain}} title="קפטן הקבוצה" class="glyphicon glyphicon-flag"></div></div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-6 pull-right" style="width:150px; height:150px">
+                            <img src="{{user.ImagePath}}" class="img-rounded img-responsive" style=" border:solid; border-width:1px" />
+                            <!--img src="{{user.ImagePath}}" class="img-rounded" style="width:inherit; border:solid; border-width:1px" />-->
+                        </div>
+                        <div class="col-md-6" >
+                        <p>{{user.BicycleType}} </p>
+                        <p> </p>
+                        </div>
+                </div>
+            </div>
+        </div>
+
+        
+
+    </div>
+    </div>
+
+  
 
     
-
-
-
 
 
 </body>
