@@ -59,40 +59,56 @@ public class DBservices
             switch(select)
             {
 			case 1:
-			selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.BicycleType, U.BirthDate, U.UserAddress, U.Captain, G.GroupName, O.OrganizationName, O.OrganiztionImage
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage
+                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
                                 AND G.[Organization] = O.[Organization]
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
+                                AND U.City = C.City
                                 AND G.GroupName = '" + data1 + @"'
-                                AND O.OrganizationName = '" + data2 + "';"; //ReadFromDataBaseRider
+                                AND O.OrganizationName = '" + data2 + "';"; //GET RIDER PER GRUOP
                                 
 			break;
 			case 2:
-			selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, G.GroupName, O.OrganizationName, O.OrganiztionImage
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O
+            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage, CO.CityName As OrgCity
+                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
                                 AND G.Organization = O.Organization                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
-                                AND anu.UserName = '" + data1 + "';"; //ReadFromDataBaseforRider
+                                AND U.City = C.City
+                                AND O.City = CO.City
+                                AND anu.UserName = '" + data1 + "';"; //GET RIDER from USERNAME
 			break;
 			case 3:
-			selectStr = @" SELECT [GroupName],[GroupDes]
-                                FROM [Groups] G, Organizations O
+            selectStr = @"SELECT [GroupName],[GroupDes], anu.UserName AS Captain_UserName
+                                FROM [Groups] G, Organizations O, AspNetUsers anu, Users U
                                 WHERE [GROUP] <> 0 
                                 AND G.[Organization] = O.[Organization]
-                                AND O.OrganizationName = '" + data1 + "' ;"; // ReadFromDataBaseGroup
+                                AND anu.Id = U.Id
+                                AND O.OrganizationName = '" + data1 + @"' 
+                                AND U.Captain = 1
+                                AND U.[User] in ( SELECT UG.[User]
+												FROM UsersGroups UG
+												WHERE G.[Group] = UG.[Group]);"; // Group From ORG
 			break;
 			case 4:
-			selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganiztionsType, O.OrganiztionImage, C.CityName
-                                FROM Organizations O, Cities C
-                                Where O.Organization <> 0
-                                AND O.OrganizationName = '" + data1 + @"'
-                                AND O.City = C.City ; " ; //ReadFromDataBaseforRiderorgname
+
+            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
+                                FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
+                                Where G.[Group] <> 0
+                                AND G.GroupName = '" + data1 + @"'
+                                AND G.Organization = O.Organization
+                                AND O.OrganizationName = '" + data2 + @"'
+                                AND O.City = C.City 
+                                AND anu.Id = U.Id
+                                AND U.Captain = 1
+                                AND U.[User] in ( SELECT UG.[User]
+												FROM UsersGroups UG
+												WHERE G.[Group] = UG.[Group]);";//ReadFromDataBaseforGroup
 			break;
 			case 5:
 			selectStr = @" SELECT 'Exists'
@@ -101,13 +117,11 @@ public class DBservices
              // ReadFromDataBaseUserName
 			break;
 			case 6:
-			selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName
-                                FROM Groups G, Organizations O, Cities C 
-                                Where G.[Group] <> 0
-                                AND G.GroupName = '" + data1 + @"'
-                                AND G.Organization = O.Organization
-                                AND O.OrganizationName = '" + data2 + @"'
-                                AND O.City = C.City ;";//ReadFromDataBaseforGroup
+            selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
+                                FROM Organizations O, Cities C
+                                Where O.Organization <> 0
+                                AND O.OrganizationName = '" + data1 + @"'
+                                AND O.City = C.City ; " ; //ReadFromDataBaseforRiderorgname
 			break;
 			case 7:
 			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 

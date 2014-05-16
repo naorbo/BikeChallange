@@ -45,24 +45,6 @@ namespace BikeChallengeApp.Models
             GroupDes = groupDes;
         }
 
-        public DataTable readData()
-        {
-           
-            DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(7, "Groups", "[Group]");
-            return dbs.dt;
-
-        }
-
-        public DataTable readDataPerORG(string orgname)
-        {
-            
-            DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(3, orgname, "");
-            return dbs.dt;
-
-        } 
-
         public void updateDatabase(Group grp)
         {
 
