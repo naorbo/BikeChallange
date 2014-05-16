@@ -1,9 +1,58 @@
 ﻿<!DOCTYPE html>
+
+<style>
+
+    
+
+</style>
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
 </head>
+
+
+
 <body>
+    <div class="row">
+        <div class="col-md-6 pull-right">
+        </div>
+
+        
+        <div class="row col-md-6"  style="float:left">
+            
+            <div class="row col-md-12 pull-left" style="align-content:center; padding-top:20px">
+                <table style="table-layout:fixed; width:100%">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><button class="glyphicon glyphicon-chevron-right  btn btn-default" ng-click="calMonth = calMonth +1" style="border:none"></button></td>
+                        <td><button class="glyphicon glyphicon glyphicon-pushpin btn btn-default" ng-click="calMonth = setToday()" style="border:none"></button></td>
+                        <td><button class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calMonth = calMonth  -1" style="border:none"></button><td> 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </table>
+         
+            </div> 
+            
+            
+            <div class="row" id="myCal" ng-model="calMonth" class="row pull-left" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
+        </div>
+    </div>
+
+   
 
 </body>
 </html>

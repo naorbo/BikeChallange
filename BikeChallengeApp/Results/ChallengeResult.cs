@@ -11,6 +11,7 @@ namespace BikeChallengeApp.Results
 {
     public class ChallengeResult : IHttpActionResult
     {
+       
         public ChallengeResult(string loginProvider, ApiController controller)
         {
             LoginProvider = loginProvider;

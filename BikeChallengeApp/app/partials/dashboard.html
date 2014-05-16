@@ -14,23 +14,45 @@
 
 
 <body>
-
-    <div ng-model="calMonth" class="row col-md-6">
-        
-        
-        <div id="myCal"  class="row pull-left col-md-12" data-calendar month={{calMonth+1}} dates="calDates"> </div>
-        <div class="col-md-6" style="padding-top:185px">
-            <button class="glyphicon glyphicon-chevron-left  btn btn-success" ng-click="calMonth = calMonth  -1"></button>
-            
-            <button class="glyphicon glyphicon-chevron-right pull-right btn btn-success" ng-click="calMonth = calMonth +1"></button>
-            <button class="glyphicon glyphicon-ban-circle pull-right btn btn-success" ng-click="calMonth = setToday()"></button>
+    <div class="row">
+        <div class="col-md-6 pull-right">
         </div>
+
         
+        <div class="row col-md-6"  style="float:left">
+            
+            <div class="row col-md-12 pull-left" style="align-content:center; padding-top:20px">
+                <table style="table-layout:fixed; width:100%">
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td><button class="glyphicon glyphicon-chevron-right  btn btn-default" ng-click="calMonth = calMonth +1" style="border:none"></button></td>
+                        <td><button class="glyphicon glyphicon glyphicon-pushpin btn btn-default" ng-click="calMonth = setToday()" style="border:none"></button></td>
+                        <td><button class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calMonth = calMonth  -1" style="border:none"></button><td> 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+
+                </table>
+         
+            </div> 
+            
+            
+            <div class="row pull-left" id="myCal" ng-model="calMonth" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
+        </div>
     </div>
 
-    <div class="col-md-6 pull-right" style="padding-top:100px">
-        <button id="testBtn" class="btn btn-default popover-test" data-container="div" data-toggle="popover" data-placement="top" data-content="test" title="test">POP</button>
-    </div> 
-    
+   
+
 </body>
 </html>
