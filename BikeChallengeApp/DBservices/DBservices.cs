@@ -27,6 +27,7 @@ public class DBservices
     //--------------------------------------------------------------------------------------------------
     // This method creates a connection to the database according to the connectionString name in the web.config 
     //--------------------------------------------------------------------------------------------------
+    #region Connections Methods
     public SqlConnection connect(String conString)
     {
         // read the connection string from the configuration file
@@ -47,7 +48,10 @@ public class DBservices
         cmd.CommandType = System.Data.CommandType.Text; // the type of the command, can also be stored procedure
         return cmd;
     }
+    // **************************************************************************************
+#endregion
     // *************************************************************************************
+    #region Read From Data Base
     public DBservices ReadFromDataBase(int select, string data1, string data2)
     {
         DBservices dbS = new DBservices(); // create a helper class
@@ -59,7 +63,7 @@ public class DBservices
             switch(select)
             {
 			case 1:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, U.Points, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
@@ -72,7 +76,7 @@ public class DBservices
                                 
 			break;
 			case 2:
-            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage, CO.CityName As OrgCity
+            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, U.Points, C.CityName As RiderCity, G.GroupName, O.OrganizationName, O.OrganiztionImage, CO.CityName As OrgCity
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
@@ -126,6 +130,13 @@ public class DBservices
 			case 7:
 			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
 			break;
+            case 8:
+            selectStr = @"SELECT  R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength]
+                          FROM [Rides] R, Users U, AspNetUsers anu
+                          WHERE R.[User] = U.[User]
+                          AND   U.Id = anu.Id
+                          AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
+			break; 
         }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
@@ -151,15 +162,9 @@ public class DBservices
             }
         }
     }
-    // **************************************************************************************
-   
-    internal void Update()
-    {
-        SqlCommandBuilder builder = new SqlCommandBuilder(da);
-        da.Update(dt);
-    }
-//  **********************ORGANIZATION*********************************************** 
+#endregion
 
+    #region Organizations
     public int insertOrganization(Organization org)
     {
         SqlConnection con;
@@ -210,8 +215,9 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
+#endregion
     //  ********************** RIDERS  ***********************************************
-    
+    #region Rider
     public int updateRiderInDatabase(string username, Rider rdr)
     {
         SqlConnection con;
@@ -410,9 +416,10 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
-    //  **********************Groups***********************************************
+#endregion
+    //  ********************** Groups ***********************************************
 
- 
+    #region Groups
     public int insertGroup(Group grp)
     {
         SqlConnection con;
@@ -463,4 +470,92 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
+    #endregion
+    //  ********************** RIDES ***********************************************
+    #region Rides
+    public int insertRide(Rides rds)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        SqlCommand crmd;
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+        }
+        String cStr = BuildInsertRidesCommand(rds);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected_2 = 0;
+            if (numEffected > 0)
+            {
+                String ins = BuildInsertPointsCommand(rds);
+                crmd = CreateCommand(ins, con);
+                numEffected_2 = crmd.ExecuteNonQuery();
+            }
+            if (numEffected_2 == 0)
+                lf.Main("Rides", "No record was inserted to the table check if the Ride " + rds.RideName + " or the username " + rds.UserName + " exists ");
+           
+            return numEffected + numEffected_2;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    private String BuildInsertPointsCommand(Rides rds)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix1 = @"Declare @Ride_val int;
+                          Declare @User_val int;
+                          Set @Ride_val = 0;
+                          Set @User_val = 0;
+                          Set @Ride_val = ( Select [RideLength] From Rides Where RideName = '" + rds.RideName + @"');
+                          Set @User_val = ( Select [User] From Users U, AspNetUsers anu Where U.Id = anu.Id AND anu.UserName = '" + rds.UserName + @"' ) ;";
+        String prefix = @"  if ( @Ride_val <> 0 AND @Ride_val <> 0 )
+                            begin
+                            UPDATE [Users] SET [Points] = @Ride_val Where [User] = @User_val 
+                            end";
+        command = prefix1 + prefix;
+        return command;
+    }
+    private String BuildInsertRidesCommand(Rides rds)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"INSERT INTO [Rides]
+           ([RideName]
+           ,[User]
+           ,[Route]
+           ,[RideDes]
+           ,[RideType]
+           ,[RideDate]
+           ,[RideLength]) ";
+        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), {2} , '{3}', '{4}' ,'{5}', {6})", rds.RideName, rds.UserName, 0, rds.RideDes, rds.RideType, rds.RideDate, rds.RideLength);
+        command = prefix + sb.ToString();
+        return command;
+    }
+    #endregion
 }
