@@ -101,8 +101,8 @@ public class DBservices
 			break;
 			case 4:
 
-            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
-                                FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
+            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, SUM(U2.Points)as Group_Points
+                                FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C, Users U2
                                 Where G.[Group] <> 0
                                 AND G.GroupName = '" + data1 + @"'
                                 AND G.Organization = O.Organization
@@ -112,7 +112,11 @@ public class DBservices
                                 AND U.Captain = 1
                                 AND U.[User] in ( SELECT UG.[User]
 												FROM UsersGroups UG
-												WHERE G.[Group] = UG.[Group]);";//ReadFromDataBaseforGroup
+												WHERE G.[Group] = UG.[Group])
+								AND U2.[User] in ( SELECT UG.[User]
+												FROM UsersGroups UG
+												WHERE G.[Group] = UG.[Group])
+								Group By G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName, anu.UserName ;";//ReadFromDataBaseforGroup
 			break;
 			case 5:
 			selectStr = @" SELECT 'Exists'
@@ -136,7 +140,14 @@ public class DBservices
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
                           AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
-			break; 
+			break;
+            case 9:
+            selectStr = @"SELECT  R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
+                          FROM [Routes] R, Users U, AspNetUsers anu
+                          WHERE R.[User] = U.[User]
+                          AND   U.Id = anu.Id
+                          AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
+            break; 
         }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
@@ -348,8 +359,8 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Users(  UserEmail, [Route], City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
-        sb.AppendFormat("Values('{0}', {1}, (select [city] from Cities where CityName = '{2}' ), '{3}', '{4}' ,'{5}', '{6}', '{7}', '{8}','{9}', '{10}','{11}', '{12}', (select id from AspNetUsers where UserName = '{13}'), {14}, (select Organization from Organizations where OrganizationName = '{15}'))", rdr.RiderEmail, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        String prefix = "INSERT INTO Users(  UserEmail, City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
+        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}', '{6}', '{7}','{8}', '{9}','{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationName = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -398,21 +409,20 @@ public class DBservices
         // use a string builder to create the dynamic string
         String prefix = "UPDATE [Users] ";
         sb.AppendFormat(@"SET [UserEmail] ='{0}'
-                              ,[Route] = {1}
-                              ,[City] = (select city from Cities where CityName = '{2}' )
-                              ,[UserDes] = '{3}'
-                              ,[UserFname] = '{4}'
-                              ,[UserLname] = '{5}'
-                              ,[Gender] = '{6}'
-                              ,[UserAddress] ='{7}'
-                              ,[UserPhone] = '{8}'
-                              ,[BicycleType] = '{9}'
-                              ,[ImagePath] = '{10}'
-                              ,[BirthDate] ='{11}'
-                              ,[CurDate] = '{12}'
-                              ,[Captain] = {13}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{14}')
-                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, 0, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
+                              ,[City] = (select city from Cities where CityName = '{1}' )
+                              ,[UserDes] = '{2}'
+                              ,[UserFname] = '{3}'
+                              ,[UserLname] = '{4}'
+                              ,[Gender] = '{5}'
+                              ,[UserAddress] ='{6}'
+                              ,[UserPhone] = '{7}'
+                              ,[BicycleType] = '{8}'
+                              ,[ImagePath] = '{9}'
+                              ,[BirthDate] ='{10}'
+                              ,[CurDate] = '{11}'
+                              ,[Captain] = {12}
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{13}')
+                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -528,11 +538,17 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix1 = @"Declare @Ride_val int;
-                          Declare @User_val int;
-                          Set @Ride_val = 0;
-                          Set @User_val = 0;
-                          Set @Ride_val = ( Select [RideLength] From Rides Where RideName = '" + rds.RideName + @"');
-                          Set @User_val = ( Select [User] From Users U, AspNetUsers anu Where U.Id = anu.Id AND anu.UserName = '" + rds.UserName + @"' ) ;";
+                            Declare @User_val int;
+                            Declare @Ride_date date;
+                            Set @Ride_val = 0;
+                            Set @User_val = 0;
+                            Set @Ride_date = '01-01-1988';
+                            ( Select @Ride_val=[RideLength], @Ride_date=RideDate From Rides Where RideName = '" + rds.RideName + @"');
+                            if ( @Ride_val <> 0 AND DATEDIFF(day,@Ride_date,getdate()) <> 0 )
+                            begin
+                            Set @Ride_val = @Ride_val + 20;
+                            end
+                            ( Select @User_val =[User] From Users U, AspNetUsers anu Where U.Id = anu.Id AND anu.UserName = '" + rds.UserName + @"' ); ";
         String prefix = @"  if ( @Ride_val <> 0 AND @Ride_val <> 0 )
                             begin
                             UPDATE [Users] SET [Points] = @Ride_val Where [User] = @User_val 
@@ -548,12 +564,80 @@ public class DBservices
         String prefix = @"INSERT INTO [Rides]
            ([RideName]
            ,[User]
-           ,[Route]
            ,[RideDes]
            ,[RideType]
            ,[RideDate]
            ,[RideLength]) ";
-        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), {2} , '{3}', '{4}' ,'{5}', {6})", rds.RideName, rds.UserName, 0, rds.RideDes, rds.RideType, rds.RideDate, rds.RideLength);
+        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), '{2}', '{3}' ,'{4}', {5})", rds.RideName, rds.UserName, rds.RideDes, rds.RideType, rds.RideDate, rds.RideLength);
+        command = prefix + sb.ToString();
+        return command;
+    }
+    #endregion
+    //  ********************** ROUTES ***********************************************
+    #region Routes
+    public int insertRoutes(Routes rut)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+       // SqlCommand crmd;
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Routes", ex.Message);
+            return 0;
+        }
+        String cStr = BuildInsertRoutesCommand(rut);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+           /* int numEffected_2 = 0;
+            if (numEffected > 0)
+            {
+                String ins = BuildInsertPointsCommand(rut);
+                crmd = CreateCommand(ins, con);
+                numEffected_2 = crmd.ExecuteNonQuery();
+            }
+            if (numEffected_2 == 0)
+                lf.Main("Rides", "No record was inserted to the table check if the Ride " + rds.RideName + " or the username " + rds.UserName + " exists ");
+            */
+            return numEffected;// +numEffected_2;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Routes", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    private String BuildInsertRoutesCommand(Routes rut)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"INSERT INTO [Routes]
+           ([RouteName]
+           ,[RouteDestination]
+           ,[RouteType]
+           ,[RouteLength]
+           ,[Comments]
+           ,[RouteSource]
+           ,[User]) ";
+        sb.AppendFormat("Values('{0}', '{1}','{2}',{3},'{4}','{5}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{6}' AND A.Id = U.Id ))", rut.RouteName, rut.RouteDestination, rut.RouteType, rut.RouteLength, rut.Comments, rut.RouteSource, rut.UserName);
         command = prefix + sb.ToString();
         return command;
     }
