@@ -597,6 +597,7 @@
     <Content Include="skins\square\_all.css" />
     <Content Include="sources\images\bc_cover.jpg" />
     <Content Include="sources\images\defaultUserImage.jpg" />
+    <Content Include="sources\images\social-icons.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

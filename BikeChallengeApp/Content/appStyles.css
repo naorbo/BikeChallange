@@ -87,3 +87,34 @@ body {
 		div.cal div.cal-day:hover {
 		  border: 1px solid #111;
 		}
+
+        /* Cal Widget - Daily Summary */
+
+
+        div.daily-sum{
+            width:200px;
+            height:200px;
+        }
+
+
+
+        /* Social Icons */
+
+        ul{list-style:none;margin:0 5px 0 0;padding:0;float:left}
+        footer li a{color:#7b7b7a}
+        footer li:first-child{font-weight:bold;margin-bottom:7px}
+        footer li:first-child a{color:#3f3e3e}
+        footer a{text-decoration:none}
+        footer a:hover{text-decoration:underline}
+
+        ul.social-icons{clear:right;float:right;display:inline-block;width:105px; padding-top:5px;}
+        ul.social-icons li{margin:2px;}
+        ul.social-icons li.icon{display:inline-block;float:left;width:30px;height:29px}
+        ul.social-icons li.icon a{width:30px;height:29px;display:inline-block;background:url('../sources/images/social-icons.png') no-repeat;overflow:hidden;white-space:nowrap;text-indent:100%}
+        ul.social-icons li.fb.icon a{background-position:0 0}
+        ul.social-icons li.fb.icon a:hover{background-position:0 -29px}
+        ul.social-icons li.gplus.icon a{background-position:-60px 0}
+        ul.social-icons li.gplus.icon a:hover{background-position:-60px -29px}
+        ul.social-icons li.youtube.icon a{background-position:-150px 0}
+        ul.social-icons li.youtube.icon a:hover{background-position:-150px -29px}
+        

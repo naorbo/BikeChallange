@@ -825,6 +825,8 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     console.log("Inside dashboard View");
     todayVar = new Date(); 
     
+    $scope.calDates = [15, 10, 2, 3]; // Holds cal days a ride was reported 
+
     $scope.setToday = function () {
         
         todayVar = new Date();
@@ -834,44 +836,22 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     }
 
     $scope.calMonth = todayVar.getMonth();
+    $scope.popTest = 5;
+    $scope.label = "Hello";
+    $scope.name = 'World';
 
-    $scope.testPop = function ($event) {
-        var daily = $event.target.id.valueOf();
-        angular.element("#"+ daily).popover({
-            html: true,
-            placement: 'right',
-            title: '<button class= btn close" id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
-                //'<button class="btn close" id="close" >&times;</button>',
-               // '<button class="btn">Test</button>',
-               
-                content: 'test is my small message for you'
-        }
-
-        //'<span class="text-info"><strong>title</strong></span>'+
-                //
-
-                
-        );
-        //alert($event.target.id.valueOf());
-        return
-    }
-    
-    //$('#testBtn').popover({
-    //    placement: 'bottom',
-    //    title: 'Title this is my big message for you ',
-    //    content: 'test is my small message for you'
-    //});
-   
-    
-    $scope.calDates =  [15,10,2,3]; // Holds cal days a ride was reported 
-
-    $scope.testAlert = function ($event) {
-        console.log($event.target);
-        //alert($event.target.id);
-            
-
-    $scope.label = attrs.popoverLabel;
+    $scope.alarmFromPop = function () { alert("success") };
+    //$scope.showPop = function ($event) {
+    //    var daily = $event.target.id.valueOf();
+    //    angular.element("#"+ daily).popover({
+    //        html: true,
+    //        placement: 'right',
+    //        title: '<button class= btn close"  id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',             
+    //        content: '<div></div>'
+    //    }            
+    //    );
         
-        return
-    }
+    //    return
+    //}  
+
 });
