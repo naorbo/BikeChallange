@@ -31,7 +31,7 @@ namespace BikeChallengeApp.Controllers
             // uploadedFileInfo object will give you some additional stuff like file length,
             // creation time, directory name, a few filesystem methods etc..
             var uploadedFileInfo = new FileInfo(result.FileData.First().LocalFileName);
-            var suffix = "\\ProfileImage" + DateTime.Now.ToString("dd_M_yyyy") + ".jpg";
+            var suffix = "\\ProfileImage" + DateTime.Now.ToString("dd_M_yyyy") + Path.GetExtension(originalFileName);
             var new_file_name = uploadedFileInfo.Directory.ToString() + suffix;
             if(File.Exists(new_file_name))
             {

@@ -194,6 +194,7 @@
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\OrganizationImageController.cs" />
     <Compile Include="Controllers\RidesController.cs" />
+    <Compile Include="Controllers\RoutesController.cs" />
     <Compile Include="Controllers\UserImageController.cs" />
     <Compile Include="Controllers\GroupController.cs" />
     <Compile Include="Controllers\OrganizationController.cs" />
@@ -214,6 +215,7 @@
     <Compile Include="Models\Organization.cs" />
     <Compile Include="Models\Rider.cs" />
     <Compile Include="Models\Rides.cs" />
+    <Compile Include="Models\Routes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
