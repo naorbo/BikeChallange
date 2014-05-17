@@ -11,13 +11,24 @@
     <title></title>
 
     <script type="text/ng-template" id="popoverTemplate.html">
-        <button class="btn btn-success" ng-click="alarmFromPop()"> {{label}} </button> 
+
+        <div class="row">
+            <button name="btnpress" class="btn btn-default  glyphicon glyphicon-dashboard pull-right" ng-click="alarmFromPop($event)"> רכיבות יומיות </button>
+        </div>
+        <div class="row" ng-repeat="uh in userHistory | filter: {RideDate: popDate }">
+            <ul ng-if="routeFlag" class="pull-right">
+                <li> {{uh.RideLength}}</li>
+                <li> {{uh.RideType}}</li>
+            </ul>
+        </div>
+
+
     </script>
 </head>
 
 
 
-<body>
+<body ng-init="init()">
     <div class="row">
         <div class="col-md-6 pull-right">
         </div>

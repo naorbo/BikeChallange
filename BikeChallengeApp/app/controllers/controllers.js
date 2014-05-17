@@ -372,9 +372,6 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                     console.log("error");
                 });
     
-    // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
-
-
     $scope.getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                 .success(function (values) {
@@ -823,8 +820,19 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
 
 app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
     console.log("Inside dashboard View");
-    todayVar = new Date(); 
-    
+    $scope.routeFlag = false;
+    todayVar = new Date();
+    $scope.userHistory = {};
+    $scope.getHistory = function () {
+        dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userHistory = values;
+                            console.log($scope.userHistory);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+    }
     $scope.calDates = [15, 10, 2, 3]; // Holds cal days a ride was reported 
 
     $scope.setToday = function () {
@@ -840,18 +848,18 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.label = "Hello";
     $scope.name = 'World';
 
-    $scope.alarmFromPop = function () { alert("success") };
-    //$scope.showPop = function ($event) {
-    //    var daily = $event.target.id.valueOf();
-    //    angular.element("#"+ daily).popover({
-    //        html: true,
-    //        placement: 'right',
-    //        title: '<button class= btn close"  id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',             
-    //        content: '<div></div>'
-    //    }            
-    //    );
-        
-    //    return
-    //}  
+    $scope.alarmFromPop = function ($event) {
+        console.log($event.target.id);
+        $scope.routeFlag = true;
+        $scope.popDate = $event.target.parentElement.attributes.name.value;
 
+    };
+
+    $scope.inverseFlag = function () { $scope.routeFlag = false;}
+
+
+    $scope.init = function () {
+        
+    }
 });
+

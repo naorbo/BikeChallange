@@ -182,30 +182,20 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
             for (j = 0; j < 7; j++) {
                 row.push('<td class="cellCal">');
                 if (day <= monthLength && (i > 0 || j >= startDay)) {
+                    if (day < 10) { dayZeroPrefix = "0" };
+                    if (month < 10) { monthZeroPrefix = "0" };
                     if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
-                        row.push('<div class="cal-highlight-today" data-daily-sum data-rel="popover" ng-click="showPop($event)" id="' + day + '">'); // cal-day class attrb was removed ** 
-                        //row.push('<div class="cal-day cal-highlight-today" data-cal="' + year + '/' + month + '/' + day + '">');
+                        row.push('<div  data-close-popovers class="cal-highlight-today closepopper" data-daily-sum   id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">'); // cal-day class attrb was removed ** 
                     };
-                    if (dates.indexOf(day) != -1) row.push('<div class="cal-day cal-highlight" data-daily-sum data-rel="popover" ng-click="showPop($event)" id="' + day + '">');
-                    if (dates.indexOf(day) == -1) row.push('<div class="cal-day" data-daily-sum data-rel="popover" ng-click="showPop($event)" id="' + day + '">');
+                    if (dates.indexOf(day) != -1) row.push('<div  data-close-popovers class="cal-day cal-highlight closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
+                    if (dates.indexOf(day) == -1) row.push('<div  data-close-popovers  class="cal-day closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
                     row.push(day + '</div>');
                     day++;
+                    dayZeroPrefix = "";
+                    monthZeroPrefix = "";
                 }
 
-
-                //if (day <= monthLength && (i > 0 || j >= startDay)) {
-                //    if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
-                //        row.push('<div class="cal-highlight-today" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">'); // cal-day class attrb was removed ** 
-                //        //row.push('<div class="cal-day cal-highlight-today" data-cal="' + year + '/' + month + '/' + day + '">');
-                //    };
-                //    if (dates.indexOf(day) != -1) row.push('<div class="cal-day cal-highlight" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">');
-                //    if (dates.indexOf(day) == -1) row.push('<div class="cal-day" data-rel="popover" ng-click="testPop($event)" id="' + year + '/' + month + '/' + day + '">');
-                //    row.push(day + '</div>');
-                //    day++;
-                //}
-
-
-
+                
                 row.push('</td>');
             }
             row.push('</tr>');
@@ -229,29 +219,11 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
                     $element.html(getTemplate(parseInt($scope.calMonth)+1, parseInt(attrs.year), $scope.calDates));
                     $compile($element.contents())($scope);
                     console.log("Inside Dir");
+                    $scope.getHistory();
                 })
             }
     }
 }]);
-
-//Working example
-//app.directive('dailySum', function () {
-//    return {
-//        restrict: 'A',
-//        //template: '<span>{{label}}</span>',
-//        link: function (scope, el, attrs) {
-//            //scope.label = attrs.popoverLabel;
-//            $(el).popover({
-//                trigger: 'click',
-//                html: true,
-//                title: attrs.id + '<button class= btn close"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
-//                content: "Hello"+ "{{"+scope.label+"}}",
-//                    placement: 'right'
-//                });
-//            console.log("Inside  TEST dir")
-//        }
-//    };
-//});
 
 app.directive('dailySum', function ($compile, $templateCache) {
     var getTemplate = function (contentType) {
@@ -263,23 +235,56 @@ app.directive('dailySum', function ($compile, $templateCache) {
         }
         return template;
     }
-
-
-
     return {
         restrict: 'A',
         link: function (scope, element, attrs, compile) {
-            var popOverContent;
-            popOverContent = $compile(getTemplate("embdHTML"))(scope);
+            var wrapDivStart = '<div data-toggle="popover" name=' + attrs.id + '>';
+            var wrapDivEnd = '</div>';
+            var bodyContent = getTemplate("embdHTML");
+            var popOverContent = wrapDivStart.concat(bodyContent).concat(wrapDivEnd);
 
+            popOverContent = $compile(popOverContent)(scope);
             var options = {
-                title: '<button class= btn close"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
+                title: '<button class="btn close"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div ng-model=' + attrs.id + '> סיכום יומי </div> ',
                 content: popOverContent,
                 placement: "right",
                 html: true,
                 date: scope.date
             };
-            $(element).popover(options);   
+
+            $(element).popover(options);
+        }
+    };
+});
+
+
+app.directive('closePopovers', function ($document, $rootScope, $timeout) {
+    return {
+        restrict: 'EA',
+        link: function ($scope, scope, element, attrs) {
+            $document.on('click', function (ev) {
+
+                var targetElem = angular.element(ev.target);
+
+                if (targetElem.data('toggle') !== 'popover'
+                && targetElem.parents('[data-toggle="popover"]').length === 0
+                && targetElem.parents('.popover').length === 0) {
+                    if ($('.popover').length > 1) {
+                        $('.popover').each(function () {
+                            $scope.inverseFlag();
+                            var $this = $(this);
+                            var scope = $this.scope();
+                            var popIdentity = $this.children(".popover-content").children(".ng-scope").attr('name').valueOf();
+                            var x = new String;
+                            x = x.concat("#").concat(popIdentity);
+                            scope.$apply(function () {
+                                $(x).popover("hide");
+                            });
+                        }
+                        );
+                    }
+                }
+            });
         }
     };
 });
