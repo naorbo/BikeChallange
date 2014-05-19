@@ -39,6 +39,25 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
+        // POST - Insert new Ride From an exiting Route 
+        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        public string updateDB(string username, string routename, string ridedate, string roundtrip)
+        {
+            DBservices dbs = new DBservices();
+            try
+            {
+                return_val = dbs.insertRideFromRoute(username, routename,ridedate,roundtrip);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error while trying to INSERT the new Ride to the database " + ex.Message);
+                lf.Main("Rides", Response);
+                return "Error";
+            }
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
         // GET RIDE per USERNAME
         // api/Rides?username=[The username of the rider] - Not case sensative
         public DataTable GetUser(string username)

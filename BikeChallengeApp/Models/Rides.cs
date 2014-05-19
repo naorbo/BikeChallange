@@ -54,7 +54,7 @@ namespace BikeChallengeApp.Models
             RideType = ridetype;
             RideLength = rideLength;
             RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
-            RideDes = username + "Ride";
+            RideDes = username + "_Ride";
             RideDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
             
         }
