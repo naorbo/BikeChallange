@@ -372,6 +372,15 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                     console.log("error");
                 });
     
+    dataFactory.getValues('Rides', true, "username=" + $scope.currentUser)
+                        .success(function (values) {
+                            $rootScope.userHistory = values;
+                            console.log($rootScope.userHistory);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+
     $scope.getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                 .success(function (values) {
@@ -821,14 +830,7 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
 app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
     console.log("Inside dashboard View");
       
-    dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
-                        .success(function (values) {
-                            $scope.userHistory = values;
-                            console.log($scope.userHistory);
-                        })
-                        .error(function (value) {
-                            console.log("error");
-                        });
+    
 
     todayVar = new Date();
     $scope.calMonth = todayVar.getMonth();
@@ -837,7 +839,11 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.addRideFlag = false;
     $scope.routeFlag = false;
    
-    $scope.userHistory = {};
+    $scope.flipRideFlag = function () {
+        $scope.addRideFlag = !($scope.addRideFlag);
+    }
+
+    $scope.userHistory = $rootScope.userHistory;
     $scope.getHistory = function () {
         dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
                         .success(function (values) {
