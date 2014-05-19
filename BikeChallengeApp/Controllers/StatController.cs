@@ -14,11 +14,11 @@ using System.Web;
 
 namespace BikeChallengeApp.Controllers
 {
-    public class RidesController : ApiController
+    public class StatController : ApiController
     {
         int return_val = 0;
         LogFiles lf = new LogFiles();
-        
+        /*
         // POST - Insert new Ride into the DB 
         // api/Rides
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
@@ -46,7 +46,7 @@ namespace BikeChallengeApp.Controllers
             DBservices dbs = new DBservices();
             try
             {
-                return_val = dbs.insertRideFromRoute(username, routename,ridedate,roundtrip);
+                return_val = dbs.insertRideFromRoute(username, routename, ridedate, roundtrip);
             }
             catch (Exception ex)
             {
@@ -57,13 +57,21 @@ namespace BikeChallengeApp.Controllers
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
-
-        // GET RIDE per USERNAME
-        // api/Rides?username=[The username of the rider] - Not case sensative
-        public DataTable GetUser(string username)
+        */
+        // GET Stats per USERNAME
+        // api/Stats?date1=06-09-1985&date2=01-01-2014&username=[The username of the rider]
+        public DataTable GetUser( string date1, string date2, string username)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(8, username);
+            dbs = dbs.ReadFromDataBase(10, date1, date2, username);
+            return dbs.dt;
+        }
+        // GET Stats per Group
+        // api/Stats?grpname=[The name of the group]&orgname=[The name of the organizations]&date1=06-09-1985&date2=01-01-2014
+        public DataTable GetUser( string grpname, string orgname, string date1, string date2)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(11, grpname, orgname, date1, date2);
             return dbs.dt;
         }
     }
