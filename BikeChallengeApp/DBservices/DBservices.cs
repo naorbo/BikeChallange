@@ -135,14 +135,14 @@ public class DBservices
 			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
 			break;
             case 8:
-            selectStr = @"SELECT  R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength]
+            selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength]
                           FROM [Rides] R, Users U, AspNetUsers anu
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
                           AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
 			break;
             case 9:
-            selectStr = @"SELECT  R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
+            selectStr = @"SELECT  R.[RouteName], R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
                           FROM [Routes] R, Users U, AspNetUsers anu
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
@@ -483,6 +483,108 @@ public class DBservices
     #endregion
     //  ********************** RIDES ***********************************************
     #region Rides
+    // Insert Ride From Route
+    public int insertRideFromRoute(string username, string routename, string ridedate, string roundtrip)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        SqlCommand crmd;
+        int isroundtrip = 0;
+        string ridename = "";
+        ridename = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+        if (roundtrip == "True")
+            isroundtrip = 2;
+        else
+            isroundtrip = 1;
+        
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+        }
+        String cStr = BuildInsertRidesFromroutesCommand1(username, routename, ridedate, isroundtrip,ridename);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            int numEffected_2 = 0;
+            if (numEffected > 0)
+            {
+                String ins = BuildInsertPointsCommand2(username,ridename);
+                crmd = CreateCommand(ins, con);
+                numEffected_2 = crmd.ExecuteNonQuery();
+            }
+            if (numEffected_2 == 0)
+                lf.Main("Rides", "No record was inserted to the table check if the Ride " + ridename + " or the username " + username + " exists ");
+           
+            return numEffected +numEffected_2;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+
+    private String BuildInsertRidesFromroutesCommand1(string username, string routename, string ridedate, int roundtrip, string ridename)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"INSERT INTO [Rides]
+           ([RideName]
+           ,[User]
+           ,[RideDes]
+           ,[RideType]
+           ,[RideDate]
+           ,[RideLength]) ";
+        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), '{2}', '{3}' ,'{4}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{5}') )", ridename, username, username + "_Ride", "Route_"+routename, ridedate, routename);
+        command = prefix + sb.ToString();
+        return command;
+    }
+    private String BuildInsertPointsCommand2(string username, string ridename)
+        {
+            String command;
+            StringBuilder sb = new StringBuilder();
+            // use a string builder to create the dynamic string
+            String prefix1 = @"Declare @Ride_val int;
+                                Declare @User_val int;
+                                Declare @Ride_date date;
+                                Set @Ride_val = 0;
+                                Set @User_val = 0;
+                                Set @Ride_date = '01-01-1988';
+                                ( Select @Ride_val=[RideLength], @Ride_date=RideDate From Rides Where RideName = '" + ridename + @"');
+                                if ( @Ride_val <> 0 AND DATEDIFF(day,@Ride_date,getdate()) <> 0 )
+                                begin
+                                    Set @Ride_val = @Ride_val + 20;
+                                end
+                                ( Select @User_val =[User] From Users U, AspNetUsers anu Where U.Id = anu.Id AND anu.UserName = '" + username + @"' ); ";
+            String prefix = @"  if ( @Ride_val <> 0 AND @User_val <> 0 )
+                                begin
+                                UPDATE [Users] SET [Points] = [Points] + @Ride_val Where [User] = @User_val 
+                                end";
+            command = prefix1 + prefix;
+            return command;
+        }
+
+    //******************************************** Insert New Ride ****************************************************
+    
     public int insertRide(Rides rds)
     {
         SqlConnection con;
@@ -549,9 +651,9 @@ public class DBservices
                             Set @Ride_val = @Ride_val + 20;
                             end
                             ( Select @User_val =[User] From Users U, AspNetUsers anu Where U.Id = anu.Id AND anu.UserName = '" + rds.UserName + @"' ); ";
-        String prefix = @"  if ( @Ride_val <> 0 AND @Ride_val <> 0 )
+        String prefix = @"  if ( @Ride_val <> 0 AND @User_val <> 0 )
                             begin
-                            UPDATE [Users] SET [Points] = @Ride_val Where [User] = @User_val 
+                            UPDATE [Users] SET [Points] = [Points] + @Ride_val Where [User] = @User_val 
                             end";
         command = prefix1 + prefix;
         return command;

@@ -54,12 +54,12 @@ namespace BikeChallengeApp.Models
             set { routeLength = value; }
         }
 
-        public Routes(string username, string routeType, decimal routelength, string comments, string routesource, string routedestination)
+        public Routes(string username, string routename, string routeType, decimal routelength, string comments, string routesource, string routedestination)
         {
             UserName = username;
             RouteType = routeType;
             Comments = comments;
-            RouteName = username + DateTime.Now.ToString("dd-MM-hh-mm");
+            RouteName = routename;
             RouteDestination = routedestination;
             RouteSource = routesource;
             RouteLength = routelength;
