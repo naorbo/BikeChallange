@@ -13,7 +13,8 @@
     <script type="text/ng-template" id="popoverTemplate.html">
 
         <div class="row">
-            <button name="btnpress" class="btn btn-default  glyphicon glyphicon-dashboard pull-right" ng-click="alarmFromPop($event)"> רכיבות יומיות </button>
+
+            <button name="btnpress" class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="alarmFromPop($event)" style="text-align: right; width: 100%">   רכיבות   </button>
         </div>
         <div class="row" ng-repeat="uh in userHistory | filter: {RideDate: popDate }">
             <ul ng-if="routeFlag" class="pull-right">
@@ -21,6 +22,19 @@
                 <li> {{uh.RideType}}</li>
             </ul>
         </div>
+        <div class="row">
+            <button class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="addRideFlag=true" style="text-align:right; width:100%">   דיווח רכיבה   </button>
+        </div>
+        <div class="row" ng-if="addRideFlag">
+            <br/>
+            <div class="pull-right" >
+                <select id="teamSelect" ng-model="selectedRoute" ng-options="r.RouteName for r in userRoutes" required> </select>
+                <button class="btn btn-primary" ng-click="submitRide()">עדכן</button>
+            </div>
+
+        </div>
+
+
 
 
     </script>

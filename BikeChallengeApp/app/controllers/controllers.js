@@ -820,11 +820,8 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
 
 app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
     console.log("Inside dashboard View");
-    $scope.routeFlag = false;
-    todayVar = new Date();
-    $scope.userHistory = {};
-    $scope.getHistory = function () {
-        dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
+      
+    dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
                         .success(function (values) {
                             $scope.userHistory = values;
                             console.log($scope.userHistory);
@@ -832,34 +829,98 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                         .error(function (value) {
                             console.log("error");
                         });
+
+    todayVar = new Date();
+    $scope.calMonth = todayVar.getMonth();
+    $scope.calYear = todayVar.getFullYear();
+
+    $scope.addRideFlag = false;
+    $scope.routeFlag = false;
+   
+    $scope.userHistory = {};
+    $scope.getHistory = function () {
+        dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userHistory = values;
+                            console.log($scope.userHistory); 
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+        dataFactory.getValues('Routes', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userRoutes = values;
+                            console.log($scope.userRoutes);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+
     }
+    
+    
+
+    $scope.getRidesPerMonth = function () {
+        $scope.getHistory();
+        var tempDate = new Date($scope.calYear, $scope.calMonth, 1);
+
+        var month = tempDate.getMonth() +1 ;
+        var year = tempDate.getFullYear();
+
+        var monthlyRidesArr = [];
+
+        var yearParsed = new String;
+        var monthParsed = new String;
+        var dayParsed = new String;
+
+        angular.forEach($scope.userHistory, function (ride) {
+            yearParsed = ride.RideDate.substr(0, 4);
+            monthParsed = ride.RideDate.substr(5, 2);
+            dayParsed = ride.RideDate.substr(8, 2);
+
+            if (yearParsed == year && monthParsed == month) {
+                day2push = parseInt(dayParsed);
+                if ($.inArray(day2push,monthlyRidesArr) == -1)
+                    monthlyRidesArr.push(day2push);
+            }
+               
+        });
+
+        return monthlyRidesArr;
+        
+        };
+
+
     $scope.calDates = [15, 10, 2, 3]; // Holds cal days a ride was reported 
 
-    $scope.setToday = function () {
-        
-        todayVar = new Date();
-        varToday = todayVar.getMonth();
-        return varToday;
+    
+    
 
-    }
 
-    $scope.calMonth = todayVar.getMonth();
-    $scope.popTest = 5;
-    $scope.label = "Hello";
-    $scope.name = 'World';
+    
 
     $scope.alarmFromPop = function ($event) {
         console.log($event.target.id);
         $scope.routeFlag = true;
-        $scope.popDate = $event.target.parentElement.attributes.name.value;
+        $scope.popDate = $event.target.parentElement.parentElement.attributes.name.value;
 
     };
 
+
+    $scope.submitRide = function () {
+        dataFactory.getValues('Ride', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userRoutes = values;
+                            console.log($scope.userRoutes);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+    }
+
     $scope.inverseFlag = function () { $scope.routeFlag = false;}
-
-
     $scope.init = function () {
-        
+       
     }
 });
 

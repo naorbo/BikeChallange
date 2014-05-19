@@ -132,7 +132,7 @@ app.directive('usernameValidate', function (dataFactory) {
 // Calendar dashboard directive 
 // ############################
 
-app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs) {
+app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs, dataFactory) {
 
     var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
     var days = ['ראשון', 'שני', 'שלישי', 'רביעי', 'חמישי', 'שישי', 'שבת'];
@@ -213,13 +213,15 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
         scope: true,
 
         link:
-            function ($scope, $element, attrs, $watch) {
+            function ($scope, $element, attrs, $watch, dataFactory) {
+                
                 $scope.$watch('calMonth', function () {
-
-                    $element.html(getTemplate(parseInt($scope.calMonth)+1, parseInt(attrs.year), $scope.calDates));
-                    $compile($element.contents())($scope);
-                    console.log("Inside Dir");
-                    $scope.getHistory();
+                    
+                        $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth() /*$scope.calDates*/));
+                        $compile($element.contents())($scope);
+                        console.log("Inside Dir");
+                        $scope.getHistory();
+                    
                 })
             }
     }
