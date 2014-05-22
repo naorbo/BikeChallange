@@ -6,3 +6,4 @@ Incorrect syntax near '('.
 Incorrect syntax near '('.
 22:12:10 : Incorrect syntax near '('.
 22:18:21 : Incorrect syntax near '('.
+23:06:27 : Error while trying to INSERT the new Ride to the database Object reference not set to an instance of an object.

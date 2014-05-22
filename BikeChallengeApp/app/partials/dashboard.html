@@ -28,28 +28,26 @@
         <div class="row" ng-if="addRideFlag">
             <br/>
             <div class="pull-right" >
-                <select id="teamSelect" ng-model="selectedRoute" ng-options="r.RouteName for r in userRoutes" required> </select>
-                <button class="btn btn-primary" ng-click="submitRide()">עדכן</button>
+                <select id="teamSelect" class="btn btn-default btn-sm dropdown-toggle" ng-model="selectedRoute.routeName" ng-options="r.RouteName for r in userRoutes" required> </select>
+                <input type="checkbox" data-icheck ng-model="selectedRoute.roundTrip" value="true" /> &nbsp; שני כיוונים <br/>
+                
             </div>
-
+            <button class="btn btn-primary" ng-click="submitRide(selectedRoute,$event)">עדכן</button>
         </div>
 
 
 
+</script>
 
-    </script>
+
 </head>
 
 
 
 <body ng-init="init()">
     <div class="row">
-        <div class="col-md-6 pull-right">
-        </div>
+        <div class="row col-md-6" style="float:left">
 
-        
-        <div class="row col-md-6"  style="float:left">
-            
             <div class="row col-md-12 pull-left" style="align-content:center; padding-top:20px">
                 <table style="table-layout:fixed; width:100%">
                     <tr>
@@ -62,7 +60,8 @@
                         <td></td>
                         <td><button class="glyphicon glyphicon-chevron-right  btn btn-default" ng-click="calMonth = calMonth +1" style="border:none"></button></td>
                         <td><button class="glyphicon glyphicon glyphicon-pushpin btn btn-default" ng-click="calMonth = setToday()" style="border:none"></button></td>
-                        <td><button class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calMonth = calMonth  -1" style="border:none"></button><td> 
+                        <td><button class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calMonth = calMonth  -1" style="border:none"></button>
+                        <td>
                         <td></td>
                         <td></td>
                         <td></td>
@@ -73,15 +72,67 @@
                     </tr>
 
                 </table>
-         
-            </div> 
-            
-            
+
+            </div>
+
+
             <div class="row pull-left" id="myCal" ng-model="calMonth" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
+        </div>
+        <div class="row col-md-6" style="padding-top:20px">
+            
+            <div class="row col-md-12 pull-right">
+                <button class="btn btn-default" ng-click="rightDash.switch=1">ניהול מסלולים</button>
+                <button class="btn btn-default" ng-click="rightDash.switch=2">אירועים</button>
+                <button class="btn btn-default" ng-click="rightDash.switch=3">בייק צ'אלנג</button>
+                <button class="btn btn-default" ng-click="rightDash.switch=4">ניתוח רכיבות</button>
+            </div>
+
+
+
+            <div class="row col-md-12">
+
+
+                <div ng-switch data-on="rightDash.switch" style="padding-top:50px">
+
+
+                    <div ng-switch-when="1">
+                        <p> ניהול מסלולים</p>
+                        <div ng-form="newRoute">
+                            <input type="text" ng-model="newRoute.name" placeholder="שם מסלול" required/><br/>
+                            <input type="text" ng-model="newRoute.source" placeholder="מקור" required /><br />
+                            <input type="text" ng-model="newRoute.destination" placeholder="יעד" required /><br />
+                        </div>
+                    </div>
+
+
+                    <div ng-switch-when="2">
+                        <div><a>tytytyty</a></div>
+
+
+                    </div>
+
+                    <div ng-switch-when="3">
+                       
+                            <p> בייק צ'אלנג</p>
+
+
+                        </div>
+
+
+                    <div ng-switch-default>
+                        <p> ניתוח רכיבות</p>
+
+
+
+                    </div>
+
+
+                    </div>
+
+
+            </div>
         </div>
     </div>
 
-   
-    
 </body>
 </html>

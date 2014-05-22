@@ -372,8 +372,14 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                     console.log("error");
                 });
     
-    // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
-
+    dataFactory.getValues('Rides', true, "username=" + $scope.currentUser)
+                        .success(function (values) {
+                            $rootScope.userHistory = values;
+                            console.log($rootScope.userHistory);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
 
     $scope.getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
@@ -823,55 +829,115 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
 
 app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
     console.log("Inside dashboard View");
-    todayVar = new Date(); 
+      
     
-    $scope.setToday = function () {
-        
-        todayVar = new Date();
-        varToday = todayVar.getMonth();
-        return varToday;
 
-    }
-
+    todayVar = new Date();
     $scope.calMonth = todayVar.getMonth();
+    $scope.calYear = todayVar.getFullYear();
 
-    $scope.testPop = function ($event) {
-        var daily = $event.target.id.valueOf();
-        angular.element("#"+ daily).popover({
-            html: true,
-            placement: 'right',
-            title: '<button class= btn close" id="close" onclick="angular.element(&quot;#' + daily + '&quot;).popover(&quot;hide&quot;)">&times;</button>',
-                //'<button class="btn close" id="close" >&times;</button>',
-               // '<button class="btn">Test</button>',
-               
-                content: 'test is my small message for you'
-        }
+    $scope.addRideFlag = false;
+    $scope.routeFlag = false;
+   
+    $scope.flipRideFlag = function () {
+        $scope.addRideFlag = !($scope.addRideFlag);
+    };
 
-        //'<span class="text-info"><strong>title</strong></span>'+
-                //
 
-                
-        );
-        //alert($event.target.id.valueOf());
-        return
+    $scope.userHistory = $rootScope.userHistory;
+    $scope.getHistory = function () {
+        dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userHistory = values;
+                            console.log($scope.userHistory); 
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+        dataFactory.getValues('Routes', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userRoutes = values;
+                            console.log($scope.userRoutes);
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+
     }
     
-    //$('#testBtn').popover({
-    //    placement: 'bottom',
-    //    title: 'Title this is my big message for you ',
-    //    content: 'test is my small message for you'
-    //});
-   
     
-    $scope.calDates =  [15,10,2,3]; // Holds cal days a ride was reported 
 
-    $scope.testAlert = function ($event) {
-        console.log($event.target);
-        //alert($event.target.id);
-            
+    $scope.getRidesPerMonth = function () {
+        $scope.getHistory();
+        var tempDate = new Date($scope.calYear, $scope.calMonth, 1);
 
-    $scope.label = attrs.popoverLabel;
+        var month = tempDate.getMonth() +1 ;
+        var year = tempDate.getFullYear();
+
+        var monthlyRidesArr = [];
+
+        var yearParsed = new String;
+        var monthParsed = new String;
+        var dayParsed = new String;
+
+        angular.forEach($scope.userHistory, function (ride) {
+            yearParsed = ride.RideDate.substr(0, 4);
+            monthParsed = ride.RideDate.substr(5, 2);
+            dayParsed = ride.RideDate.substr(8, 2);
+
+            if (yearParsed == year && monthParsed == month) {
+                day2push = parseInt(dayParsed);
+                if ($.inArray(day2push,monthlyRidesArr) == -1)
+                    monthlyRidesArr.push(day2push);
+            }
+               
+        });
+
+        return monthlyRidesArr;
         
-        return
+        };
+
+
+    
+    // Check if can be deleted 
+    $scope.alarmFromPop = function ($event) {
+        console.log($event.target.id);
+        $scope.routeFlag = true;
+        $scope.popDate = $event.target.parentElement.parentElement.attributes.name.value; 
+        $rootScope.activeDay = $scope.popDate; // Holds Active day @ root scope var
+    };
+
+
+    $scope.submitRide = function (selectedRoute,$event) {
+        var newRide = {
+            username: $rootScope.userPersonalInfo.UserName,
+            routename: selectedRoute.routeName.RouteName,
+            ridedate: $event.target.parentElement.parentElement.getAttribute('name'),
+            roundtrip: selectedRoute.roundTrip
+        }
+        
+        var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
+        
+
+
+    // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        
+        
+
+
+        dataFactory.postValues('Rides', newRide, true, dataString)
+                        .success(function (response) {
+                            
+                            console.log(response);
+                        })
+                        .error(function (response) {
+                            console.log("error");
+                        });
+    }
+
+    $scope.inverseFlag = function () { $scope.routeFlag = false;}
+    $scope.init = function () {
+       
     }
 });
+

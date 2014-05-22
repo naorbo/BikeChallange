@@ -34,14 +34,25 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
 // ############# POST ############################## // 
 // ################################################ // 
 
-    dataFactory.postValues = function (dataObj, urlPath) {
+    dataFactory.postValues = function (urlPath, dataObj, parFlag, par) {
         // obj = angular.toJson(obj, true);
+        if (!parFlag){
         return $http({
             method: 'POST',
             url: '/api/' + urlPath,
             headers: { 'Authorization': 'Bearer ' + session.id },
             data: dataObj
         });
+        }
+        else {
+            return $http({
+                method: 'POST',
+                url: '/api/' + urlPath + "?" + par,
+                headers: { 'Authorization': 'Bearer ' + session.id },
+            });
+        }
+
+
     }
 
 

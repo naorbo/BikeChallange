@@ -9,11 +9,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+
+    <script type="text/ng-template" id="popoverTemplate.html">
+
+        <div class="row">
+
+            <button name="btnpress" class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="alarmFromPop($event)" style="text-align: right; width: 100%">   רכיבות   </button>
+        </div>
+        <div class="row" ng-repeat="uh in userHistory | filter: {RideDate: popDate }">
+            <ul ng-if="routeFlag" class="pull-right">
+                <li> {{uh.RideLength}}</li>
+                <li> {{uh.RideType}}</li>
+            </ul>
+        </div>
+        <div class="row">
+            <button class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="flipRideFlag()" style="text-align:right; width:100%">   דיווח רכיבה   </button>
+        </div>
+        <div class="row" ng-if="addRideFlag">
+            <br/>
+            <div class="pull-right" >
+                <select id="teamSelect" class="btn btn-default btn-sm dropdown-toggle" ng-model="selectedRoute.routeName" ng-options="r.RouteName for r in userRoutes" required> </select>
+                <input type="checkbox" data-icheck ng-model="selectedRoute.roundTrip" value="true" /> &nbsp; שני כיוונים <br/>
+                
+            </div>
+            <button class="btn btn-primary" ng-click="submitRide(selectedRoute,$event)">עדכן</button>
+        </div>
+
+
+
+
+    </script>
 </head>
 
 
 
-<body>
+<body ng-init="init()">
     <div class="row">
         <div class="col-md-6 pull-right">
         </div>
@@ -48,11 +78,11 @@
             </div> 
             
             
-            <div class="row" id="myCal" ng-model="calMonth" class="row pull-left" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
+            <div class="row pull-left" id="myCal" ng-model="calMonth" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
         </div>
     </div>
 
    
-
+    
 </body>
 </html>

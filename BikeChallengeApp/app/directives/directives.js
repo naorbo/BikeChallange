@@ -215,15 +215,30 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
         link:
             function ($scope, $element, attrs, $watch, dataFactory) {
                 
-                $scope.$watch('calMonth', function () {
-                    
-                        $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth() /*$scope.calDates*/));
-                        $compile($element.contents())($scope);
-                        console.log("Inside Dir");
-                        $scope.getHistory();
-                    
-                })
+                $scope.$watch(function () {
+                    return ($scope.calDates, $scope.calMonth);
+                }, function (newVal,oldVal,$scope) {
+                    $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth()));
+                    $compile($element.contents())($scope);
+                    console.log("Inside Dir");
+                    $scope.getHistory();
+
+
+                }, true);
+   
             }
+
+                //$scope.$watch('calMonth', function () {
+
+                //    $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth() /*$scope.calDates*/));
+                //    $compile($element.contents())($scope);
+                //    console.log("Inside Dir");
+                //    $scope.getHistory();
+
+                //});
+
+                
+            
     }
 }]);
 
@@ -274,6 +289,9 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
                     if ($('.popover').length > 1) {
                         $('.popover').each(function () {
                             $scope.inverseFlag();
+                            if ($scope.addRideFlag) {
+                                $scope.flipRideFlag()
+                            }
                             var $this = $(this);
                             var scope = $this.scope();
                             var popIdentity = $this.children(".popover-content").children(".ng-scope").attr('name').valueOf();
@@ -290,3 +308,25 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
         }
     };
 });
+
+
+//app.directive('rightDash', function ($compile, $templateCache) {
+//    var getTemplate = function (contentType) {
+//        var template = '';
+//        switch (contentType) {
+//            case 'test':
+//                template = $templateCache.get("test.html");
+//                break;
+//        }
+//        return template;
+//    }
+//    return {
+//        restrict: 'A',
+//        replace : true,
+//        link: function (scope, element, attrs, compile) {
+//            var bodyContent = getTemplate("test");
+//            bodyContent = $compile(bodyContent)(scope);
+            
+//        }
+//    };
+//});

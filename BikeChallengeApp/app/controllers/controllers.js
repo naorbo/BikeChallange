@@ -833,15 +833,17 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     
 
     todayVar = new Date();
+    $scope.calDates = [];
     $scope.calMonth = todayVar.getMonth();
     $scope.calYear = todayVar.getFullYear();
-
+    
     $scope.addRideFlag = false;
     $scope.routeFlag = false;
    
     $scope.flipRideFlag = function () {
         $scope.addRideFlag = !($scope.addRideFlag);
-    }
+    };
+
 
     $scope.userHistory = $rootScope.userHistory;
     $scope.getHistory = function () {
@@ -889,44 +891,77 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                 if ($.inArray(day2push,monthlyRidesArr) == -1)
                     monthlyRidesArr.push(day2push);
             }
+
+        
                
         });
-
+        
         return monthlyRidesArr;
         
         };
 
 
-    $scope.calDates = [15, 10, 2, 3]; // Holds cal days a ride was reported 
-
     
-    
-
-
-    
-
+    // Check if can be deleted 
     $scope.alarmFromPop = function ($event) {
         console.log($event.target.id);
         $scope.routeFlag = true;
-        $scope.popDate = $event.target.parentElement.parentElement.attributes.name.value;
-
+        $scope.popDate = $event.target.parentElement.parentElement.attributes.name.value; 
+        $rootScope.activeDay = $scope.popDate; // Holds Active day @ root scope var
     };
 
 
-    $scope.submitRide = function () {
-        dataFactory.getValues('Ride', true, "username=" + $scope.userPersonalInfo.UserName)
-                        .success(function (values) {
-                            $scope.userRoutes = values;
-                            console.log($scope.userRoutes);
+    $scope.submitRide = function (selectedRoute,$event) {
+        var x = new String;
+        var newRide = {
+            username: $rootScope.userPersonalInfo.UserName,
+            routename: selectedRoute.routeName.RouteName,
+            ridedate: $event.target.parentElement.parentElement.getAttribute('name'),
+            roundtrip: selectedRoute.roundTrip
+        }
+        
+        var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
+        
+
+
+    // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        
+        
+
+
+        dataFactory.postValues('Rides', newRide, true, dataString)
+                        .success(function (response) {
+                            x = x.concat("#").concat(newRide.ridedate);
+                            $(x).popover("hide");
+                            $scope.calDates = $scope.getRidesPerMonth();
+                            console.log(response);
                         })
-                        .error(function (value) {
+                        .error(function (response) {
                             console.log("error");
                         });
+
+
     }
 
-    $scope.inverseFlag = function () { $scope.routeFlag = false;}
+    
+
+    $scope.inverseFlag = function () { $scope.routeFlag = false; }
+
+
+    // Right Hand Dashboard
+
+    $scope.rightDash = {};
+    $scope.rightDash.switch = 1;
+
+
+
+
     $scope.init = function () {
        
     }
+
+
+
+
 });
 
