@@ -6,3 +6,8 @@ Incorrect syntax near '('.
 Incorrect syntax near '('.
 22:12:10 : Incorrect syntax near '('.
 22:18:21 : Incorrect syntax near '('.
+21:08:24 : Conversion failed when converting date and/or time from character string.
+22:03:27 : Cannot insert the value NULL into column 'RideType', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+22:09:54 : Cannot insert the value NULL into column 'RideType', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

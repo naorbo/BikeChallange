@@ -16,9 +16,10 @@ namespace BikeChallengeApp.Controllers
 {
     public class StatController : ApiController
     {
-        int return_val = 0;
+        
         LogFiles lf = new LogFiles();
         /*
+         int return_val = 0;
         // POST - Insert new Ride into the DB 
         // api/Rides
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }

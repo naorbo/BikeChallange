@@ -21,7 +21,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST - Insert new Route into the DB 
         // api/Routes
-        //{"UserName":"tester1", "RouteName":"מסלול 1", "RouteType":"קבוע", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
+        //{"UserName":"tester1", "RouteType":"מסלול 1", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
         public string updateDB([FromBody]Routes rut)
         {
             DBservices dbs = new DBservices();

@@ -117,8 +117,7 @@ public class DBservices
 			case 5:
 			selectStr = @" SELECT 'Exists'
                                 FROM AspNetUsers
-                                WHERE [UserName] = '" + data1 + "' ;";
-             // ReadFromDataBaseUserName
+                                WHERE [UserName] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
 			break;
 			case 6:
             selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
@@ -139,14 +138,14 @@ public class DBservices
 
 			break;
             case 9:
-            selectStr = @"SELECT  R.[RouteName], R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
+            selectStr = @"SELECT R.Route, R.[RouteName], R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
                           FROM [Routes] R, Users U, AspNetUsers anu
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
                           AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
             break;
             case 10:
-            selectStr = @"SELECT  Sum(R.[RideLength]) As User_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points
+            selectStr = @"SELECT  Sum(R.[RideLength]) As User_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
                         FROM [Rides] R, Users U, AspNetUsers anu
                         Where R.RideDate between '" + data1 + @"' AND '" + data2 + @"'
                         AND R.[USER] = U.[User]
@@ -154,7 +153,7 @@ public class DBservices
                         AND anu.UserName = '" + data3 + @"';"; //ReadFromDataBase 
             break; 
             case 11:
-            selectStr = @"SELECT Sum(R.[RideLength]) As Group_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points
+            selectStr = @"SELECT Sum(R.[RideLength]) As Group_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                         FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.GroupName = '" + data1 + @"'
@@ -558,7 +557,10 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = @"INSERT INTO [Rides]
+        String prefix = @" declare @user_val int;
+                           set @user_val = 0;
+            select @user_val=U.[User] from Users U, AspNetUsers A where A.UserName = '" + username + @"' AND A.Id = U.Id 
+            INSERT INTO [Rides]
            ([RideName]
            ,[User]
            ,[RideDes]
@@ -567,7 +569,7 @@ public class DBservices
            ,[RideLength]
            ,[RideSource]
            ,[RideDestination]) ";
-        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), '{2}', '{3}' ,'{4}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{5}'), (Select [RouteSource] From [Routes] Where [RouteName]='{6}'), (Select [RouteDestination] From [Routes] Where [RouteName]='{7}') )", ridename, username, username + "_Ride", "Route_" + routename, ridedate, routename, routename, routename);
+        sb.AppendFormat("Values('{0}', @user_val, '{1}', (Select [RouteType] From [Routes] Where [RouteName]='{2}' AND [User] = @user_val) ,'{3}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{4}' AND [User] = @user_val), (Select [RouteSource] From [Routes] Where [RouteName]='{5}' AND [User] = @user_val), (Select [RouteDestination] From [Routes] Where [RouteName]='{6}' AND [User] = @user_val) )", ridename, "Route_" + routename, routename, ridedate, routename, routename, routename);
         command = prefix + sb.ToString();
         return command;
     }

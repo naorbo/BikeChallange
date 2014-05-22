@@ -21,7 +21,7 @@ namespace BikeChallengeApp.Controllers
         
         // POST - Insert new Ride into the DB 
         // api/Rides
-        //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
+        //{"UserName":"tester1", "RideType":"נסיעה לים" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
         public string updateDB([FromBody]Rides rds)
         {
             DBservices dbs = new DBservices();
@@ -40,7 +40,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST - Insert new Ride From an exiting Route 
-        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        // api/Rides?username=tester10&routename="05-22-2014-10-12-09"&ridedate=05-21-2014&roundtrip=True/False
         public string updateDB(string username, string routename, string ridedate, string roundtrip)
         {
             DBservices dbs = new DBservices();
