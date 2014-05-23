@@ -318,7 +318,7 @@ app.directive('chart', function () {
         scope: true,
         link: function ($scope, $elm, $attr) {
             // Create the data table.
-            var data = google.visualization.arrayToDataTable($scope.chart);
+            var data = google.visualization.arrayToDataTable($scope.getStats());
 
 
             //var data = new google.visualization.DataTable();

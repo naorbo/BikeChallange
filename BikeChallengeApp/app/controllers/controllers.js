@@ -98,7 +98,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         
         // Post to Server
         
-        dataFactory.postValues(userDetails,'Rider')
+        dataFactory.postValues('Rider',userDetails,false)
                  .success(function (values) {
                      alert("ההרשמה הסתיימה בהצלחה!");
                      $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
@@ -161,7 +161,8 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     // New Organization Creator 
 
     $scope.regNewOrg = function (newOrgObj) {
-        dataFactory.postValues(newOrgObj,'Organization')
+       
+        dataFactory.postValues('Organization',newOrgObj,false)
              .success(function (response) {
                  console.log(response);
                  $scope.newOrgFlag = true;
@@ -203,7 +204,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     $scope.regNewTeam = function (newTeamObj, org) {
         console.log("This is the Org PAssed" + $scope.$$childHead.personalDetails.org)
         newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
-        dataFactory.postValues(newTeamObj, 'Group')
+        dataFactory.postValues('Group',newTeamObj, false)
              .success(function (response) {
                  console.log(response);
                  newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
@@ -383,6 +384,14 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                             console.log("error");
                         });
 
+    dataFactory.getValues('Stat', true, "username=" + $scope.currentUser)
+                        .success(function (values) {
+                            $rootScope.userStats = values;
+                            
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
 
     $scope.getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
@@ -403,405 +412,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
         $location.url("/login")
     });
 
-    ////////// Maps Test 
     
-    var onMarkerClicked = function (marker) {
-        marker.showWindow = true;
-        $scope.$apply();
-        //window.alert("Marker: lat: " + marker.latitude + ", lon: " + marker.longitude + " clicked!!")
-    };
-
-    var genRandomMarkers = function (numberOfMarkers, scope) {
-        var markers = [];
-        for (var i = 0; i < numberOfMarkers; i++) {
-            markers.push(createRandomMarker(i, scope.map.bounds))
-        }
-        scope.map.randomMarkers = markers;
-    };
-
-    var createRandomMarker = function (i, bounds) {
-        var lat_min = bounds.southwest.latitude,
-                lat_range = bounds.northeast.latitude - lat_min,
-                lng_min = bounds.southwest.longitude,
-                lng_range = bounds.northeast.longitude - lng_min;
-
-        var latitude = lat_min + (Math.random() * lat_range);
-        var longitude = lng_min + (Math.random() * lng_range);
-        return {
-            latitude: latitude,
-            longitude: longitude,
-            title: 'm' + i
-        };
-    };
-
-    angular.extend($scope, {
-        map: {
-            control: {},
-            version: "uknown",
-            heatLayerCallback: function (layer) {
-                //set the heat layers backend data
-                var mockHeatLayer = new MockHeatLayer(layer);
-            },
-            showTraffic: true,
-            showBicycling: false,
-            showWeather: false,
-            showHeat: false,
-            center: {
-                latitude: 45,
-                longitude: -73
-            },
-            options: {
-                streetViewControl: false,
-                panControl: false,
-                maxZoom: 20,
-                minZoom: 3
-            },
-            zoom: 3,
-            dragging: false,
-            bounds: {},
-            markers: [
-                {
-                    icon: 'assets/images/blue_marker.png',
-                    latitude: 45,
-                    longitude: -74,
-                    showWindow: false,
-                    title: 'Marker 2'
-                },
-                {
-                    icon: 'assets/images/blue_marker.png',
-                    latitude: 15,
-                    longitude: 30,
-                    showWindow: false,
-                    title: 'Marker 2'
-                },
-                {
-                    icon: 'assets/images/blue_marker.png',
-                    latitude: 37,
-                    longitude: -122,
-                    showWindow: false,
-                    title: 'Plane'
-                }
-            ],
-            markers2: [
-                {
-                    latitude: 46,
-                    longitude: -77,
-                    showWindow: false,
-                    title: '[46,-77]'
-                },
-                {
-                    latitude: 33,
-                    longitude: -77,
-                    showWindow: false,
-                    title: '[33,-77]'
-                },
-                {
-                    icon: 'assets/images/plane.png',
-                    latitude: 35,
-                    longitude: -125,
-                    showWindow: false,
-                    title: '[35,-125]'
-                }
-            ],
-            mexiMarkers: [
-                {
-                    latitude: 29.302567,
-                    longitude: -106.248779
-                },
-                {
-                    latitude: 30.369913,
-                    longitude: -109.434814
-                },
-                {
-                    latitude: 26.739478,
-                    longitude: -108.61084
-                }
-            ],
-            dynamicMarkers: [],
-            randomMarkers: [],
-            clickMarkers: [
-            {"latitude": 50.948968, "longitude": 6.944781}
-            ,{"latitude": 50.94129, "longitude": 6.95817}
-            ,{"latitude": 50.9175, "longitude": 6.943611}
-            ],
-            doClusterRandomMarkers: true,
-            doUgly: true, //great name :)
-            clusterOptions: {title: 'Hi I am a Cluster!', gridSize: 60, ignoreHidden: true, minimumClusterSize: 2,
-                imageExtension: 'png', imagePath: 'assets/images/cluster', imageSizes: [72]},
-            clickedMarker: {
-                title: 'You clicked here',
-                latitude: null,
-                longitude: null
-            },
-            events: {
-                tilesloaded: function (map, eventName, originalEventArgs) {
-                },
-                click: function (mapModel, eventName, originalEventArgs) {
-                    // 'this' is the directive's scope
-                    console.log("user defined event: " + eventName, mapModel, originalEventArgs);
-
-                    var e = originalEventArgs[0];
-
-                    if (!$scope.map.clickedMarker) {
-                        $scope.map.clickedMarker = {
-                            title: 'You clicked here',
-                            latitude: e.latLng.lat(),
-                            longitude: e.latLng.lng()
-                        };
-                    }
-                    else {
-                        $scope.map.clickedMarker.latitude = e.latLng.lat();
-                        $scope.map.clickedMarker.longitude = e.latLng.lng();
-                    }
-
-                    $scope.$apply();
-                },
-                dragend: function () {
-                    self = this;
-                    $timeout(function () {
-                        modified = _.map($scope.map.mexiMarkers, function (marker) {
-                            return {
-                                latitude: marker.latitude + rndAddToLatLon(),
-                                longitude: marker.longitude + rndAddToLatLon()
-                            }
-                        })
-                        $scope.map.mexiMarkers = modified;
-                    });
-                }
-            },
-            infoWindow: {
-                coords: {
-                    latitude: 36.270850,
-                    longitude: -44.296875
-                },
-                options: {
-                    disableAutoPan: true
-                },
-                show: false
-            },
-            infoWindowWithCustomClass: {
-                coords: {
-                    latitude: 36.270850,
-                    longitude: -44.296875
-                },
-                options: {
-                    boxClass: 'custom-info-window'
-                },
-                show: true
-            },
-            templatedInfoWindow: {
-                coords: {
-                    latitude: 48.654686,
-                    longitude: -75.937500
-                },
-                options: {
-                    disableAutoPan: true
-                },
-                show: true,
-                templateUrl: 'assets/templates/info.html',
-                templateParameter: {
-                    message: 'passed in from the opener'
-                }
-            },
-            polylines: [
-                {
-                    path: [
-                        {
-                            latitude: 45,
-                            longitude: -74
-                        },
-                        {
-                            latitude: 30,
-                            longitude: -89
-                        },
-                        {
-                            latitude: 37,
-                            longitude: -122
-                        },
-                        {
-                            latitude: 60,
-                            longitude: -95
-                        }
-                    ],
-                    stroke: {
-                        color: '#6060FB',
-                        weight: 3
-                    },
-                    editable: true,
-                    draggable: false,
-                    geodesic: false,
-                    visible: true
-                },
-                {
-                    path: [
-                        {
-                            latitude: 47,
-                            longitude: -74
-                        },
-                        {
-                            latitude: 32,
-                            longitude: -89
-                        },
-                        {
-                            latitude: 39,
-                            longitude: -122
-                        },
-                        {
-                            latitude: 62,
-                            longitude: -95
-                        }
-                    ],
-                    stroke: {
-                        color: '#6060FB',
-                        weight: 3
-                    },
-                    editable: true,
-                    draggable: true,
-                    geodesic: true,
-                    visible: true
-                }
-            ]
-        },
-        toggleColor: function (color) {
-            return color == 'red' ? '#6060FB' : 'red';
-        }
-
-    });
-
-    _.each($scope.map.markers, function (marker) {
-        marker.closeClick = function () {
-            marker.showWindow = false;
-            $scope.$apply();
-        };
-        marker.onClicked = function () {
-            onMarkerClicked(marker);
-        };
-    });
-
-    _.each($scope.map.markers2, function (marker) {
-        marker.closeClick = function () {
-            marker.showWindow = false;
-            $scope.$apply();
-        };
-        marker.onClicked = function () {
-            onMarkerClicked(marker);
-        };
-    });
-
-    $scope.removeMarkers = function () {
-        console.info("Clearing markers. They should disappear from the map now");
-        $scope.map.markers.length = 0;
-        $scope.map.markers2.length = 0;
-        $scope.map.dynamicMarkers.length = 0;
-        $scope.map.randomMarkers.length = 0;
-        $scope.map.mexiMarkers.length = 0;
-        $scope.map.polylines.length = 0;
-        $scope.map.clickedMarker = null;
-        $scope.searchLocationMarker = null;
-        $scope.map.infoWindow.show = false;
-        $scope.map.templatedInfoWindow.show = false;
-        // $scope.map.infoWindow.coords = null;
-    };
-    $scope.refreshMap = function () {
-        //optional param if you want to refresh you can pass null undefined or false or empty arg
-        $scope.map.control.refresh({latitude: 32.779680, longitude: -79.935493});
-        $scope.map.control.getGMap().setZoom(11);
-        return;
-    };
-    $scope.getMapInstance = function () {
-        alert("You have Map Instance of" + $scope.map.control.getGMap().toString());
-        return;
-    }
-    $scope.map.clusterOptionsText = JSON.stringify($scope.map.clusterOptions);
-    $scope.$watch('map.clusterOptionsText', function (newValue, oldValue) {
-        if (newValue !== oldValue)
-            $scope.map.clusterOptions = angular.fromJson($scope.map.clusterOptionsText);
-    });
-
-    $scope.$watch('map.doUgly', function (newValue, oldValue) {
-        var json;
-        if (newValue !== oldValue) {
-            if (newValue)
-                json = {title: 'Hi I am a Cluster!', gridSize: 60, ignoreHidden: true, minimumClusterSize: 2,
-                    imageExtension: 'png', imagePath: 'http://localhost:3000/example/cluster', imageSizes: [72]};
-            else
-                json = {title: 'Hi I am a Cluster!', gridSize: 60, ignoreHidden: true, minimumClusterSize: 2};
-            $scope.map.clusterOptions = json;
-            $scope.map.clusterOptionsText = angular.toJson(json);
-        }
-    });
-
-    $scope.genRandomMarkers = function (numberOfMarkers) {
-        genRandomMarkers(numberOfMarkers, $scope);
-    };
-
-    $scope.searchLocationMarker = {
-        coords: {
-            latitude: 40.1451,
-            longitude: -99.6680
-        },
-        options: { draggable: true },
-        events: {
-            dragend: function (marker, eventName, args) {
-                console.log('marker dragend');
-                console.log(marker.getPosition().lat());
-                console.log(marker.getPosition().lng());
-            }
-        }
-    }
-    $scope.onMarkerClicked = onMarkerClicked;
-
-    $scope.clackMarker = function($markerModel) {
-        console.log("from clackMarker");
-        console.log($markerModel);
-    };
-
-    $timeout(function () {
-        $scope.map.polylines[0].path.push({
-            latitude: 61,
-            longitude: -105
-        });
-        $scope.map.polylines[0].path.push({
-            latitude: 70,
-            longitude: -105
-        });
-        $scope.map.infoWindow.show = true;
-        var dynamicMarkers = [
-            {
-                latitude: 46,
-                longitude: -79,
-                showWindow: false
-            },
-            {
-                latitude: 33,
-                longitude: -79,
-                showWindow: false
-            },
-            {
-                icon: 'assets/images/plane.png',
-                latitude: 35,
-                longitude: -127,
-                showWindow: false
-            }
-        ];
-        _.each(dynamicMarkers, function (marker) {
-            marker.closeClick = function () {
-                marker.showWindow = false;
-                $scope.$apply();
-            };
-            marker.onClicked = function () {
-                onMarkerClicked(marker);
-            };
-        });
-        $scope.map.dynamicMarkers = dynamicMarkers;
-    }, 2000);
-
-
-
-
-
-
-    ///////
   
 });
 
@@ -852,6 +463,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
 
     // Gets & Stores user History and Routes 
+    $scope.userStats = $rootScope.userStats;
     $scope.userHistory = $rootScope.userHistory;
     $scope.getHistory = function () { 
         dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
@@ -870,7 +482,14 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                         .error(function (value) {
                             console.log("error");
                         });
-
+        dataFactory.getValues('Stat', true, "username=" + $scope.userPersonalInfo.UserName)
+                        .success(function (values) {
+                            $scope.userStats = values;
+                            
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
     }
     
     
@@ -1029,6 +648,28 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     
     //google.setOnLoadCallback(drawChart);
 
+    $scope.getStats = function (){ 
+
+        var rawStats = $scope.userStats;
+        var co2Summed = 0 ;
+        var calSummed = 0 ; 
+        
+        angular.forEach($scope.userStats, function (monthStat) {
+            co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
+            calSummed = calSummed + monthStat.User_Calories;
+        });
+         
+        
+        var statArray = [
+            ['Label', 'Value'],
+            ['קלוריות', calSummed],
+            ['CO2', co2Summed],
+        ];
+
+        return statArray;
+       
+    } ;
+
     
     $scope.chart = [
           ['Label', 'Value'],
@@ -1041,7 +682,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
        
     }
 
-
+    
 
 
 });
