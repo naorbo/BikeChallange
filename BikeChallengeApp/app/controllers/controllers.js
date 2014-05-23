@@ -1,6 +1,8 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
 
+
+
 // ####################################################################################################################################################### // 
 // #########################################                aboutController               ################################################################ // 
 // ####################################################################################################################################################### // 
@@ -380,6 +382,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                         .error(function (value) {
                             console.log("error");
                         });
+
 
     $scope.getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
@@ -832,12 +835,14 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
       
     
 
-    todayVar = new Date();
-    $scope.calDates = [];
-    $scope.calMonth = todayVar.getMonth();
-    $scope.calYear = todayVar.getFullYear();
+    todayVar = new Date(); // Handle active month - initial cal 
+    $scope.calMonth = todayVar.getMonth(); // Handle active month - initial cal 
+    $scope.calYear = todayVar.getFullYear(); // Handle active month - initial cal 
+
+    $scope.calDates = []; // Used for refreshing the cal after changes 
     
-    $scope.addRideFlag = false;
+    
+    $scope.addRideFlag = false; 
     $scope.routeFlag = false;
    
     $scope.flipRideFlag = function () {
@@ -845,8 +850,10 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     };
 
 
+
+    // Gets & Stores user History and Routes 
     $scope.userHistory = $rootScope.userHistory;
-    $scope.getHistory = function () {
+    $scope.getHistory = function () { 
         dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
                         .success(function (values) {
                             $scope.userHistory = values;
@@ -898,7 +905,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         
         return monthlyRidesArr;
         
-        };
+    };
 
 
     
@@ -924,7 +931,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         
 
 
-    // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
         
         
 
@@ -953,8 +960,82 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.rightDash = {};
     $scope.rightDash.switch = 1;
 
+    // Flags 
+    $scope.showMyRoutesFlag = false;
+    $scope.flipShowMyRoutesFlag = function () { $scope.showMyRoutesFlag = !$scope.showMyRoutesFlag };
+    $scope.addNewRouteFlag = false;
+    $scope.flipAddNewRouteFlag = function () { $scope.addNewRouteFlag = !$scope.addNewRouteFlag };
+    $scope.addNewSRideFlag = false;
+    $scope.flipAddNewSRideFlag = function () { $scope.addNewSRideFlag = !$scope.addNewSRideFlag };
+    $scope.myStatsFlag = false;
+    $scope.flipMyStatsFlag = function () { $scope.myStatsFlag = !$scope.myStatsFlag };
+    $scope.groupStatsFlag = false;
+    $scope.flipGroupStatsFlag = function () { $scope.groupStatsFlag = !$scope.groupStatsFlag };
+    // Add a new Route 
+    $scope.addNewRoute = function (newRoute) {
+        var route = {
+            UserName: $rootScope.userPersonalInfo.UserName,
+            RouteType: newRoute.type,
+            RouteLength: newRoute.lenght,
+            Comments: newRoute.comments,
+            RouteSource: newRoute.source,
+            RouteDestination: newRoute.destination
+        }
+
+        dataFactory.postValues('Routes', route, false)
+                       .success(function (response) {
+                           $scope.getHistory();
+                           $scope.newRoute = null;
+                           $scope.flipAddNewRouteFlag();
+                           console.log(response);
+                       })
+                       .error(function (response) {
+                           console.log("error");
+                       });
+        
+    }
+
+    // Delete a route 
+
+    $scope.deleteRoute = function (route) {
+
+        var routeDelete = {
+            userName: $rootScope.userPersonalInfo.UserName,
+            routename: route.RouteName
+        }
+
+        var par = "username=" + routeDelete.userName + "&routename=" + routeDelete.routename;
+        dataFactory.deleteValues('Routes', par)
+                       .success(function (response) {
+                           $scope.getHistory();
+                           $scope.flipShowMyRouteFlag();
+                           console.log(response);
+                       })
+                       .error(function (response) {
+                           console.log("error");
+                       });
+
+        console.log(route);
+
+    };
 
 
+
+
+
+    // Google Charts Test 
+
+    //setTimeout(function () { google.load('visualization', '1', { 'callback': 'alert("2 sec wait")', 'packages': ['corechart'] }) }, 2000);
+    
+    //google.setOnLoadCallback(drawChart);
+
+    
+    $scope.chart = [
+          ['Label', 'Value'],
+          ['קלוריות', 95],
+          ['CO2', 65],
+          ['Network', 68]
+    ];
 
     $scope.init = function () {
        

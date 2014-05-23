@@ -71,12 +71,12 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
 // ############# Delete ############################## // 
 // ################################################ // 
 
-    dataFactory.deleteValues = function (id) {
+    dataFactory.deleteValues = function (urlPath, par) {
         return $http({
             method: 'DELETE',
-            url: '/api/' + urlPath,
+            url: '/api/' + urlPath + '?' + par,
             headers: { 'Authorization': 'Bearer ' + session.id },
-            data: dataObj
+            
         });
     };
 

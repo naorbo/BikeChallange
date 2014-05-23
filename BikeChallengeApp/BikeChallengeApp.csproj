@@ -562,6 +562,7 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
     <Content Include="Scripts\underscore-min.js" />
@@ -599,6 +600,14 @@
     <Content Include="sources\images\bc_cover.jpg" />
     <Content Include="sources\images\defaultUserImage.jpg" />
     <Content Include="sources\images\social-icons.png" />
+    <Content Include="sources\images\socialIcons\fb_black.png" />
+    <Content Include="sources\images\socialIcons\fb_color.png" />
+    <Content Include="sources\images\socialIcons\gplus_black.png" />
+    <Content Include="sources\images\socialIcons\gplus_color.png" />
+    <Content Include="sources\images\socialIcons\mail_black.png" />
+    <Content Include="sources\images\socialIcons\mail_color.png" />
+    <Content Include="sources\images\socialIcons\yt_black.png" />
+    <Content Include="sources\images\socialIcons\yt_color.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

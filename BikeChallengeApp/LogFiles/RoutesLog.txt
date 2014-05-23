@@ -1,0 +1,9 @@
+The Routes LOG file
+01:10:44 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
+The statement has been terminated.
+01:11:47 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
+The statement has been terminated.
+01:13:01 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
+The statement has been terminated.
+09:32:04 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
+The statement has been terminated.
