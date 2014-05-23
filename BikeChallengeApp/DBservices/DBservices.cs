@@ -270,7 +270,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Organizations(  OrganizationName, [City], OrganizationDes, OrganizationType, OrganiztionImage ) ";
-        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
+        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}','{4}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
         command = prefix + sb.ToString();
         return command;
     }
