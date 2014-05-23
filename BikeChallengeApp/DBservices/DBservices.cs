@@ -52,7 +52,7 @@ public class DBservices
 #endregion
     // *************************************************************************************
     #region Read From Data Base
-    public DBservices ReadFromDataBase(int select, string data1, string data2="", string data3="", string data4="")
+    public DBservices ReadFromDataBase(int select, string data1, string data2="", string data3="")
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
@@ -117,8 +117,7 @@ public class DBservices
 			case 5:
 			selectStr = @" SELECT 'Exists'
                                 FROM AspNetUsers
-                                WHERE [UserName] = '" + data1 + "' ;";
-             // ReadFromDataBaseUserName
+                                WHERE [UserName] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
 			break;
 			case 6:
             selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
@@ -139,22 +138,24 @@ public class DBservices
 
 			break;
             case 9:
-            selectStr = @"SELECT  R.[RouteName], R.[RouteType], R.[RouteDestination], R.[RouteType], R.[RouteLength], R.[Comments], R.[RouteSource]
+            selectStr = @"SELECT R.Route, R.[RouteName], R.[RouteType], R.[RouteDestination], R.[RouteLength], R.[Comments], R.[RouteSource]
                           FROM [Routes] R, Users U, AspNetUsers anu
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
                           AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
             break;
             case 10:
-            selectStr = @"SELECT  Sum(R.[RideLength]) As User_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points
+            selectStr = @"SELECT  DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As User_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
                         FROM [Rides] R, Users U, AspNetUsers anu
-                        Where R.RideDate between '" + data1 + @"' AND '" + data2 + @"'
-                        AND R.[USER] = U.[User]
+                        Where R.[USER] = U.[User]
                         AND U.Id = anu.Id
-                        AND anu.UserName = '" + data3 + @"';"; //ReadFromDataBase 
+                        AND anu.UserName = '" + data1 + @"' 
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
             break; 
             case 11:
-            selectStr = @"SELECT Sum(R.[RideLength]) As Group_KM, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points
+            selectStr = @"declare @gender nvarchar(5);
+                        set @gender = '" + data3 + @"%';
+                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                         FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.GroupName = '" + data1 + @"'
@@ -164,9 +165,36 @@ public class DBservices
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
-                        AND R.[User] = U.[User]
-                        AND R.RideDate between '" + data3 + @"' AND '" + data4 + @"' ;"; //ReadFromDataBase 
-            break;         
+                        AND R.[User] = U.[User] 
+                        AND U.Gender like @gender
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
+            break;
+            case 12:
+            selectStr = @"declare @gender nvarchar(5);
+                        set @gender = '" + data2 + @"%';
+                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Oganization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Oganization_Points, Sum(R.[RideLength])*0.16 As Oganization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Oganization_Calories
+                        FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
+                        Where G.[Group] <> 0
+                        AND G.Organization = O.Organization
+                        AND O.OrganizationName = '" + data1 + @"'
+                        AND anu.Id = U.Id
+                        AND U.[User] in ( SELECT UG.[User]
+			                        FROM UsersGroups UG
+			                        WHERE G.[Group] = UG.[Group])
+                        AND R.[User] = U.[User] 
+                        AND U.Gender like @gender
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
+            break;  
+                   case 13:
+            selectStr = @" declare @gender nvarchar(5);
+                            set @gender = '" + data1 + @"%';
+                            SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Users_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Users_Points, Sum(R.[RideLength])*0.16 As Users_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Users_Calories
+                            FROM Users U, Rides R
+                            Where R.[Ride] <> 0
+                            AND R.[User] = U.[User]
+                            AND U.Gender like @gender
+                            group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
+            break; 
             
         }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
@@ -242,7 +270,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Organizations(  OrganizationName, [City], OrganizationDes, OrganizationType, OrganiztionImage ) ";
-        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
+        sb.AppendFormat("Values('{0}', (select city from Cities where CityName = '{1}' ) ,'{2}', '{3}','{4}' )", org.Organizationname, org.OrganizationCity, org.OrganizationDes, org.OrganizationType, org.OrganizationImage);
         command = prefix + sb.ToString();
         return command;
     }
@@ -558,7 +586,10 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = @"INSERT INTO [Rides]
+        String prefix = @" declare @user_val int;
+                           set @user_val = 0;
+            select @user_val=U.[User] from Users U, AspNetUsers A where A.UserName = '" + username + @"' AND A.Id = U.Id 
+            INSERT INTO [Rides]
            ([RideName]
            ,[User]
            ,[RideDes]
@@ -567,7 +598,7 @@ public class DBservices
            ,[RideLength]
            ,[RideSource]
            ,[RideDestination]) ";
-        sb.AppendFormat("Values('{0}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{1}' AND A.Id = U.Id ), '{2}', '{3}' ,'{4}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{5}'), (Select [RouteSource] From [Routes] Where [RouteName]='{6}'), (Select [RouteDestination] From [Routes] Where [RouteName]='{7}') )", ridename, username, username + "_Ride", "Route_" + routename, ridedate, routename, routename, routename);
+        sb.AppendFormat("Values('{0}', @user_val, '{1}', (Select [RouteType] From [Routes] Where [RouteName]='{2}' AND [User] = @user_val) ,'{3}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{4}' AND [User] = @user_val), (Select [RouteSource] From [Routes] Where [RouteName]='{5}' AND [User] = @user_val), (Select [RouteDestination] From [Routes] Where [RouteName]='{6}' AND [User] = @user_val) )", ridename, "Route_" + routename, routename, ridedate, routename, routename, routename);
         command = prefix + sb.ToString();
         return command;
     }
@@ -634,6 +665,63 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
+    // ****** Delete Ride *******
+    public int delteRide(string username, string ridename)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+        }
+        String cStr = BuildDelteRideCommand(username, ridename);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Rides", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    private String BuildDelteRideCommand(string username, string ridename)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        String prefix = @"Declare @val int;
+                        Set @val = 0;
+                        SET @val = ( SELECT u.[User]
+				                        FROM [Users] u , [AspNetUsers] asp
+				                        Where asp.UserName = '" + username + @"'
+				                        AND   asp.ID = u.id
+                                        AND   u.[User] <> 0 );
+                        if @val <> 0
+                        begin
+			                   DELETE FROM [Rides] Where [USER] = @val AND [RideName] = '" + ridename + @"';
+                        end";
+        command = prefix;
+        return command;
+    }
     #endregion
     //  ********************** ROUTES ***********************************************
     #region Routes
@@ -692,6 +780,63 @@ public class DBservices
            ,[User]) ";
         sb.AppendFormat("Values('{0}', '{1}','{2}',{3},'{4}','{5}', (select U.[User] from Users U, AspNetUsers A where A.UserName = '{6}' AND A.Id = U.Id ))", rut.RouteName, rut.RouteDestination, rut.RouteType, rut.RouteLength, rut.Comments, rut.RouteSource, rut.UserName);
         command = prefix + sb.ToString();
+        return command;
+    }
+
+    public int delteRoute(string username, string routename)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Routes", ex.Message);
+            return 0;
+        }
+        String cStr = BuildDelteRouteCommand(username, routename);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Routes", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+
+    }
+    private String BuildDelteRouteCommand(string username, string routename)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        String prefix = @"Declare @val int;
+                        Set @val = 0;
+                        SET @val = ( SELECT u.[User]
+				                        FROM [Users] u , [AspNetUsers] asp
+				                        Where asp.UserName = '" + username + @"'
+				                        AND   asp.ID = u.id
+                                        AND   u.[User] <> 0 );
+                        if @val <> 0
+                        begin
+			                   DELETE FROM [Routes] Where [USER] = @val AND [RouteName] = '" + routename + @"';
+                        end";
+        command = prefix;
         return command;
     }
     #endregion

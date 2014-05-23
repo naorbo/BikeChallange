@@ -21,7 +21,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST - Insert new Route into the DB 
         // api/Routes
-        //{"UserName":"tester1", "RouteName":"מסלול 1", "RouteType":"קבוע", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
+        //{"UserName":"tester1", "RouteType":"מסלול 1", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
         public string updateDB([FromBody]Routes rut)
         {
             DBservices dbs = new DBservices();
@@ -55,6 +55,28 @@ namespace BikeChallengeApp.Controllers
             DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(7, "Routes", "[Route]");
             return dbs.dt;
+        }
+
+        // DELETE 
+        // api/Routes?username=[UserName]&routename=[RouteName]
+        public string Delete(string username, string routename)
+        {
+            DBservices dbs = new DBservices();
+            string Response = "";
+            try
+            {
+                return_val = dbs.delteRoute(username,routename);
+            }
+            catch (Exception ex)
+            {
+                Response = ("Error in the Delete process of the Route " + routename + " of " + username + ", " + ex.Message);
+                lf.Main("Routes", Response);
+                return "Error";
+            }
+            Response = "The Route " + routename + " was Deleted from the Database";
+            lf.Main("Routes", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
         }
     }
 }
