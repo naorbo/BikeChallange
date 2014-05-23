@@ -59,31 +59,31 @@ namespace BikeChallengeApp.Controllers
         }
         */
         // GET Stat per USERNAME
-        // api/Stat?date1=06-09-1985&date2=01-01-2014&username=[The username of the rider]
-        public DataTable GetUser( string date1, string date2, string username)
+        // api/Stat?username=[The username of the rider]
+        public DataTable GetUser( string username)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(10, date1, date2, username);
+            dbs = dbs.ReadFromDataBase(10, username);
             return dbs.dt;
         }
         // GET Stat per Group
-        // api/Stat?grpname=[The name of the group]&orgname=[The name of the organizations]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
-        public DataTable GetGroup(string grpname, string orgname, string date1, string date2, string gender="")
+        // api/Stat?grpname=[The name of the group]&orgname=[The name of the organizations]&gender=[זכר/נקבה not mendatory]
+        public DataTable GetGroup(string grpname, string orgname, string gender="")
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(11, grpname, orgname, date1, date2, gender);
+            dbs = dbs.ReadFromDataBase(11, grpname, orgname, gender);
             return dbs.dt;
         }
         // GET Stat per Organization
-        // api/Stat?orgname=[The name of the group]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
-        public DataTable GetOrganization(string orgname, string date1, string date2,string gender="")
+        // api/Stat?orgname=[The name of the group]&gender=[זכר/נקבה not mendatory]
+        public DataTable GetOrganization(string orgname, string gender="")
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(12, orgname, date1, date2, gender);
+            dbs = dbs.ReadFromDataBase(12, orgname, gender);
             return dbs.dt;
         }
         // GET Stat for all users
-        // api/Stat?orgname=[The name of the group]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
+        // api/Stat?gender=[זכר/נקבה not mendatory]
         public DataTable GetUsers(string gender = "")
         {
             DBservices dbs = new DBservices();

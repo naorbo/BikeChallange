@@ -52,7 +52,7 @@ public class DBservices
 #endregion
     // *************************************************************************************
     #region Read From Data Base
-    public DBservices ReadFromDataBase(int select, string data1, string data2="", string data3="", string data4="", string data5="")
+    public DBservices ReadFromDataBase(int select, string data1, string data2="", string data3="")
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
@@ -145,17 +145,17 @@ public class DBservices
                           AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase 
             break;
             case 10:
-            selectStr = @"SELECT  Sum(R.[RideLength]) As User_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
+            selectStr = @"SELECT  DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As User_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
                         FROM [Rides] R, Users U, AspNetUsers anu
-                        Where R.RideDate between '" + data1 + @"' AND '" + data2 + @"'
-                        AND R.[USER] = U.[User]
+                        Where R.[USER] = U.[User]
                         AND U.Id = anu.Id
-                        AND anu.UserName = '" + data3 + @"' ;"; //ReadFromDataBase 
+                        AND anu.UserName = '" + data1 + @"' 
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
             break; 
             case 11:
             selectStr = @"declare @gender nvarchar(5);
-                        set @gender = '" + data5 + @"%';
-                        SELECT Sum(R.[RideLength]) As Group_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
+                        set @gender = '" + data3 + @"%';
+                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                         FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.GroupName = '" + data1 + @"'
@@ -165,14 +165,14 @@ public class DBservices
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
-                        AND R.[User] = U.[User]
-                        AND R.RideDate between '" + data3 + @"' AND '" + data4 + @"' 
-                        AND U.Gender like @gender;"; //ReadFromDataBase 
+                        AND R.[User] = U.[User] 
+                        AND U.Gender like @gender
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
             break;
             case 12:
             selectStr = @"declare @gender nvarchar(5);
-                        set @gender = '" + data4 + @"%';
-                        SELECT Sum(R.[RideLength]) As Oganization_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Oganization_Points, Sum(R.[RideLength])*0.16 As Oganization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Oganization_Calories
+                        set @gender = '" + data2 + @"%';
+                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Oganization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Oganization_Points, Sum(R.[RideLength])*0.16 As Oganization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Oganization_Calories
                         FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.Organization = O.Organization
@@ -181,19 +181,19 @@ public class DBservices
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
-                        AND R.[User] = U.[User]
-                        AND R.RideDate between '" + data2 + @"' AND '" + data3 + @"' 
-                        AND U.Gender like @gender;"; //ReadFromDataBase 
+                        AND R.[User] = U.[User] 
+                        AND U.Gender like @gender
+                        group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
             break;  
                    case 13:
             selectStr = @" declare @gender nvarchar(5);
                             set @gender = '" + data1 + @"%';
-                            SELECT Sum(R.[RideLength]) As Group_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
+                            SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Users_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Users_Points, Sum(R.[RideLength])*0.16 As Users_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Users_Calories
                             FROM Users U, Rides R
                             Where R.[Ride] <> 0
                             AND R.[User] = U.[User]
-                            AND R.RideDate between '01-01-1985' AND '01-01-2015' 
-                            AND U.Gender like @gender;"; //ReadFromDataBase 
+                            AND U.Gender like @gender
+                            group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
             break; 
             
         }
