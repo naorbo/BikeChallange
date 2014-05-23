@@ -66,5 +66,26 @@ namespace BikeChallengeApp.Controllers
             dbs = dbs.ReadFromDataBase(8, username);
             return dbs.dt;
         }
+        // DELETE 
+        // api/Rides?username=[UserName]&ridename=[RideName]
+        public string Delete(string username, string ridename)
+        {
+            DBservices dbs = new DBservices();
+            string Response = "";
+            try
+            {
+                return_val = dbs.delteRide(username, ridename);
+            }
+            catch (Exception ex)
+            {
+                Response = ("Error in the Delete process of the Ride " + ridename + " of " + username + ", " + ex.Message);
+                lf.Main("Rides", Response);
+                return "Error";
+            }
+            Response = "The Ride " + ridename + " was Deleted from the Database";
+            lf.Main("Rides", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
     }
 }

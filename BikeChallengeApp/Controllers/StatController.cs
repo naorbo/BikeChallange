@@ -58,20 +58,36 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
         */
-        // GET Stats per USERNAME
-        // api/Stats?date1=06-09-1985&date2=01-01-2014&username=[The username of the rider]
+        // GET Stat per USERNAME
+        // api/Stat?date1=06-09-1985&date2=01-01-2014&username=[The username of the rider]
         public DataTable GetUser( string date1, string date2, string username)
         {
             DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(10, date1, date2, username);
             return dbs.dt;
         }
-        // GET Stats per Group
-        // api/Stats?grpname=[The name of the group]&orgname=[The name of the organizations]&date1=06-09-1985&date2=01-01-2014
-        public DataTable GetUser( string grpname, string orgname, string date1, string date2)
+        // GET Stat per Group
+        // api/Stat?grpname=[The name of the group]&orgname=[The name of the organizations]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
+        public DataTable GetGroup(string grpname, string orgname, string date1, string date2, string gender="")
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(11, grpname, orgname, date1, date2);
+            dbs = dbs.ReadFromDataBase(11, grpname, orgname, date1, date2, gender);
+            return dbs.dt;
+        }
+        // GET Stat per Organization
+        // api/Stat?orgname=[The name of the group]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
+        public DataTable GetOrganization(string orgname, string date1, string date2,string gender="")
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(12, orgname, date1, date2, gender);
+            return dbs.dt;
+        }
+        // GET Stat for all users
+        // api/Stat?orgname=[The name of the group]&date1=06-09-1985&date2=01-01-2014&gender=[זכר/נקבה not mendatory]
+        public DataTable GetUsers(string gender = "")
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(13, gender);
             return dbs.dt;
         }
     }

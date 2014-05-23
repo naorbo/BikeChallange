@@ -1,0 +1,6 @@
+The Routes LOG file
+12:26:17 : Conversion failed when converting the varchar value 'מסלול1' to data type int.
+12:26:17 : The Route 1 was Deleted from the Database
+12:31:14 : Conversion failed when converting the varchar value 'מסלול1' to data type int.
+12:31:14 : The Route 1 was Deleted from the Database
+12:32:47 : The Route 1 was Deleted from the Database
