@@ -16,48 +16,7 @@ namespace BikeChallengeApp.Controllers
 {
     public class StatController : ApiController
     {
-        int return_val = 0;
-        LogFiles lf = new LogFiles();
-        /*
-        // POST - Insert new Ride into the DB 
-        // api/Rides
-        //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
-        public string updateDB([FromBody]Rides rds)
-        {
-            DBservices dbs = new DBservices();
-            try
-            {
-                return_val = dbs.insertRide(rds);
-            }
-            catch (Exception ex)
-            {
-                string Response = ("Error while trying to INSERT the new Ride to the database " + ex.Message);
-                lf.Main("Rides", Response);
-                return "Error";
-            }
-            if (return_val == 0) { return "Error"; }
-            return "Success";
-        }
-
-        // POST - Insert new Ride From an exiting Route 
-        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
-        public string updateDB(string username, string routename, string ridedate, string roundtrip)
-        {
-            DBservices dbs = new DBservices();
-            try
-            {
-                return_val = dbs.insertRideFromRoute(username, routename, ridedate, roundtrip);
-            }
-            catch (Exception ex)
-            {
-                string Response = ("Error while trying to INSERT the new Ride to the database " + ex.Message);
-                lf.Main("Rides", Response);
-                return "Error";
-            }
-            if (return_val == 0) { return "Error"; }
-            return "Success";
-        }
-        */
+        
         // GET Stat per USERNAME
         // api/Stat?username=[The username of the rider]
         public DataTable GetUser( string username)

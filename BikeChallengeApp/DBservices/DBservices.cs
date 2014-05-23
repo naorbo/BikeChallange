@@ -15,8 +15,25 @@ public class DBservices
 {
     public SqlDataAdapter da;
     public DataTable dt;
-    LogFiles lf = new LogFiles(); 
+    LogFiles lf = new LogFiles();
 
+    
+    /*
+    public int abc()
+    {
+        Organization orr = new Organization();
+        Group grp = new Group();
+
+        string val_test = orr.GetType().Name;
+        string val = def(val_test);
+        return 1;
+    }
+    public string def(string orr)
+    {
+        
+        string test = orr.OrganizationCity;
+        return test;
+    }*/
     public DBservices()
     {
         //
@@ -88,16 +105,11 @@ public class DBservices
                                 AND anu.UserName = '" + data1 + "';"; //GET RIDER from USERNAME
 			break;
 			case 3:
-            selectStr = @"SELECT [GroupName],[GroupDes], anu.UserName AS Captain_UserName
-                                FROM [Groups] G, Organizations O, AspNetUsers anu, Users U
+            selectStr = @"SELECT [GroupName],[GroupDes]
+                                FROM [Groups] G, Organizations O
                                 WHERE [GROUP] <> 0 
                                 AND G.[Organization] = O.[Organization]
-                                AND anu.Id = U.Id
-                                AND O.OrganizationName = '" + data1 + @"' 
-                                AND U.Captain = 1
-                                AND U.[User] in ( SELECT UG.[User]
-												FROM UsersGroups UG
-												WHERE G.[Group] = UG.[Group]);"; // Group From ORG
+                                AND O.OrganizationName = '" + data1 + @"';"; // Group From ORG
 			break;
 			case 4:
 
