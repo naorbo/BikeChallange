@@ -60,14 +60,14 @@ namespace BikeChallengeApp.Models
             get { return rideDestination; }
             set { rideDestination = value; }
         }
-        public Rides(string username, string ridetype, decimal rideLength, string ridedestination, string ridesource)
+        public Rides(string username, string ridetype, decimal rideLength, string ridedestination, string ridesource, string ridedate)
         {
             UserName = username;
             RideType = ridetype;
             RideLength = rideLength;
             RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
             RideDes = username + "_Ride";
-            RideDate = DateTime.Now.Date.ToString("yyyy-MM-dd");
+            RideDate = ridedate;
             RideDestination = ridedestination;
             RideSource = ridesource;
             

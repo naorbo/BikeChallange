@@ -1,7 +1,13 @@
 The Rides LOG file
+<<<<<<< HEAD
 17:29:59 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
 The statement has been terminated.
 17:32:32 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
 The statement has been terminated.
 17:35:40 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
 The statement has been terminated.
+=======
+18:40:30 : ExecuteNonQuery: CommandText property has not been initialized
+18:43:16 : ExecuteNonQuery: CommandText property has not been initialized
+18:43:43 : ExecuteNonQuery: CommandText property has not been initialized
+>>>>>>> 74a8e3f2b57d7f8e243cd898f96bb57dd36f2c84

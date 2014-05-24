@@ -117,7 +117,7 @@ public class DBservices
                                 FROM AspNetUsers
                                 WHERE [UserName] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
 			break;
-			case 6:
+            case 6:
             selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
                                 FROM Organizations O, Cities C
                                 Where O.Organization <> 0
@@ -192,7 +192,12 @@ public class DBservices
                             AND R.[User] = U.[User]
                             AND U.Gender like @gender
                             group by DATEPART(mm, R.RideDate) , DATEPART(yyyy, R.RideDate);"; //ReadFromDataBase 
-            break; 
+            break;
+            case 14:
+            selectStr = @" SELECT 'Exists'
+                                FROM [Users]
+                                WHERE [UserEmail] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
+            break;
             
         }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
@@ -272,7 +277,7 @@ public class DBservices
             { 
             string ridename = "";
             ridename = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
-            BuildInsertRidesFromroutesCommand1(data1, data2, data3, ridename, data4);
+            cStr = BuildInsertRidesFromroutesCommand1(data1, data2, data3, ridename, data4);
             }
             break;
         }       
@@ -319,15 +324,15 @@ public class DBservices
         switch (_class)
         {
             case "Rider":
-               BuildDelteRiderCommand(data1);      // helper method to build the insert string
+               cStr = BuildDelteRiderCommand(data1);      // helper method to build the insert string
                 break;
 
             case "Rides":
-                BuildDelteRideCommand(data1, data2);      // helper method to build the insert string
+                cStr = BuildDelteRideCommand(data1, data2);      // helper method to build the insert string
                 break;
 
             case "Routes":
-                BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
+                cStr = BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
                 break;
             
         }

@@ -18,10 +18,16 @@ namespace BikeChallengeApp.Controllers
                 return dbs.dt.Rows[0].ItemArray[0].ToString();
             else
                 return "NOT EXISTS";
-            //if (return_val == "Exists")
-           //     return true;
-           // else
-           // return false;
+        }
+        // GET api/UserNameExists?email=user@user.com
+        public string GetEmail(string email)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(14, email);
+            if (dbs.dt.Rows.Count > 0)
+                return dbs.dt.Rows[0].ItemArray[0].ToString();
+            else
+                return "NOT EXISTS";
         }
     }
 }
