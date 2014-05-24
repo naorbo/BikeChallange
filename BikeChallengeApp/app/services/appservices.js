@@ -87,6 +87,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
                 
         })
             .success(function (response) {
+
                 //service.loginToken = [];
                 deferred.resolve(response);
             })

@@ -81,7 +81,7 @@
                     <input type="radio" data-icheck ng-model="personalDetails.bikeType" value="חשמליים" required />&nbsp חשמליים
                     <br /><br />
 
-                    <input type="number" class="form-control" ng-model="personalDetails.owLength" placeholder=" אורך נסיעה בקילומטרים" min="0" required /><br />
+                    
                     <br />
                     <h3><small>ארגון</small></h3>
                     <input type="text" class="form-control" placeholder="ארגון" ng-readonly="personalDetails.org!==null" ng-model="personalDetails.org" required />
@@ -152,12 +152,15 @@
                         <br />
                        
                         <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
-                        <input type="text" class="form-control" ng-model="newOrg.OrganizationCity" placeholder="עיר" required /><br />
+                        <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationCity" placeholder="עיר" required /><br />-->
+
+                        <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
+                        
                         <input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />
-                        <input type="text" class="form-control" ng-model="newOrg.OrganizationEmail" placeholder="דואר אלקטרוני" required /><br />
-                        <input type="text" class="form-control" ng-model="newOrg.OrganizationAddress" placeholder="כתובת" required /><br />
-                        <input type="tel" class="form-control" ng-model="newOrg.OrganizationPhone" placeholder="מספר טלפון" required /><br />
+                        
                         <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="סוג הארגון" required /><br />
+                        
+                        <input type="file" class="form-control" ng-file-select="onFileSelectOrg($files)"  ng-model="newOrg.imagePath" placeholder="תמונה" required /><br />
                         <!--    <input type="file" class="form-control" ng-model="newOrg.image" placeholder="לוגו" required /><br />-->
                         
                     </div>

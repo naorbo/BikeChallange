@@ -5,20 +5,20 @@
 </head>
 <body>
     
+    <div class="pull-left" style="padding-top:20px"><img src='{{userOrg.OrganiztionImage}}' class="img-rounded" style="width:75px; height:75px; "></div>
     <div class="row" style="padding-top:50px">
-        <table >
+        
+        <table  >
             <tr>
-                <td rowspan="3"> <img src='{{personalInfoHolder.ImagePath}}' class="img-rounded" style="width:150px; border:solid; border-width:1px"> </td>
-                <td></td>
+                <td > <img src='{{personalInfoHolder.ImagePath}}' class="img-rounded" style="width:150px; "> </td>
+                <td valign="bottom"><h1>&nbsp; {{personalInfoHolder.UserFname}}  {{personalInfoHolder.UserLname}}</h1></td>
+                
             </tr>
-            <tr><td></td><td></td></tr>
-            <tr>
-                <td></td>
-                <td valign="bottom" ><h1>&nbsp; {{personalInfoHolder.UserFname}}  {{personalInfoHolder.UserLname}}</h1></td>
-            </tr>
+            
+            
         </table>
     </div>
-     
+     <div></div>
    <br/>
     
        <!-- My Personal Info -->
@@ -40,11 +40,11 @@
                        </tr>
                        <tr>
                            <td>עיר</td>
-                           <td></td>
+                           <td>{{personalInfoHolder.RiderCity}}</td>
                        </tr>
                        <tr>
                            <td>תאריך לידה</td>
-                           <td></td>
+                           <td>{{personalInfoHolder.BirthDate}}</td>
                        </tr>
 
                    </table>    
@@ -65,7 +65,7 @@
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td>{{myGroup.CityName}}</td>
+                            <td>{{personalInfoHolder.OrgCity}}</td>
                         </tr>
                         <tr>
                             <td>שם הקבוצה</td>
@@ -73,7 +73,7 @@
                         </tr>
                         <tr>
                             <td>קפטן</td>
-                            <td></td>
+                            <td>{{userGroup.Captain_UserName}}</td>
                         </tr>
 
                     </table>

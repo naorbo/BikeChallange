@@ -72,7 +72,10 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     $scope.userRegistration = function (userName) {
         //authFactory.registerDetails($scope.personalDetails).then(function () {
         //})
-        console.log("this is the user"+$scope.regDetails.userName.$viewValue);
+
+
+
+        console.log("this is the user" + $scope.regDetails.userName.$viewValue);
         // Parse all info and adjust to server vars
         var userDetails = {};
         userDetails.RiderEmail = $scope.$$childHead.personalDetails.email;
@@ -83,7 +86,10 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         userDetails.City = $scope.$$childHead.personalDetails.city.CityName;
         userDetails.RiderPhone = $scope.$$childHead.personalDetails.phone;
         userDetails.BicycleType = $scope.$$childHead.personalDetails.bikeType;
-        userDetails.ImagePath = $scope.$$childHead.personalDetails.imagePath;
+        if ($scope.$$childHead.personalDetails.imagePath == undefined)
+            { userDetails.ImagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg"}
+        else
+            { userDetails.ImagePath = $scope.$$childHead.personalDetails.imagePath; }
         userDetails.BirthDate = $scope.$$childHead.personalDetails.bDay;
         userDetails.UserName = $scope.regDetails.userName.$viewValue;
         userDetails.Captain = "0"; 
@@ -100,8 +106,13 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         
         dataFactory.postValues('Rider',userDetails,false)
                  .success(function (values) {
-                     alert("ההרשמה הסתיימה בהצלחה!");
-                     $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                     if (values == "Error")
+                     { alert(" בדוק את הפרטים שהזמנת ונסה בשנית ,ההרשמה נכשלה!"); }
+                     else
+                     {
+                         alert("ההרשמה הסתיימה בהצלחה!");
+                         $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                     }
                      
                  })
                  .error(function (error) {
@@ -161,14 +172,27 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     // New Organization Creator 
 
     $scope.regNewOrg = function (newOrgObj) {
-       
-        dataFactory.postValues('Organization',newOrgObj,false)
+        
+        if (newOrgObj.imagePath == undefined) {
+            newOrgObj.imagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg";
+        }
+        
+        var newOrg = {
+            OrganizationName: newOrgObj.OrganizationName,
+            OrganizationCity: newOrgObj.OrganizationCity.CityName,
+            OrganizationDes: newOrgObj.OrganizationDes,
+            OrganizationType: newOrgObj.OrganizationType,
+            OrganizationImage: newOrgObj.imagePath
+            
+        };
+   
+        dataFactory.postValues('Organization',newOrg,false)
              .success(function (response) {
                  console.log(response);
                  $scope.newOrgFlag = true;
-                 alert("  הארגון  " + newOrgObj.OrganizationName + "  נוצר בהצלחה ! ");
+                 alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
                  // Closing Modal window 
-                 $scope.$$childHead.personalDetails.org = newOrgObj.OrganizationName;
+                 $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
                  $('#myNewOrgModal').modal('hide');
              })
              .error(function (error) {
@@ -221,7 +245,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
              });
     }
 
-    // Upload image handling 
+    // Upload image handling for user profile 
 
 
     $scope.upload = [];
@@ -256,6 +280,41 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         $scope.upload[index].abort();
     }
 
+
+    // Upload image handling for Org profile 
+
+    // api/OrganizationImage?OrgName=[orgname]
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelectOrg = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    method: "POST",
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.newOrg.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
 
 
     //Get City list
@@ -324,16 +383,29 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
                         $rootScope.userPersonalInfo = values[0];
                         console.log("Fetch user info for " + $scope.currentUser);
                         console.log($scope.personalInfoHolder);
-                        console.log("logged in as : " + $scope.currentUser);
-                        $location.url("/userProfile");
-                    })
+
+                        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                            .success(function (values) {
+                                $scope.userGroup = values[0];
+                                
+                                dataFactory.getValues('Organization', true, "orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                                    .success(function (values) {
+                                        $scope.userOrg = values[0];
+                                        $location.url("/userProfile");
+                                    })
+                                    .error(function (value) {
+                                        console.log("error");
+
+                                        $location.url("/userProfile");
+                                    })
+                            .error(function (value) {
+                                console.log("error");
+                            });
+                            })
                     .error(function (value) {
                         console.log("error");
-                    });
-
-
-            
-        });
+                    });       
+                    } )});
 
     $scope.$on('auth-login-failed', function () { console.log("Login Failed") });
 
@@ -373,6 +445,8 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
     
     console.log($scope.currentUser);
+    $scope.userGroupInfo = $rootScope.userGroup;
+    
     $scope.userPersonalInfo = $rootScope.userPersonalInfo;
     $rootScope.userStats = [
         {
@@ -382,10 +456,10 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
         }
     ];
 
-    $scope.getGroup = function () {
+    var getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                 .success(function (values) {
-                    $scope.myGroup = values;
+                    return  values;
                 })
                 .error(function (value) {
                     console.log("error");
@@ -396,7 +470,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                 .success(function (values) {
                     $scope.personalInfoHolder = values[0];
                     $rootScope.userPersonalInfo = values[0];
-                    $scope.getGroup();
+                    $scope.myGroup = getGroup();
                     console.log("Fetch user info for " + $scope.currentUser);
                     console.log($scope.personalInfoHolder);
                 })
@@ -724,12 +798,8 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
     };
 
-
-
-
-
-    // Google Charts Test 
-
+    // Stats Handling 
+//  #######################33
     //setTimeout(function () { google.load('visualization', '1', { 'callback': 'alert("2 sec wait")', 'packages': ['corechart'] }) }, 2000);
     
     //google.setOnLoadCallback(drawChart);
@@ -926,6 +996,31 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     };
 
 
+
+
+    $scope.addNewSpontanicRide = function (newRide) {
+        var newSRide = {
+            UserName: $rootScope.userPersonalInfo.UserName,
+            RideType: newRide.type,
+            RideLength: newRide.length,
+            RideSource: newRide.source,
+            RideDestination: newRide.destination
+        }
+        dataFactory.postValues('Rides', newSRide, false)
+                                .success(function (response) {
+                                    $scope.addNewSRideFlag = false;
+                                    $scope.getHistory();
+                                    console.log(response);
+                                })
+                                .error(function (response) {
+                                    console.log("error");
+                                });
+    }
+
+    //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
+
+
+    // Controller init 
     $scope.init = function () {       
     }
 
