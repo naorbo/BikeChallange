@@ -44,14 +44,12 @@ namespace BikeChallengeApp.Models
             get { return organizationCity; }
             set { organizationCity = value; }
         }
-
         public Organization()
         {
             //
             // TODO: Add constructor logic here
             //
         }
-
         public Organization(string organizationName, string organizationCity, string organizationDes, string organizationImage, string organizationType)
         {
             Organizationname = organizationName;
@@ -65,14 +63,7 @@ namespace BikeChallengeApp.Models
         {
             DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(7, "Organizations", "Organization") ;    
-            return dbs.dt; 
-            
-        }
-        public void updateDatabase(Organization org)
-        {
-
-            DBservices dbs = new DBservices();
-            dbs.insertOrganization(org);
+            return dbs.dt;   
         }
     }
 }

@@ -72,5 +72,10 @@ namespace BikeChallengeApp.Models
             RideSource = ridesource;
             
         }
+
+        public Rides()
+        {
+            // TODO: Complete member initialization
+        }
     }
 }

@@ -25,9 +25,11 @@ namespace BikeChallengeApp.Controllers
         public string updateDB([FromBody]Routes rut)
         {
             DBservices dbs = new DBservices();
+            List<Object> mlist = new List<Object>();
+            mlist.Add(rut);
             try
             {
-                return_val = dbs.insertRoutes(rut);
+                return_val = dbs.InsertDatabase(mlist);
             }
             catch (Exception ex)
             {
@@ -65,7 +67,7 @@ namespace BikeChallengeApp.Controllers
             string Response = "";
             try
             {
-                return_val = dbs.delteRoute(username,routename);
+                return_val = dbs.DeleteDatabase("Routes",username, routename);
             }
             catch (Exception ex)
             {

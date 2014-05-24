@@ -201,7 +201,6 @@
     <Compile Include="Controllers\OrganizationController.cs" />
     <Compile Include="Controllers\RiderController.cs" />
     <Compile Include="Controllers\UserNameExistsController.cs" />
-    <Compile Include="DBservices\auxiliary.cs" />
     <Compile Include="DBservices\DBservices.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

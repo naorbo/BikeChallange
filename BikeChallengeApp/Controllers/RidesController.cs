@@ -18,16 +18,18 @@ namespace BikeChallengeApp.Controllers
     {
         int return_val = 0;
         LogFiles lf = new LogFiles();
-        
+        DBservices dbs = new DBservices();
+
         // POST - Insert new Ride into the DB 
         // api/Rides
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
         public string updateDB([FromBody]Rides rds)
         {
-            DBservices dbs = new DBservices();
+            List<Object> mlist = new List<Object>();
+            mlist.Add(rds);
             try
             {
-                return_val = dbs.insertRide(rds);
+                return_val = dbs.InsertDatabase(mlist);
             }
             catch (Exception ex)
             {
@@ -43,10 +45,12 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
         public string updateDB(string username, string routename, string ridedate, string roundtrip)
         {
-            DBservices dbs = new DBservices();
+            List<Object> mlist = new List<Object>();
+            Rides rds = new Rides();
+            mlist.Add(rds);
             try
             {
-                return_val = dbs.insertRideFromRoute(username, routename,ridedate,roundtrip);
+                return_val = dbs.InsertDatabase(mlist,username, routename, ridedate, roundtrip);
             }
             catch (Exception ex)
             {
@@ -62,7 +66,6 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=[The username of the rider] - Not case sensative
         public DataTable GetUser(string username)
         {
-            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(8, username);
             return dbs.dt;
         }
@@ -70,11 +73,10 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=[UserName]&ridename=[RideName]
         public string Delete(string username, string ridename)
         {
-            DBservices dbs = new DBservices();
             string Response = "";
             try
             {
-                return_val = dbs.delteRide(username, ridename);
+                return_val = dbs.DeleteDatabase("Rides",username, ridename);
             }
             catch (Exception ex)
             {

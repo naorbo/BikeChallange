@@ -24,11 +24,11 @@ namespace BikeChallengeApp.Controller
     {
         LogFiles lf = new LogFiles();
         int return_val = 0;
+        DBservices dbs = new DBservices();
         // GET organization 
         // api/Organization?orgname=[The name of the organization] - Not case sensative
         public DataTable GetUser(string orgname)
         {
-            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(6, orgname);
             return dbs.dt;
         }
@@ -44,11 +44,11 @@ namespace BikeChallengeApp.Controller
         //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationDes":"מידעטק טכנולוגיות" , "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
         public string updateDB([FromBody]Organization org)
         {
-            //Organization org = new Organization(organizationName, organizationCity, organizationDes, organizationEmail,  organizationAddress, organizationPhone, organizationType);
-            DBservices dbs = new DBservices();
+            List<Object> mlist = new List<Object>();
+            mlist.Add(org);
             try
             {
-                return_val = dbs.insertOrganization(org);     
+                return_val = dbs.InsertDatabase(mlist);     
             }
             catch (Exception ex)
             {

@@ -13,38 +13,24 @@ using BikeChallengeApp.Models;
 /// </summary>
 public class DBservices
 {
+    #region Init
     public SqlDataAdapter da;
     public DataTable dt;
     LogFiles lf = new LogFiles();
 
-    
-    /*
-    public int abc()
-    {
-        Organization orr = new Organization();
-        Group grp = new Group();
-
-        string val_test = orr.GetType().Name;
-        string val = def(val_test);
-        return 1;
-    }
-    public string def(string orr)
-    {
-        
-        string test = orr.OrganizationCity;
-        return test;
-    }*/
     public DBservices()
     {
         //
         // TODO: Add constructor logic here
         //
     }
+    #endregion
+
+    #region Connections Methods
 
     //--------------------------------------------------------------------------------------------------
     // This method creates a connection to the database according to the connectionString name in the web.config 
     //--------------------------------------------------------------------------------------------------
-    #region Connections Methods
     public SqlConnection connect(String conString)
     {
         // read the connection string from the configuration file
@@ -67,7 +53,7 @@ public class DBservices
     }
     // **************************************************************************************
 #endregion
-    // *************************************************************************************
+    
     #region Read From Data Base
     public DBservices ReadFromDataBase(int select, string data1, string data2="", string data3="")
     {
@@ -184,7 +170,7 @@ public class DBservices
             case 12:
             selectStr = @"declare @gender nvarchar(5);
                         set @gender = '" + data2 + @"%';
-                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Oganization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Oganization_Points, Sum(R.[RideLength])*0.16 As Oganization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Oganization_Calories
+                        SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories
                         FROM Groups G, Organizations O, AspNetUsers anu, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.Organization = O.Organization
@@ -235,11 +221,20 @@ public class DBservices
     }
 #endregion
 
-    #region Organizations
-    public int insertOrganization(Organization org)
+    #region Insert New Record
+    public int InsertDatabase(List<Object> s, string data1="", string data2="", string data3="", string data4="")
     {
+        string _class ="";
+        string typeOfObject = s[0].GetType().ToString();
+        
+        if(typeOfObject.Contains("Routes"))  _class = "Routes";
+        else if(typeOfObject.Contains("Organization"))  _class = "Organization";
+        else if(typeOfObject.Contains("Group"))  _class = "Group";
+        else if (typeOfObject.Contains("Rides")) _class = "Rides";
+        
         SqlConnection con;
         SqlCommand cmd;
+        String cStr = "";
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -247,10 +242,40 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
-            lf.Main("Organizations", ex.Message);
+            lf.Main(_class, ex.Message);
             return 0;
         }
-        String cStr = BuildInsertOrganizationCommand(org);      // helper method to build the insert string
+        switch (_class)
+        {
+            case "Routes":
+                foreach (Routes obj in s)
+                cStr = BuildInsertRoutesCommand(obj);      // helper method to build the insert string
+            break;
+            
+            case "Group":
+                foreach (Group obj in s)
+                cStr = BuildInsertGroupCommand(obj);      // helper method to build the insert string
+            break;
+
+            case "Organization":
+            foreach (Organization obj in s)
+                cStr = BuildInsertOrganizationCommand(obj);      // helper method to build the insert string
+            break;
+            
+            case "Rides":
+            if (data1 == "")
+            {
+                foreach (Rides obj in s)
+                    cStr = BuildInsertRidesCommand(obj); // helper method to build the insert string
+            }
+            else
+            { 
+            string ridename = "";
+            ridename = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+            BuildInsertRidesFromroutesCommand1(data1, data2, data3, ridename, data4);
+            }
+            break;
+        }       
         cmd = CreateCommand(cStr, con);             // create the command
         try
         {
@@ -260,7 +285,7 @@ public class DBservices
         catch (Exception ex)
         {
             // write to log
-            lf.Main("Organizations", ex.Message);
+            lf.Main(_class, ex.Message);
             return 0;
             //return 0;
         }
@@ -273,6 +298,65 @@ public class DBservices
             }
         }
     }
+    #endregion
+
+    #region Delete Record
+    public int DeleteDatabase(string _class, string data1, string data2 = "")
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+        String cStr = "";
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main(_class, ex.Message);
+            return 0;
+        }
+        switch (_class)
+        {
+            case "Rider":
+               BuildDelteRiderCommand(data1);      // helper method to build the insert string
+                break;
+
+            case "Rides":
+                BuildDelteRideCommand(data1, data2);      // helper method to build the insert string
+                break;
+
+            case "Routes":
+                BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
+                break;
+            
+        }
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main(_class, ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    #endregion
+
+    #region Organizations
+    
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
@@ -287,10 +371,11 @@ public class DBservices
         return command;
     }
 #endregion
-    //  ********************** RIDERS  ***********************************************
+    
     #region Rider
-    public int updateRiderInDatabase(string username, Rider rdr)
-    {
+    // Update An Existing Rider
+    public int updateRiderInDatabase(Rider rdr, string username)
+        {
         SqlConnection con;
         SqlCommand cmd;
         try
@@ -303,7 +388,7 @@ public class DBservices
             lf.Main("Users", ex.Message);
             return 0;
         }
-        String cStr = BuildUpdateRiderCommand(username, rdr);      // helper method to build the insert string
+        String cStr = BuildUpdateRiderCommand(rdr, username);      // helper method to build the insert string
         cmd = CreateCommand(cStr, con);             // create the command
         try
         {
@@ -325,44 +410,8 @@ public class DBservices
                 con.Close();
             }
         }
-    }
-    public int delteRider(string username)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Users", ex.Message);
-            return 0;
-        }
-        String cStr = BuildDelteRiderCommand(username);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Users", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-    }
+    }    
+    // Insert new Rider
     public int insertRider(Rider rdr)
     {
         SqlConnection con;
@@ -461,8 +510,7 @@ public class DBservices
         command = prefix;
         return command;
     }
-
-    private String BuildUpdateRiderCommand(string username, Rider rdr)
+    private String BuildUpdateRiderCommand(Rider rdr, string username)
     {
         String command;
         StringBuilder sb = new StringBuilder();
@@ -487,46 +535,8 @@ public class DBservices
         return command;
     }
 #endregion
-    //  ********************** Groups ***********************************************
-
+    
     #region Groups
-    public int insertGroup(Group grp)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Groups", ex.Message);
-            return 0; 
-        }
-        String cStr = BuildInsertGroupCommand(grp);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-       try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Groups", ex.Message);
-            return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
     //--------------------------------------------------------------------
     // Build the Insert command String
     //--------------------------------------------------------------------
@@ -541,63 +551,19 @@ public class DBservices
         return command;
     }
     #endregion
-    //  ********************** RIDES ***********************************************
+    
     #region Rides
-    // Insert Ride From Route
-    public int insertRideFromRoute(string username, string routename, string ridedate, string roundtrip)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        int isroundtrip = 0;
-        string ridename = "";
-        ridename = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
-        if (roundtrip == "True")
-            isroundtrip = 2;
-        else
-            isroundtrip = 1;
-        
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-        }
-        String cStr = BuildInsertRidesFromroutesCommand1(username, routename, ridedate, isroundtrip,ridename);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-
-            return numEffected; 
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-
-    private String BuildInsertRidesFromroutesCommand1(string username, string routename, string ridedate, int roundtrip, string ridename)
+    private String BuildInsertRidesFromroutesCommand1(string username, string routename, string ridedate, string ridename, string roundtrip)
     {
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
+        int isroundtrip = 0;
+        if (roundtrip == "True")
+            isroundtrip = 2;
+        else
+            isroundtrip = 1;
+
         String prefix = @" declare @user_val int;
                            set @user_val = 0;
             select @user_val=U.[User] from Users U, AspNetUsers A where A.UserName = '" + username + @"' AND A.Id = U.Id 
@@ -610,55 +576,11 @@ public class DBservices
            ,[RideLength]
            ,[RideSource]
            ,[RideDestination]) ";
-        sb.AppendFormat("Values('{0}', @user_val, '{1}', (Select [RouteType] From [Routes] Where [RouteName]='{2}' AND [User] = @user_val) ,'{3}', (Select [RouteLength] * " + roundtrip + @" From [Routes] Where [RouteName]='{4}' AND [User] = @user_val), (Select [RouteSource] From [Routes] Where [RouteName]='{5}' AND [User] = @user_val), (Select [RouteDestination] From [Routes] Where [RouteName]='{6}' AND [User] = @user_val) )", ridename, "Route_" + routename, routename, ridedate, routename, routename, routename);
+        sb.AppendFormat("Values('{0}', @user_val, '{1}', (Select [RouteType] From [Routes] Where [RouteName]='{2}' AND [User] = @user_val) ,'{3}', (Select [RouteLength] * " + isroundtrip + @" From [Routes] Where [RouteName]='{4}' AND [User] = @user_val), (Select [RouteSource] From [Routes] Where [RouteName]='{5}' AND [User] = @user_val), (Select [RouteDestination] From [Routes] Where [RouteName]='{6}' AND [User] = @user_val) )", ridename, "Route_" + routename, routename, ridedate, routename, routename, routename);
         command = prefix + sb.ToString();
         return command;
     }
-    
-
-    //******************************************** Insert New Ride ****************************************************
-    
-    public int insertRide(Rides rds)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-        }
-        String cStr = BuildInsertRidesCommand(rds);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
-    
+        
     private String BuildInsertRidesCommand(Rides rds)
     {
         String command;
@@ -677,45 +599,7 @@ public class DBservices
         command = prefix + sb.ToString();
         return command;
     }
-    // ****** Delete Ride *******
-    public int delteRide(string username, string ridename)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-        }
-        String cStr = BuildDelteRideCommand(username, ridename);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Rides", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
+    
     private String BuildDelteRideCommand(string username, string ridename)
     {
         String command;
@@ -735,48 +619,8 @@ public class DBservices
         return command;
     }
     #endregion
-    //  ********************** ROUTES ***********************************************
+    
     #region Routes
-    public int insertRoutes(Routes rut)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Routes", ex.Message);
-            return 0;
-        }
-        String cStr = BuildInsertRoutesCommand(rut);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Routes", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
     private String BuildInsertRoutesCommand(Routes rut)
     {
         String command;
@@ -795,44 +639,6 @@ public class DBservices
         return command;
     }
 
-    public int delteRoute(string username, string routename)
-    {
-        SqlConnection con;
-        SqlCommand cmd;
-        try
-        {
-            con = connect("DefaultConnection"); // create the connection
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Routes", ex.Message);
-            return 0;
-        }
-        String cStr = BuildDelteRouteCommand(username, routename);      // helper method to build the insert string
-        cmd = CreateCommand(cStr, con);             // create the command
-        try
-        {
-            int numEffected = cmd.ExecuteNonQuery(); // execute the command
-            return numEffected;
-        }
-        catch (Exception ex)
-        {
-            // write to log
-            lf.Main("Routes", ex.Message);
-            return 0;
-            //return 0;
-        }
-        finally
-        {
-            if (con != null)
-            {
-                // close the db connection
-                con.Close();
-            }
-        }
-
-    }
     private String BuildDelteRouteCommand(string username, string routename)
     {
         String command;

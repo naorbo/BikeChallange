@@ -44,14 +44,6 @@ namespace BikeChallengeApp.Models
             OrganizationName = organizationName;
             GroupDes = groupDes;
         }
-
-        public void updateDatabase(Group grp)
-        {
-
-            DBservices dbs = new DBservices();
-            dbs.insertGroup(grp);
-
-        }
     }
 }
 
