@@ -215,15 +215,30 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
         link:
             function ($scope, $element, attrs, $watch, dataFactory) {
                 
-                $scope.$watch('calMonth', function () {
-                    
-                        $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth() /*$scope.calDates*/));
-                        $compile($element.contents())($scope);
-                        console.log("Inside Dir");
-                        $scope.getHistory();
-                    
-                })
+                $scope.$watch(function () {
+                    return ($scope.calDates, $scope.calMonth);
+                }, function (newVal,oldVal,$scope) {
+                    $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth()));
+                    $compile($element.contents())($scope);
+                    console.log("Inside Dir");
+                    $scope.getHistory();
+
+
+                }, true);
+   
             }
+
+                //$scope.$watch('calMonth', function () {
+
+                //    $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth() /*$scope.calDates*/));
+                //    $compile($element.contents())($scope);
+                //    console.log("Inside Dir");
+                //    $scope.getHistory();
+
+                //});
+
+                
+            
     }
 }]);
 
@@ -293,3 +308,67 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
         }
     };
 });
+
+
+// Google Charts 
+
+app.directive('chart', function () {
+    return {
+        restrict: 'A',
+        scope: true,
+        link: function ($scope, $elm, $attr) {
+            // Create the data table.
+            var data = google.visualization.arrayToDataTable($scope.getStats());
+
+
+            //var data = new google.visualization.DataTable();
+            //data.addColumn('string', 'Topping');
+            //data.addColumn('number', 'Slices');
+            //data.addRows([
+            //  ['Mushrooms', 3],
+            //  ['Onions', 1],
+            //  ['Olives', 1],
+            //  ['Zucchini', 1],
+            //  ['Pepperoni', 2]
+            //]);
+
+            // Set chart options
+            //var options = {
+            //    'title': 'How Much Pizza I Ate Last Night',
+            //    'width': 400,
+            //    'height': 300
+            //};
+            var options = {
+                width: 400, height: 120,
+                redFrom: 90, redTo: 100,
+                yellowFrom: 75, yellowTo: 90,
+                minorTicks: 5
+            };
+            // Instantiate and draw our chart, passing in some options.
+            var chart = new google.visualization.Gauge($elm[0]);
+            chart.draw(data, options);
+        }
+    }
+});
+
+
+//app.directive('rightDash', function ($compile, $templateCache) {
+//    var getTemplate = function (contentType) {
+//        var template = '';
+//        switch (contentType) {
+//            case 'test':
+//                template = $templateCache.get("test.html");
+//                break;
+//        }
+//        return template;
+//    }
+//    return {
+//        restrict: 'A',
+//        replace : true,
+//        link: function (scope, element, attrs, compile) {
+//            var bodyContent = getTemplate("test");
+//            bodyContent = $compile(bodyContent)(scope);
+            
+//        }
+//    };
+//});

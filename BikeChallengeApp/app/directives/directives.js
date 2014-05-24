@@ -312,63 +312,58 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
 
 // Google Charts 
 
-app.directive('chart', function () {
+app.directive('chartPersonal', function () {
     return {
         restrict: 'A',
         scope: true,
-        link: function ($scope, $elm, $attr) {
+        link: function ($scope, $elm, $attr, $watch) {
             // Create the data table.
-            var data = google.visualization.arrayToDataTable($scope.getStats());
-
-
-            //var data = new google.visualization.DataTable();
-            //data.addColumn('string', 'Topping');
-            //data.addColumn('number', 'Slices');
-            //data.addRows([
-            //  ['Mushrooms', 3],
-            //  ['Onions', 1],
-            //  ['Olives', 1],
-            //  ['Zucchini', 1],
-            //  ['Pepperoni', 2]
-            //]);
-
-            // Set chart options
-            //var options = {
-            //    'title': 'How Much Pizza I Ate Last Night',
-            //    'width': 400,
-            //    'height': 300
-            //};
-            var options = {
-                width: 400, height: 120,
-                redFrom: 90, redTo: 100,
-                yellowFrom: 75, yellowTo: 90,
-                minorTicks: 5
-            };
-            // Instantiate and draw our chart, passing in some options.
-            var chart = new google.visualization.Gauge($elm[0]);
-            chart.draw(data, options);
+            $scope.$watch(function () { return $scope.statSelector }, function () {
+                if ($scope.statSelector == -1) {
+                    var data = google.visualization.arrayToDataTable($scope.getStats("calCo2", -1));
+                    $scope.getStats("kmRides", -1);
+                    var options = {
+                        width: 400, height: 240,
+                        redFrom: 90, redTo: 100,
+                        yellowFrom: 75, yellowTo: 90,
+                        minorTicks: 5
+                    };
+                }
+                if ($scope.statSelector == 0) {
+                    var data = google.visualization.arrayToDataTable($scope.getStats("calCo2", 0, $scope.calMonth, $scope.calYear));
+                    $scope.getStats("kmRides", 0, $scope.calMonth, $scope.calYear);
+                    var options = {
+                        width: 400, height: 240,
+                        redFrom: 90, redTo: 100,
+                        yellowFrom: 75, yellowTo: 90,
+                        minorTicks: 5
+                    };
+                }
+                // Instantiate and draw our chart, passing in some options.
+                var chart = new google.visualization.Gauge($elm[0]);
+                chart.draw(data, options);
+            }, true);
         }
     }
 });
 
 
-//app.directive('rightDash', function ($compile, $templateCache) {
-//    var getTemplate = function (contentType) {
-//        var template = '';
-//        switch (contentType) {
-//            case 'test':
-//                template = $templateCache.get("test.html");
-//                break;
-//        }
-//        return template;
-//    }
-//    return {
-//        restrict: 'A',
-//        replace : true,
-//        link: function (scope, element, attrs, compile) {
-//            var bodyContent = getTemplate("test");
-//            bodyContent = $compile(bodyContent)(scope);
-            
-//        }
-//    };
-//});
+    //var data = new google.visualization.DataTable();
+    //data.addColumn('string', 'Topping');
+    //data.addColumn('number', 'Slices');
+    //data.addRows([
+    //  ['Mushrooms', 3],
+    //  ['Onions', 1],
+    //  ['Olives', 1],
+    //  ['Zucchini', 1],
+    //  ['Pepperoni', 2]
+    //]);
+
+    // Set chart options
+    //var options = {
+    //    'title': 'How Much Pizza I Ate Last Night',
+    //    'width': 400,
+    //    'height': 300
+//};
+
+

@@ -7,3 +7,6 @@ The statement has been terminated.
 The statement has been terminated.
 09:32:04 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
 The statement has been terminated.
+11:24:58 : Violation of UNIQUE KEY constraint 'UQ__Routes__D3FE5EDB55BFB948'. Cannot insert duplicate key in object 'dbo.Routes'.
+The statement has been terminated.
+11:25:09 : The Route 24-05-2014-11-24-57 was Deleted from the Database

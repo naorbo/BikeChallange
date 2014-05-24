@@ -648,25 +648,101 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     
     //google.setOnLoadCallback(drawChart);
 
-    $scope.getStats = function (){ 
+    // Get user stats - type (calCo2/kmRides ) , period (-1 = since registrating , 0 = specific month) ,  (month, year) 
+    $scope.statSelector = -1;
+    $scope.button = 'red';
 
+    $scope.getStats = function (type, period, month, year){ 
         var rawStats = $scope.userStats;
-        var co2Summed = 0 ;
-        var calSummed = 0 ; 
-        
-        angular.forEach($scope.userStats, function (monthStat) {
-            co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
-            calSummed = calSummed + monthStat.User_Calories;
-        });
-         
-        
-        var statArray = [
-            ['Label', 'Value'],
-            ['קלוריות', calSummed],
-            ['CO2', co2Summed],
-        ];
+        if (period == -1) {
+            if (type == "calCo2") {
 
-        return statArray;
+                var co2Summed = 0;
+                var calSummed = 0;
+
+                angular.forEach(rawStats, function (monthStat) {
+                    co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
+                    calSummed = calSummed + monthStat.User_Calories;
+                });
+
+
+                var statArray = [
+                    ['Label', 'Value'],
+                    ['קלוריות', calSummed],
+                    ['CO2', co2Summed],
+                ];
+
+                return statArray;
+            }
+            if (type == "kmRides") {
+
+                var kmSummed = 0;
+                var ridesSummed = 0;
+                angular.forEach(rawStats, function (monthStat) {
+                    kmSummed = kmSummed + monthStat.User_KM;
+                    ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                });
+
+                $scope.userKmRides = {
+                    km: kmSummed,
+                    rides: ridesSummed
+                };
+
+            }
+        }
+        else {
+
+            var statDate = new Date(year, month, 1);
+            var monthParsed = statDate.getMonth() + 1;
+            var yearParsed = statDate.getFullYear();
+            if (type == "calCo2") {
+
+                var co2Summed = 0;
+                var calSummed = 0;
+                
+
+                angular.forEach(rawStats, function (monthStat) {
+                    if (monthParsed == monthStat.Month && yearParsed ==  monthStat.Year) {
+                    co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
+                    calSummed = calSummed + monthStat.User_Calories;
+                    }
+                });
+
+
+                var statArray = [
+                    ['Label', 'Value'],
+                    ['קלוריות', calSummed],
+                    ['CO2', co2Summed],
+                ];
+
+                return statArray;
+            }
+            if (type == "kmRides") {
+
+                var kmSummed = 0;
+                var ridesSummed = 0;
+                 
+                    angular.forEach(rawStats, function (monthStat) {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            kmSummed = kmSummed + monthStat.User_KM;
+                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                        }
+                    });
+                }
+
+                $scope.userKmRides = {
+                    km: kmSummed,
+                    rides: ridesSummed
+                };
+
+            
+
+
+
+        }
+
+
+        
        
     } ;
 
@@ -677,6 +753,9 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
           ['CO2', 65],
           ['Network', 68]
     ];
+
+   
+
 
     $scope.init = function () {
        

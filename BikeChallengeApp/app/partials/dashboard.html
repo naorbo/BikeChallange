@@ -188,12 +188,40 @@
                         
                         <div class="row scroll-down-text" ng-click="flipMyStatsFlag()">
                             <strong>המדדים שלי </strong>
+                            
+                            
                             <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                         </div>
                         
                         <div ng-if="myStatsFlag">
                             <br/>
-                            <div data-google-chart data-chart></div>
+                            
+                            <div class=" btn-group btn-group-justified ">
+                                <a class="btn btn-default" ng-click="statSelector= -1" ng-class="{ 'active' : statSelector == -1 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; כללי</a>
+                                <a class="btn btn-default" ng-click="statSelector= 0" ng-class="{ 'active' : statSelector == 0 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; חודשי</a>
+                            </div>
+
+                             
+                            <br /><br />
+                            <div class="container">
+                                <div  data-google-chart data-chart-personal></div>
+                            </div>
+                            <br />
+
+                            <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
+                                <tr style="font-size:40px">
+                                    <td>{{userKmRides.rides}}</td>
+                                    <td>{{userKmRides.km}}</td>
+                                </tr>
+                                <tfoot>
+                                    <tr style="background-color:#EBEBEB">
+                                        <td> <strong>רכיבות</strong></td>
+                                        <td><strong> קילומטרים</strong></td>
+                                    </tr>
+                                </tfoot>
+                                
+                                 
+                            </table>
                                
                         </div>
 
