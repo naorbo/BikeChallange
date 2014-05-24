@@ -318,10 +318,11 @@ app.directive('chartPersonal', function () {
         scope: true,
         link: function ($scope, $elm, $attr, $watch) {
             // Create the data table.
+            var entity = $elm.attr('data-entity');
             $scope.$watch(function () { return $scope.statSelector }, function () {
                 if ($scope.statSelector == -1) {
-                    var data = google.visualization.arrayToDataTable($scope.getStats("calCo2", -1));
-                    $scope.getStats("kmRides", -1);
+                    var data = google.visualization.arrayToDataTable($scope.getStats(entity,"calCo2", -1));
+                    $scope.getStats(entity, "kmRides", -1);
                     var options = {
                         width: 400, height: 240,
                         redFrom: 90, redTo: 100,
@@ -330,8 +331,8 @@ app.directive('chartPersonal', function () {
                     };
                 }
                 if ($scope.statSelector == 0) {
-                    var data = google.visualization.arrayToDataTable($scope.getStats("calCo2", 0, $scope.calMonth, $scope.calYear));
-                    $scope.getStats("kmRides", 0, $scope.calMonth, $scope.calYear);
+                    var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", 0, $scope.calMonth, $scope.calYear));
+                    $scope.getStats(entity, "kmRides", 0, $scope.calMonth, $scope.calYear);
                     var options = {
                         width: 400, height: 240,
                         redFrom: 90, redTo: 100,

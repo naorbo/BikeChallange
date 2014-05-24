@@ -80,18 +80,17 @@
         </div>
         <div class="row col-md-1"></div> 
         <div class="row col-md-5" style="padding-top:20px">
-            
-            <div class=" row col-md-8  col-md-offset-2 " >
-                <button class="btn btn-default btn-lg  glyphicon glyphicon-road " ng-click="rightDash.switch=1" title="מסלולים"></button>
+           
+            <div class=" row col-md-8  col-md-offset-2 btn-group  ">
+                <button class="btn btn-default btn-lg  glyphicon glyphicon-road " ng-click="rightDash.switch=1" ng-class="{ 'active' : rightDash.switch==1 }" title="מסלולים"></button>
                 &nbsp;
-                <button class="btn btn-default btn-lg glyphicon glyphicon-glass " ng-click="rightDash.switch=2" title="אירועים"></button>
+                <button class="btn btn-default btn-lg glyphicon glyphicon-glass " ng-click="rightDash.switch=2" ng-class="{ 'active' : rightDash.switch==2 }" title="אירועים"></button>
                 &nbsp;
-                <button class="btn btn-default btn-lg glyphicon glyphicon-flag " ng-click="rightDash.switch=3" title="בייק צ'אלנג'"></button>
+                <button class="btn btn-default btn-lg glyphicon glyphicon-flag " ng-click="rightDash.switch=3" ng-class="{ 'active' : rightDash.switch==3 }" title="בייק צ'אלנג'"></button>
                 &nbsp;
-                <button class="btn btn-default btn-lg glyphicon glyphicon-stats  " ng-click="rightDash.switch=4" title="מדדים"></button>
+                <button class="btn btn-default btn-lg glyphicon glyphicon-stats  " ng-click="rightDash.switch=4" ng-class="{ 'active' : rightDash.switch==4 }" title="מדדים"></button>
+
             </div>
-
-
 
             <div class="row col-md-12">
 
@@ -186,14 +185,12 @@
                         
                         <!--<div data-google-chart data-chart="chart" style="{{chart.cssStyle}}" ></div>-->
                         
-                        <div class="row scroll-down-text" ng-click="flipMyStatsFlag()">
+                        <div class="row scroll-down-text" ng-click="flipUserStatsFlag()">
                             <strong>המדדים שלי </strong>
-                            
-                            
                             <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                         </div>
                         
-                        <div ng-if="myStatsFlag">
+                        <div ng-if="userStatsFlag">
                             <br/>
                             
                             <div class=" btn-group btn-group-justified ">
@@ -203,8 +200,8 @@
 
                              
                             <br /><br />
-                            <div class="container">
-                                <div  data-google-chart data-chart-personal></div>
+                            <div >
+                                <div  data-google-chart data-chart-personal data-entity="personal"></div>
                             </div>
                             <br />
 
@@ -231,12 +228,71 @@
                             <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                         </div>
 
-                        <div ng-if="myGroupStatsFlag">
+                        <div ng-if="groupStatsFlag">
+                            <br />
+
+                            <div class=" btn-group btn-group-justified ">
+                                <a class="btn btn-default" ng-click="statSelector= -1" ng-class="{ 'active' : statSelector == -1 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; כללי</a>
+                                <a class="btn btn-default" ng-click="statSelector= 0" ng-class="{ 'active' : statSelector == 0 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; חודשי</a>
+                            </div>
 
 
+                            <br /><br />
+                            <div data-google-chart data-chart-personal data-entity="group"></div>
+                            <br />
+
+                            <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
+                                <tr style="font-size:40px">
+                                    <td>{{groupKmRides.rides}}</td>
+                                    <td>{{groupKmRides.km}}</td>
+                                </tr>
+                                <tfoot>
+                                    <tr style="background-color:#EBEBEB">
+                                        <td> <strong>רכיבות</strong></td>
+                                        <td><strong> קילומטרים</strong></td>
+                                    </tr>
+                                </tfoot>
+
+
+                            </table>
                         </div>
 
                         <hr />
+
+                        <div class="row scroll-down-text" ng-click="flipOrganizationStatsFlag()">
+                            <strong>מדדים ארגוניים </strong>
+                            <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                        </div>
+
+                        <div ng-if="organizationStatsFlag">
+                            <br />
+
+                            <div class=" btn-group btn-group-justified ">
+                                <a class="btn btn-default" ng-click="statSelector= -1" ng-class="{ 'active' : statSelector == -1 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; כללי</a>
+                                <a class="btn btn-default" ng-click="statSelector= 0" ng-class="{ 'active' : statSelector == 0 }"><span class="glyphicon glyphicon-stats"></span>&nbsp; חודשי</a>
+                            </div>
+
+
+                            <br /><br />
+                            <div data-google-chart data-chart-personal data-entity="organization"></div>
+                            <br />
+
+                            <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
+                                <tr style="font-size:40px">
+                                    <td>{{organizationKmRides.rides}}</td>
+                                    <td>{{organizationKmRides.km}}</td>
+                                </tr>
+                                <tfoot>
+                                    <tr style="background-color:#EBEBEB">
+                                        <td> <strong>רכיבות</strong></td>
+                                        <td><strong> קילומטרים</strong></td>
+                                    </tr>
+                                </tfoot>
+
+
+                            </table>
+                        </div>
+
 
                     </div>
 
