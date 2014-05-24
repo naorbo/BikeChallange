@@ -1,0 +1,4 @@
+The Rides LOG file
+18:40:30 : ExecuteNonQuery: CommandText property has not been initialized
+18:43:16 : ExecuteNonQuery: CommandText property has not been initialized
+18:43:43 : ExecuteNonQuery: CommandText property has not been initialized

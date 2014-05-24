@@ -22,7 +22,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST - Insert new Ride into the DB 
         // api/Rides
-        //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
+        //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
         public string updateDB([FromBody]Rides rds)
         {
             List<Object> mlist = new List<Object>();

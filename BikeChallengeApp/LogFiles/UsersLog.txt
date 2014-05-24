@@ -1,0 +1,7 @@
+The Users LOG file
+17:23:05 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+17:37:29 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+17:52:12 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
