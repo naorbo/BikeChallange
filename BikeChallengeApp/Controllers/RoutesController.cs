@@ -16,15 +16,14 @@ namespace BikeChallengeApp.Controllers
 {
     public class RoutesController : ApiController
     {
-        int return_val = 0;
-        LogFiles lf = new LogFiles();
-
         // POST - Insert new Route into the DB 
         // api/Routes
         //{"UserName":"tester1", "RouteType":"מסלול 1", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
         public string updateDB([FromBody]Routes rut)
         {
             DBservices dbs = new DBservices();
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
             List<Object> mlist = new List<Object>();
             mlist.Add(rut);
             try
@@ -64,6 +63,9 @@ namespace BikeChallengeApp.Controllers
         public string Delete(string username, string routename)
         {
             DBservices dbs = new DBservices();
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+
             string Response = "";
             try
             {

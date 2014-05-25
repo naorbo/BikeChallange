@@ -16,14 +16,11 @@ namespace BikeChallengeApp.Controllers
 {
     public class RiderController : ApiController
     {
-        int return_val = 0;
-        LogFiles lf = new LogFiles();
-        DBservices dbs = new DBservices();
-
         // GET RIDER PER GRUOP
         // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
         public DataTable Get(string grpname, string orgname)
         {
+            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(1, grpname, orgname);
             return dbs.dt;
         }
@@ -32,6 +29,7 @@ namespace BikeChallengeApp.Controllers
         // api/Rider?username=[The username of the rider] - Not case sensative
         public DataTable GetUser(string username)
         {
+            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(2, username);
             return dbs.dt;
         }
@@ -40,6 +38,7 @@ namespace BikeChallengeApp.Controllers
         // api/Rider
         public DataTable GetAll()
         {
+            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(7, "Users", "[User]");
             return dbs.dt;
         }
@@ -48,6 +47,9 @@ namespace BikeChallengeApp.Controllers
         //{"RiderEmail":"Moshe@Moshe.COM", "RiderFname":"Moshe" , "RiderLname":"Moshe", "Gender": "זכר", "RiderAddress":"יצMoshe 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester4", "Captain":1, "Organization":"orgname", "Group":"groupname"}
         public string updateDB([FromBody]Rider rdr)
         {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             try
             {
                 return_val = dbs.insertRider(rdr);
@@ -66,6 +68,9 @@ namespace BikeChallengeApp.Controllers
         // api/Rider?username=[UserName]
         public string Delete(string username)
         {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             string Response= "";
             try
             {
@@ -87,6 +92,9 @@ namespace BikeChallengeApp.Controllers
         //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "זכר/נקבה", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
         public string Put(string username, [FromBody]Rider rdr)
         {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             try
             {
                 return_val = dbs.updateRiderInDatabase(rdr,username);

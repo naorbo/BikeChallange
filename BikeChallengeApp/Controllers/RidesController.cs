@@ -16,15 +16,14 @@ namespace BikeChallengeApp.Controllers
 {
     public class RidesController : ApiController
     {
-        int return_val = 0;
-        LogFiles lf = new LogFiles();
-        DBservices dbs = new DBservices();
-
         // POST - Insert new Ride into the DB 
         // api/Rides
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
         public string updateDB([FromBody]Rides rds)
         {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             List<Object> mlist = new List<Object>();
             mlist.Add(rds);
             try
@@ -46,6 +45,9 @@ namespace BikeChallengeApp.Controllers
         public string updateDB(string username, string routename, string ridedate, string roundtrip)
         {
             List<Object> mlist = new List<Object>();
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             Rides rds = new Rides();
             mlist.Add(rds);
             try
@@ -66,6 +68,7 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=[The username of the rider] - Not case sensative
         public DataTable GetUser(string username)
         {
+            DBservices dbs = new DBservices();
             dbs = dbs.ReadFromDataBase(8, username);
             return dbs.dt;
         }
@@ -73,6 +76,9 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=[UserName]&ridename=[RideName]
         public string Delete(string username, string ridename)
         {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
             string Response = "";
             try
             {
