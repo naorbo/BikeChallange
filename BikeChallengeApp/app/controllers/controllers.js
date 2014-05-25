@@ -689,14 +689,9 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         }
         
         var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
-        
-
-
-        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
-        
-        
-
-
+       
+      // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+       
         dataFactory.postValues('Rides', newRide, true, dataString)
                         .success(function (response) {
                             x = x.concat("#").concat(newRide.ridedate);

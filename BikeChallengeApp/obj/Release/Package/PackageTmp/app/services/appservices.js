@@ -87,6 +87,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
                 
         })
             .success(function (response) {
+
                 //service.loginToken = [];
                 deferred.resolve(response);
             })
@@ -120,10 +121,10 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
 
 
 app.service('session', function () {
-    this.create = function (sessionId, userId /*, userRole */) {
+    this.create = function (sessionId, userId/*, userRole */) {
         this.id = sessionId;
         this.userId = userId;
-
+        
 
         console.log("this is your info"+this.id + this.userId)
         // this.userRole = userRole;
@@ -136,26 +137,6 @@ app.service('session', function () {
     };
     return this;
 });
-
-
-//app.service('sessionProfile', function () {
-//    this.create = function (userProfile) {
-//        this.userProfile = userProfile;
-//        console.log("Inside session Prof");
-//        console.log(this.userProfile)
-//        // this.userRole = userRole;
-//    };
-//    this.get = function () {
-//        return userProfile;
-
-//    };
-//    this.destroy = function () {
-//        this.userProfile = null;
-//        console.log("session destroyed")
-//        // this.userRole = null;
-//    };
-//    return this;
-//});
 
 
 

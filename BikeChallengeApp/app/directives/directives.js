@@ -223,7 +223,6 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
                     console.log("Inside Dir");
                     $scope.getHistory();
 
-
                 }, true);
    
             }

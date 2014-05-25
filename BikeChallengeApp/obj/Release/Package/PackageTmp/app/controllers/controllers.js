@@ -72,7 +72,10 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     $scope.userRegistration = function (userName) {
         //authFactory.registerDetails($scope.personalDetails).then(function () {
         //})
-        console.log("this is the user"+$scope.regDetails.userName.$viewValue);
+
+
+
+        console.log("this is the user" + $scope.regDetails.userName.$viewValue);
         // Parse all info and adjust to server vars
         var userDetails = {};
         userDetails.RiderEmail = $scope.$$childHead.personalDetails.email;
@@ -83,7 +86,10 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         userDetails.City = $scope.$$childHead.personalDetails.city.CityName;
         userDetails.RiderPhone = $scope.$$childHead.personalDetails.phone;
         userDetails.BicycleType = $scope.$$childHead.personalDetails.bikeType;
-        userDetails.ImagePath = $scope.$$childHead.personalDetails.imagePath;
+        if ($scope.$$childHead.personalDetails.imagePath == undefined)
+            { userDetails.ImagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg"}
+        else
+            { userDetails.ImagePath = $scope.$$childHead.personalDetails.imagePath; }
         userDetails.BirthDate = $scope.$$childHead.personalDetails.bDay;
         userDetails.UserName = $scope.regDetails.userName.$viewValue;
         userDetails.Captain = "0"; 
@@ -100,8 +106,13 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         
         dataFactory.postValues('Rider',userDetails,false)
                  .success(function (values) {
-                     alert("ההרשמה הסתיימה בהצלחה!");
-                     $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                     if (values == "Error")
+                     { alert(" בדוק את הפרטים שהזמנת ונסה בשנית ,ההרשמה נכשלה!"); }
+                     else
+                     {
+                         alert("ההרשמה הסתיימה בהצלחה!");
+                         $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                     }
                      
                  })
                  .error(function (error) {
@@ -161,14 +172,27 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     // New Organization Creator 
 
     $scope.regNewOrg = function (newOrgObj) {
-       
-        dataFactory.postValues('Organization',newOrgObj,false)
+        
+        if (newOrgObj.imagePath == undefined) {
+            newOrgObj.imagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg";
+        }
+        
+        var newOrg = {
+            OrganizationName: newOrgObj.OrganizationName,
+            OrganizationCity: newOrgObj.OrganizationCity.CityName,
+            OrganizationDes: newOrgObj.OrganizationDes,
+            OrganizationType: newOrgObj.OrganizationType,
+            OrganizationImage: newOrgObj.imagePath
+            
+        };
+   
+        dataFactory.postValues('Organization',newOrg,false)
              .success(function (response) {
                  console.log(response);
                  $scope.newOrgFlag = true;
-                 alert("  הארגון  " + newOrgObj.OrganizationName + "  נוצר בהצלחה ! ");
+                 alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
                  // Closing Modal window 
-                 $scope.$$childHead.personalDetails.org = newOrgObj.OrganizationName;
+                 $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
                  $('#myNewOrgModal').modal('hide');
              })
              .error(function (error) {
@@ -221,7 +245,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
              });
     }
 
-    // Upload image handling 
+    // Upload image handling for user profile 
 
 
     $scope.upload = [];
@@ -256,6 +280,41 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         $scope.upload[index].abort();
     }
 
+
+    // Upload image handling for Org profile 
+
+    // api/OrganizationImage?OrgName=[orgname]
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelectOrg = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    method: "POST",
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.newOrg.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
 
 
     //Get City list
@@ -309,20 +368,44 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
 
 
-app.controller('mainController', function ($rootScope, $location, $scope ,authFactory, session, AUTH_EVENTS) {
+app.controller('mainController', function ($rootScope, $location, $scope ,authFactory,dataFactory, session, AUTH_EVENTS) {
     
+
+
     //User login handling (display user info and redirection)
 
-    $scope.currentUser = null;
-    //$scope.currentUser = "MOFO";
-    //currentUser.name = null;
-    //$scope.userRoles = USER_ROLES;
-    
-    $scope.$on('auth-login-success', function () {
-        $scope.currentUser = session.userId;
-        console.log("logged in as : " + $scope.currentUser);
-        $location.url("/userProfile");
-    });
+        $scope.currentUser = null;
+        $scope.$on('auth-login-success', function () {
+            $scope.currentUser = session.userId;
+            dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                    .success(function (values) {
+                        $scope.personalInfoHolder = values[0];
+                        $rootScope.userPersonalInfo = values[0];
+                        console.log("Fetch user info for " + $scope.currentUser);
+                        console.log($scope.personalInfoHolder);
+
+                        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                            .success(function (values) {
+                                $scope.userGroup = values[0];
+                                
+                                dataFactory.getValues('Organization', true, "orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                                    .success(function (values) {
+                                        $scope.userOrg = values[0];
+                                        $location.url("/userProfile");
+                                    })
+                                    .error(function (value) {
+                                        console.log("error");
+
+                                        $location.url("/userProfile");
+                                    })
+                            .error(function (value) {
+                                console.log("error");
+                            });
+                            })
+                    .error(function (value) {
+                        console.log("error");
+                    });       
+                    } )});
 
     $scope.$on('auth-login-failed', function () { console.log("Login Failed") });
 
@@ -362,12 +445,32 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
     
     console.log($scope.currentUser);
+    $scope.userGroupInfo = $rootScope.userGroup;
+    
+    $scope.userPersonalInfo = $rootScope.userPersonalInfo;
+    $rootScope.userStats = [
+        {
+            personal: {},
+            group: {},
+            organization: {}
+        }
+    ];
+
+    var getGroup = function () {
+        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                .success(function (values) {
+                    return  values;
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
+    };
+
     dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
                 .success(function (values) {
-                   // sessionProfile.create(values);
                     $scope.personalInfoHolder = values[0];
                     $rootScope.userPersonalInfo = values[0];
-                    $scope.getGroup();
+                    $scope.myGroup = getGroup();
                     console.log("Fetch user info for " + $scope.currentUser);
                     console.log($scope.personalInfoHolder);
                 })
@@ -384,24 +487,33 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                             console.log("error");
                         });
 
-    dataFactory.getValues('Stat', true, "username=" + $scope.currentUser)
+    dataFactory.getValues('Stat', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                         .success(function (values) {
-                            $rootScope.userStats = values;
+                            $rootScope.userStats.group = values;
                             
                         })
                         .error(function (value) {
                             console.log("error");
                         });
 
-    $scope.getGroup = function () {
-        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
-                .success(function (values) {
-                    $scope.myGroup = values;
-                })
-                .error(function (value) {
-                    console.log("error");
-                });
-    };
+    dataFactory.getValues('Stat', true, "username=" + $scope.currentUser)
+                        .success(function (values) {
+                            $rootScope.userStats.personal = values;
+
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+    dataFactory.getValues('Stat', true, "orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                        .success(function (values) {
+                            $rootScope.userStats.organization = values;
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+    
+
+    
 
 
     
@@ -461,9 +573,22 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     };
 
 
+    $scope.userStats = [
+        {
+            personal: {},
+            group: {},
+            organization: {}
+        }
+    ];
+
+    
+    
+
 
     // Gets & Stores user History and Routes 
-    $scope.userStats = $rootScope.userStats;
+    $scope.userStats.personal = $rootScope.userStats.personal;
+    $scope.userStats.group = $rootScope.userStats.group;
+    $scope.userStats.organization = $rootScope.userStats.organization;
     $scope.userHistory = $rootScope.userHistory;
     $scope.getHistory = function () { 
         dataFactory.getValues('Rides', true, "username=" + $scope.userPersonalInfo.UserName)
@@ -484,12 +609,29 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                         });
         dataFactory.getValues('Stat', true, "username=" + $scope.userPersonalInfo.UserName)
                         .success(function (values) {
-                            $scope.userStats = values;
+                            $scope.userStats.personal = values;
                             
                         })
                         .error(function (value) {
                             console.log("error");
                         });
+
+        dataFactory.getValues('Stat', true, "grpname=" + $scope.userPersonalInfo.GroupName + "&orgname=" + $scope.userPersonalInfo.OrganizationName)
+                        .success(function (values) {
+                            $scope.userStats.group = values;
+
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+        dataFactory.getValues('Stat', true, "orgname=" + $scope.userPersonalInfo.OrganizationName)
+                        .success(function (values) {
+                            $scope.userStats.organization = values;
+                        })
+                        .error(function (value) {
+                            console.log("error");
+                        });
+
     }
     
     
@@ -586,10 +728,28 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.flipAddNewRouteFlag = function () { $scope.addNewRouteFlag = !$scope.addNewRouteFlag };
     $scope.addNewSRideFlag = false;
     $scope.flipAddNewSRideFlag = function () { $scope.addNewSRideFlag = !$scope.addNewSRideFlag };
-    $scope.myStatsFlag = false;
-    $scope.flipMyStatsFlag = function () { $scope.myStatsFlag = !$scope.myStatsFlag };
+    $scope.userStatsFlag = false;
+    $scope.flipUserStatsFlag = function () {
+        $scope.userStatsFlag = !$scope.userStatsFlag;
+        if ($scope.groupStatsFlag || $scope.organizationStatsFlag) {
+            $scope.groupStatsFlag = $scope.organizationStatsFlag = false;
+        }
+    };
     $scope.groupStatsFlag = false;
-    $scope.flipGroupStatsFlag = function () { $scope.groupStatsFlag = !$scope.groupStatsFlag };
+    $scope.flipGroupStatsFlag = function () {
+        $scope.groupStatsFlag = !$scope.groupStatsFlag;
+        if ($scope.userStatsFlag || $scope.organizationStatsFlag) {
+            $scope.userStatsFlag = $scope.organizationStatsFlag = false;
+        }
+    };
+    $scope.organizationStatsFlag = false;
+    $scope.flipOrganizationStatsFlag = function () {
+        $scope.organizationStatsFlag = !$scope.organizationStatsFlag;
+        if ($scope.userStatsFlag || $scope.groupStatsFlag) {
+            $scope.userStatsFlag = $scope.groupStatsFlag = false;
+        }
+    };
+
     // Add a new Route 
     $scope.addNewRoute = function (newRoute) {
         var route = {
@@ -638,52 +798,231 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
     };
 
-
-
-
-
-    // Google Charts Test 
-
+    // Stats Handling 
+//  #######################33
     //setTimeout(function () { google.load('visualization', '1', { 'callback': 'alert("2 sec wait")', 'packages': ['corechart'] }) }, 2000);
     
     //google.setOnLoadCallback(drawChart);
 
-    $scope.getStats = function (){ 
-
-        var rawStats = $scope.userStats;
-        var co2Summed = 0 ;
-        var calSummed = 0 ; 
-        
-        angular.forEach($scope.userStats, function (monthStat) {
-            co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
-            calSummed = calSummed + monthStat.User_Calories;
-        });
-         
-        
-        var statArray = [
-            ['Label', 'Value'],
-            ['קלוריות', calSummed],
-            ['CO2', co2Summed],
-        ];
-
-        return statArray;
-       
-    } ;
-
+    // Get user stats - type (calCo2/kmRides ) , period (-1 = since registrating , 0 = specific month) ,  (month, year) 
+    $scope.statSelector = -1;
     
-    $scope.chart = [
-          ['Label', 'Value'],
-          ['קלוריות', 95],
-          ['CO2', 65],
-          ['Network', 68]
-    ];
 
-    $scope.init = function () {
+    $scope.getStats = function (entity, type, period, month, year){ 
+
+        var rawStats = {};
+        if (entity == "personal")
+        {  rawStats = $scope.userStats.personal; }
+        else if (entity == "group")
+        {  rawStats = $scope.userStats.group; }
+        else
+        {  rawStats = $scope.userStats.organization; }
+        
+        
+        if (period == -1) {
+            if (type == "calCo2") {
+
+                var co2Summed = 0;
+                var calSummed = 0;
+
+                angular.forEach(rawStats, function (monthStat) {
+                    if (entity == "personal")
+                    {
+                        co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
+                        calSummed = calSummed + monthStat.User_Calories;
+                    }
+                    else if (entity == "group")
+                    {
+                        co2Summed = co2Summed + monthStat.Group_CO2_Kilograms_Saved;
+                        calSummed = calSummed + monthStat.Group_Calories;
+                    }
+                    else
+                    {
+                        co2Summed = co2Summed + monthStat.Organization_CO2_Kilograms_Saved;
+                        calSummed = calSummed + monthStat.Organization_Calories;
+                    }
+                    
+                });
+
+
+                var statArray = [
+                    ['Label', 'Value'],
+                    ['קלוריות', calSummed],
+                    ['CO2', co2Summed],
+                ];
+
+                return statArray;
+            }
+            if (type == "kmRides") {
+
+                var kmSummed = 0;
+                var ridesSummed = 0;
+                angular.forEach(rawStats, function (monthStat) {
+                    if (entity == "personal") {
+                        kmSummed = kmSummed + monthStat.User_KM;
+                        ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                    }
+                    else if (entity == "group") {
+                        kmSummed = kmSummed + monthStat.Group_KM;
+                        ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                    }
+                    else {
+                        kmSummed = kmSummed + monthStat.Organization_KM;
+                        ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                    }
+
+                   
+                });
+
+                if (entity == "personal") {
+                    $scope.userKmRides = {
+                        km: kmSummed,
+                        rides: ridesSummed
+                    };
+                }
+                else if (entity == "group") {
+                    $scope.groupKmRides = {
+                        km: kmSummed,
+                        rides: ridesSummed
+                    };
+                }
+                else {
+                    $scope.organizationKmRides = {
+                        km: kmSummed,
+                        rides: ridesSummed
+                    };
+                }
+                
+
+            }
+        }
+        else {
+
+            var statDate = new Date(year, month, 1);
+            var monthParsed = statDate.getMonth() + 1;
+            var yearParsed = statDate.getFullYear();
+            if (type == "calCo2") {
+
+                var co2Summed = 0;
+                var calSummed = 0;
+                
+
+                angular.forEach(rawStats, function (monthStat) {
+
+                    if (entity == "personal") {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            co2Summed = co2Summed + monthStat.User_CO2_Kilograms_Saved;
+                            calSummed = calSummed + monthStat.User_Calories;
+                        }
+                    }
+                    else if (entity == "group") {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            co2Summed = co2Summed + monthStat.Group_CO2_Kilograms_Saved;
+                            calSummed = calSummed + monthStat.Group_Calories;
+                        }
+                    }
+                    else {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            co2Summed = co2Summed + monthStat.Organization_CO2_Kilograms_Saved;
+                            calSummed = calSummed + monthStat.Organization_Calories;
+                        }
+                    }
+               
+                });
+
+
+                var statArray = [
+                    ['Label', 'Value'],
+                    ['קלוריות', calSummed],
+                    ['CO2', co2Summed],
+                ];
+
+                return statArray;
+            }
+            if (type == "kmRides") {
+
+                var kmSummed = 0;
+                var ridesSummed = 0;
+                 
+                angular.forEach(rawStats, function (monthStat) {
+                    if (entity == "personal") {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            kmSummed = kmSummed + monthStat.User_KM;
+                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                        }
+                    }
+                    else if (entity == "group") {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            kmSummed = kmSummed + monthStat.Group_KM;
+                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                        }
+                    }
+                    else {
+                        if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
+                            kmSummed = kmSummed + monthStat.Organization_KM;
+                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                        }
+                    }
+
+
+                       
+                    });
+                }
+
+                
+        };
+        
+    if (entity == "personal") {
        
+            $scope.userKmRides = {
+                km: kmSummed,
+                rides: ridesSummed
+            }
+        }
+        else if (entity == "group") {
+            $scope.groupKmRides = {
+                km: kmSummed,
+                rides: ridesSummed
+            }
+        }
+        else {
+            $scope.organizationKmRides = {
+                km: kmSummed,
+                rides: ridesSummed
+            }
+        }
+    
+        
+    };
+
+
+
+
+    $scope.addNewSpontanicRide = function (newRide) {
+        var newSRide = {
+            UserName: $rootScope.userPersonalInfo.UserName,
+            RideType: newRide.type,
+            RideLength: newRide.length,
+            RideSource: newRide.source,
+            RideDestination: newRide.destination
+        }
+        dataFactory.postValues('Rides', newSRide, false)
+                                .success(function (response) {
+                                    $scope.addNewSRideFlag = false;
+                                    $scope.getHistory();
+                                    console.log(response);
+                                })
+                                .error(function (response) {
+                                    console.log("error");
+                                });
     }
 
-    
+    //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
 
+
+    // Controller init 
+    $scope.init = function () {       
+    }
 
 });
 

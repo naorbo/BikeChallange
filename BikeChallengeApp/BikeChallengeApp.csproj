@@ -246,6 +246,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="index.html" />
+    <Content Include="ProfileImages\Users\defaultUser\defaultUserImage.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
@@ -597,7 +598,6 @@
     <Content Include="skins\square\yellow.png" />
     <Content Include="skins\square\_all.css" />
     <Content Include="sources\images\bc_cover.jpg" />
-    <Content Include="sources\images\defaultUserImage.jpg" />
     <Content Include="sources\images\social-icons.png" />
     <Content Include="sources\images\socialIcons\fb_black.png" />
     <Content Include="sources\images\socialIcons\fb_color.png" />
@@ -629,6 +629,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="ProfileImages\Organizations\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
