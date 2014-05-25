@@ -11,3 +11,5 @@ The statement has been terminated.
 18:43:16 : ExecuteNonQuery: CommandText property has not been initialized
 18:43:43 : ExecuteNonQuery: CommandText property has not been initialized
 >>>>>>> 74a8e3f2b57d7f8e243cd898f96bb57dd36f2c84
+22:26:48 : Error while trying to INSERT the new Ride to the database Object reference not set to an instance of an object.
+22:27:47 : Error while trying to INSERT the new Ride to the database Object reference not set to an instance of an object.
