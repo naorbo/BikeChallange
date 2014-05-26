@@ -132,27 +132,39 @@ namespace BikeChallengeApp.Models
 
         public Rider()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            RiderEmail = (RiderEmail != null ? RiderEmail : "");
+            RiderDes = (RiderDes != null ? RiderDes : "");
+            RiderFname = (RiderFname != null ? RiderFname : "");
+            RiderLname = (RiderLname != null ? RiderLname : "");
+            Gender = (Gender != null ? Gender : "");
+            RiderAddress = (RiderAddress != null ? RiderAddress : "");
+            RiderPhone = (RiderPhone != null ? RiderPhone : "");
+            BicycleType = (BicycleType != null ? BicycleType : "");
+            City = (City != null ? City : "");
+            ImagePath = (ImagePath != null ? ImagePath : "");
+            BirthDate = (BirthDate != null ? BirthDate : "");
+            Username = (Username != null ? Username : "");
+            Captain = (Captain != null ? Captain : 0);
+            Organization = (Organization != null ? Organization : "");
+            Group = (Group != null ? Group : ""); 
         }
         public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
         {
-            RiderEmail = rideremail;
-            RiderDes = riderfname + " " + riderlname;
-            RiderFname = riderfname;
-            RiderLname = riderlname;
-            Gender = gender;
-            RiderAddress = rideraddres;
-            RiderPhone = riderphone;
-            BicycleType = bicycletype;
-            City = ridercity;
-            ImagePath = imagePath;
-            BirthDate = birthDate;
-            Username = username;
-            Captain = captain;
-            Organization = organization;
-            Group = group;
+            RiderEmail = (rideremail != null ? rideremail : "");
+            RiderDes = ((riderfname != null && riderfname != null) ? riderfname + " " + riderlname : ""); 
+            RiderFname = (riderfname != null ? riderfname : ""); 
+            RiderLname = (riderlname != null ? riderlname : ""); 
+            Gender = (gender != null ? gender : ""); 
+            RiderAddress = (rideraddres != null ? rideraddres : ""); 
+            RiderPhone = (riderphone != null ? riderphone : ""); 
+            BicycleType = (bicycletype != null ? bicycletype : ""); 
+            City = (ridercity != null ? ridercity : ""); 
+            ImagePath = (imagePath != null ? imagePath : ""); 
+            BirthDate = (birthDate != null ? birthDate : ""); 
+            Username = (username != null ? username : ""); 
+            Captain = (captain != null ? captain : 0 ); 
+            Organization = (organization != null ? organization : ""); 
+            Group = (group != null ? group : ""); 
         }
      }
 }

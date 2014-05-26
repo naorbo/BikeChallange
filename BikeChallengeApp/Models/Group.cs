@@ -33,16 +33,16 @@ namespace BikeChallengeApp.Models
 
         public Group()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            GroupName = (GroupName != null ? GroupName : "");
+            OrganizationName = (OrganizationName != null ? OrganizationName : "");
+            GroupDes = (GroupDes != null ? GroupDes : ""); 
         }
 
         public Group(string groupName, string organizationName, string groupDes)
         {
-            GroupName = groupName;
-            OrganizationName = organizationName;
-            GroupDes = groupDes;
+            GroupName = (groupName != null ? groupName : "");
+            OrganizationName = (organizationName != null ? organizationName : ""); 
+            GroupDes = (groupDes != null ? groupDes : ""); 
         }
     }
 }

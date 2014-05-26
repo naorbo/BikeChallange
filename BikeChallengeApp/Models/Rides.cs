@@ -62,20 +62,27 @@ namespace BikeChallengeApp.Models
         }
         public Rides(string username, string ridetype, decimal rideLength, string ridedestination, string ridesource, string ridedate)
         {
-            UserName = username;
-            RideType = ridetype;
-            RideLength = rideLength;
+            UserName = (username != null ? username : "");
+            RideType = (ridetype != null ? ridetype : "");
+            RideLength = (rideLength != null ? rideLength : 0);
             RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
-            RideDes = username + "_Ride";
-            RideDate = ridedate;
-            RideDestination = ridedestination;
-            RideSource = ridesource;
+            RideDes = (username != null ? username + "_Ride" : "");
+            RideDate = (ridedate != null ? ridedate : "");
+            RideDestination = (ridedestination != null ? ridedestination : "");
+            RideSource = (ridesource != null ? ridesource : "");
             
         }
 
         public Rides()
         {
-            // TODO: Complete member initialization
+            UserName = (UserName != null ? UserName : "");
+            RideType = (RideType != null ? RideType : "");
+            RideLength = (RideLength != null ? RideLength : 0);
+            RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+            RideDes = (RideDes != null ? RideDes : "");
+            RideDate = (RideDate != null ? RideDate : "");
+            RideDestination = (RideDestination != null ? RideDestination : "");
+            RideSource = (RideSource != null ? RideSource : "");
         }
     }
 }

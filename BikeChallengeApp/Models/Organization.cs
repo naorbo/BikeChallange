@@ -46,24 +46,19 @@ namespace BikeChallengeApp.Models
         }
         public Organization()
         {
-            //
-            // TODO: Add constructor logic here
-            //
+            Organizationname = (Organizationname != null ? Organizationname : "");
+            OrganizationCity = (OrganizationCity != null ? OrganizationCity : "");
+            OrganizationDes = (OrganizationDes != null ? OrganizationDes : "");
+            OrganizationImage = (OrganizationImage != null ? OrganizationImage : "");
+            OrganizationType = (OrganizationType != null ? OrganizationType : "");
         }
         public Organization(string organizationName, string organizationCity, string organizationDes, string organizationImage, string organizationType)
         {
-            Organizationname = organizationName;
-            OrganizationCity = organizationCity;
-            OrganizationDes = organizationDes ;
-            OrganizationImage = organizationImage;
-            OrganizationType = organizationType ;
-        }
-
-        public DataTable readData()
-        {
-            DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(7, "Organizations", "Organization") ;    
-            return dbs.dt;   
+            Organizationname = (organizationName != null ? organizationName : "" );
+            OrganizationCity = (organizationCity != null ? organizationCity : "" );
+            OrganizationDes = (organizationDes != null ? organizationDes : "");
+            OrganizationImage = (organizationName != null ? organizationName : "");
+            OrganizationType = (organizationType != null ? organizationType : "");
         }
     }
 }

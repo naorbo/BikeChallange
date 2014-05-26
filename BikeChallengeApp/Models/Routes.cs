@@ -56,13 +56,24 @@ namespace BikeChallengeApp.Models
 
         public Routes(string username, string routeType, decimal routelength, string comments, string routesource, string routedestination)
         {
-            UserName = username;
-            RouteType = routeType;
-            Comments = comments;
+            UserName = (username != null ? username : "");
+            RouteType = (routeType != null ? routeType : "");
+            Comments = (comments != null ? comments : "");
             RouteName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss"); 
-            RouteDestination = routedestination;
-            RouteSource = routesource;
-            RouteLength = routelength;
+            RouteDestination = (routedestination != null ? routedestination : "");
+            RouteSource = (routesource != null ? routesource : "");
+            RouteLength = (routelength != null ? routelength : 0);
+            
+        }
+        public Routes()
+        {
+            UserName = (UserName != null ? UserName : "");
+            RouteType = (RouteType != null ? RouteType : "");
+            Comments = (Comments != null ? Comments : "");
+            RouteName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+            RouteDestination = (RouteDestination != null ? RouteDestination : "");
+            RouteSource = (RouteSource != null ? RouteSource : "");
+            RouteLength = (RouteLength != null ? RouteLength : 0); ;
             
         }
     }

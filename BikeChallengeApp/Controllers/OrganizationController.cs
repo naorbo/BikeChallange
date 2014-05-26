@@ -35,9 +35,9 @@ namespace BikeChallengeApp.Controller
 
         public DataTable GetAll()
         {
-            Organization tmp = new Organization();
-            DataTable dt = tmp.readData();
-            return dt;
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(7, "Organizations", "Organization");
+            return dbs.dt;
         }
 
         // POST / Insert organization into the DB 
