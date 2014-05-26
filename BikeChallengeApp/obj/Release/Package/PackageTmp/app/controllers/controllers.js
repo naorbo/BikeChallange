@@ -557,6 +557,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     console.log("Inside dashboard View");
       
     
+    $scope.refreshCal = false;
 
     todayVar = new Date(); // Handle active month - initial cal 
     $scope.calMonth = todayVar.getMonth(); // Handle active month - initial cal 
@@ -581,7 +582,27 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         }
     ];
 
-    
+    // CAL Navigation Buttons 
+
+    $scope.calNabButtons = function (arg) {
+        if (arg == -1) {
+            $scope.calMonth = $scope.calMonth - 1;
+            $scope.refreshCal = !$scope.refreshCal;
+        }
+        else if (arg == 1) {
+            $scope.calMonth = $scope.calMonth + 1;
+            $scope.refreshCal = !$scope.refreshCal;
+        }
+
+        else {
+
+            var tmp = new Date();
+            $scope.calMonth = tmp.getMonth();
+            $scope.refreshCal = !$scope.refreshCal;
+
+        }
+
+    }
     
 
 
@@ -635,7 +656,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     }
     
     
-
+    // Get user History per month
     $scope.getRidesPerMonth = function () {
         $scope.getHistory();
         var tempDate = new Date($scope.calYear, $scope.calMonth, 1);
@@ -678,6 +699,8 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         $rootScope.activeDay = $scope.popDate; // Holds Active day @ root scope var
     };
 
+    // Submit a ride from Existing Route
+
 
     $scope.submitRide = function (selectedRoute,$event) {
         var x = new String;
@@ -689,21 +712,19 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         }
         
         var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
-        
-
-
+       
         // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
-        
-        
-
-
+       
         dataFactory.postValues('Rides', newRide, true, dataString)
                         .success(function (response) {
                             x = x.concat("#").concat(newRide.ridedate);
                             $(x).popover("hide");
-                            $scope.calDates = $scope.getRidesPerMonth();
-                            console.log(response);
+                            $(x).addClass("cal-highlight");
+                            $scope.flipRideFlag();
+                            $scope.calDates = $scope.getRidesPerMonth()
+                            
                         })
+                          
                         .error(function (response) {
                             console.log("error");
                         });
@@ -997,13 +1018,17 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
 
 
-
+    //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
     $scope.addNewSpontanicRide = function (newRide) {
+        
+        
+
         var newSRide = {
             UserName: $rootScope.userPersonalInfo.UserName,
             RideType: newRide.type,
-            RideLength: newRide.length,
+            RideLength: newRide.lenght,
             RideSource: newRide.source,
+            RideDate: newRide.date,
             RideDestination: newRide.destination
         }
         dataFactory.postValues('Rides', newSRide, false)
@@ -1011,6 +1036,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                                     $scope.addNewSRideFlag = false;
                                     $scope.getHistory();
                                     console.log(response);
+                                    $("#" + newRide.date).addClass("cal-highlight");
                                 })
                                 .error(function (response) {
                                     console.log("error");

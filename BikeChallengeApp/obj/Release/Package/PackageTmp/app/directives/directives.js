@@ -216,13 +216,12 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
             function ($scope, $element, attrs, $watch, dataFactory) {
                 
                 $scope.$watch(function () {
-                    return ($scope.calDates, $scope.calMonth);
-                }, function (newVal,oldVal,$scope) {
+                    return ($scope.refreshCal);
+                }, function () {
                     $element.html(getTemplate(parseInt($scope.calMonth) + 1, parseInt(attrs.year), $scope.getRidesPerMonth()));
                     $compile($element.contents())($scope);
                     console.log("Inside Dir");
                     $scope.getHistory();
-
 
                 }, true);
    

@@ -58,9 +58,9 @@
                         <td></td>
                         <td></td>
                         <td></td>
-                        <td><button class="glyphicon glyphicon-chevron-right  btn btn-default" ng-click="calMonth = calMonth +1" style="border:none"></button></td>
-                        <td><button class="glyphicon glyphicon glyphicon-pushpin btn btn-default" ng-click="calMonth = setToday()" style="border:none"></button></td>
-                        <td><button class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calMonth = calMonth  -1" style="border:none"></button>
+                        <td><a class="glyphicon glyphicon-chevron-right  btn btn-default" ng-click="calNabButtons(1)" style="border:none"></a></td>
+                        <td><a class="glyphicon glyphicon glyphicon-pushpin btn btn-default" ng-click="calNabButtons(0)" style="border:none"></a></td>
+                        <td><a class="glyphicon glyphicon-chevron-left   btn btn-default" ng-click="calNabButtons(-1)" style="border:none"></a>
                         <td>
                         <td></td>
                         <td></td>
@@ -159,6 +159,7 @@
                     <form ng-submit="addNewSpontanicRide(newSRide)" name="newSRide" ng-if="addNewSRideFlag" style="width:50%" novalidate>
                         <br />
                         <input type="text" class="form-control" ng-model="newSRide.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                        <input type="date" class="form-control" ng-model="newSRide.date" placeholder="תאריך" required /><br />
                         <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
                         <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
                         <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
