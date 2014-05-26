@@ -31,3 +31,5 @@ The statement has been terminated.
 22:26:48 : Error while trying to INSERT the new Ride to the database Object reference not set to an instance of an object.
 22:27:47 : Error while trying to INSERT the new Ride to the database Object reference not set to an instance of an object.
 >>>>>>> 0735cd9468157531c85d9e316ae5017f3a39b872
+20:09:11 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+The statement has been terminated.

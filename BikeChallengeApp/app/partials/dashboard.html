@@ -10,34 +10,57 @@
 <head>
     <title></title>
 
-    <script type="text/ng-template" id="popoverTemplate.html">
-
-        <div class="row">
-
-            <button name="btnpress" class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="alarmFromPop($event)" style="text-align: right; width: 100%">   רכיבות   </button>
+    <script type="text/ng-template" id="popoverTemplate.html" >
+        <hr />
+        <div id="btnpress" class=" row scroll-down-text pull-right" style="width:100%" >
+            <strong class="pull-right" style="padding-right:1em" >רכיבות  <span style="padding-right: 14em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="alarmFromPop($event)"></span></strong>
+            
         </div>
-        <div class="row" ng-repeat="uh in userHistory | filter: {RideDate: popDate }">
-            <ul ng-if="routeFlag" class="pull-right">
-                <li> {{uh.RideLength}}</li>
-                <li> {{uh.RideType}}</li>
-            </ul>
-        </div>
+        <br />
         <div class="row">
-            <button class="btn btn-primary  glyphicon glyphicon-download pull-right" ng-click="flipRideFlag()" style="text-align:right; width:100%">   דיווח רכיבה   </button>
+            <table class="table table-hover pull-right" ng-if="routeFlag">
+                <thead>
+                    <tr>
+                        <td>שם המסלול</td>
+                        <td>אורך המסלול</td>
+                    </tr>
+                </thead>
+                <tr ng-repeat="uh in userHistory | filter: {RideDate: popDate }">
+                    <td>{{uh.RideType}}</td>
+                    <td>{{uh.RideLength}}</td>
+                </tr>
+            </table>
+
+            <!--<div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
+                <strong>הוספת מסלול חדש</strong>
+                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+            </div>-->
+
+        </div>
+        <hr />
+        <div class="row scroll-down-text pull-right" style="width:100%" >
+            <strong class="pull-right" style="padding-right:1em">דיווח רכיבה<span style="padding-right: 12em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="flipRideFlag()"></span></strong>
         </div>
         <div class="row" ng-if="addRideFlag">
-            <br/>
-            <div class="pull-right" >
-                <select id="teamSelect" class="btn btn-default btn-sm dropdown-toggle" ng-model="selectedRoute.routeName" ng-options="r.RouteType for r in userRoutes" required> </select>
-                <input type="checkbox" data-icheck ng-model="selectedRoute.roundTrip" value="true" /> &nbsp; שני כיוונים <br/>
-                
+            <br />
+            <br />
+            <div class="pull-right" style="padding-right:10px">
+                <label for="routeSelect" class="pull-right">בחר מסלול</label>
+                <br />
+                <select id="routeSelect" class=" btn btn-default btn-sm form-control dropdown-toggle" ng-model="selectedRoute.routeName" ng-options="r.RouteType for r in userRoutes" required> </select>
+                <br/>
+                <label for="rt">האם רכבת גם בדרך חזרה ?</label>
+                <input id="rt" type="checkbox" data-icheck ng-model="selectedRoute.roundTrip" value="true" />
+                <br />
+                <br/>
+                <button class="pull-right btn btn-primary" ng-click="submitRide(selectedRoute,$event)">עדכן</button>
             </div>
-            <button class="btn btn-primary" ng-click="submitRide(selectedRoute,$event)">עדכן</button>
+            
         </div>
+        <hr />
 
 
-
-</script>
+    </script>
 
 
 </head>
