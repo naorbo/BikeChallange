@@ -691,11 +691,12 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
 
     
-    // Check if can be deleted 
+    // Trigger from popover - open rides for rider
     $scope.alarmFromPop = function ($event) {
         console.log($event.target.id);
-        $scope.routeFlag = true;
-        $scope.popDate = $event.target.parentElement.parentElement.attributes.name.value; 
+        if ($scope.routeFlag == true) { $scope.routeFlag = false }
+        else { $scope.routeFlag = true; };
+        $scope.popDate = $event.target.parentElement.parentElement.parentElement.attributes.name.value;
         $rootScope.activeDay = $scope.popDate; // Holds Active day @ root scope var
     };
 
@@ -707,7 +708,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         var newRide = {
             username: $rootScope.userPersonalInfo.UserName,
             routename: selectedRoute.routeName.RouteName,
-            ridedate: $event.target.parentElement.parentElement.getAttribute('name'),
+            ridedate: $event.target.parentElement.parentElement.parentElement.getAttribute('name'),
             roundtrip: selectedRoute.roundTrip
         }
         
