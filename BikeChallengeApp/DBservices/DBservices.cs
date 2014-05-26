@@ -564,7 +564,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         int isroundtrip = 0;
-        if (roundtrip == "True")
+        if ((roundtrip == "True") || (roundtrip == "true"))
             isroundtrip = 2;
         else
             isroundtrip = 1;
