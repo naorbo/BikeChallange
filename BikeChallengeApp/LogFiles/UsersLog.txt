@@ -5,3 +5,20 @@ The statement has been terminated.
 The statement has been terminated.
 17:52:12 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
 The statement has been terminated.
+16:12:10 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+16:20:14 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+16:21:34 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+16:21:34 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+16:21:48 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+16:38:30 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+16:40:00 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+16:42:51 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+16:50:43 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+16:51:51 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+17:04:19 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+17:05:53 : Error while trying to INSERT the new Rider(user) to the database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.

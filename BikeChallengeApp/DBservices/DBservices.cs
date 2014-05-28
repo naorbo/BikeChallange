@@ -99,7 +99,7 @@ public class DBservices
 			break;
 			case 4:
 
-            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
+            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
                                 FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
                                 Where G.[Group] <> 0
                                 AND G.GroupName = '" + data1 + @"'
@@ -118,7 +118,7 @@ public class DBservices
                                 WHERE [UserName] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
 			break;
             case 6:
-            selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
+            selectStr = @" SELECT O.OrganizationName, O.OrganizationType, O.OrganiztionImage, C.CityName
                                 FROM Organizations O, Cities C
                                 Where O.Organization <> 0
                                 AND O.OrganizationName = '" + data1 + @"'
@@ -513,8 +513,8 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = "INSERT INTO Users(  UserEmail, City, UserDes, UserFname, UserLname, Gender,  UserAddress, UserPhone, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
-        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}', '{6}', '{7}','{8}', '{9}','{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationName = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        String prefix = "INSERT INTO Users(  UserEmail, City, UserDes, UserFname, UserLname, Gender, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
+        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}','{7}', '{8}','{9}', '{10}', (select id from AspNetUsers where UserName = '{11}'), {12}, (select Organization from Organizations where OrganizationName = '{13}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -567,15 +567,13 @@ public class DBservices
                               ,[UserFname] = '{3}'
                               ,[UserLname] = '{4}'
                               ,[Gender] = '{5}'
-                              ,[UserAddress] ='{6}'
-                              ,[UserPhone] = '{7}'
-                              ,[BicycleType] = '{8}'
-                              ,[ImagePath] = '{9}'
-                              ,[BirthDate] ='{10}'
-                              ,[CurDate] = '{11}'
-                              ,[Captain] = {12}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{13}')
-                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.RiderAddress, rdr.RiderPhone, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
+                              ,[BicycleType] = '{6}'
+                              ,[ImagePath] = '{7}'
+                              ,[BirthDate] ='{8}'
+                              ,[CurDate] = '{9}'
+                              ,[Captain] = {10}
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{11}')
+                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }

@@ -48,7 +48,7 @@ namespace BikeChallengeApp.Models
         {
             Organizationname = (Organizationname != null ? Organizationname : "");
             OrganizationCity = (OrganizationCity != null ? OrganizationCity : "");
-            OrganizationDes = (OrganizationDes != null ? OrganizationDes : "");
+            OrganizationDes = (OrganizationDes != null ? "" : "");
             OrganizationImage = (OrganizationImage != null ? OrganizationImage : "");
             OrganizationType = (OrganizationType != null ? OrganizationType : "");
         }
@@ -56,7 +56,7 @@ namespace BikeChallengeApp.Models
         {
             Organizationname = (organizationName != null ? organizationName : "" );
             OrganizationCity = (organizationCity != null ? organizationCity : "" );
-            OrganizationDes = (organizationDes != null ? organizationDes : "");
+            OrganizationDes = (organizationDes != null ? "" : "");
             OrganizationImage = (organizationName != null ? organizationName : "");
             OrganizationType = (organizationType != null ? organizationType : "");
         }

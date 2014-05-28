@@ -30,13 +30,6 @@ namespace BikeChallengeApp.Models
             get { return city; }
             set { city = value; }
         }
-        private int route;
-
-        public int Route
-        {
-            get { return route; }
-            set { route = value; }
-        }
         private string birthDate;
 
         public string BirthDate
@@ -83,21 +76,6 @@ namespace BikeChallengeApp.Models
             get { return rideremail; }
             set { rideremail = value; }
         }
-        private string rideraddres;
-
-        public string RiderAddress
-        {
-            get { return rideraddres; }
-            set { rideraddres = value; }
-        }
-
-        private string riderphone;
-
-        public string RiderPhone
-        {
-            get { return riderphone; }
-            set { riderphone = value; }
-        }
 
         private string imagePath;
 
@@ -137,8 +115,6 @@ namespace BikeChallengeApp.Models
             RiderFname = (RiderFname != null ? RiderFname : "");
             RiderLname = (RiderLname != null ? RiderLname : "");
             Gender = (Gender != null ? Gender : "");
-            RiderAddress = (RiderAddress != null ? RiderAddress : "");
-            RiderPhone = (RiderPhone != null ? RiderPhone : "");
             BicycleType = (BicycleType != null ? BicycleType : "");
             City = (City != null ? City : "");
             ImagePath = (ImagePath != null ? ImagePath : "");
@@ -148,15 +124,13 @@ namespace BikeChallengeApp.Models
             Organization = (Organization != null ? Organization : "");
             Group = (Group != null ? Group : ""); 
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string rideraddres, string ridercity, string riderphone, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
+        public Rider(string rideremail, string riderfname, string riderlname, string gender, string ridercity, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
         {
             RiderEmail = (rideremail != null ? rideremail : "");
             RiderDes = ((riderfname != null && riderfname != null) ? riderfname + " " + riderlname : ""); 
             RiderFname = (riderfname != null ? riderfname : ""); 
             RiderLname = (riderlname != null ? riderlname : ""); 
             Gender = (gender != null ? gender : ""); 
-            RiderAddress = (rideraddres != null ? rideraddres : ""); 
-            RiderPhone = (riderphone != null ? riderphone : ""); 
             BicycleType = (bicycletype != null ? bicycletype : ""); 
             City = (ridercity != null ? ridercity : ""); 
             ImagePath = (imagePath != null ? imagePath : ""); 
