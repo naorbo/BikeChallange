@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Models
         public string RiderDes
         {
             get { return riderdes; }
-            set { riderdes = value; }
+            set { riderdes = riderdes; }
         }
 
         private string riderfname;
@@ -97,7 +97,9 @@ namespace BikeChallengeApp.Models
         public string Username
         {
             get { return username; }
-            set { username = value; }
+            set { username = value;
+                riderdes = value;
+                }
         }
 
         private int captain;

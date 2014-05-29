@@ -14,14 +14,21 @@ namespace BikeChallengeApp.Models
         public string Organizationname
         {
             get { return organizationName; }
-            set { organizationName = value; }
-        }
+            set 
+            {
+            organizationName = value;
+            organizationDes = value;
+            organizationName = organizationName.Replace("&", "'+CHAR(37)+'26");
+            organizationName = organizationName.Replace(" ", "'+CHAR(37)+'20");
+            }
 
+        }
+        //(value.Contains(" ") ? value.Replace(" ", "'+CHAR(37)+'20") : (value.Contains("&") ? value.Replace("&", "'+CHAR(37)+'26") : organizationName))
         string organizationDes;
         public string OrganizationDes
         {
             get { return organizationDes; }
-            set { organizationDes = value; }
+            set { organizationDes = organizationDes; }
         }
 
         string organizationImage;
@@ -46,15 +53,11 @@ namespace BikeChallengeApp.Models
         }
         public Organization()
         {
-            Organizationname = (Organizationname != null ? Organizationname : "");
-            OrganizationCity = (OrganizationCity != null ? OrganizationCity : "");
-            OrganizationDes = (OrganizationDes != null ? "" : "");
-            OrganizationImage = (OrganizationImage != null ? OrganizationImage : "");
-            OrganizationType = (OrganizationType != null ? OrganizationType : "");
+
         }
         public Organization(string organizationName, string organizationCity, string organizationDes, string organizationImage, string organizationType)
         {
-            Organizationname = (organizationName != null ? organizationName : "" );
+            Organizationname = (organizationName.Contains(" ") ? organizationName.Replace("&", "%20") : (organizationName.Contains("&") ? organizationName.Replace("&", "%26") : organizationName));
             OrganizationCity = (organizationCity != null ? organizationCity : "" );
             OrganizationDes = (organizationDes != null ? "" : "");
             OrganizationImage = (organizationName != null ? organizationName : "");

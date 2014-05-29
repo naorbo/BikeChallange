@@ -14,7 +14,13 @@ namespace BikeChallengeApp.Models
         public string GroupName
         {
             get { return groupName; }
-            set { groupName = value; }
+            set
+            {
+                groupName = value;
+                groupDes = value;
+                groupName = groupName.Replace("&", "'+CHAR(37)+'26");
+                groupName = groupName.Replace(" ", "'+CHAR(37)+'20");
+            }
         }
 
         string organizationName;
@@ -28,14 +34,12 @@ namespace BikeChallengeApp.Models
         public string GroupDes
         {
             get { return groupDes; }
-            set { groupDes = value; }
+            set { groupDes = groupDes; }
         }
 
         public Group()
         {
-            GroupName = (GroupName != null ? GroupName : "");
-            OrganizationName = (OrganizationName != null ? OrganizationName : "");
-            GroupDes = (GroupDes != null ? GroupDes : ""); 
+
         }
 
         public Group(string groupName, string organizationName, string groupDes)

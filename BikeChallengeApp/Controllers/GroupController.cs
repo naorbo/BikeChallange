@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST api/Group
-        // {"GroupName":"groupName", "OrganizationName":"", "GroupDes":"groupDes"}
+        // {"GroupName":"groupName", "OrganizationName":""}
         public string updateDB([FromBody]Group grp)
         {
             List<Object> mlist = new List<Object>();

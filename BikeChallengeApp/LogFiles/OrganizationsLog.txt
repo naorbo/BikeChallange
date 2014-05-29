@@ -1,3 +1,0 @@
-The Organizations LOG file
-22:25:01 : Error updating the Organization database Object reference not set to an instance of an object.
-22:26:57 : Error updating the Organization database Object reference not set to an instance of an object.
