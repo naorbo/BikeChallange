@@ -109,29 +109,33 @@ namespace BikeChallengeApp.Models
             get { return captain; }
             set { captain = value; }
         }
+        private string riderPhone;
+
+        public string RiderPhone
+        {
+            get { return riderPhone; }
+            set { riderPhone = value; }
+        }
+        private string riderAddress;
+
+        public string RiderAddress
+        {
+            get { return riderAddress; }
+            set { riderAddress = value; }
+        }
 
         public Rider()
         {
-            RiderEmail = (RiderEmail != null ? RiderEmail : "");
-            RiderDes = (RiderDes != null ? RiderDes : "");
-            RiderFname = (RiderFname != null ? RiderFname : "");
-            RiderLname = (RiderLname != null ? RiderLname : "");
-            Gender = (Gender != null ? Gender : "");
-            BicycleType = (BicycleType != null ? BicycleType : "");
-            City = (City != null ? City : "");
-            ImagePath = (ImagePath != null ? ImagePath : "");
-            BirthDate = (BirthDate != null ? BirthDate : "");
-            Username = (Username != null ? Username : "");
-            Captain = (Captain != null ? Captain : 0);
-            Organization = (Organization != null ? Organization : "");
-            Group = (Group != null ? Group : ""); 
+
         }
-        public Rider(string rideremail, string riderfname, string riderlname, string gender, string ridercity, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
+        public Rider(string rideremail, string riderfname, string riderlname, string riderphone, string rideraddress, string gender, string ridercity, string bicycletype, string imagePath, string birthDate, string username, int captain, string organization, string group)
         {
             RiderEmail = (rideremail != null ? rideremail : "");
             RiderDes = ((riderfname != null && riderfname != null) ? riderfname + " " + riderlname : ""); 
             RiderFname = (riderfname != null ? riderfname : ""); 
-            RiderLname = (riderlname != null ? riderlname : ""); 
+            RiderLname = (riderlname != null ? riderlname : "");
+            RiderAddress = (rideraddress != null ? rideraddress : "");
+            RiderPhone = (riderphone != null ? riderphone : ""); 
             Gender = (gender != null ? gender : ""); 
             BicycleType = (bicycletype != null ? bicycletype : ""); 
             City = (ridercity != null ? ridercity : ""); 
