@@ -1,5 +1,39 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
+// ####################################################################################################################################################### // 
+// #########################################                workAreaController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
+
+app.controller('workAreaController', function ($scope) {
+    
+});
+
+
+
+
+
+// ####################################################################################################################################################### // 
+// #########################################                bikeChallengeController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
+
+app.controller('bikeChallengeController', function ($scope) {
+    $scope.oneAtATime = true;
+
+   
+    $scope.addItem = function () {
+        var newItemNo = $scope.items.length + 1;
+        $scope.items.push('Item ' + newItemNo);
+    };
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+});
 
 
 
@@ -21,8 +55,10 @@ app.controller('aboutController', function ($scope) {
 
 app.controller('homeController', function ($scope) {
 
-});
 
+
+
+});
 
 // ####################################################################################################################################################### // 
 // #########################################                loginController               ################################################################ // 
@@ -57,7 +93,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
         console.log("Trying to EF");
-        authFactory.register($scope.regDetails.userName.$viewValue, $scope.password, $scope.regDetails.confirmPassword.$viewValue).then(function () {
+        authFactory.register($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue, $scope.regDetails.confirmPassword.$viewValue).then(function () {
             console.log("Signup successfull (EF), BCing success");
             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccessEF);
             $scope.loadCities();
@@ -69,66 +105,63 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
     
     //userRegistration - register the new user with BC DB 
-    $scope.userRegistration = function (userName) {
-        //authFactory.registerDetails($scope.personalDetails).then(function () {
-        //})
 
+    $scope.userRegistration = function (personalDetails) {
+        
+        if (personalDetails.org == undefined || personalDetails.org == null) { alert("לא נבחרה קבוצה, בחר קבוצה ונסה שנית")}
+        else {
 
+            var userDetails = {};
 
-        console.log("this is the user" + $scope.regDetails.userName.$viewValue);
-        // Parse all info and adjust to server vars
-        var userDetails = {};
-        userDetails.RiderEmail = $scope.$$childHead.personalDetails.email;
-        userDetails.RiderFname = $scope.$$childHead.personalDetails.firstName;
-        userDetails.RiderLname = $scope.$$childHead.personalDetails.lastName;
-        userDetails.Gender = $scope.$$childHead.personalDetails.gender;
-        userDetails.RiderAddress = $scope.$$childHead.personalDetails.address;
-        userDetails.City = $scope.$$childHead.personalDetails.city.CityName;
-        userDetails.RiderPhone = $scope.$$childHead.personalDetails.phone;
-        userDetails.BicycleType = $scope.$$childHead.personalDetails.bikeType;
-        if ($scope.$$childHead.personalDetails.imagePath == undefined)
-            { userDetails.ImagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg"}
-        else
-            { userDetails.ImagePath = $scope.$$childHead.personalDetails.imagePath; }
-        userDetails.BirthDate = $scope.$$childHead.personalDetails.bDay;
-        userDetails.UserName = $scope.regDetails.userName.$viewValue;
-        userDetails.Captain = "0"; 
-        // Should be added - default KM per Day
+            userDetails.RiderEmail = personalDetails.email.$viewValue;
+            userDetails.RiderFname = personalDetails.firstName.$viewValue;
+            userDetails.RiderLname = personalDetails.lastName.$viewValue;
+            userDetails.Gender = personalDetails.gender.$viewValue;
+            userDetails.RiderAddress = personalDetails.address.$viewValue;
+            userDetails.City = personalDetails.city.$viewValue.CityName;
+            userDetails.RiderPhone = personalDetails.phone.$viewValue;
+            userDetails.BicycleType = personalDetails.bikeType.$viewValue;
+            if (personalDetails.imagePath == undefined)
+            { userDetails.ImagePath = "\\ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
+            else
+            { userDetails.ImagePath = personalDetails.imagePath; }
+            userDetails.BirthDate = personalDetails.bDay.$viewValue;
+            userDetails.UserName = $scope.regDetails.userName.$viewValue;
+
             // Captain Flag 
-            if ($scope.newOrgFlag || $scope.newTeamFlag) { userDetails.Captain = "1";}
+            if ($scope.newOrgFlag || $scope.newTeamFlag) { userDetails.Captain = "1"; }
+            else { userDetails.Captain = "0"; };
 
-            userDetails.Organization = $scope.$$childHead.personalDetails.org;
-            userDetails.Group = $scope.$$childHead.personalDetails.team.GroupName;
+            userDetails.Organization = personalDetails.org;
+            userDetails.Group = personalDetails.team.$viewValue.GroupName;
 
-        userDetails = angular.toJson(userDetails, true);
-        
-        // Post to Server
-        
-        dataFactory.postValues('Rider',userDetails,false)
-                 .success(function (values) {
-                     if (values == "Error")
-                     { alert(" בדוק את הפרטים שהזמנת ונסה בשנית ,ההרשמה נכשלה!"); }
-                     else
-                     {
-                         alert("ההרשמה הסתיימה בהצלחה!");
-                         $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
-                     }
-                     
-                 })
-                 .error(function (error) {
-                     alert("ההרשמה נכשלה!");
-                 });
+            userDetails = angular.toJson(userDetails, true);
+
+
+
+            // Post to Server
+
+            dataFactory.postValues('Rider', userDetails, false)
+                     .success(function (values) {
+                         if (angular.fromJson(values) == values)
+                         { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
+                         else
+                         {
+                             alert("ההרשמה הסתיימה בהצלחה!");
+                             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                         }
+
+                     })
+                     .error(function (error) {
+                         alert("ההרשמה נכשלה!");
+                     });
+
+        }
         }
 
+    // Organization Handling 
 
-
-        
-    
-
-    ///////Organization Handling 
-
-    
-    //Save & Close - Modal Window - Passes selected Org from modal windows to attribute 
+    // Save & Close - Modal Window - Passes selected Org from modal windows to attribute 
     $scope.myOrg = function (chosenOrg) {
         console.log("org is " + chosenOrg);
         $scope.$$childHead.personalDetails.org = chosenOrg;
@@ -163,7 +196,6 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     //Clears org selection
     $scope.clearSelection = function () {
         console.log("Im reseting this one ");
-        $scope.orgSelection = null;
         $scope.$$childHead.personalDetails.org = null;
         $scope.$$childHead.personalDetails.team = null;
         return;
@@ -180,7 +212,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         var newOrg = {
             OrganizationName: newOrgObj.OrganizationName,
             OrganizationCity: newOrgObj.OrganizationCity.CityName,
-            OrganizationDes: newOrgObj.OrganizationDes,
+            //OrganizationDes: newOrgObj.OrganizationDes,
             OrganizationType: newOrgObj.OrganizationType,
             OrganizationImage: newOrgObj.imagePath
             
@@ -235,7 +267,8 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
                  $scope.newTeamFlag = true;
                  alert("  הקבוצה  " + newTeamObj.GroupName + "  נוצרה בהצלחה ! ");
                  // Closing Modal window 
-                 $scope.$$childHead.personalDetails.team = newTeamObj.GroupName;
+                 //$scope.$$childHead.personalDetails.team = newTeamObj;
+                 //$scope.$$childHead.personalDetails.team = newTeamObj.GroupName;
                  $('#myNewTeamModal').modal('hide');
                  $scope.getTeamByOrg(newTeamObj.OrganizationName);
              })
@@ -359,7 +392,11 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         })
     })
 
-
+    $scope.$on('update-org'), function () {
+        $scope.personalDetails.org = $scope.orgSelection;
+        console.log($scope.personalDetails.org);
+    }
+    
 });
 
 // ####################################################################################################################################################### // 
@@ -371,6 +408,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 app.controller('mainController', function ($rootScope, $location, $scope ,authFactory,dataFactory, session, AUTH_EVENTS) {
     
 
+   
 
     //User login handling (display user info and redirection)
 
@@ -976,7 +1014,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                     else if (entity == "group") {
                         if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
                             kmSummed = kmSummed + monthStat.Group_KM;
-                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+                            ridesSummed = ridesSummed + monthStat._of_Rides;
                         }
                     }
                     else {

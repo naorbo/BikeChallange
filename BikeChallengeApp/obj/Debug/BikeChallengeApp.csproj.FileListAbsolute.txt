@@ -126,5 +126,6 @@ C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Ow
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Owin.xml
+C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb

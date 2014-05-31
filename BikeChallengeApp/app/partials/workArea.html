@@ -2,72 +2,41 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+    <style>
+       
+    </style>
 </head>
 <body>
-    <style>
+    <div class="panel panel-primary " style="padding-top:30px">
+        <div class="panel-heading"><span>פרטים אישיים</span><i ng-click="toggleEditor()" class="glyphicon glyphicon-adjust pull-left"></i></div>
+        <div class="panel-body">
+            <table class="table col-md-6">
+                <tr>
+                    <td>כתובת דואר אלקטרוני</td>
+                   <td ng-show="!editorEnabled" >{{personalInfoHolder.UserEmail}}</td>
+                   <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.email" placeholder="{{personalInfoHolder.UserEmail}}" /></td>
 
-    </style>
-    
-    <!-- Organization-->
-    <div class="form-group" ng-class="{'has-success' : personalDetails.org, 'has-required' : personalDetails.org == undefined || personalDetails.org == null}">
-        <a class="btn btn-default"
-           ng-click="getOrgs()"
-           data-toggle="modal"
-           data-target="#myModal">
-            <span class="glyphicon glyphicon-search"></span>&nbspבחר ארגון
-        </a>
-        <a class="btn btn-default" ng-click="" data-toggle="modal" data-target="#myNewOrgModal"><span class="glyphicon glyphicon-plus"></span>&nbspיצירת ארגון חדש</a>
-        <a class="btn btn-default" ng-click="clearSelection()"><span class="glyphicon glyphicon-remove"></span>&nbspנקה בחירה</a>
-        <br /><br />
-        <span class="form-control" ng-if="personalDetails.org"> <strong>הארגון שנבחר הוא: </strong>{{personalDetails.org}}</span>
-        <span class="form-control" ng-if="!personalDetails.org"> <strong> טרם נבחר ארגון </strong>{{personalDetails.org}}</span>
-    </div>
-
-    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                    <h4 class="modal-title" id="myModalLabel">בחר ארגון</h4>
-                </div>
-                
-                <div class="modal-body row">
-                    <div class="row">
-                        <div class="col-md-5 pull-right">
-                            <div class="form-control">
-                                <input class="pull-right" ng-model="query" style="border:none" />
-                                <span class="glyphicon glyphicon-search pull-left"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-7">
-                            <span><i class="glyphicon glyphicon-info-sign" style="color:blue">&nbsp;</i><small>לא מצאת את הארגון שלך?, סגור את החלונית ובחר "צור קבוצה חדשה"</small></span>
-                        </div>
-                    </div>
-                   
-                    <hr />
-                    <br />
-                    <div ng-repeat="org in orgs | filter:query">
-                        <div class="col-md-4">
-                            <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationName}} ng-model="$parent.orgSelection" />
-                            <div class="col-md-11">
-                                <div class="panel panel-primary ">
-                                    <div class="panel-heading">{{org.OrganizationName}} </div>
-                                    <div class="panel-body">
-                                        <p>{{org.OrganizationAddress}}</p>
-                                        <p>{{org.OrganizationType}}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
-                    <button type="button" class="btn btn-primary" ng-click="myOrg(orgSelection)">שמור</button>
-                </div>
-            </div>
+                </tr>
+                <tr>
+                    <td>כתובת</td>
+                    <td>{{personalInfoHolder.UserAddress}}</td>
+                </tr>
+                <tr>
+                    <td>עיר</td>
+                    <td>{{personalInfoHolder.RiderCity}}</td>
+                </tr>
+                <tr>
+                    <td>תאריך לידה</td>
+                    <td>{{personalInfoHolder.BirthDate}}</td>
+                </tr>
+                <tr>
+                    <td>מספר טלפון</td>
+                    <td>{{personalInfoHolder.UserPhone}}</td>
+                </tr>
+            </table>
         </div>
-    </div>
+        </div>
+
 
 </body>
 </html>
