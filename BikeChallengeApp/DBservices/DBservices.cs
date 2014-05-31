@@ -66,11 +66,7 @@ public class DBservices
             switch(select)
             {
 			case 1:
-<<<<<<< HEAD
                     selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage
-=======
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage
->>>>>>> 16c5609c17c85c219f704d7bb6663e5c5ced56d4
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
@@ -79,15 +75,11 @@ public class DBservices
                                 AND UG.[Group] = G.[Group]
                                 AND U.City = C.City
                                 AND G.GroupDes = '" + data1 + @"'
-                                AND O.OrganizationName = '" + data2 + "';"; //GET RIDER PER GRUOP
+                                AND O.OrganizationDes = '" + data2 + "';"; //GET RIDER PER GRUOP
                                 
 			break;
 			case 2:
-<<<<<<< HEAD
             selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
-=======
-            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
->>>>>>> 16c5609c17c85c219f704d7bb6663e5c5ced56d4
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
@@ -133,7 +125,10 @@ public class DBservices
                                 AND O.City = C.City ; " ; //ReadFromDataBaseforRiderorgname
 			break;
 			case 7:
-			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
+            if (data1 == "Organizations")
+                    selectStr = "SELECT Organizations.*, C.CityName FROM Organizations, Cities C Where Organization <> 0 and Organizations.City = C.city";
+                else
+			        selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
 			break;
             case 8:
             selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength], R.[RideSource], R.[RideDestination]
@@ -522,7 +517,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Users(  UserEmail, City, UserDes, UserFname, UserLname, UserAddress, UserPhone, Gender, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
-        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}','{6}','{7}', '{8}','{9}', '{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationName = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.RiderAddress, rdr.RiderPhone, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}','{6}','{7}', '{8}','{9}', '{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationDes = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.RiderAddress, rdr.RiderPhone, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -535,7 +530,7 @@ public class DBservices
                           Declare @User_val int;
                           Set @Group_val = 0;
                           Set @User_val = 0;
-                          Set @Group_val = ( Select [Group] From Groups Where GroupName = '"+ rdr.Group + @"');
+                          Set @Group_val = ( Select [Group] From Groups Where GroupDes = '"+ rdr.Group + @"');
                           Set @User_val = ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '" + rdr.Username + @"' ) ) ;";
         String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
                             begin
@@ -580,7 +575,7 @@ public class DBservices
                               ,[BirthDate] ='{8}'
                               ,[CurDate] = '{9}'
                               ,[Captain] = {10}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{11}')
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationDES = '{11}')
                          WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
@@ -597,7 +592,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
-        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationName, grp.GroupDes);
+        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationDes = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationName, grp.GroupDes);
         command = prefix + sb.ToString();
         return command;
     }
