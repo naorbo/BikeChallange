@@ -13,7 +13,7 @@
 
 //This configures the routes and associates each route with a view and a controller
 
-var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', 'google-maps','googlechart']);
+var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', /*, 'google-maps'*/  'googlechart', 'ui.bootstrap']);
 
 app.config(['$routeProvider',
   function ($routeProvider) {
@@ -50,6 +50,27 @@ app.config(['$routeProvider',
         when('/dashboard', {
             templateUrl: 'app/partials/dashboard.html',
             controller: 'dashboardController'
+        }).
+        
+
+        when('/bikeChallenge', {
+            templateUrl: 'app/partials/bikeChallenge.html',
+            controller: 'bikeChallengeController'
+        }).
+
+        when('/sponsers', {
+            templateUrl: 'app/partials/sponsers.html',
+            controller: 'homeController'
+        }).
+
+        when('/contactUs', {
+            templateUrl: 'app/partials/contactUs.html',
+            controller: 'contactUsController'
+        }).
+          //Used for testing 
+        when('/workArea', { 
+            templateUrl: 'app/partials/workArea.html',
+            controller: 'workAreaController'
         }).
 
         otherwise({

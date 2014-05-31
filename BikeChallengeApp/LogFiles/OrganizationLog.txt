@@ -3,3 +3,5 @@ The Organization LOG file
 The statement has been terminated.
 22:29:16 : Violation of UNIQUE KEY constraint 'UQ__Organiza__F50959E46BAEFA67'. Cannot insert duplicate key in object 'dbo.Organizations'.
 The statement has been terminated.
+15:52:53 : Violation of UNIQUE KEY constraint 'UQ__Organiza__F50959E46BAEFA67'. Cannot insert duplicate key in object 'dbo.Organizations'.
+The statement has been terminated.

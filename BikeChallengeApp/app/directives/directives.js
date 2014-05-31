@@ -126,7 +126,48 @@ app.directive('usernameValidate', function (dataFactory) {
     };
 });
 
+// #############################
+// User email existance directive 
+// #############################
 
+
+app.directive('emailValidate', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.push(function (viewValue) {
+                $ctrl.$setValidity('emailValidate', true);
+                if($ctrl.$valid) {
+                    $ctrl.$setValidity('checkingEmail', false);
+                    console.log("Got the Direc");
+                
+               
+                    dataFactory.getValues("UserNameExists", 1, "email=" + $scope.personalDetails.email.$viewValue)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("email is available");
+                            $ctrl.$setValidity('unique', true);
+                            $ctrl.$setValidity('checkingEmail', true);
+                        }
+
+                        else {
+                            console.log("email is NA");
+                            $ctrl.$setValidity('unique', false);
+                            $ctrl.$setValidity('checkingEmail', false);
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch email existance");
+                     }
+                        );
+                }
+            }
+        )
+        }
+    };
+    return viewValue;
+});
 
 // ############################
 // Calendar dashboard directive 
@@ -366,5 +407,4 @@ app.directive('chartPersonal', function () {
     //    'width': 400,
     //    'height': 300
 //};
-
 

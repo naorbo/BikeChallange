@@ -14,16 +14,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/24/2014 11:40:01</publishTime>
     </File>
     <File Include="app/controllers/controllers.js">
-      <publishTime>05/26/2014 00:37:02</publishTime>
+      <publishTime>05/26/2014 22:45:42</publishTime>
     </File>
     <File Include="app/directives/directives.js">
-      <publishTime>05/26/2014 00:16:06</publishTime>
+      <publishTime>05/26/2014 23:09:42</publishTime>
     </File>
     <File Include="app/partials/about.html">
       <publishTime>05/22/2014 23:29:45</publishTime>
     </File>
     <File Include="app/partials/dashboard.html">
-      <publishTime>05/26/2014 00:38:45</publishTime>
+      <publishTime>05/26/2014 23:01:49</publishTime>
     </File>
     <File Include="app/partials/home.html">
       <publishTime>04/15/2014 19:13:24</publishTime>
@@ -89,7 +89,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="bin/BikeChallengeApp.dll">
-      <publishTime>05/25/2014 22:43:56</publishTime>
+      <publishTime>05/26/2014 23:29:55</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/21/2014 20:08:29</publishTime>
@@ -188,7 +188,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2014 09:48:00</publishTime>
     </File>
     <File Include="Content/appStyles.css">
-      <publishTime>05/24/2014 11:40:01</publishTime>
+      <publishTime>05/26/2014 20:20:23</publishTime>
     </File>
     <File Include="Content/bootstrap-rtl.css">
       <publishTime>03/21/2014 21:04:43</publishTime>
@@ -233,7 +233,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>05/25/2014 22:43:56</publishTime>
+      <publishTime>05/26/2014 23:15:55</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>05/09/2014 17:20:15</publishTime>
@@ -1148,7 +1148,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 21:01:31</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/25/2014 22:43:55</publishTime>
+      <publishTime>05/26/2014 20:02:47</publishTime>
     </File>
     <File Include="skins/square/aero%402x.png">
       <publishTime>04/21/2014 09:48:00</publishTime>

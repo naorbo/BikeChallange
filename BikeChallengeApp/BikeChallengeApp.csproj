@@ -223,8 +223,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\partials\bikeChallenge.html" />
+    <Content Include="app\partials\contactUs.html" />
     <Content Include="app\partials\dashboard.html" />
     <Content Include="app\partials\myTeam.html" />
+    <Content Include="app\partials\sponsers.html" />
+    <Content Include="app\partials\workArea.html" />
     <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />
     <Content Include="app\directives\directives.js" />
@@ -565,6 +569,7 @@
     <Content Include="Scripts\ng-google-chart.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\ui-bootstrap-custom-tpls-0.10.0.js" />
     <Content Include="Scripts\underscore-min.js" />
     <Content Include="skins\square\aero%402x.png" />
     <Content Include="skins\square\aero.css" />

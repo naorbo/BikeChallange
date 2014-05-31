@@ -10,6 +10,8 @@ body {
   /* The html and body elements cannot have any padding or margin. */
 }
 
+.nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
+
 /* Wrapper for page content to push down footer */
 #wrap {
   min-height: 100%;
@@ -30,8 +32,45 @@ body {
 
 .angular-google-map-container { height: 400px; }
 
+/* Footer Links style */
+
+a.footer-link {
+    color: #AAA !important;
+    text-decoration:none !important;
+    padding-right:10px;
+    padding-left:10px;
+}
+
+a.footer-link:hover {
+    color: #ff6a00 !important;
+    text-decoration:none;
+}
 
 
+/****************************************************************************/        
+/* *********************** Forms Validators ***************************/
+/****************************************************************************/
+.has-success .form-control {
+            border-left-width: 20px;
+        }
+.has-required .form-control {
+            border-left-width: 20px;
+            border-color:#ff6a00;
+        }
+.has-error .form-control {
+            border-left-width: 20px;
+            
+        }
+  #genderCombo.has-required,#bikeTypeCombo.has-required  {
+          border-left-width: 20px;
+          border-color:#ff6a00;  
+            
+
+        }
+ #genderCombo.has-success, #bikeTypeCombo.has-success  {
+          border-left-width: 20px;  
+          border-color:#3C763D; 
+        }
 
 /****************************************************************************/        
 /* *********************** Calendar widget Styles ***************************/
