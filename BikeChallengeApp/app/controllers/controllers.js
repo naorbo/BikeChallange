@@ -212,7 +212,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
         var newOrg = {
             OrganizationName: newOrgObj.OrganizationName,
             OrganizationCity: newOrgObj.OrganizationCity.CityName,
-            OrganizationDes: newOrgObj.OrganizationDes,
+            //OrganizationDes: newOrgObj.OrganizationDes,
             OrganizationType: newOrgObj.OrganizationType,
             OrganizationImage: newOrgObj.imagePath
             

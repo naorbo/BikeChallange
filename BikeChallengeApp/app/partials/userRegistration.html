@@ -265,17 +265,31 @@
                             <h4 class="modal-title" id="myModalLabel">בחר ארגון</h4>
                         </div>
                         <div class="modal-body row">
-                            <input ng-model="query" />
+                            <div class="row">
+                                <div class="col-md-5 pull-right">
+                                    <div class="form-control">
+                                        <input class="pull-right" ng-model="query" style="border:none" />
+                                        <span class="glyphicon glyphicon-search pull-left"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-7">
+                                    <span><i class="glyphicon glyphicon-info-sign" style="color:blue">&nbsp;</i><small>לא מצאת את הארגון שלך?, סגור את החלונית ובחר "יצירת ארגון חדש"</small></span>
+                                </div>
+                            </div>
+                            <hr />
                             <br />
                             <div ng-repeat="org in orgs | filter:query">
-                                <div class="col-md-4">
-                                    <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationName}} ng-model="$parent.orgSelection" />
+                                <div class="col-md-6">
+                                    <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationDes}} ng-model="$parent.orgSelection" />
                                     <div class="col-md-11">
                                         <div class="panel panel-primary ">
-                                            <div class="panel-heading">{{org.OrganizationName}} </div>
+                                            <div class="panel-heading">
+                                                <span>{{org.OrganizationDes}},</span>
+                                                <span><small>{{org.OrganizationType}}</small></span>
+                                                <span><small>( {{org.City}} )</small></span>  
+                                             </div>
                                             <div class="panel-body">
-                                                <p>{{org.OrganizationAddress}}</p>
-                                                <p>{{org.OrganizationType}}</p>
+                                                <img src="{{org.OrganiztionImage}}" class="img-rounded img-responsive" style="height:70px">
                                             </div>
                                         </div>
                                     </div>
@@ -302,21 +316,20 @@
                         <br />
                        
                         <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
-                        <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationCity" placeholder="עיר" required /><br />-->
-
+                        <label><strong>עיר</strong></label>
                         <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
-                        
-                        <input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />
-                        
-                        <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="סוג הארגון" required /><br />
-                        
+                        <br />
+                        <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />-->
+                        <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')" required />
+                        <br />
+                        <label><strong>לוגו הארגון</strong></label>
                         <input type="file" class="form-control" ng-file-select="onFileSelectOrg($files)"  ng-model="newOrg.imagePath" placeholder="תמונה" required /><br />
-                        <!--    <input type="file" class="form-control" ng-model="newOrg.image" placeholder="לוגו" required /><br />-->
+                       
                         
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
-                        <button type="submit" class="btn btn-primary" ng-click="regNewOrg(newOrg)">שמור</button>
+                        <button type="submit" class="btn btn-primary" ng-disabled="!newOrg.OrganizationName" ng-click="regNewOrg(newOrg)">שמור</button>
                     </div>
                 </div>
             </div>

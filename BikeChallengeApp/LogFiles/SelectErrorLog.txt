@@ -9,3 +9,5 @@ The SelectError LOG file
 14:52:03 : A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)
 14:52:03 : A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)
 14:52:04 : A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)
+17:32:22 : Invalid column name 'UserAdrees'.
+17:34:36 : Invalid column name 'UserAdrees'.
