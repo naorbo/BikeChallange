@@ -64,7 +64,7 @@ namespace BikeChallengeApp.Models
         {
             UserName = (username != null ? username : "");
             RideType = (ridetype != null ? ridetype : "");
-            RideLength = (rideLength != null ? rideLength : 0);
+            RideLength = rideLength;
             RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
             RideDes = (username != null ? username + "_Ride" : "");
             RideDate = (ridedate != null ? ridedate : "");
@@ -75,14 +75,7 @@ namespace BikeChallengeApp.Models
 
         public Rides()
         {
-            UserName = (UserName != null ? UserName : "");
-            RideType = (RideType != null ? RideType : "");
-            RideLength = (RideLength != null ? RideLength : 0);
-            RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
-            RideDes = (RideDes != null ? RideDes : "");
-            RideDate = (RideDate != null ? RideDate : "");
-            RideDestination = (RideDestination != null ? RideDestination : "");
-            RideSource = (RideSource != null ? RideSource : "");
+
         }
     }
 }

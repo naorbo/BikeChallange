@@ -66,7 +66,7 @@ public class DBservices
             switch(select)
             {
 			case 1:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
@@ -74,12 +74,12 @@ public class DBservices
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
                                 AND U.City = C.City
-                                AND G.GroupName = '" + data1 + @"'
-                                AND O.OrganizationName = '" + data2 + "';"; //GET RIDER PER GRUOP
+                                AND G.GroupDes = '" + data1 + @"'
+                                AND O.OrganizationDes = '" + data2 + "';"; //GET RIDER PER GRUOP
                                 
 			break;
 			case 2:
-            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, U.UserAddress, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
+            selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
@@ -95,16 +95,16 @@ public class DBservices
                                 FROM [Groups] G, Organizations O
                                 WHERE [GROUP] <> 0 
                                 AND G.[Organization] = O.[Organization]
-                                AND O.OrganizationName = '" + data1 + @"';"; // Group From ORG
+                                AND O.OrganizationDes = '" + data1 + @"';"; // Group From ORG
 			break;
 			case 4:
 
             selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
                                 FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
                                 Where G.[Group] <> 0
-                                AND G.GroupName = '" + data1 + @"'
+                                AND G.GroupDes = '" + data1 + @"'
                                 AND G.Organization = O.Organization
-                                AND O.OrganizationName = '" + data2 + @"'
+                                AND O.OrganizationDes = '" + data2 + @"'
                                 AND O.City = C.City 
                                 AND anu.Id = U.Id
                                 AND U.Captain = 1
@@ -121,11 +121,14 @@ public class DBservices
             selectStr = @" SELECT O.OrganizationName, O.OrganizationDes, O.OrganizationType, O.OrganiztionImage, C.CityName
                                 FROM Organizations O, Cities C
                                 Where O.Organization <> 0
-                                AND O.OrganizationName = '" + data1 + @"'
+                                AND O.OrganizationDes = '" + data1 + @"'
                                 AND O.City = C.City ; " ; //ReadFromDataBaseforRiderorgname
 			break;
 			case 7:
-			selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
+            if (data1 == "Organizations")
+                    selectStr = "SELECT Organizations.*, C.CityName FROM Organizations, Cities C Where Organization <> 0 and Organizations.City = C.city";
+                else
+			        selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
 			break;
             case 8:
             selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength], R.[RideSource], R.[RideDestination]
@@ -154,14 +157,14 @@ public class DBservices
             selectStr = @"SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                         FROM Groups G, Organizations O, Users U, Rides R
                         Where G.[Group] <> 0
-                        AND G.GroupName = '" + data1 + @"'
+                        AND G.GroupDes = '" + data1 + @"'
                         AND G.Organization = O.Organization
-                        AND O.OrganizationName = '" + data2 + @"'
+                        AND O.OrganizationDes = '" + data2 + @"'
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
                         AND R.[User] = U.[User] 
-                        AND U.Gender like '" + data3 + @"%'
+                        AND U.Gender like '%" + data3 + @"'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;
             case 12:
@@ -169,12 +172,12 @@ public class DBservices
                         FROM Groups G, Organizations O, Users U, Rides R
                         Where G.[Group] <> 0
                         AND G.Organization = O.Organization
-                        AND O.OrganizationName = '" + data1 + @"'
+                        AND O.OrganizationDes = '" + data1 + @"'
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
                         AND R.[User] = U.[User] 
-                        AND U.Gender like '" + data2 + @"%'
+                        AND U.Gender like '%" + data2 + @"'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;  
                    case 13:
@@ -182,7 +185,7 @@ public class DBservices
                             FROM Users U, Rides R
                             Where R.[Ride] <> 0
                             AND R.[User] = U.[User]
-                            AND U.Gender like '" + data1 + @"%'
+                            AND U.Gender like '%" + data1 + @"'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;
             case 14:
@@ -198,11 +201,11 @@ public class DBservices
                             AND R.[Ride] <> 0
                             AND R.[USER] = U.[User]
                             AND U.Id = anu.Id
-                            AND U.Gender like '" + data3 + @"%'
+                            AND U.Gender like '%" + data3 + @"'
                             AND G.[Group] <> 0
-                            AND G.GroupName like '" + data1 + @"%'
+                            AND G.GroupDes like '" + data1 + @"%'
                             AND G.Organization = O.Organization
-                            AND O.OrganizationName like '" + data2 + @"%'
+                            AND O.OrganizationDes like '" + data2 + @"%'
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
@@ -210,22 +213,22 @@ public class DBservices
                             Order By DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC, " + data4 + @" DESC ;"; // ReadFromDataBase User Ranking
             break;
             case 16:
-            data3 = (data3 == "Days" ? "Num_Of_Days_Riden" : (data3 == "Kilometers" ? "User_KM" : "User_Points"));
+            data3 = (data3 == "Days" ? "Num_Of_Days_Riden" : (data3 == "Kilometers" ? "Group_KM" : "Group_Points"));
             selectStr = @"SELECT DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                             FROM Groups G, Organizations O, Users U, Rides R
                             Where G.[Group] <> 0
                             AND G.Organization = O.Organization
-                            AND O.OrganizationName like '" + data1 + @"%'
+                            AND O.OrganizationDes like '" + data1 + @"%'
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
                             AND R.[User] = U.[User] 
-                            AND U.Gender like '" + data2 + @"%'
+                            AND U.Gender like '%" + data2 + @"'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data3 + @" DESC ;"; // ReadFromDataBase Group Ranking
             break;
             case 17:
-            data2 = (data2 == "Days" ? "Num_Of_Days_Riden" : (data2 == "Kilometers" ? "User_KM" : "User_Points"));
+            data2 = (data2 == "Days" ? "Num_Of_Days_Riden" : (data2 == "Kilometers" ? "Organization_KM" : "Organization_Points"));
             selectStr = @" SELECT DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories
                             FROM Groups G, Organizations O, Users U, Rides R
                             Where G.[Group] <> 0
@@ -234,7 +237,7 @@ public class DBservices
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
                             AND R.[User] = U.[User] 
-                            AND U.Gender like '" + data1 + @"%'
+                            AND U.Gender like '%" + data1 + @"'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data2 + @" DESC ;"; // Read From Data Base Organization Ranking
             break;
@@ -266,7 +269,7 @@ public class DBservices
     }
 #endregion
 
-    #region Insert New Record
+   #region Insert New Record 
     public int InsertDatabase(List<Object> s, string data1="", string data2="", string data3="", string data4="")
     {
         string _class ="";
@@ -514,7 +517,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Users(  UserEmail, City, UserDes, UserFname, UserLname, UserAddress, UserPhone, Gender, BicycleType, ImagePath, BirthDate, [CurDate], [Id], Captain, [Organization] ) ";
-        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}','{6}','{7}', '{8}','{9}', '{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationName = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.RiderAddress, rdr.RiderPhone, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
+        sb.AppendFormat("Values('{0}', (select [city] from Cities where CityName = '{1}' ), '{2}', '{3}' ,'{4}', '{5}','{6}','{7}', '{8}','{9}', '{10}', '{11}', (select id from AspNetUsers where UserName = '{12}'), {13}, (select Organization from Organizations where OrganizationDes = '{14}'))", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.RiderAddress, rdr.RiderPhone, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Username, rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
     }
@@ -527,7 +530,7 @@ public class DBservices
                           Declare @User_val int;
                           Set @Group_val = 0;
                           Set @User_val = 0;
-                          Set @Group_val = ( Select [Group] From Groups Where GroupName = '"+ rdr.Group + @"');
+                          Set @Group_val = ( Select [Group] From Groups Where GroupDes = '"+ rdr.Group + @"');
                           Set @User_val = ( Select [User] From Users Where Id = ( select id from AspNetUsers where UserName = '" + rdr.Username + @"' ) ) ;";
         String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
                             begin
@@ -572,7 +575,7 @@ public class DBservices
                               ,[BirthDate] ='{8}'
                               ,[CurDate] = '{9}'
                               ,[Captain] = {10}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationName = '{11}')
+                              ,[Organization] = (select [Organization] from Organizations where OrganizationDES = '{11}')
                          WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
         command = prefix + sb.ToString();
         return command;
@@ -589,7 +592,7 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
-        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationName = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationName, grp.GroupDes);
+        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationDes = '{1}' ) ,'{2}')",grp.GroupName, grp.OrganizationName, grp.GroupDes);
         command = prefix + sb.ToString();
         return command;
     }

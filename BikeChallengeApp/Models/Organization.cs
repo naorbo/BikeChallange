@@ -28,7 +28,7 @@ namespace BikeChallengeApp.Models
         public string OrganizationDes
         {
             get { return organizationDes; }
-            set { organizationDes = organizationDes; }
+            set {  }
         }
 
         string organizationImage;
