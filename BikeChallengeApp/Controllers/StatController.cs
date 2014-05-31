@@ -34,7 +34,7 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // GET Stat per Organization
-        // api/Stat?orgname=[The name of the group]&gender=[זכר/נקבה not mendatory]
+        // api/Stat?orgname=[The name of the group]&gender=[M/נקבה not mendatory]
         public DataTable GetOrganization(string orgname, string gender="")
         {
             DBservices dbs = new DBservices();
@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // GET Stat for all users
-        // api/Stat?gender=[זכר/נקבה not mendatory]
+        // api/Stat?gender=[M/נקבה not mendatory]
         public DataTable GetUsers(string gender = "")
         {
             DBservices dbs = new DBservices();

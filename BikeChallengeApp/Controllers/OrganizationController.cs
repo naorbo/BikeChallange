@@ -41,7 +41,7 @@ namespace BikeChallengeApp.Controller
         }
 
         // POST / Insert organization into the DB 
-        //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationDes":"מידעטק טכנולוגיות" , "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
+        //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
         public string updateDB([FromBody]Organization org)
         {
             List<Object> mlist = new List<Object>();
