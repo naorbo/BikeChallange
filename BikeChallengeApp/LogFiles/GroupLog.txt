@@ -1,0 +1,11 @@
+The Group LOG file
+13:18:15 : String or binary data would be truncated.
+The statement has been terminated.
+13:38:26 : String or binary data would be truncated.
+The statement has been terminated.
+13:39:49 : Cannot insert the value NULL into column 'Organization', table 'igroup1_prod.dbo.Groups'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+13:50:11 : Cannot insert the value NULL into column 'Organization', table 'igroup1_prod.dbo.Groups'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+13:50:12 : Cannot insert the value NULL into column 'Organization', table 'igroup1_prod.dbo.Groups'; column does not allow nulls. INSERT fails.
+The statement has been terminated.

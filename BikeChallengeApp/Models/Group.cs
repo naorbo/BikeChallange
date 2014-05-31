@@ -34,7 +34,7 @@ namespace BikeChallengeApp.Models
         public string GroupDes
         {
             get { return groupDes; }
-            set { groupDes = groupDes; }
+            set {  }
         }
 
         public Group()

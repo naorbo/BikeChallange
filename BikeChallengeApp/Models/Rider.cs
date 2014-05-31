@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Models
         public string RiderDes
         {
             get { return riderdes; }
-            set { riderdes = riderdes; }
+            set {  }
         }
 
         private string riderfname;
@@ -141,8 +141,8 @@ namespace BikeChallengeApp.Models
             City = (ridercity != null ? ridercity : ""); 
             ImagePath = (imagePath != null ? imagePath : ""); 
             BirthDate = (birthDate != null ? birthDate : ""); 
-            Username = (username != null ? username : ""); 
-            Captain = (captain != null ? captain : 0 ); 
+            Username = (username != null ? username : "");
+            Captain = captain; 
             Organization = (organization != null ? organization : ""); 
             Group = (group != null ? group : ""); 
         }
