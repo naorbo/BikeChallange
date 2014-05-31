@@ -261,7 +261,8 @@ app.directive('dailySum', function ($compile, $templateCache) {
 
             popOverContent = $compile(popOverContent)(scope);
             var options = {
-                title: '<button class="btn close"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div ng-model=' + attrs.id + '> סיכום יומי </div> ',
+                title: '<button class="btn close pull-left"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div class="pull-right">  ' + attrs.id + '  -  סיכום יומי </div> ',
+                //title: '<button class="btn close pull-left"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div class="pull-right" ng-model=' + attrs.id + '>  ' + attrs.id + '  -  סיכום יומי </div> ',
                 content: popOverContent,
                 placement: "right",
                 html: true,

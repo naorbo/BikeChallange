@@ -1,3 +1,21 @@
 The Users LOG file
 12:08:22 : Cannot insert the value NULL into column 'Organization', table 'igroup1_prod.dbo.Users'; column does not allow nulls. INSERT fails.
 The statement has been terminated.
+20:24:31 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+20:24:58 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+20:25:23 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+20:29:45 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+20:33:16 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+20:33:41 : Subquery returned more than 1 value. This is not permitted when the subquery follows =, !=, <, <= , >, >= or when the subquery is used as an expression.
+The statement has been terminated.
+23:07:51 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+23:21:19 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+23:30:49 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.

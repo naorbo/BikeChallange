@@ -10,7 +10,7 @@
         
         <table  >
             <tr>
-                <td > <img src='{{personalInfoHolder.ImagePath}}' class="img-rounded" style="width:150px; "> </td>
+                <td > <img src='{{personalInfoHolder.ImagePath}}' class="img-rounded img-responsive" style="max-height:120px"> </td>
                 <td valign="bottom"><h1>&nbsp; {{personalInfoHolder.UserFname}}  {{personalInfoHolder.UserLname}}</h1></td>
                 
             </tr>
@@ -36,7 +36,7 @@
                        </tr>
                        <tr>
                            <td>כתובת</td>
-                           <td>{{personalInfoHolder.Gender}}</td>
+                           <td>{{personalInfoHolder.UserAddress}}</td>
                        </tr>
                        <tr>
                            <td>עיר</td>
@@ -46,7 +46,10 @@
                            <td>תאריך לידה</td>
                            <td>{{personalInfoHolder.BirthDate}}</td>
                        </tr>
-
+                       <tr>
+                           <td>מספר טלפון</td>
+                           <td>{{personalInfoHolder.Phone}}</td>
+                       </tr>
                    </table>    
                 </div>
             </div>
@@ -69,7 +72,7 @@
                         </tr>
                         <tr>
                             <td>שם הקבוצה</td>
-                            <td>{{personalInfoHolder.GroupName}}</td>
+                            <td>{{personalInfoHolder.GroupDes}}</td>
                         </tr>
                         <tr>
                             <td>קפטן</td>
