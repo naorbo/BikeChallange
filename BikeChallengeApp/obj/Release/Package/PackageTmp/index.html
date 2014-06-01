@@ -21,7 +21,7 @@
 
         <div class="container">
 
-            <a href="#" class="navbar-brand" title="26052014-1">Bike Challenge</a>
+            <a href="#" class="navbar-brand" title="31052014-1">Bike Challenge</a>
 
   
             <!-- Nav Bar Responsive Icon Stack-->
@@ -34,11 +34,12 @@
             <!-- NavBar Items-->
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right">
+                    <li ng-if="!currentUser"><a href="#contactUs">אודות</a></li>
                     <li ng-if="!currentUser"><a href="#about">אודות</a></li>
-                    <li ng-if ="!currentUser"><a href="#userRegistration">רישום</a> </li>
+                    <li ng-if="!currentUser"><a href="#sponsers">נותני חסות</a></li>
+                    <li ng-if="!currentUser"><a href="#bikeChallenge">התחרות</a></li>
+                    <li ng-if="!currentUser"><a href="#userRegistration">רישום</a> </li>
                     <li ng-if="!currentUser"><a href="#login">התחברות</a></li>
-                    
-                    
 
                     <!-- Logged User Nav-Bar Items-->
                     <li ng-if="currentUser"><a href="#myTeam">הקבוצה שלי</a></li>
@@ -83,27 +84,37 @@
        <div class="navbar-inverse">
           <div class="container">
            <div class="row">
-               <div class="col-md-6 pull-left">
+               <div class="col-md-4 pull-left">
                    <p class="navbar-text  ">&copy;    כל הזכויות שמורות - רוכבים לעבודה 2014</p>
                </div>
+            
+            
                
-            <!-- Social Networks Icons -->
-               
-               <div class="col-md-6">
+               <div class="col-md-8 ">
+                   
+                   <ul class=" list-inline list-group pull-left  " style="padding-top: 10px;" >
+                       <li ng-if="currentuser"><a class="footer-link" href="#about">אודות</a></li> &#8226;
+                       <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות</a></li> &#8226;
+                       <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות</a></li>
+
+                   </ul>
+                   
+                   <!-- Social Networks Icons -->
+                          
                    <ul class="social-icons list-inline " style="padding-top: 10px; -webkit-box-shadow:none;" >
                        
                        <li class="facebook">
-                           <a href="" target="_blank">
+                           <a href="https://www.facebook.com/bike2work.Israel" target="_blank">
                                <img id="fb">
-                            </a>
+                           </a>
                        </li>
                        <li class="googlePlus">
-                           <a href="" target="_blank" style="border:0">
-                               <img id="gp" >
+                           <a href="https://plus.google.com/110639747397780756585/photos?fww=1" target="_blank" style="border:0">
+                               <img id="gp">
                            </a>
                        </li>
                        <li class="youTube">
-                           <a href="" target="_blank">
+                           <a href="https://www.youtube.com/results?search_query=%D7%A8%D7%95%D7%9B%D7%91%D7%99%D7%9D+%D7%9C%D7%A2%D7%91%D7%95%D7%93%D7%94" target="_blank">
                                <img id="yt">
                            </a>
                        </li>
@@ -125,26 +136,24 @@
     </footer>
 
 
-    
-    
-    
     <!-- UI Libs: jQuery  used for Bootstrap functionality -->
     <script src="Scripts/jquery-2.1.0.js"></script>
     <script src="Scripts/icheck.js"></script>
-    <script src="Scripts/bootstrap.js"></script>
-
-  
+    <script src="Scripts/bootstrap.js"></script>  
+    
+    
     <!-- Vendor Libs -->
     <script src="Scripts/AngularFileUpload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angular.js"></script>
+
+    <script src="Scripts/ui-bootstrap-custom-tpls-0.10.0.js"></script>
     <script src="Scripts/AngularFileUpload/angular-file-upload.min.js"></script>
     <script src="Scripts/angular-route.js"></script>
     
-    
     <!-- Google/Angular Maps - Google Charts -->
-    <script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
-    <script src="Scripts/underscore-min.js"></script>
-    <script src="Scripts/angular-google-maps.js"></script>
+    <!--<script src='//maps.googleapis.com/maps/api/js?sensor=false'></script>
+    
+    <script src="Scripts/angular-google-maps.js"></script>-->
     <script src="Scripts/ng-google-chart.js"></script>
     
     

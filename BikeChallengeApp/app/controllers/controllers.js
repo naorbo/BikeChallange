@@ -6,8 +6,31 @@
 
 
 
-app.controller('workAreaController', function ($scope) {
+app.controller('workAreaController', function ($scope, dataFactory) {
     
+
+    $scope.editorEnabled = false;
+    $scope.toggleEditor = function () {
+        $scope.editorEnabled = !$scope.editorEnabled;
+    }
+    $scope.updatedRecords = {
+        UserEmail: "",
+        UserAddress: "",
+        RiderCity: "",
+        BirthDate: "",
+        UserPhone: "",
+    }
+
+
+    $scope.personalInfoHolder = {
+        UserEmail: "A@b.com",
+        UserAddress: "test adrs",
+        RiderCity: "test city",
+        BirthDate: "2014-05-10",
+        UserPhone: "098878899",
+    }
+        
+
 });
 
 

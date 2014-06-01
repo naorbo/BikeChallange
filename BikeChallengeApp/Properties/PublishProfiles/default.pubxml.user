@@ -11,19 +11,25 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="app/app.js">
-      <publishTime>05/24/2014 11:40:01</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/controllers/controllers.js">
-      <publishTime>05/26/2014 22:45:42</publishTime>
+      <publishTime>05/31/2014 18:18:22</publishTime>
     </File>
     <File Include="app/directives/directives.js">
-      <publishTime>05/26/2014 23:09:42</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/partials/about.html">
       <publishTime>05/22/2014 23:29:45</publishTime>
     </File>
+    <File Include="app/partials/bikeChallenge.html">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
+    <File Include="app/partials/contactUs.html">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
     <File Include="app/partials/dashboard.html">
-      <publishTime>05/26/2014 23:01:49</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/partials/home.html">
       <publishTime>04/15/2014 19:13:24</publishTime>
@@ -32,13 +38,19 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/28/2014 22:15:36</publishTime>
     </File>
     <File Include="app/partials/myTeam.html">
-      <publishTime>05/16/2014 20:24:52</publishTime>
+      <publishTime>05/31/2014 17:48:02</publishTime>
+    </File>
+    <File Include="app/partials/sponsers.html">
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/partials/userProfile.html">
-      <publishTime>05/25/2014 22:43:56</publishTime>
+      <publishTime>05/31/2014 19:37:18</publishTime>
     </File>
     <File Include="app/partials/userRegistration.html">
-      <publishTime>05/25/2014 22:43:56</publishTime>
+      <publishTime>05/31/2014 19:21:08</publishTime>
+    </File>
+    <File Include="app/partials/workArea.html">
+      <publishTime>05/31/2014 18:13:46</publishTime>
     </File>
     <File Include="app/services/appservices.js">
       <publishTime>05/25/2014 22:43:56</publishTime>
@@ -89,7 +101,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="bin/BikeChallengeApp.dll">
-      <publishTime>05/26/2014 23:29:55</publishTime>
+      <publishTime>05/31/2014 19:43:16</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/21/2014 20:08:29</publishTime>
@@ -188,7 +200,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2014 09:48:00</publishTime>
     </File>
     <File Include="Content/appStyles.css">
-      <publishTime>05/26/2014 20:20:23</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="Content/bootstrap-rtl.css">
       <publishTime>03/21/2014 21:04:43</publishTime>
@@ -203,7 +215,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 21:01:46</publishTime>
     </File>
     <File Include="Content/bootstrap.css">
-      <publishTime>03/21/2014 21:01:46</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="Content/bootstrap.css.map">
       <publishTime>03/21/2014 21:01:46</publishTime>
@@ -233,7 +245,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>05/26/2014 23:15:55</publishTime>
+      <publishTime>05/31/2014 19:43:38</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>05/09/2014 17:20:15</publishTime>
@@ -1141,6 +1153,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="Scripts/scope.onready.js">
       <publishTime>05/20/2014 00:20:14</publishTime>
     </File>
+    <File Include="Scripts/ui-bootstrap-custom-tpls-0.10.0.js">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
     <File Include="Scripts/underscore-min.js">
       <publishTime>05/09/2014 10:10:08</publishTime>
     </File>
@@ -1148,7 +1163,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 21:01:31</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/26/2014 20:02:47</publishTime>
+      <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="skins/square/aero%402x.png">
       <publishTime>04/21/2014 09:48:00</publishTime>
