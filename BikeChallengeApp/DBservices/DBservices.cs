@@ -164,7 +164,7 @@ public class DBservices
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
                         AND R.[User] = U.[User] 
-                        AND U.Gender like '%" + data3 + @"'
+                        AND U.Gender like '" + data3 + @"%'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;
             case 12:
@@ -177,7 +177,7 @@ public class DBservices
 			                        FROM UsersGroups UG
 			                        WHERE G.[Group] = UG.[Group])
                         AND R.[User] = U.[User] 
-                        AND U.Gender like '%" + data2 + @"'
+                        AND U.Gender like '" + data2 + @"%'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;  
                    case 13:
@@ -185,7 +185,7 @@ public class DBservices
                             FROM Users U, Rides R
                             Where R.[Ride] <> 0
                             AND R.[User] = U.[User]
-                            AND U.Gender like '%" + data1 + @"'
+                            AND U.Gender like '" + data1 + @"%'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
             break;
             case 14:
@@ -223,7 +223,7 @@ public class DBservices
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
                             AND R.[User] = U.[User] 
-                            AND U.Gender like '%" + data2 + @"'
+                            AND U.Gender like '" + data2 + @"%'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data3 + @" DESC ;"; // ReadFromDataBase Group Ranking
             break;
@@ -237,7 +237,7 @@ public class DBservices
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
                             AND R.[User] = U.[User] 
-                            AND U.Gender like '%" + data1 + @"'
+                            AND U.Gender like '" + data1 + @"%'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data2 + @" DESC ;"; // Read From Data Base Organization Ranking
             break;
@@ -422,7 +422,7 @@ public class DBservices
     
     #region Rider
     // Update An Existing Rider
-    public int updateRiderInDatabase(Rider rdr, string username)
+    public int updateRiderInDatabase(Rider rdr, string username, string new_cap_user="")
         {
         SqlConnection con;
         SqlCommand cmd;
@@ -436,7 +436,7 @@ public class DBservices
             lf.Main("Users", ex.Message);
             return 0;
         }
-        String cStr = BuildUpdateRiderCommand(rdr, username);      // helper method to build the insert string
+        String cStr = (new_cap_user == "" ? BuildUpdateRiderCommand(rdr, username) : BuildUpdateCaptainCommand(username, new_cap_user));      // helper method to build the insert string
         cmd = CreateCommand(cStr, con);             // create the command
         try
         {
@@ -561,23 +561,48 @@ public class DBservices
     private String BuildUpdateRiderCommand(Rider rdr, string username)
     {
         String command;
-        StringBuilder sb = new StringBuilder();
-        // use a string builder to create the dynamic string
+        String sb ;
+        String sb2 ;
+
         String prefix = "UPDATE [Users] ";
-        sb.AppendFormat(@"SET [UserEmail] ='{0}'
-                              ,[City] = (select city from Cities where CityName = '{1}' )
-                              ,[UserDes] = '{2}'
-                              ,[UserFname] = '{3}'
-                              ,[UserLname] = '{4}'
-                              ,[Gender] = '{5}'
-                              ,[BicycleType] = '{6}'
-                              ,[ImagePath] = '{7}'
-                              ,[BirthDate] ='{8}'
-                              ,[CurDate] = '{9}'
-                              ,[Captain] = {10}
-                              ,[Organization] = (select [Organization] from Organizations where OrganizationDES = '{11}')
-                         WHERE [Id] = (select id from AspNetUsers where UserName = '" + username + "');", rdr.RiderEmail, rdr.City, rdr.RiderDes, rdr.RiderFname, rdr.RiderLname, rdr.Gender, rdr.BicycleType, rdr.ImagePath, rdr.BirthDate, DateTime.Now.Date.ToString("yyyy-MM-dd"), rdr.Captain, rdr.Organization);
-        command = prefix + sb.ToString();
+        sb = @"SET [UserEmail] = " + (rdr.RiderEmail != null ? "'" + rdr.RiderEmail + "'"  : "[UserEmail]") + @"
+                              ,[City] = " + (rdr.City != null ? " (select city from Cities where CityName = '"+ rdr.City + "' )": "[City]" ) +@"
+                              ,[UserFname] = "+ (rdr.RiderFname != null ? "'"+ rdr.RiderFname + "'" : "[UserFname]" ) +@"
+                              ,[UserLname] = "+ (rdr.RiderLname != null ? "'" + rdr.RiderLname +"'" : "[UserLname]") +@"
+                              ,[UserAddress] = "+ (rdr.RiderAddress != null ? "'"+ rdr.RiderAddress +"'" : "[UserAddress]") + @"
+                              ,[UserPhone] = "+ (rdr.RiderPhone != null ? "'"+rdr.RiderPhone+"'" : "[UserPhone]") +@"
+                              ,[BicycleType] = "+ (rdr.BicycleType != null ? "'"+rdr.BicycleType+"'" : "[BicycleType]") +@"
+                              ,[ImagePath] = "+ (rdr.ImagePath != null ? "'" +rdr.ImagePath +"'" : "[ImagePath]") +@"
+                              ,[BirthDate] = "+ (rdr.BirthDate != null ? "'"+ rdr.BirthDate+"'" : "[BirthDate]") +@"
+                              ,[Organization] = " + (rdr.Organization != null && rdr.Group != null ? "(select [Organization] from Organizations where OrganizationDES = '" + rdr.Organization + "' AND Exists ( Select G.Organization From Groups G Where G.[GroupName] = '"  +rdr.Group+ @"' AND G.Organization = Organization ))
+                         WHERE UserDes = '" + username + @"';" : "[Organization]");
+        sb2 = @" Update [UsersGroups] Set [Group] = ( Select [Group] From Groups Where GroupName = " + (rdr.Group != null ? "'"+rdr.Group+"'" : "[GroupName]") + @" ) 
+                        Where [User] = ( Select [User] From [Users] Where UserDes = '" + username + "');" ;
+        command = prefix + sb + sb2;
+        return command;
+    }
+
+    private String BuildUpdateCaptainCommand(string username, string new_cap_usr)
+    {
+        String command;
+        String sb ;
+
+
+        String prefix = @"UPDATE [Users]
+            SET [Captain] = 1
+            WHERE UserDes = '" + new_cap_usr + @"'
+            AND exists 
+             ( Select 'x' From Users U, Users U2, UsersGroups UG, UsersGroups UG2 
+	        where U.UserDes = '" + username+@"' And U.[User]=UG.[User] 
+	        AND U2.[UserDes] = '" + new_cap_usr + @"' AND U2.[User] = UG2.[User] And UG2.[Group]=UG.[Group] AND U.Captain = 1 )";
+        sb = @"UPDATE [Users]
+            SET [Captain] = 0
+            WHERE UserDes = '" + username + @"'
+            AND exists 
+             ( Select 'x' From Users U, Users U2, UsersGroups UG, UsersGroups UG2 
+	        where U.UserDes = '" + new_cap_usr + @"' And U.[User]=UG.[User] 
+	        AND U2.[UserDes] = '" + username + @"' AND U2.[User] = UG2.[User] And UG2.[Group]=UG.[Group] AND U.Captain = 1 ) ";
+        command = prefix + sb ;
         return command;
     }
 #endregion

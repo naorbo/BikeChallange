@@ -19,3 +19,23 @@ The statement has been terminated.
 The statement has been terminated.
 23:30:49 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
 The statement has been terminated.
+23:12:10 : String or binary data would be truncated.
+The statement has been terminated.
+19:45:18 : Error while trying to Update the Rider(user) betaTesterto the database Object reference not set to an instance of an object.
+19:46:31 : Error while trying to Update the Rider(user) betaTesterto the database Object reference not set to an instance of an object.
+19:49:36 : Error while trying to Update the Rider(user) betaTesterto the database Object reference not set to an instance of an object.
+19:56:05 : Incorrect syntax near the keyword 'Group'.
+20:00:02 : Incorrect syntax near the keyword 'Group'.
+20:03:48 : Incorrect syntax near the keyword 'Group'.
+20:07:44 : Invalid column name 'HR'.
+Invalid column name 'UserDes'.
+20:09:30 : Invalid column name 'UserDes'.
+20:09:44 : Invalid column name 'OrganizationName'.
+Invalid column name 'UserDes'.
+20:20:09 : Incorrect syntax near 'ebay'.
+20:20:43 : Incorrect syntax near 'ebay'.
+20:23:00 : Incorrect syntax near 'ebay'.
+20:23:34 : Invalid object name 'Organization'.
+20:29:09 : Invalid object name 'Organization'.
+21:06:02 : Invalid column name 'O.OrganizationName'.
+21:07:39 : Conversion failed when converting the varchar value 'אבטליון' to data type int.

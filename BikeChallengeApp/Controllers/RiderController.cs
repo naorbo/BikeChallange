@@ -89,7 +89,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // PUT api/Rider?username=[UserName you want to update]
-        //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "M/נקבה", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
+        //{"RiderEmail":"Rider@updated.Email", "RiderFname":"עודכן" , "RiderLname":"עודכן", "RiderAddress":"Updated val" ,  "City":"רעננה", "RiderPhone":"888888",  "BicycleType": "הרים" , "ImagePath":"Updated val" , "BirthDate":"04-04-2004", "Organization":"ebay", "Group":"secondGroup"}
         public string Put(string username, [FromBody]Rider rdr)
         {
             int return_val = 0;
@@ -101,7 +101,7 @@ namespace BikeChallengeApp.Controllers
             }
             catch (Exception ex)
             {
-                string Response = ("Error while trying to Update the Rider(user) " + username + "to the database " + ex.Message);
+                string Response = ("Error while trying to Update the Rider(user) " + username + " to the database " + ex.Message);
                 lf.Main("Users", Response);
                 return "Error";
             }
