@@ -201,7 +201,7 @@ public class DBservices
                             AND R.[Ride] <> 0
                             AND R.[USER] = U.[User]
                             AND U.Id = anu.Id
-                            AND U.Gender like '%" + data3 + @"'
+                            AND U.Gender like '" + data3 + @"%'
                             AND G.[Group] <> 0
                             AND G.GroupDes like '" + data1 + @"%'
                             AND G.Organization = O.Organization

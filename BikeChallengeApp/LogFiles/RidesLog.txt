@@ -1,0 +1,5 @@
+The Rides LOG file
+23:29:26 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+The statement has been terminated.
+22:25:31 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+The statement has been terminated.

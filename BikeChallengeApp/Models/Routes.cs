@@ -67,6 +67,12 @@ namespace BikeChallengeApp.Models
         }
         public Routes()
         {
+            UserName = (UserName != null ? UserName : "");
+            RouteType = (RouteType != null ? RouteType : "");
+            Comments = (Comments != null ? Comments : "");
+            RouteName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+            RouteDestination = (RouteDestination != null ? RouteDestination : "");
+            RouteSource = (RouteSource != null ? RouteSource : "");
             
         }
     }
