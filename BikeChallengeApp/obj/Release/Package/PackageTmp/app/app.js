@@ -13,7 +13,11 @@
 
 //This configures the routes and associates each route with a view and a controller
 
-var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', /*, 'google-maps'*/  'googlechart', 'ui.bootstrap']);
+var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', /*, 'google-maps'*/  'googlechart', 'ui.bootstrap', 'xeditable' ]);
+
+app.run(function (editableOptions) {
+    editableOptions.theme = 'default';
+});
 
 app.config(['$routeProvider',
   function ($routeProvider) {

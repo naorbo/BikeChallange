@@ -312,6 +312,7 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Scripts\AngularFileUpload\bower.json" />
     <None Include="Properties\PublishProfiles\default.pubxml" />
+    <None Include="Properties\PublishProfiles\iis.pubxml" />
     <None Include="Scripts\jquery-2.1.0.intellisense.js" />
     <Content Include="Scripts\i18n\angular-locale_af-na.js" />
     <Content Include="Scripts\i18n\angular-locale_af-za.js" />
@@ -605,7 +606,12 @@
     <Content Include="skins\square\yellow.css" />
     <Content Include="skins\square\yellow.png" />
     <Content Include="skins\square\_all.css" />
+    <Content Include="sources\images\1024x768.jpg" />
+    <Content Include="sources\images\1280x1024.jpg" />
+    <Content Include="sources\images\1600x1200.jpg" />
+    <Content Include="sources\images\800x600.jpg" />
     <Content Include="sources\images\bc_cover.jpg" />
+    <Content Include="sources\images\biketoworkman_web.jpg" />
     <Content Include="sources\images\social-icons.png" />
     <Content Include="sources\images\socialIcons\fb_black.png" />
     <Content Include="sources\images\socialIcons\fb_color.png" />
@@ -615,6 +621,7 @@
     <Content Include="sources\images\socialIcons\mail_color.png" />
     <Content Include="sources\images\socialIcons\yt_black.png" />
     <Content Include="sources\images\socialIcons\yt_color.png" />
+    <Content Include="sources\images\test.jpg" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>

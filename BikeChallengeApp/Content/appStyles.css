@@ -7,8 +7,10 @@
 html,
 body {
   height: 100%;
+  
   /* The html and body elements cannot have any padding or margin. */
 }
+
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
@@ -45,6 +47,18 @@ a.footer-link:hover {
     color: #ff6a00 !important;
     text-decoration:none;
 }
+
+/* nav bar hoover color */
+ .navbar-inverse .navbar-nav > li > a:hover {
+            color: #ff6a00;
+        }
+ .navbar-inverse .navbar-brand:hover {
+color: #ff6a00;
+}
+/****************************************************************************/        
+/* *********************** Home Page ***************************/
+/****************************************************************************/
+
 
 
 /****************************************************************************/        

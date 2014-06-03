@@ -59,7 +59,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
 // ############# PUT ############################## // 
 // ################################################ // 
 
-    dataFactory.updateValues = function (cust) {
+    dataFactory.updateValues = function (urlPath, dataObj, parFlag, par) {
         return $http({
             method: 'PUT',
             url: '/api/' + urlPath,
