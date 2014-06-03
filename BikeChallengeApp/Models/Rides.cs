@@ -76,6 +76,13 @@ namespace BikeChallengeApp.Models
         public Rides()
         {
 
+            UserName = (UserName != null ? UserName : "");
+            RideType = (RideType != null ? RideType : "");
+            RideName = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
+            RideDes = "SpontaneousRide";
+            RideDate = (RideDate != null ? RideDate : "");
+            RideDestination = (RideDestination != null ? RideDestination : "");
+            RideSource = (RideSource != null ? RideSource : "");
         }
     }
 }

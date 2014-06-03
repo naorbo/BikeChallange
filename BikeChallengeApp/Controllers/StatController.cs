@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // GET Stat for all users
-        // api/Stat?gender=[M/נקבה not mendatory]
+        // api/Stat?gender=[M/F not mendatory]
         public DataTable GetUsers(string gender = "")
         {
             DBservices dbs = new DBservices();

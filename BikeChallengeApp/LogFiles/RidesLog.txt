@@ -1,5 +1,18 @@
 The Rides LOG file
+<<<<<<< HEAD
 22:01:55 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
 The statement has been terminated.
 22:02:59 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+=======
+23:29:26 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+The statement has been terminated.
+22:25:31 : Violation of UNIQUE KEY constraint 'UQ__Rides__50FE105A11D4A34F'. Cannot insert duplicate key in object 'dbo.Rides'.
+The statement has been terminated.
+13:45:48 : Cannot insert the value NULL into column 'User', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+13:46:35 : Cannot insert the value NULL into column 'User', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
+The statement has been terminated.
+14:11:57 : Not Allowed to insert future Rides
+14:12:05 : Cannot insert the value NULL into column 'User', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
+>>>>>>> 045a845e12001b5edde5b3d2dd3393ce100a1eff
 The statement has been terminated.
