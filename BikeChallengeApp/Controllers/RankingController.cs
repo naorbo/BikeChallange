@@ -62,16 +62,16 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // GET Self Ranking
-        // api/Ranking?username=messi10&grpname=החלוצים&orgname=barca&date=06-01-2014
-        public DataTable GetRank(string username, string grpname, string orgname, string date)
+        // api/Ranking?username=messi10&date=06-01-2014
+        public DataTable GetRank(string username, string date) 
         {
             DBservices dbs = new DBservices();
             username = (username != null ? username : "");
             date = (date != null ? date : "");
-            grpname = grpname.Replace("'", "''");
-            grpname = grpname.Replace("'", "''");
-            orgname = orgname.Replace("'", "''");
-            dbs = dbs.ReadFromDataBase(19, username, grpname,orgname, date);
+           // grpname = grpname.Replace("'", "''");
+            //grpname = grpname.Replace("'", "''");
+            //orgname = orgname.Replace("'", "''");
+            dbs = dbs.ReadFromDataBase(19, username, date); 
             return dbs.dt1;
 
         }
