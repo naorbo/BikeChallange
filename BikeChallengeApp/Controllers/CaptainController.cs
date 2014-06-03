@@ -39,5 +39,31 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
+        // POST - Insert new Ride into the DB 
+        // api/Captain
+        //{"UserName":"name of the user you want to insert a ride", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
+        public string updateDB([FromBody]Rides rds)
+        {
+            LogFiles lf = new LogFiles();
+            if (DateTime.Now.Day.CompareTo(Convert.ToDateTime(rds.RideDate).Day) < 0 || DateTime.Now.Month.CompareTo(Convert.ToDateTime(rds.RideDate).Month) != 0) { lf.Main("Rides", "The Ride Date:" + rds.RideDate + " Can't be in the future or in a diffetent month "); return "Error"; }
+            int return_val = 0;
+            
+            DBservices dbs = new DBservices();
+            List<Object> mlist = new List<Object>();
+            mlist.Add(rds);
+            try
+            {
+                return_val = dbs.InsertDatabase(mlist);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error while trying to INSERT the new Ride to the database " + ex.Message);
+                lf.Main("Captain", Response);
+                return "Error";
+            }
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
     }
 }

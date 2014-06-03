@@ -21,8 +21,9 @@ namespace BikeChallengeApp.Controllers
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
         public string updateDB([FromBody]Rides rds)
         {
-            int return_val = 0;
             LogFiles lf = new LogFiles();
+            if (DateTime.Now.Day.CompareTo(Convert.ToDateTime(rds.RideDate).Day) < 0 || DateTime.Now.Month.CompareTo(Convert.ToDateTime(rds.RideDate).Month) != 0) { lf.Main("Rides", "The Ride Date:" + rds.RideDate + " Can't be in the future or in a diffetent month "); return "Error"; }
+            int return_val = 0;
             DBservices dbs = new DBservices();
             List<Object> mlist = new List<Object>();
             mlist.Add(rds);
@@ -44,9 +45,10 @@ namespace BikeChallengeApp.Controllers
         // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
         public string updateDB(string username, string routename, string ridedate, string roundtrip)
         {
+            LogFiles lf = new LogFiles();
+            if (DateTime.Now.Day.CompareTo(Convert.ToDateTime(ridedate).Day) < 0 || DateTime.Now.Month.CompareTo(Convert.ToDateTime(ridedate).Month) != 0) { lf.Main("Rides", "The Ride Date:" + ridedate + " Can't be in the future or in a diffetent month "); return "Error"; }
             List<Object> mlist = new List<Object>();
             int return_val = 0;
-            LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
             Rides rds = new Rides();
             mlist.Add(rds);
