@@ -55,7 +55,7 @@ public class DBservices
 #endregion
     
     #region Read From Data Base
-    public DBservices ReadFromDataBase(int select, string data1= "", string data2 = "", string data3 = "", string data4="")
+    public DBservices ReadFromDataBase(int select, string data1 = "", string data2 = "", string data3 = "", string data4 = "", string data5 = "")
     {
         DBservices dbS = new DBservices(); // create a helper class
         SqlConnection con = null;
@@ -195,7 +195,7 @@ public class DBservices
             break;
             case 15:
                             data4 = (data4 == "Days" ? "Num_Of_Days_Riden" : (data4 == "Kilometers" ? "User_KM" : "User_Points"));
-                            selectStr = @" SELECT DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], anu.UserName,U.UserFname, U.UserLname, Sum(R.[RideLength]) As User_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
+                            selectStr = @" SELECT "+ (data5 != "" ? "TOP 10": "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], anu.UserName,U.UserFname +' '+ U.UserLname As UserDisplayName, Sum(R.[RideLength]) As User_KM, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points, Sum(R.[RideLength])*0.16 As User_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As User_Calories
                             FROM Groups G, Organizations O,[Rides] R, Users U, AspNetUsers anu
                             Where U.[User]<> 0
                             AND R.[Ride] <> 0
@@ -209,12 +209,13 @@ public class DBservices
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
-                            Group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), anu.UserName, U.UserFname, U.UserLname
+                            " + (data5 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data5 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data5 + @"')" : "") + @"
+                            Group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), anu.UserName, U.UserFname +' '+ U.UserLname
                             Order By DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC, " + data4 + @" DESC ;"; // ReadFromDataBase User Ranking
             break;
             case 16:
             data3 = (data3 == "Days" ? "Num_Of_Days_Riden" : (data3 == "Kilometers" ? "Group_KM" : "Group_Points"));
-            selectStr = @"SELECT DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
+            selectStr = @"SELECT " + (data4 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                             FROM Groups G, Organizations O, Users U, Rides R
                             Where G.[Group] <> 0
                             AND G.Organization = O.Organization
@@ -222,6 +223,7 @@ public class DBservices
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
                                         WHERE G.[Group] = UG.[Group])
+                            " + (data4 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')" : "") + @"
                             AND R.[User] = U.[User] 
                             AND U.Gender like '" + data2 + @"%'
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
@@ -229,7 +231,7 @@ public class DBservices
             break;
             case 17:
             data2 = (data2 == "Days" ? "Num_Of_Days_Riden" : (data2 == "Kilometers" ? "Organization_KM" : "Organization_Points"));
-            selectStr = @" SELECT DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories
+            selectStr = @" SELECT " + (data3 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories
                             FROM Groups G, Organizations O, Users U, Rides R
                             Where G.[Group] <> 0
                             AND G.Organization = O.Organization
@@ -238,19 +240,20 @@ public class DBservices
                                         WHERE G.[Group] = UG.[Group])
                             AND R.[User] = U.[User] 
                             AND U.Gender like '" + data1 + @"%'
+                            " + (data3 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data3 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data3 + @"')" : "") + @"
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data2 + @" DESC ;"; // Read From Data Base Organization Ranking
             break;
             case 18:
             
             selectStr = @"Select COUNT(distinct U.[User]) As NumOfUsers, COUNT(distinct G.[Group]) As NumOfGroups,COUNT(distinct o.[Organization]) As NumOfOrganizations ,COUNT(distinct r.[Ride]) As NumOfRides,COUNT(distinct ru.[Route]) As NumOfRoutes,
-            Sum(R.[RideLength]) As TotalKM, COUNT(distinct R.RideDate) As TotalNumOfDays, Sum(R.[RideLength])*0.16 As TotalCO2, Sum(R.[RideLength])*25 As TotalCalories
-            from Users U, groups g, Organizations o, UsersGroups ug, Rides r, [Routes] ru
-            Where u.[User] = ug.[user]
-            And ug.[group] in (Select [Group] from [Groups] Where [Group]<>0)
-            AND g.Organization in (Select Organization from Organizations Where Organization<>0)
-            AND r.[User] in (Select [User] from [Users] Where [User]<>0)
-            AND ru.[User] in (Select [User] from [Users] Where [User]<>0) ;"; // Read From Data Base Organization Ranking
+                        Sum(R.[RideLength]) As TotalKM, COUNT(distinct R.RideDate) As TotalNumOfDays, Sum(R.[RideLength])*0.16 As TotalCO2, Sum(R.[RideLength])*25 As TotalCalories
+                        from Users U, groups g, Organizations o, UsersGroups ug, Rides r, [Routes] ru
+                        Where u.[User] = ug.[user]
+                        And ug.[group] in (Select [Group] from [Groups] Where [Group]<>0)
+                        AND g.Organization in (Select Organization from Organizations Where Organization<>0)
+                        AND r.[User] in (Select [User] from [Users] Where [User]<>0)
+                        AND ru.[User] in (Select [User] from [Users] Where [User]<>0) ;"; // Read From Data Base Organization Ranking
             break;
             
         }
