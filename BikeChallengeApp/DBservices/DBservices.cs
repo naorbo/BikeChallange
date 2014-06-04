@@ -247,13 +247,12 @@ public class DBservices
             case 18:
             
             selectStr = @"Select COUNT(distinct U.[User]) As NumOfUsers, COUNT(distinct G.[Group]) As NumOfGroups,COUNT(distinct o.[Organization]) As NumOfOrganizations ,COUNT(distinct r.[Ride]) As NumOfRides,COUNT(distinct ru.[Route]) As NumOfRoutes,
-                        Sum(R.[RideLength]) As TotalKM, COUNT(distinct R.RideDate) As TotalNumOfDays, Sum(R.[RideLength])*0.16 As TotalCO2, Sum(R.[RideLength])*25 As TotalCalories
+                        Sum(distinct R.[RideLength]) As TotalKM, COUNT(distinct R.RideDate) As TotalNumOfDays, Sum(distinct R.[RideLength])*0.16 As TotalCO2, Sum(distinct R.[RideLength])*25 As TotalCalories
                         from Users U, groups g, Organizations o, UsersGroups ug, Rides r, [Routes] ru
                         Where u.[User] = ug.[user]
                         And ug.[group] in (Select [Group] from [Groups] Where [Group]<>0)
                         AND g.Organization in (Select Organization from Organizations Where Organization<>0)
-                        AND r.[User] in (Select [User] from [Users] Where [User]<>0)
-                        AND ru.[User] in (Select [User] from [Users] Where [User]<>0) ;"; // Read From Data Base Organization Ranking
+                        AND r.[User] in (Select [User] from [Users] Where [User]<>0);"; // Read From Data Base Organization Ranking
             break;
             
         }
