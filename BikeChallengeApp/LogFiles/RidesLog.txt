@@ -16,3 +16,6 @@ The statement has been terminated.
 14:12:05 : Cannot insert the value NULL into column 'User', table 'igroup1_prod.dbo.Rides'; column does not allow nulls. INSERT fails.
 >>>>>>> 045a845e12001b5edde5b3d2dd3393ce100a1eff
 The statement has been terminated.
+11:53:10 : The Ride Date:2014-07-05 Can't be in the future or in a diffetent month 
+11:53:47 : The Ride Date:2014-06-05 Can't be in the future or in a diffetent month 
+13:28:20 : The Ride Date:2014-06-05 Can't be in the future or in a diffetent month 
