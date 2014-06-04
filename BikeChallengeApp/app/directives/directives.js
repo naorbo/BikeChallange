@@ -367,10 +367,18 @@ app.directive('chartPersonal', function () {
             $scope.$watch(function () { return $scope.statSelector }, function () {
                 
                 if (chartType == "pie") {
-                    var data = google.visualization.arrayToDataTable($scope.getRanks(entity,-1));
+                    if ($scope.statSelector == -1) {
+                        var data = google.visualization.arrayToDataTable($scope.getRanks(entity, -1));
+                        $scope.getRanks(entity, -1);
+                        }
+                    if ($scope.statSelector == 0) {
+                        var data = google.visualization.arrayToDataTable($scope.getRanks(entity, 0, $scope.calMonth, $scope.calYear));
+                        $scope.getRanks(entity, 0, $scope.calMonth, $scope.calYear);
+                    }
+
                     var options = {
-                        title: 'התפלגות ק"מ קבוצתית',
                         is3D: true,
+                       // [Future] - Add a user slice : {mySlice : 0.4}
                     };
 
                     var chart = new google.visualization.PieChart($elm[0]);

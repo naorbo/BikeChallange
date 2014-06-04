@@ -136,11 +136,46 @@ app.controller('aboutController', function ($scope) {
 // ####################################################################################################################################################### // 
 
 
-app.controller('homeController', function ($scope) {
-
-
-
-
+app.controller('homeController', function ($scope,authFactory) {
+    
+    $scope.isActiveCol = [false, false, false, false, false, false, false];
+    $scope.globalStats = {
+        NumOfGroups: "טוען נתונים...",
+        NumOfOrganizations: "טוען נתונים...",
+        NumOfRides: "טוען נתונים...",
+        NumOfUsers: "טוען נתונים...",
+        TotalCalories : "טוען נתונים...",  
+        TotalCO2: "טוען נתונים...",
+        fuel: "טוען נתונים...",
+        TotalKM: "טוען נתונים...",
+        TotalNumOfDays: "טוען נתונים..."
+    }
+    
+    
+    function numberWithCommas(n) {
+        var parts = n.toString().split(".");
+        return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
+    }
+   
+        var myStatsPromise = authFactory.getStats();
+        myStatsPromise.then(function (result) {  // this is only run after $http completes
+            // Reformatting results 
+            $scope.globalStats = result[0];
+            $scope.globalStats.NumOfGroups = numberWithCommas($scope.globalStats.NumOfGroups);
+            $scope.globalStats.NumOfOrganizations = numberWithCommas($scope.globalStats.NumOfOrganizations);
+            $scope.globalStats.NumOfRides = numberWithCommas($scope.globalStats.NumOfRides);
+            $scope.globalStats.NumOfUsers = numberWithCommas($scope.globalStats.NumOfUsers);
+            $scope.globalStats.TotalCalories = numberWithCommas($scope.globalStats.TotalCalories);
+            $scope.globalStats.TotalCO2 = numberWithCommas($scope.globalStats.TotalCO2);
+            $scope.globalStats.fuel = numberWithCommas(Math.ceil(result[0].TotalKM / 11));
+            $scope.globalStats.TotalKM = numberWithCommas($scope.globalStats.TotalKM);
+            $scope.globalStats.TotalNumOfDays = numberWithCommas($scope.globalStats.TotalNumOfDays);
+            
+        })
+        
+    
+        
+   
 });
 
 // ####################################################################################################################################################### // 
@@ -648,6 +683,16 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                      console.log("error");
                  });
     
+    dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+                 .success(function (values) {
+                     $rootScope.ranks.organization = angular.fromJson(values);
+
+                 })
+                 .error(function (error) {
+                     console.log("error");
+                 });
+
+    
 
 
     
@@ -806,6 +851,17 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                  .error(function (error) {
                      console.log("error");
                  });
+
+        dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+                 .success(function (values) {
+                     $rootScope.ranks.organization = angular.fromJson(values);
+
+                 })
+                 .error(function (error) {
+                     console.log("error");
+                 });
+
+
     }
     
     
@@ -924,6 +980,15 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
             $scope.userStatsFlag = $scope.groupStatsFlag = false;
         }
     };
+
+    $scope.showMyRanksFlag = false;
+    $scope.flipShowMyRanksFlag = function () { $scope.showMyRanksFlag = !$scope.showMyRanksFlag };
+    $scope.showRidersRanksFlag = false;
+    $scope.flipShowRidersRanksFlag = function () { $scope.showRidersRanksFlag = !$scope.showRidersRanksFlag };
+    $scope.showGroupsRanksFlag = false;
+    $scope.flipShowGroupsRanksFlag = function () { $scope.showGroupsRanksFlag = !$scope.showGroupsRanksFlag };
+    $scope.showOrganizationsRanksFlag = false;
+    $scope.flipShowOrganizationsRanksFlag = function () { $scope.showOrganizationsRanksFlag = !$scope.showOrganizationsRanksFlag };
 
     // Add a new Route 
     $scope.addNewRoute = function (newRoute) {
@@ -1191,21 +1256,20 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         
     };
 
-
+    // Get user Ranks - period (-1 = since registrating , 0 = specific month) ,  (month, year) 
     $scope.getRanks = function (entity, period, month, year) {
-
         if (entity == "personal") { }
         else if (entity == "group") {
             var rawRanks = $scope.ranks.group;
             if (period == -1) {
                 var summedArrPerUser = [];
-                var match = false;
-                summedArrPerUser.push(["רוכב", "קמ"]);
+                summedArrPerUser.push(['רוכב','ק"מ']);
                 angular.forEach(rawRanks, function (entry) {
+                    var match = 0;
                     for (var i = 0; i < summedArrPerUser.length; i++) {
                         if (entry.UserName == summedArrPerUser[i][0]) {
-                            match = 1;
                             summedArrPerUser[i][1] = summedArrPerUser[i][1] + entry.User_KM;
+                            match = 1;
                         } 
                     }
                     if (match == 0) { summedArrPerUser.push([entry.UserName, entry.User_KM]); }
@@ -1213,46 +1277,77 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                 return summedArrPerUser;
             }
             else if (period == 0) {
+                var summedArrPerUser = [];
                 var statDate = new Date(year, month, 1);
-                //var monthParsed = statDate.getMonth() + 1;
-                //var yearParsed = statDate.getFullYear();
-                //angular.forEach(rawRanks, function (enytry) {
-                //    if (monthParsed == entry.Month && yearParsed == entry.Year) {
-                //        kmSummed = kmSummed + entry.Organization_KM;
-                //        ridesSummed = ridesSummed + entry.Num_of_Rides;
-                //}
-                //})
-
+                monthParsed = statDate.getMonth() + 1;
+                yearParsed = statDate.getFullYear();
+                summedArrPerUser.push(["רוכב", "קמ"]);
+                angular.forEach(rawRanks, function (entry) {
+                    var match = 0;
+                    for (var i = 0; i < summedArrPerUser.length; i++) {
+                        if (entry.UserName == summedArrPerUser[i][0]) {
+                            if (monthParsed == entry.Month && yearParsed == entry.Year) {
+                                summedArrPerUser[i][1] = summedArrPerUser[i][1] + entry.User_KM;
+                                match = 1;
+                            }
+                        }
+                    }
+                    if (match == 0) {
+                        if (monthParsed == entry.Month && yearParsed == entry.Year) {
+                            summedArrPerUser.push([entry.UserName, entry.User_KM]);
+                        }
+                    }
+                });
+                return summedArrPerUser;
             }}
-        else if (entity == "organization") { }
+        else if (entity == "organization") {
+            var rawRanks = $scope.ranks.organization;
+            if (period == -1) {
+                var summedArrPerGroup = [];
+                summedArrPerGroup.push(['קבוצה','ק"מ']);
+                angular.forEach(rawRanks, function (entry) {
+                    var match = 0;
+                    for (var i = 0; i < summedArrPerGroup.length; i++) {
+                        if (entry.GroupDes == summedArrPerGroup[i][0]) {
+                            summedArrPerGroup[i][1] = summedArrPerGroup[i][1] + entry.Group_KM;
+                            match = 1;
+                        }
+                    }
+                    if (match == 0) { summedArrPerGroup.push([entry.GroupDes, entry.Group_KM]); }
+                });
+                return summedArrPerGroup;
+            }
+            else if (period == 0) {
+                var summedArrPerGroup = [];
+                var statDate = new Date(year, month, 1);
+                monthParsed = statDate.getMonth() + 1;
+                yearParsed = statDate.getFullYear();
+                summedArrPerGroup.push(['קבוצה','ק"מ']);
+                angular.forEach(rawRanks, function (entry) {
+                    var match = 0;
+                    for (var i = 0; i < summedArrPerGroup.length; i++) {
+                        if (entry.GroupDes == summedArrPerGroup[i][0]) {
+                            if (monthParsed == entry.Month && yearParsed == entry.Year) {
+                                summedArrPerGroup[i][1] = summedArrPerGroup[i][1] + entry.Group_KM;
+                                match = 1;
+                            }
+                        }
+                    }
+                    if (match == 0) {
+                        if (monthParsed == entry.Month && yearParsed == entry.Year) {
+                            summedArrPerGroup.push([entry.GroupDes, entry.Group_KM]);
+                        }
+
+                    }
+                });
+                return summedArrPerGroup;
+            }
+        }
     };
 
 
-    //$scope.getRanks = function () {
-    //    var rawRanks = $scope.ranks.group;
-    //    var groupKMdist = [];
-    //    groupKMdist.push(["רוכב", "קמ"]);
-    //    angular.forEach(rawRanks, function (userRank) {
-    //        var tempArr = []
-    //        tempArr[0] = userRank.UserName;
-    //        tempArr[1] = userRank.User_KM;
-    //        groupKMdist.push(tempArr);
-    //    });     
-
-    //      //   ['Task', 'Hours per Day'],
-    //      //['Work',     11],
-    //      //['Eat',      2],
-    //      //['Commute',  2],
-    //      //['Watch TV', 2],
-    //      //['Sleep',    7]
-    //    return groupKMdist;
-    //}
-
-    //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
+    // Add a spontanues ride 
     $scope.addNewSpontanicRide = function (newRide) {
-        
-        
-
         var newSRide = {
             UserName: $rootScope.userPersonalInfo.UserName,
             RideType: newRide.type,
@@ -1273,7 +1368,14 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                                 });
     }
 
-    //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" , "RideDestination":"B" }
+    
+    // Bike Challnege rating controller 
+
+    // Display Month holder 
+    var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
+    var bcDate = new Date();
+    $scope.displayMonth = monthNames[bcDate.getMonth()];
+
 
 
     // Controller init 

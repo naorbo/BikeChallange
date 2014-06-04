@@ -12,7 +12,21 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
         return loginToken.access_token;
     };
 
-
+    service.getStats = function () {
+        var deferred = $q.defer();
+        $http({
+            method: 'GET',
+            url: 'api/Data',
+        })
+            .success(function (response) {
+                console.log(response)
+                deferred.resolve(response);
+            })
+            .error(function (response) {
+                deferred.reject(response);
+            });
+        return deferred.promise;
+    }
 
     service.login = function (userName, password) {
         var deferred = $q.defer();
