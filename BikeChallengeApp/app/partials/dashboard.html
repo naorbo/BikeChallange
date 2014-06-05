@@ -205,6 +205,9 @@
                             </fieldset>
                             <br/>
 
+                           
+
+
                             <div class="row scroll-down-text" ng-click="flipShowMyRanksFlag()">
                                 <strong>דירוג אישי</strong>
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
@@ -218,7 +221,33 @@
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                             </div>
                             <div ng-if="showRidersRanksFlag">
+                                <br />
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="success">
+                                            <td>#</td>
+                                            <td>שם</td>
+                                            <td>קבוצה</td>
+                                            <td>ארגון</td>
+                                            <td>ניקוד</td>
+                                            <td title="דירוג BikeChallenge">BC</td>
 
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="user in globalRanks.users">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{user.UserDisplayName}}</td>
+                                        <td>{{user.GroupDes}}</td>
+                                        <td>{{user.OrganizationDes}}</td>
+                                        <td>{{user.User_Points}}</td>
+                                        <td >
+                                            <i ng-class="{'icon-star': (user.User_Points >= 50)}" ></i>
+                                            <i ng-class="{'icon-star': (user.User_Points >= 150)}"></i>
+                                            <i ng-class="{'icon-star': (user.User_Points >= 500)}"></i>
+                                            <i ng-class="{'icon-star': (user.User_Points >= 1500)}"></i>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <hr />
                             <div class="row scroll-down-text" ng-click="flipShowGroupsRanksFlag()">
@@ -226,7 +255,33 @@
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                             </div>
                             <div ng-if="showGroupsRanksFlag">
+                                <br />
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="success">
+                                            <td>#</td>
+                                            <td>שם הקבוצה</td>
+                                            <td>שם הארגון</td>
+                                            
+                                            <td>ניקוד</td>
+                                            <td title="דירוג BikeChallenge">BC</td>
 
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="group in globalRanks.groups">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{group.GroupDes}}</td>
+                                        <td>{{group.OrganizationDes}}</td>
+                                        
+                                        <td>{{group.Group_Points}}</td>
+                                        <td>
+                                            <i ng-class="{'icon-star': (group.Group_Points >= 50)}"></i>
+                                            <i ng-class="{'icon-star': (group.Group_Points >= 150)}"></i>
+                                            <i ng-class="{'icon-star': (group.Group_Points >= 500)}"></i>
+                                            <i ng-class="{'icon-star': (group.Group_Points >= 1500)}"></i>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <hr />
                             <div class="row scroll-down-text" ng-click="flipShowOrganizationsRanksFlag()">
@@ -234,7 +289,32 @@
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                             </div>
                             <div ng-if="showOrganizationsRanksFlag">
-
+                                <br />
+                                <table class="table table-hover table-bordered">
+                                    <thead>
+                                        <tr class="success">
+                                            <td>#</td>
+                                            <td>שם הארגון</td>
+                                            <td>עיר</td>
+                                            
+                                            <td>ניקוד</td>
+                                            <td title="דירוג BikeChallenge">BC</td>
+                                        </tr>
+                                    </thead>
+                                    <tr ng-repeat="org in globalRanks.organizations">
+                                        <td>{{$index + 1}}</td>
+                                        <td>{{org.OrganizationDes}}</td>
+                                        <td>{{CityName}}</td>
+                                        
+                                        <td>{{org.Organization_Points}}</td>
+                                        <td>
+                                            <i ng-class="{'icon-star': (org.Organization_Points >= 50)}"></i>
+                                            <i ng-class="{'icon-star': (org.Organization_Points >= 150)}"></i>
+                                            <i ng-class="{'icon-star': (org.Organization_Points >= 500)}"></i>
+                                            <i ng-class="{'icon-star': (org.Organization_Points >= 1500)}"></i>
+                                        </td>
+                                    </tr>
+                                </table>
                             </div>
                             <hr />
                         </div>

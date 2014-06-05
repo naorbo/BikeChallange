@@ -8,19 +8,7 @@
 
 app.controller('workAreaController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
     
-   // api/Ranking?grpname=secondgroup&orgname=ebay&gender=&order=Points 
-
-     //$scope.getRanks = function () {
-     //    dataFactory.getValues('Ranking', true, goupName +"&orgname="+ orgName + "&gender=&orderPoints")
-     //         .success(function (values) {
-     //             $scope.orgs = angular.fromJson(values);
-     //             console.log($scope.orgs);
-                 
-               
-     //         })
-     //         .error(function (error) {
-     //             $scope.status = 'Unable to load Orgs data: ' + error.message;
-     //         });
+   
 
     // Update User's Info - DO NOT DELETE // 
 
@@ -139,18 +127,7 @@ app.controller('aboutController', function ($scope) {
 app.controller('homeController', function ($scope,authFactory) {
     
     $scope.isActiveCol = [false, false, false, false, false, false, false];
-    $scope.globalStats = {
-        NumOfGroups: "טוען נתונים...",
-        NumOfOrganizations: "טוען נתונים...",
-        NumOfRides: "טוען נתונים...",
-        NumOfUsers: "טוען נתונים...",
-        TotalCalories : "טוען נתונים...",  
-        TotalCO2: "טוען נתונים...",
-        fuel: "טוען נתונים...",
-        TotalKM: "טוען נתונים...",
-        TotalNumOfDays: "טוען נתונים..."
-    }
-    
+    $contentLoader = false;
     
     function numberWithCommas(n) {
         var parts = n.toString().split(".");
@@ -170,7 +147,7 @@ app.controller('homeController', function ($scope,authFactory) {
             $scope.globalStats.fuel = numberWithCommas(Math.ceil(result[0].TotalKM / 11));
             $scope.globalStats.TotalKM = numberWithCommas($scope.globalStats.TotalKM);
             $scope.globalStats.TotalNumOfDays = numberWithCommas($scope.globalStats.TotalNumOfDays);
-            
+            $scope.contentLoader = true;
         })
         
     
@@ -618,6 +595,15 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
             organization: {}
         }
     ];
+
+    $rootScope.globalRanks = [
+        {
+            users: {},
+            groups: {},
+            organizations: {}
+        }
+    ];
+
     var getGroup = function () {
         dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                 .success(function (values) {
@@ -674,7 +660,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                             console.log("error");
                         });
     
-    dataFactory.getValues('Ranking', true, "grpname=" + $scope.userPersonalInfo.GroupDes + "&orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+    dataFactory.getValues('Ranking', true, "grpname=" + $scope.userPersonalInfo.GroupDes + "&orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points&date=")
                  .success(function (values) {
                      $rootScope.ranks.group = angular.fromJson(values);
 
@@ -683,7 +669,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                      console.log("error");
                  });
     
-    dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+    dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points&date=")
                  .success(function (values) {
                      $rootScope.ranks.organization = angular.fromJson(values);
 
@@ -692,9 +678,42 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                      console.log("error");
                  });
 
+    // Get Global Ranking (Current Challenge)
+    var challengeDate = new Date();
+    var parsedDay = (challengeDate.getDay()).toString() ;
+    if (parsedDay < 10) {parsedDay = ("0").concat(parsedDay)}
+    var parsedMonth = (challengeDate.getMonth() + 1).toString();
+    if (parsedMonth < 10) { parsedMonth = ("0").concat(parsedMonth) }
+    var parsedYear = (challengeDate.getFullYear()).toString();
+    concatDate = parsedYear.concat(parsedMonth).concat(parsedDay);
+
+    dataFactory.getValues('Ranking', true, "grpname=&orgname=&gender=&order=Points&date=" + concatDate)
+                 .success(function (values) {
+                     $rootScope.globalRanks.users = angular.fromJson(values);
+
+                 })
+                 .error(function (error) {
+                     console.log("error");
+                 });
     
+    dataFactory.getValues('Ranking', true, "orgname=all&gender=&order=Points&date=" + concatDate)
+                 .success(function (values) {
+                     $rootScope.globalRanks.groups = angular.fromJson(values);
+
+                 })
+                 .error(function (error) {
+                     console.log("error");
+                 });
 
 
+    dataFactory.getValues('Ranking', true, "gender=&order=Points&date=" + concatDate)
+                 .success(function (values) {
+                     $rootScope.globalRanks.organizations = angular.fromJson(values);
+
+                 })
+                 .error(function (error) {
+                     console.log("error");
+                 });
     
 
 
@@ -768,6 +787,15 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
             organization: {}
         }
     ];
+
+    $scope.globalRanks = [
+        {
+            users: {},
+            groups: {},
+            organizations: {}
+        }
+    ];
+
 
     // CAL Navigation Buttons 
 
@@ -843,7 +871,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                         });
 
         
-        dataFactory.getValues('Ranking', true, "grpname=" + $scope.userPersonalInfo.GroupDes + "&orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+        dataFactory.getValues('Ranking', true, "grpname=" + $scope.userPersonalInfo.GroupDes + "&orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points&date=")
                  .success(function (values) {
                      $scope.ranks.group = angular.fromJson(values);
                      
@@ -852,7 +880,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                      console.log("error");
                  });
 
-        dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points")
+        dataFactory.getValues('Ranking', true, "orgname=" + $scope.userPersonalInfo.OrganizationDes + "&gender=&order=Points&date=")
                  .success(function (values) {
                      $rootScope.ranks.organization = angular.fromJson(values);
 
@@ -860,7 +888,42 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                  .error(function (error) {
                      console.log("error");
                  });
+        // Get Global Ranking (Current Challenge)
+        var challengeDate = new Date();
+        var parsedDay = (challengeDate.getDay()).toString();
+        if (parsedDay < 10) { parsedDay = ("0").concat(parsedDay) }
+        var parsedMonth = (challengeDate.getMonth() + 1).toString();
+        if (parsedMonth < 10) { parsedMonth = ("0").concat(parsedMonth) }
+        var parsedYear = (challengeDate.getFullYear()).toString();
+        concatDate = parsedYear.concat(parsedMonth).concat(parsedDay);
 
+        dataFactory.getValues('Ranking', true, "grpname=&orgname=&gender=&order=Points&date=" + concatDate)
+                     .success(function (values) {
+                         $scope.globalRanks.users = angular.fromJson(values);
+
+                     })
+                     .error(function (error) {
+                         console.log("error");
+                     });
+
+        dataFactory.getValues('Ranking', true, "orgname=all&gender=&order=Points&date=" + concatDate)
+                     .success(function (values) {
+                         $scope.globalRanks.groups = angular.fromJson(values);
+
+                     })
+                     .error(function (error) {
+                         console.log("error");
+                     });
+
+
+        dataFactory.getValues('Ranking', true, "gender=&order=Points&date=" + concatDate)
+                     .success(function (values) {
+                         $scope.globalRanks.organizations = angular.fromJson(values);
+
+                     })
+                     .error(function (error) {
+                         console.log("error");
+                     });
 
     }
     
@@ -1267,12 +1330,12 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                 angular.forEach(rawRanks, function (entry) {
                     var match = 0;
                     for (var i = 0; i < summedArrPerUser.length; i++) {
-                        if (entry.UserName == summedArrPerUser[i][0]) {
+                        if (entry.UserDisplayName == summedArrPerUser[i][0]) {
                             summedArrPerUser[i][1] = summedArrPerUser[i][1] + entry.User_KM;
                             match = 1;
                         } 
                     }
-                    if (match == 0) { summedArrPerUser.push([entry.UserName, entry.User_KM]); }
+                    if (match == 0) { summedArrPerUser.push([entry.UserDisplayName, entry.User_KM]); }
                 });
                 return summedArrPerUser;
             }
@@ -1285,7 +1348,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                 angular.forEach(rawRanks, function (entry) {
                     var match = 0;
                     for (var i = 0; i < summedArrPerUser.length; i++) {
-                        if (entry.UserName == summedArrPerUser[i][0]) {
+                        if (entry.UserDisplayName == summedArrPerUser[i][0]) {
                             if (monthParsed == entry.Month && yearParsed == entry.Year) {
                                 summedArrPerUser[i][1] = summedArrPerUser[i][1] + entry.User_KM;
                                 match = 1;
@@ -1294,7 +1357,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                     }
                     if (match == 0) {
                         if (monthParsed == entry.Month && yearParsed == entry.Year) {
-                            summedArrPerUser.push([entry.UserName, entry.User_KM]);
+                            summedArrPerUser.push([entry.UserDisplayName, entry.User_KM]);
                         }
                     }
                 });

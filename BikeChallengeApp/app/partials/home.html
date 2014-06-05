@@ -4,7 +4,11 @@
     <title></title>
 
     <style>
-       
+        #shadowStats {
+            -moz-box-shadow: 0 0 5px 5px #888;
+            -webkit-box-shadow: 0 0 5px 5px#888;
+            box-shadow: 0 0 5px 5px #888;
+        }
     </style>
 </head>
 <body >
@@ -21,60 +25,70 @@
             </div>
         </div>
     </div>
-    <div class="public-stats">
+    <div class="public-stats" id="shadowStats">
         <div class="container">
             <table style="height:100%; width:100%; table-layout:fixed">
-                
+                <!--ng-class="{ 'hoverstats': isActiveCol[0]}"-->
                 <tr class="stats">
-                    <td class='stats-cell'
-                        ng-class="{ 'hoverstats': isActiveCol[0]}"
+                    <td align="center" class='stats-cell'
+                        ng-class="{'hoverstats': isActiveCol[0]}"
                         ng-mouseover="isActiveCol[0]=true"
-                        ng-mouseleave="isActiveCol[0]=false">{{globalStats.NumOfUsers}}</td>
+                        ng-mouseleave="isActiveCol[0]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.NumOfUsers}}</span>
+                    </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[1]}"
                         ng-mouseover="isActiveCol[1]=true"
                         ng-mouseleave="isActiveCol[1]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.NumOfGroups}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[2]}"
                         ng-mouseover="isActiveCol[2]=true"
                         ng-mouseleave="isActiveCol[2]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.NumOfOrganizations}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[3]}"
                         ng-mouseover="isActiveCol[3]=true"
                         ng-mouseleave="isActiveCol[3]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.NumOfRides}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[4]}"
                         ng-mouseover="isActiveCol[4]=true"
                         ng-mouseleave="isActiveCol[4]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.TotalKM}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[5]}"
                         ng-mouseover="isActiveCol[5]=true"
                         ng-mouseleave="isActiveCol[5]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.TotalCO2}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[6]}"
                         ng-mouseover="isActiveCol[6]=true"
                         ng-mouseleave="isActiveCol[6]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.fuel}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[7]}"
                         ng-mouseover="isActiveCol[7]=true"
                         ng-mouseleave="isActiveCol[7]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
                         <span>{{globalStats.TotalCalories}}</span>
                     </td>
-                </tr> 
+                </tr>
 
-                
+
                 <tr class="stats-icons">
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[0]}"
@@ -124,7 +138,7 @@
                         ng-mouseleave="isActiveCol[7]=false">
                         <i class="icon-food icon-2x"></i>
                     </td>
-                   
+
                 </tr>
                 <tr class="stats-header">
                     <td class='stats-cell'
