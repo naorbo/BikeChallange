@@ -28,7 +28,7 @@
     <div class="nav navbar-inverse navbar-fixed-top">
 
         <div >
-            <a href="#" class="navbar-brand" title="05062014-1">Bike Challenge</a>
+            <a href="#" class="navbar-brand" title="06062014-1">Bike Challenge</a>
 
             <!-- Nav Bar Responsive Icon Stack-->
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
@@ -58,6 +58,8 @@
                         <a class="dropdown-toggle" data-toggle="dropdown">{{ currentUser }}<b class="caret"></b></a>
                         <ul class="dropdown-menu">
                             <li ng-if="currentUser"><a href="#userProfile">פרופיל אישי</a></li>
+                            <li class="divider"></li>
+                            <li ng-if="currentUser"><a href="#updateProfile">עדכון פרטים</a></li>
                             <li class="divider"></li>
                             <li><a ng-if="currentUser" ng-click="signOut()">התנתק</a></li>
 
@@ -94,11 +96,11 @@
                
                <div class="col-md-8 ">
                    
-                   <ul class=" list-inline list-group pull-left  " style="padding-top: 10px;" >
-                       <li ng-if="currentuser"><a class="footer-link" href="#about">אודות</a></li> &#8226;
-                       <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות</a></li> &#8226;
-                       <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות</a></li>
-
+                   <ul class=" list-inline list-group pull-left   " style="padding-top: 10px;" >
+                       <li ng-if="currentUser"><a class="footer-link" href="#about">אודות&nbsp;</a></li> 
+                       <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות&nbsp;</a></li> 
+                       <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות&nbsp;</a></li>
+                       <li ng-if="currentUser"><a class="footer-link" href="#contactUs">צרו קשר&nbsp;</a></li>
                    </ul>
                    
                    <!-- Social Networks Icons -->
@@ -121,7 +123,7 @@
                            </a>
                        </li>
                        <li class="Mail">
-                           <a href="mailto:" target="_blank">
+                           <a href="mailto:bike2work@bike.org.il" target="_blank">
                                <img id="mail">
                            </a>
                        </li>

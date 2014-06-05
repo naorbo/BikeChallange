@@ -10,3 +10,16 @@ The SelectError LOG file
 18:54:46 : The multi-part identifier "C.City" could not be bound.
 The multi-part identifier "C.CityName" could not be bound.
 The multi-part identifier "C.CityName" could not be bound.
+00:53:15 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+00:53:17 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+00:57:30 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+01:13:05 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+01:16:20 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+01:21:30 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+01:52:34 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:00:51 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:00:54 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:04:19 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:05:57 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:11:54 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+02:13:13 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.

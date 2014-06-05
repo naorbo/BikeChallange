@@ -2,42 +2,80 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+
+    
+    
+  
+    
     <style>
        
     </style>
 </head>
+
 <body>
-    <div class="panel panel-primary " style="padding-top:30px">
-        <div class="panel-heading"><span>פרטים אישיים</span><i ng-click="toggleEditor()" class="glyphicon glyphicon-adjust pull-left"></i></div>
-        <div class="panel-body">
-            <table class="table col-md-6">
-                <tr>
-                    <td>כתובת דואר אלקטרוני</td>
-                   <td ng-show="!editorEnabled" >{{personalInfoHolder.UserEmail}}</td>
-                   <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.email" placeholder="{{personalInfoHolder.UserEmail}}" /></td>
-
-                </tr>
-                <tr>
-                    <td>כתובת</td>
-                    <td>{{personalInfoHolder.UserAddress}}</td>
-                </tr>
-                <tr>
-                    <td>עיר</td>
-                    <td>{{personalInfoHolder.RiderCity}}</td>
-                </tr>
-                <tr>
-                    <td>תאריך לידה</td>
-                    <td>{{personalInfoHolder.BirthDate}}</td>
-                </tr>
-                <tr>
-                    <td>מספר טלפון</td>
-                    <td>{{personalInfoHolder.UserPhone}}</td>
-                </tr>
-            </table>
-        </div>
-        </div>
-
-
+    <div class="container">
+        <!--<div>
+            <div data-google-chart data-chart-personal data-entity="personal"></div>
+        </div>-->
+    </div>
+   
 </body>
 </html>
 
+<!--<div class="bg"></div>
+   <div class="jumbotron">
+       <h1>Bootstrap Jumbotron</h1>
+       <p class="lead">+ Parallax Effect using jQuery</p>
+   </div>
+
+   <div id="cover" class="container" style="padding-top:100px">
+       <div id="picPlate">
+
+           <div class="jumbotron col-lg-6">
+               <h1>רוכבים לעבודה</h1>
+               <p>  עדיין לא הצטרפתם ? אל תשארו תקועים בפקקים מאחור , הצטרפו לפרויקט, תתחילו לפדל תחסכו זמן וכסף!</p>
+
+               <a class="btn btn-primary btn-lg pull-left" href="#userRegistration">גם אני רוכב לעבודה !</a>
+
+
+           </div>
+       </div>
+
+       </div>-->
+<!--<div class="panel panel-primary " style="padding-top:30px">
+    <div class="panel-heading"><span>פרטים אישיים</span>
+    <i ng-click="toggleEditor()" class="glyphicon glyphicon-adjust pull-left"></i>
+    <a ng-show="editorEnabled" ng-click="save()" class="glyphicon glyphicon-save pull-left"></a>
+    </div>
+
+    <div class="panel-body">
+        <table class="table col-md-6">
+            <tr>
+                <td>כתובת דואר אלקטרוני</td>
+               <td ng-show="!editorEnabled" >{{personalInfoHolder.UserEmail}}</td>
+               <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.email" placeholder="{{personalInfoHolder.UserEmail}}" /></td>
+
+            </tr>
+            <tr>
+                <td>כתובת</td>
+                <td ng-show="!editorEnabled">{{personalInfoHolder.UserAddress}}</td>
+                <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.UserAddress" placeholder="{{personalInfoHolder.UserUserAddress}}" /></td>
+            </tr>
+            <tr>
+                <td>עיר</td>
+                <td ng-show="!editorEnabled">{{personalInfoHolder.RiderCity}}</td>
+                <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.RiderCity" placeholder="{{personalInfoHolder.RiderCity}}" /></td>
+            </tr>
+            <tr>
+                <td>תאריך לידה</td>
+                <td ng-show="!editorEnabled"> {{personalInfoHolder.BirthDate}}</td>
+                <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.BirthDate" placeholder="{{personalInfoHolder.BirthDate}}" /></td>
+            </tr>
+            <tr>
+                <td>מספר טלפון</td>
+                <td ng-show="!editorEnabled">{{personalInfoHolder.UserPhone}}</td>
+                <td ng-show="editorEnabled"><input type="text" ng-model="updatedRecords.UserPhone" placeholder="{{personalInfoHolder.UserPhone}}" /></td>
+            </tr>
+        </table>
+    </div>
+    </div>-->

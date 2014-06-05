@@ -4,12 +4,19 @@
 <head>
     <meta http-equiv="content-type" content="text/html" charset="utf-8"> 
     <title>Bike Challenge Israel</title>
+    
     <!--Styles-->
-    <link href="Content/appStyles.css" rel="stylesheet" />
     <link href="Content/bootstrap-rtl.css" rel="stylesheet" />
     <link href="Content/bootstrap.css" rel="stylesheet" />
     <link href="skins/square/blue.css" rel="stylesheet" />
-    <link href="Content/xeditable.css" rel="stylesheet" />
+    <link href="Content/appStyles.css" rel="stylesheet" />
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">
+
+    <style>
+
+    </style>
+
+
 </head>
 
 
@@ -20,11 +27,9 @@
 
     <div class="nav navbar-inverse navbar-fixed-top">
 
-        <div class="container">
+        <div >
+            <a href="#" class="navbar-brand" title="05062014-1">Bike Challenge</a>
 
-
-            <a href="#" class="navbar-brand" title="31053014-4">Bike Challenge</a>
-  
             <!-- Nav Bar Responsive Icon Stack-->
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
                 <span class="icon-bar"></span>
@@ -35,7 +40,7 @@
             <!-- NavBar Items-->
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li ng-if="!currentUser"><a href="#contactUs">אודות</a></li>
+                    <li ng-if="!currentUser"><a href="#contactUs">צרו קשר</a></li>
                     <li ng-if="!currentUser"><a href="#about">אודות</a></li>
                     <li ng-if="!currentUser"><a href="#sponsers">נותני חסות</a></li>
                     <li ng-if="!currentUser"><a href="#bikeChallenge">התחרות</a></li>
@@ -69,13 +74,9 @@
     
     
     <div id="wrap">
-
-        <div class="container" style="padding-top:40px">
-
+        <div class="" style="padding-top:40px">
             <!-- Main Frame Partial Injection -->
-
             <div class="mainFrame" ng-view></div>
-
         </div>
     </div>
 
@@ -93,11 +94,11 @@
                
                <div class="col-md-8 ">
                    
-                   <ul class=" list-inline list-group pull-left  " style="padding-top: 10px;" >
-                       <li ng-if="currentuser"><a class="footer-link" href="#about">אודות</a></li> &#8226;
-                       <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות</a></li> &#8226;
-                       <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות</a></li>
-
+                   <ul class=" list-inline list-group pull-left   " style="padding-top: 10px;" >
+                       <li ng-if="currentUser"><a class="footer-link" href="#about">אודות&nbsp;</a></li> 
+                       <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות&nbsp;</a></li> 
+                       <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות&nbsp;</a></li>
+                       <li ng-if="currentUser"><a class="footer-link" href="#contactUs">צרו קשר&nbsp;</a></li>
                    </ul>
                    
                    <!-- Social Networks Icons -->
@@ -120,7 +121,7 @@
                            </a>
                        </li>
                        <li class="Mail">
-                           <a href="" target="_blank">
+                           <a href="mailto:" target="_blank">
                                <img id="mail">
                            </a>
                        </li>
@@ -146,7 +147,6 @@
     <!-- Vendor Libs -->
     <script src="Scripts/AngularFileUpload/angular-file-upload-html5-shim.js"></script>
     <script src="Scripts/angular.js"></script>
-    <script src="Scripts/xeditable.js"></script>
     <script src="Scripts/ui-bootstrap-custom-tpls-0.10.0.js"></script>
     <script src="Scripts/AngularFileUpload/angular-file-upload.min.js"></script>
     <script src="Scripts/angular-route.js"></script>

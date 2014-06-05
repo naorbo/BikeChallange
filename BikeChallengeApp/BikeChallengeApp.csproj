@@ -231,7 +231,7 @@
     <Content Include="app\partials\dashboard.html" />
     <Content Include="app\partials\myTeam.html" />
     <Content Include="app\partials\sponsers.html" />
-    <Content Include="app\partials\workArea.html" />
+    <Content Include="app\partials\updateProfile.html" />
     <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />
     <Content Include="app\directives\directives.js" />

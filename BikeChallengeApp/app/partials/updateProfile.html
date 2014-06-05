@@ -1,0 +1,316 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+    <style>
+       
+    </style>
+</head>
+<body>
+    
+<div class="container" style="padding-top:30px">
+    <div class="col-md-8 pull-right">
+        <form name="personalDetails" ng-submit="userRegistration(personalDetails)" novalidate>
+            <!-- First Name-->
+            <div class="form-group" ng-class="{ 'has-error' : personalDetails.firstName.$invalid && personalDetails.firstName.$dirty , 'has-success' : personalDetails.firstName.$valid , 'has-required' : personalDetails.firstName.$pristine}">
+                <input name="UserFname"
+                       type="text"
+                       class="form-control"
+                       ng-model="UserFname"
+                       placeholder="{{currentDetails.UserFname}}"
+                       data-tooltip="שם פרטי"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right"
+                       required />
+            </div>
+            <!-- Last name -->
+            <div class="form-group" ng-class="{ 'has-error' : personalDetails.lastName.$invalid && personalDetails.firstName.$dirty , 'has-success' : personalDetails.lastName.$valid, 'has-required' : personalDetails.lastName.$pristine }">
+                <input name="lastName"
+                       type="text"
+                       class="form-control"
+                       ng-model="UserLname"                       
+                       placeholder="{{currentDetails.UserLname}}"
+                       data-tooltip="שם משפחה"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right"
+                       required />
+            </div>
+            <!-- Email Address-->
+            <div class="form-group" ng-class="{ 'has-error' : personalDetails.email.$invalid && personalDetails.email.$dirty , 'has-success' : personalDetails.email.$valid, 'has-required' : personalDetails.email.$pristine }">
+                <input name="email"
+                       type="email"
+                       class="form-control"
+                       ng-model="UserEmail"
+                       placeholder="{{currentDetails.UserEmail}}"
+                       data-email-validate
+                       data-tooltip="כתובת דואר אלקטרוני"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right"
+                       required />
+                <p ng-show="personalDetails.email.$error.unique" class="help-block">כתובת הדואר האלקטרוני קיימת במערכת</p>
+            </div>
+
+            <!-- Profile Image-->
+            <div class="form-group">
+                <label><small>תמונת פרופיל</small></label>
+                <input type="file" ng-file-select="onFileSelect($files)" class="form-control" ng-model="imagePath" placeholder="תמונה" />
+            </div>
+            <!-- Bike Type-->
+            <label ng-if="!changeBTypeFlag"><small>סוג האופניים</small></label>
+            <div class="form-group" ng-click="flipChangeBTypeFlag()" ng-if="!changeBTypeFlag">
+                <input class="form-control"
+                      
+                       value="{{currentDetails.BicycleType}}"
+                        />
+            </div>
+            <div ng-if="changeBTypeFlag" id="bikeTypeCombo" class="form-group form-control" ng-class="{ 'has-success' : personalDetails.bikeType.$valid, 'has-required' : personalDetails.bikeType.$invalid}">
+                <label><small>סוג האופניים</small></label> &nbsp &nbsp &nbsp
+                <input class="form-control"
+                       name="BicycleType"
+                       type="radio"
+                       data-icheck
+                       ng-model="BicycleType"
+                       value="הרים"
+                       ng-required="changeBTypeFlag" />&nbsp הרים &nbsp &nbsp &nbsp
+                <input class="form-control"
+                       name="BicycleType"
+                       type="radio"
+                       data-icheck
+                       ng-model="BicycleType"
+                       value="כביש"
+                       ng-required="changeBTypeFlag" />&nbsp כביש &nbsp &nbsp &nbsp
+                <input class="form-control"
+                       name="BicycleType"
+                       type="radio"
+                       data-icheck
+                       ng-model="BicycleType"
+                       value="חשמליים"
+                       ng-required="changeBTypeFlag" />&nbsp חשמליים
+            </div>
+            <!-- Gender -->
+            <label ng-if="!changeGenderFlag"><small>מין</small></label>
+            <div class="form-group" ng-click="flipChangeGenderFlag()" ng-if="!changeGenderFlag">
+                <input class="form-control"
+                       value="{{currentDetails.Gender}}"
+                       />
+            </div>
+            
+            <div id="genderCombo" ng-if="changeGenderFlag" class="form-group form-control" ng-class="{ 'has-success' : personalDetails.gender.$valid, 'has-required' : personalDetails.gender.$invalid}">
+                <label><small>מין</small></label> &nbsp &nbsp &nbsp
+                <input name="Gender"
+                       type="radio"
+                       data-icheck ng-model="Gender"
+                       value="M"
+                       required />&nbsp זכר &nbsp &nbsp &nbsp
+                <input name="Gender"
+                       type="radio"
+                       data-icheck
+                       ng-model="Gender"
+                       value="F"
+                       required />&nbsp נקבה
+            </div>
+            <!-- Birth Date -->
+            <label><small>תאריך לידה</small></label>
+            <div class="form-group" ng-click="flipChangeBdayFlag()" ng-if="!changeBdayFlag">
+                <input class="form-control"
+                       value="{{currentDetails.BirthDate}}"
+                       />
+            </div>
+            <div ng-if="changeBdayFlag" class="form-group" ng-class="{  'has-success' : personalDetails.bDay.$valid, 'has-required' : personalDetails.bDay.$pristine }">
+                <input name="bDay"
+                       type="date"
+                       class="form-control"
+                       ng-model="BirthDate"
+                       placeholder="{{currentDetails.BirthDate}}"
+                       data-tooltip="תאריך לידה (יום-חודש-שנה)"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right"
+                       required />
+            </div>
+            <!-- Address - Street Name -->
+            <div class="form-group">
+                <input name="UserAddress"
+                       type="text"
+                       class="form-control"
+                       ng-model="address"
+                       placeholder="{{currentDetails.UserAddress}}"
+                       data-tooltip="כתובת מגורים"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right" />
+            </div>
+            <!-- Address - City Name -->
+            <label><small>עיר מגורים</small></label>
+            <div class="form-group" ng-click="flipChangeCityFlag()" ng-if="!changeCityFlag">
+                <input class="form-control"                        
+                       value="{{currentDetails.RiderCity}}"
+                       title="לחץ על מנת לשנות את ערך השדה : עיר " />
+            </div>
+            <div ng-if="changeCityFlag" class="form-group" ng-class="{ 'has-error' : personalDetails.city.$invalid && !personalDetails.city.$pristine, 'has-required' : personalDetails.city.$pristine }">
+                
+                <!--ng-model="item.versionID" ng-selected="0" ng-options="version.id as version.name for version in versions"-->
+                <select name="city"
+                        id="citySelect"
+                        class="form-control"
+                        ng-model="RiderCity"
+                        ng-options="c.CityName for c in citiesHolder"
+                        data-tooltip="עיר מגורים"
+                        data-tooltip-trigger="focus"
+                        data-tooltip-placement="right"
+                        required></select>
+            </div>
+            <!-- Phone Number -->
+            <label><small>מספר טלפון</small></label>
+            <div class="form-group" ng-class="{'has-success' : personalDetails.phone.$valid && !personalDetails.phone.$pristine , 'has-error' : personalDetails.phone.$invalid && !personalDetails.phone.$pristine }">
+                <input name="phone"
+                       type="tel"
+                       class="form-control"
+                       ng-model="phone"
+                       ng-maxlength=10
+                       ng-minlength=9
+                       placeholder="{{currentDetails.UserPhone}}"
+                       data-tooltip="מספר טלפון"
+                       data-tooltip-trigger="focus"
+                       data-tooltip-placement="right" />
+            </div>
+            <fieldset>
+                <legend>בחירת ארגון וקבוצה</legend>
+            </fieldset>
+            <!-- Organization-->
+            <span class="form-control" ng-if="!changeOrgFlag" ng-click="flipChangeOrgFlag()"> <strong>הארגון הנוכחי הוא: </strong>{{currentDetails.OrganizationDes}}</span>
+            <div ng-if="changeOrgFlag" class="form-group" ng-class="{'has-success' : personalDetails.org, 'has-required' : personalDetails.org == undefined || personalDetails.org == null}">
+                <a class="btn btn-default"
+                   ng-click="getOrgs()"
+                   data-toggle="modal"
+                   data-target="#myModal">
+                    <span class="glyphicon glyphicon-search"></span>&nbspבחר ארגון
+                </a>
+                <a class="btn btn-default" ng-click="" data-toggle="modal" data-target="#myNewOrgModal"><span class="glyphicon glyphicon-plus"></span>&nbspיצירת ארגון חדש</a>
+                <a class="btn btn-default" ng-click="clearSelection()"><span class="glyphicon glyphicon-remove"></span>&nbspנקה בחירה</a>
+                <br /><br />
+                <span class="form-control" ng-if="personalDetails.org"> <strong>הארגון שנבחר הוא: </strong>{{personalDetails.org}}</span>
+                <span class="form-control" ng-if="!personalDetails.org"> <strong> טרם נבחר ארגון </strong>{{personalDetails.org}}</span>
+            </div>
+            <!-- Group-->
+            <div class="form-group" ng-if="personalDetails.org">
+                <label><small>קבוצה</small></label>
+                <select class="form-control" name="team" id="teamSelect" ng-model="GroupDes" ng-options="t.GroupDes for t in teamPerOrg" required> </select>
+                <br />
+                <a class="btn btn-default" data-toggle="modal" data-target="#myNewTeamModal"><span class="glyphicon glyphicon-plus"></span>&nbspיצירת קבוצה חדשה</a>
+            </div>
+            <!-- Submit Button-->
+            <button type="submit" ng-disabled="personalDetails.$invalid" class="btn btn-primary pull-left">השלם רישום</button>
+        </form>
+    </div>
+</div>
+
+
+    <!-- Organization Picker Modal Window  -->
+
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <span class="modal-title" id="myModalLabel">בחר ארגון</span>
+                    <div class="pull-left">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
+                        <button type="button" class="btn btn-primary" ng-click="myOrg(orgSelection)">שמור</button>
+                    </div>
+                </div>
+                <div class="modal-body row">
+                    <div class="row">
+                        <div class="col-md-5 pull-right">
+                            <div class="form-control">
+                                <input class="pull-right" ng-model="query" style="border:none" />
+                                <span class="glyphicon glyphicon-search pull-left"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-7">
+                            
+                            <span><i class="glyphicon glyphicon-info-sign" style="color:blue">&nbsp;</i><small>לא מצאת את הארגון שלך?, סגור את החלונית ובחר "יצירת ארגון חדש"</small></span>
+                        </div>
+                    </div>
+                    
+                    <hr />
+                    <br />
+                    <div ng-repeat="org in orgs | filter:query">
+                        <div class="col-md-6">
+                            <input type="radio" data-icheck name=radio2 class="col-md-1" value={{org.OrganizationDes}} ng-model="$parent.orgSelection" />
+                            <div class="col-md-11">
+                                <div class="panel panel-primary ">
+                                    <div class="panel-heading">
+                                        <span>{{org.OrganizationDes}},</span>
+                                        <span><small>{{org.OrganizationType}}</small></span>
+                                        <span><small>( {{org.CityName}} )</small></span>
+                                    </div>
+                                    <div class="panel-body">
+                                        <img src="{{org.OrganiztionImage}}" class="img-rounded img-responsive" style="height:70px">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Organization Creator Modal Window  -->
+    <div class="modal fade" id="myNewOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myNewOrgModalLabel">יצירת ארגון חדש</h4>
+                </div>
+                <div class="modal-body row">
+                    <br />
+
+                    <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
+                    <label><strong>עיר</strong></label>
+                    <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
+                    <br />
+                    <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />-->
+                    <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')" required />
+                    <br />
+                    <label><strong>לוגו הארגון</strong></label>
+                    <input type="file" class="form-control" ng-file-select="onFileSelectOrg($files)" ng-model="newOrg.imagePath" placeholder="תמונה" required /><br />
+
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
+                    <button type="submit" class="btn btn-primary" ng-disabled="!newOrg.OrganizationName" ng-click="regNewOrg(newOrg)">שמור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Team Creator Modal Window  -->
+    <div class="modal fade" id="myNewTeamModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                    <h4 class="modal-title" id="myNewTeamModalLabel">יצירת קבוצה חדשה</h4>
+                </div>
+                <div class="modal-body row">
+                    <br />
+                    <input type="text" class="form-control" ng-model="newTeam.GroupName" placeholder="שם הקבוצה" required /><br />
+                    <input type="text" class="form-control" ng-model="newTeam.GroupDes" placeholder="תיאור הקבוצה" required /><br />
+                    <!-- Org name is taken from personalDetails.org-->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
+                    <button type="submit" class="btn btn-primary" ng-click="regNewTeam(newTeam, $scope.$$childHead.personalDetails.org)">שמור</button>
+                </div>
+            </div>
+        </div>
+    </div>
+   
+</body>
+</html>
+
+

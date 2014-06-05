@@ -10,52 +10,52 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="app/app.js">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 23:21:06</publishTime>
     </File>
     <File Include="app/controllers/controllers.js">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/05/2014 19:34:07</publishTime>
     </File>
     <File Include="app/directives/directives.js">
-      <publishTime>05/31/2014 17:24:11</publishTime>
+      <publishTime>06/04/2014 23:21:06</publishTime>
     </File>
     <File Include="app/partials/about.html">
-      <publishTime>05/17/2014 12:23:05</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/bikeChallenge.html">
-      <publishTime>05/31/2014 17:24:11</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/contactUs.html">
-      <publishTime>05/31/2014 17:24:11</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/dashboard.html">
-      <publishTime>05/26/2014 23:01:49</publishTime>
+      <publishTime>06/05/2014 19:47:11</publishTime>
     </File>
     <File Include="app/partials/home.html">
-      <publishTime>04/15/2014 19:13:24</publishTime>
+      <publishTime>06/05/2014 19:43:31</publishTime>
     </File>
     <File Include="app/partials/logIn.html">
-      <publishTime>04/28/2014 22:15:36</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/myTeam.html">
-      <publishTime>05/31/2014 17:48:02</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/sponsers.html">
       <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/partials/userProfile.html">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/userRegistration.html">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/partials/workArea.html">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="app/services/appservices.js">
-      <publishTime>05/25/2014 00:29:19</publishTime>
+      <publishTime>06/04/2014 23:21:07</publishTime>
     </File>
     <File Include="app/services/dataServices.js">
-      <publishTime>05/23/2014 19:27:01</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="Areas/HelpPage/HelpPage.css">
       <publishTime>03/21/2014 20:08:25</publishTime>
@@ -100,7 +100,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="bin/BikeChallengeApp.dll">
-      <publishTime>05/31/2014 22:21:41</publishTime>
+      <publishTime>06/05/2014 19:54:33</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/21/2014 20:08:29</publishTime>
@@ -199,7 +199,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2014 09:48:00</publishTime>
     </File>
     <File Include="Content/appStyles.css">
-      <publishTime>05/31/2014 17:24:11</publishTime>
+      <publishTime>06/05/2014 19:34:07</publishTime>
     </File>
     <File Include="Content/bootstrap-rtl.css">
       <publishTime>03/21/2014 21:04:43</publishTime>
@@ -226,7 +226,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="Content/xeditable.css">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="favicon.ico">
       <publishTime>03/21/2014 20:08:16</publishTime>
@@ -247,7 +247,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>05/31/2014 22:19:01</publishTime>
+      <publishTime>06/05/2014 19:52:32</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>05/09/2014 17:20:15</publishTime>
@@ -1144,7 +1144,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="Scripts/ng-google-chart.js">
-      <publishTime>05/23/2014 19:27:01</publishTime>
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="Scripts/respond.js">
       <publishTime>03/21/2014 20:08:27</publishTime>
@@ -1165,7 +1165,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>05/31/2014 22:17:05</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>06/04/2014 23:21:06</publishTime>
     </File>
     <File Include="skins/square/aero%402x.png">
       <publishTime>04/21/2014 09:48:00</publishTime>
@@ -1263,8 +1263,23 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     <File Include="skins/square/_all.css">
       <publishTime>04/21/2014 09:48:00</publishTime>
     </File>
+    <File Include="sources/images/1024x768.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/1280x1024.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/1600x1200.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/800x600.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
     <File Include="sources/images/bc_cover.jpg">
       <publishTime>04/13/2014 22:32:32</publishTime>
+    </File>
+    <File Include="sources/images/biketoworkman_web.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="sources/images/social-icons.png">
       <publishTime>05/17/2014 12:23:06</publishTime>
@@ -1292,6 +1307,9 @@ by editing this MSBuild file. In order to learn more about this please visit htt
     </File>
     <File Include="sources/images/socialIcons/yt_color.png">
       <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/test.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
     </File>
     <File Include="Views/Home/Index.cshtml">
       <publishTime>03/21/2014 20:08:16</publishTime>

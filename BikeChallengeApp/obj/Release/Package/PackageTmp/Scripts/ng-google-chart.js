@@ -14,7 +14,7 @@
         .constant('googleChartApiConfig', {
             version: '1',
             optionalSettings: {
-                packages: ['gauge']
+                packages: ['gauge','corechart']
                 //packages: ['corechart']
             }
         })

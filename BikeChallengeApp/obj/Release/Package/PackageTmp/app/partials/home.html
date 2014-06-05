@@ -2,18 +2,282 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+
+    <style>
+        #shadowStats {
+            -moz-box-shadow: 0 0 5px 5px #888;
+            -webkit-box-shadow: 0 0 5px 5px#888;
+            box-shadow: 0 0 5px 5px #888;
+        }
+    </style>
 </head>
-<body>
-    <div class="container" style="padding-top:100px">
-        <div class="jumbotron col-lg-6">
-            <h1>רוכבים לעבודה</h1>
-            <p>  עדיין לא הצטרפתם ? אל תשארו תקועים בפקקים מאחור , הצטרפו לפרויקט, תתחילו לפדל תחסכו זמן וכסף!</p>
-
-            <a class="btn btn-primary btn-lg pull-left" href="#userRegistration">גם אני רוכב לעבודה !</a>
-
+<body >
+    <div class="content-background">
+        <div  class="container">
+            <div class="jumbotron col-md-8 pull-right">
+                <span class="col-md-12" style="font-size:75px; font-weight:bolder">רוכבים לעבודה</span>
+                <br />
+                <span class="col-md-12" style="font-size:25px; font-weight:bold">עדיין לא הצטרפתם ? אל תשארו תקועים בפקקים, הצטרפו לפרויקט, תתחילו לפדל תחסכו זמן וכסף!</span>
+                <br /><br /><br />
+                <div style="padding-top:40px">
+                    <a class="btn btn-success btn-lg pull-left" style="font-weight: bold; font-size:20px;" href="#userRegistration">גם אני רוכב לעבודה !</a>
+                </div>
+            </div>
         </div>
-
-        <img class="col-lg-6" src="../../sources/images/bc_cover.jpg" />
     </div>
+    <div class="public-stats" id="shadowStats">
+        <div class="container">
+            <table style="height:100%; width:100%; table-layout:fixed">
+                <!--ng-class="{ 'hoverstats': isActiveCol[0]}"-->
+                <tr class="stats">
+                    <td align="center" class='stats-cell'
+                        ng-class="{'hoverstats': isActiveCol[0]}"
+                        ng-mouseover="isActiveCol[0]=true"
+                        ng-mouseleave="isActiveCol[0]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.NumOfUsers}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[1]}"
+                        ng-mouseover="isActiveCol[1]=true"
+                        ng-mouseleave="isActiveCol[1]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.NumOfGroups}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[2]}"
+                        ng-mouseover="isActiveCol[2]=true"
+                        ng-mouseleave="isActiveCol[2]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.NumOfOrganizations}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[3]}"
+                        ng-mouseover="isActiveCol[3]=true"
+                        ng-mouseleave="isActiveCol[3]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.NumOfRides}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[4]}"
+                        ng-mouseover="isActiveCol[4]=true"
+                        ng-mouseleave="isActiveCol[4]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.TotalKM}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[5]}"
+                        ng-mouseover="isActiveCol[5]=true"
+                        ng-mouseleave="isActiveCol[5]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.TotalCO2}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[6]}"
+                        ng-mouseover="isActiveCol[6]=true"
+                        ng-mouseleave="isActiveCol[6]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.fuel}}</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[7]}"
+                        ng-mouseover="isActiveCol[7]=true"
+                        ng-mouseleave="isActiveCol[7]=false">
+                        <i ng-class="{'icon-spinner icon-spin' : !contentLoader}"></i>
+                        <span>{{globalStats.TotalCalories}}</span>
+                    </td>
+                </tr>
+
+
+                <tr class="stats-icons">
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[0]}"
+                        ng-mouseover="isActiveCol[0]=true"
+                        ng-mouseleave="isActiveCol[0]=false">
+                        <i class="icon-user icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[1]}"
+                        ng-mouseover="isActiveCol[1]=true"
+                        ng-mouseleave="isActiveCol[1]=false">
+                        <i class="icon-group icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[2]}"
+                        ng-mouseover="isActiveCol[2]=true"
+                        ng-mouseleave="isActiveCol[2]=false">
+                        <i class="icon-home icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[3]}"
+                        ng-mouseover="isActiveCol[3]=true"
+                        ng-mouseleave="isActiveCol[3]=false">
+                        <i class="icon-road icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[4]}"
+                        ng-mouseover="isActiveCol[4]=true"
+                        ng-mouseleave="isActiveCol[4]=false">
+                        <i class="icon-dashboard icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[5]}"
+                        ng-mouseover="isActiveCol[5]=true"
+                        ng-mouseleave="isActiveCol[5]=false">
+                        <i class="icon-beaker icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[6]}"
+                        ng-mouseover="isActiveCol[6]=true"
+                        ng-mouseleave="isActiveCol[6]=false">
+                        <i class="icon-tint icon-2x"></i>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[7]}"
+                        ng-mouseover="isActiveCol[7]=true"
+                        ng-mouseleave="isActiveCol[7]=false">
+                        <i class="icon-food icon-2x"></i>
+                    </td>
+
+                </tr>
+                <tr class="stats-header">
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[0]}"
+                        ng-mouseover="isActiveCol[0]=true"
+                        ng-mouseleave="isActiveCol[0]=false">
+                        <span>משתמשים</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[1]}"
+                        ng-mouseover="isActiveCol[1]=true"
+                        ng-mouseleave="isActiveCol[1]=false">
+                        <span>קבוצות</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[2]}"
+                        ng-mouseover="isActiveCol[2]=true"
+                        ng-mouseleave="isActiveCol[2]=false">
+                        <span>ארגונים</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[3]}"
+                        ng-mouseover="isActiveCol[3]=true"
+                        ng-mouseleave="isActiveCol[3]=false">
+                        <span>רכיבות</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[4]}"
+                        ng-mouseover="isActiveCol[4]=true"
+                        ng-mouseleave="isActiveCol[4]=false">
+                        <span>ק"מ</span>
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[5]}"
+                        ng-mouseover="isActiveCol[5]=true"
+                        ng-mouseleave="isActiveCol[5]=false">
+                        <span>ק"ג של CO2</span>
+                        
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[6]}"
+                        ng-mouseover="isActiveCol[6]=true"
+                        ng-mouseleave="isActiveCol[6]=false">
+                        <span>ליטרים של דלק</span>
+                       
+                    </td>
+                    <td class='stats-cell'
+                        ng-class="{ 'hoverstats': isActiveCol[7]}"
+                        ng-mouseover="isActiveCol[7]=true"
+                        ng-mouseleave="isActiveCol[7]=false">
+                        <span>קלוריות שנשרפו</span>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    
+        <div class="container">
+            <div class="content-example " style="padding-top:70px;">
+                <div class="row">
+                    <img class="col-md-6" src="../../sources/images/bc_cover.jpg" />
+
+                    <div class="col-md-6">
+
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row my-icon">
+                                    <div class="circle-border">
+                                        <i class="icon-group icon-3x "></i>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="text-align: center;">
+                                    <span><strong class="text4icon">רוכבים לעבודה,  </strong></span>
+                                    <br />
+                                    <span><strong class="text4icon"> יחד עם החברים</strong></span>
+
+                                    <br />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row my-icon">
+                                    <div class="circle-border">
+                                        <i class="icon-globe icon-3x "></i>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="text-align: center;">
+                                    <span><strong class="text4icon">שומרים על סביבה ירוקה, </strong></span>
+                                    <br />
+                                    <span><strong class="text4icon"> חוסכים זמן וכסף! </strong></span>
+
+                                    <br />
+                                </div>
+                            </div>
+                        </div>
+                        <br />
+                        <br />
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="row my-icon">
+                                    <div class="circle-border">
+                                        <i class="icon-bar-chart icon-3x "></i>
+
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="text-align: center;">
+                                    <span><strong class="text4icon">מדווחים , משתפרים </strong></span><br />
+                                    <span><strong class="text4icon">ועוקבים אחרי המדדים האישיים</strong></span>
+                                    <br />
+                                </div>
+                            </div>
+
+                            <div class="col-md-6">
+                                <div class="row my-icon">
+                                    <div class="circle-border">
+                                        <i class="icon-flag-checkered icon-3x "></i>
+                                    </div>
+                                </div>
+                                <br />
+                                <div class="row" style="text-align: center;">
+                                    <span><strong class="text4icon">מגיעים לעבודה בזמן! </strong></span><br />
+                                    <span><strong class="text4icon">זוכים בפרסים </strong></span>
+                                    <br />
+                                </div>
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+            </div>
+        </div>
+    
+    
 </body>
 </html>

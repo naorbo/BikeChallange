@@ -1,83 +1,319 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
 // ####################################################################################################################################################### // 
-// #########################################                workAreaController               ################################################################ // 
+// #########################################                updateProfileController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
 
 
-app.controller('workAreaController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
+app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+
+    //Flags
     
-   
+    $scope.changeCityFlag = false;
+    $scope.flipChangeCityFlag = function () { $scope.changeCityFlag = !$scope.changeCityFlag };
+    $scope.changeGenderFlag = false;
+    $scope.flipChangeGenderFlag = function () { $scope.changeGenderFlag = !$scope.changeGenderFlag };
+    $scope.changeBdayFlag = false;
+    $scope.flipChangeBdayFlag = function () { $scope.changeBdayFlag = !$scope.changeBdayFlag };
+    $scope.changeBTypeFlag = false;
+    $scope.flipChangeBTypeFlag = function () { $scope.changeBTypeFlag = !$scope.changeBTypeFlag };
+    $scope.changeOrgFlag = false;
+    $scope.flipChangeOrgFlag = function () { $scope.changeOrgFlag = !$scope.changeOrgFlag };
 
-    // Update User's Info - DO NOT DELETE // 
 
-
-    $scope.editorEnabled = false;
-    $scope.toggleEditor = function () {
-        $scope.editorEnabled = !$scope.editorEnabled;
+    // Stores personal details
+    $scope.userPersonalInfo = $rootScope.userPersonalInfo;
+    $scope.currentDetails = {
+        BicycleType: $scope.personalInfoHolder.BicycleType,
+        BirthDate: $scope.personalInfoHolder.BirthDate,
+        Gender: $scope.personalInfoHolder.Gender,
+        GroupDes: $scope.personalInfoHolder.GroupDes,
+        OrgCity: $scope.personalInfoHolder.OrgCity,
+        OrganizationDes: $scope.personalInfoHolder.OrganizationDes,
+        RiderCity: $scope.personalInfoHolder.RiderCity,
+        UserAddress: $scope.personalInfoHolder.UserAddress,
+        UserEmail: $scope.personalInfoHolder.UserEmail,
+        UserFname: $scope.personalInfoHolder.UserFname,
+        UserLname: $scope.personalInfoHolder.UserLname,
+        UserPhone: $scope.personalInfoHolder.UserPhone,
     }
-    $scope.updatedRecords = {
-        UserEmail: "",
-        UserAddress: "",
-        RiderCity: "",
-        BirthDate: "",
-        UserPhone: "",
-    }
+
+    $scope.userRegistration = function (personalDetails) {
+
+        if (personalDetails.org == undefined || personalDetails.org == null) { alert("לא נבחרה קבוצה, בחר קבוצה ונסה שנית") }
+        else {
+
+            var userDetails = {};
+
+            userDetails.RiderEmail = personalDetails.email.$viewValue;
+            userDetails.RiderFname = personalDetails.firstName.$viewValue;
+            userDetails.RiderLname = personalDetails.lastName.$viewValue;
+            userDetails.Gender = personalDetails.gender.$viewValue;
+            userDetails.RiderAddress = personalDetails.address.$viewValue;
+            userDetails.City = personalDetails.city.$viewValue.CityName;
+            userDetails.RiderPhone = personalDetails.phone.$viewValue;
+            userDetails.BicycleType = personalDetails.bikeType.$viewValue;
+            if (personalDetails.imagePath == undefined)
+            { userDetails.ImagePath = "\\ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
+            else
+            { userDetails.ImagePath = personalDetails.imagePath; }
+            userDetails.BirthDate = personalDetails.bDay.$viewValue;
+            userDetails.UserName = $scope.regDetails.userName.$viewValue;
+
+            // Captain Flag 
+            if ($scope.newOrgFlag || $scope.newTeamFlag) { userDetails.Captain = "1"; }
+            else { userDetails.Captain = "0"; };
+
+            userDetails.Organization = personalDetails.org;
+            userDetails.Group = personalDetails.team.$viewValue.GroupName;
+
+            userDetails = angular.toJson(userDetails, true);
 
 
-    $scope.personalInfoHolder = {
-        UserEmail: "A@b.com",
-        UserAddress: "test adrs",
-        RiderCity: "test city",
-        BirthDate: "2014-05-10",
-        UserPhone: "098878899",
-    }
-        
-    $scope.save = function () {
-        var userDetails = {
-            RiderEmail:"",
-            RiderFname:"",
-            RiderLname:"",
-            Gender  :"",
-            RiderAddress:"",
-            City:"",
-            RiderPhone:"",
-            BicycleType:"",
-            ImagePath:"",
-            BirthDate: "",     
-            UserName:"",
-            Captain:"",
-            Organization:"",
-            Group: "",
 
-    }
-        dataFactory.updateValues('Rider', userDetails, false)
+            // Post to Server
+
+            dataFactory.postValues('Rider', userDetails, false)
                      .success(function (values) {
                          if (angular.fromJson(values) == "Error")
-                         { alert(" בדוק את הפרטים שהזנת ונסה בשנית!"); }
+                         { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
                          else
                          {
-                             dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
-                                .success(function (values) {
-                                    $scope.personalInfoHolder = values[0];
-                                    $rootScope.userPersonalInfo = values[0];
-                                    console.log("Fetch user info for " + $scope.currentUser);
-                                    console.log($scope.personalInfoHolder);
-                                }
-                                .error(function () {alert('error')}));
-                             //$rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                             alert("ההרשמה הסתיימה בהצלחה!");
+                             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
                          }
 
                      })
                      .error(function (error) {
-                         alert("העדכון נכשל");
+                         alert("ההרשמה נכשלה!");
                      });
 
+        }
     }
-  
-    // PUT api/Rider?username=[UserName you want to update]
-    //{"RiderEmail":"Rider Email", "RiderFname":"Updated val" , "RiderLname":"Updated val", "Gender": "M/F", "RiderAddress":"Updated val" ,  "City":"Updated val", "RiderPhone":"Updated val",  "BicycleType": "Updated val" , "ImagePath":"Updated val" , "BirthDate":"Updated val", "UserName":"username of the updated rider", "Captain":1, "Organization":"Updated val", "Group":"Updated val"}
+
+    // Organization Handling 
+
+    // Save & Close - Modal Window - Passes selected Org from modal windows to attribute 
+    $scope.myOrg = function (chosenOrg) {
+        console.log("org is " + chosenOrg);
+        $scope.$$childHead.personalDetails.org = chosenOrg;
+        $('#myModal').modal('hide');
+        $scope.getTeamByOrg(chosenOrg);
+        return;
+    }
+
+
+    //Refresh orgs list from DB
+    $scope.refreshOrgs = function () {
+        console.log("Inside refresher orgs");
+
+        $scope.orgHolder = angular.fromJson(dataFactory.getValues('Organization', false, 0));
+        console.log("This is the data :" + $scope.orgHolder);
+
+    }
+
+    $scope.getOrgs = function () {
+        dataFactory.getValues('Organization', false, 0)
+             .success(function (values) {
+                 $scope.orgs = angular.fromJson(values);
+                 console.log($scope.orgs);
+
+
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to load Orgs data: ' + error.message;
+             });
+    }
+
+    //Clears org selection
+    $scope.clearSelection = function () {
+        console.log("Im reseting this one ");
+        $scope.$$childHead.personalDetails.org = null;
+        $scope.$$childHead.personalDetails.team = null;
+        return;
+    };
+
+    // New Organization Creator 
+
+    $scope.regNewOrg = function (newOrgObj) {
+
+        if (newOrgObj.imagePath == undefined) {
+            newOrgObj.imagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg";
+        }
+
+        var newOrg = {
+            OrganizationName: newOrgObj.OrganizationName,
+            OrganizationCity: newOrgObj.OrganizationCity.CityName,
+            //OrganizationDes: newOrgObj.OrganizationDes,
+            OrganizationType: newOrgObj.OrganizationType,
+            OrganizationImage: newOrgObj.imagePath
+
+        };
+
+        dataFactory.postValues('Organization', newOrg, false)
+             .success(function (response) {
+                 console.log(response);
+                 $scope.newOrgFlag = true;
+                 alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
+                 // Closing Modal window 
+                 $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
+                 $('#myNewOrgModal').modal('hide');
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to load Orgs data: ' + error.message;
+                 alert("שגיאה ביצירת ארגון חדש");
+             });
+    }
+
+    $scope.newOrgFlag = false;
+    $scope.newTeamFlag = false;
+
+    $scope.flagReset = function () {
+        if ($scope.newOrgFlag == false)
+            $scope.newOrgFlag = true;
+        else
+            $scope.newOrgFlag = false;
+
+    }
+
+    // Team Handlers 
+
+    // Fetch team per Org
+    $scope.getTeamByOrg = function (orgName) {
+        console.log('trying to get teams')
+        dataFactory.getValues('Group', true, 'orgname=' + orgName)
+            .success(function (values) {
+                $scope.teamPerOrg = angular.fromJson(values);
+            })
+    }
+
+    // Register a new team 
+
+    $scope.regNewTeam = function (newTeamObj, org) {
+        console.log("This is the Org PAssed" + $scope.$$childHead.personalDetails.org)
+        newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
+        dataFactory.postValues('Group', newTeamObj, false)
+             .success(function (response) {
+                 console.log(response);
+                 newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
+                 $scope.newTeamFlag = true;
+                 alert("  הקבוצה  " + newTeamObj.GroupName + "  נוצרה בהצלחה ! ");
+                 // Closing Modal window 
+                 //$scope.$$childHead.personalDetails.team = newTeamObj;
+                 //$scope.$$childHead.personalDetails.team = newTeamObj.GroupName;
+                 $('#myNewTeamModal').modal('hide');
+                 $scope.getTeamByOrg(newTeamObj.OrganizationName);
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to create a new team: ' + error.message;
+                 alert("שגיאה ביצירת קבוצה חדשה");
+             });
+    }
+
+    // Upload image handling for user profile 
+
+
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelect = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: "/api/UserImage?UserName=" + $scope.personalInfoHolder.UserName, // webapi url
+                    method: "POST",
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.$$childHead.personalDetails.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
+
+
+    // Upload image handling for Org profile 
+
+    // api/OrganizationImage?OrgName=[orgname]
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelectOrg = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    method: "POST",
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.newOrg.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
+
+
+    //Get City list
+
+
+
+
+    $scope.loadCities = function () {
+        console.log('trying to get teams');
+        dataFactory.getValues('Cities', false, 0)
+            .success(function (values) {
+                $scope.citiesHolder = angular.fromJson(values);
+                
+            })
+    }
+    
+
+    $scope.loadCities();
+
+
+
+    // Event Handlers
+
+   
+
+   
+
+    $scope.$on('update-org'), function () {
+        $scope.personalDetails.org = $scope.orgSelection;
+        console.log($scope.personalDetails.org);
+    }
+
+   
 
 });
 
@@ -140,13 +376,13 @@ app.controller('homeController', function ($scope,authFactory) {
             $scope.globalStats = result[0];
             $scope.globalStats.NumOfGroups = numberWithCommas($scope.globalStats.NumOfGroups);
             $scope.globalStats.NumOfOrganizations = numberWithCommas($scope.globalStats.NumOfOrganizations);
-            $scope.globalStats.NumOfRides = numberWithCommas($scope.globalStats.NumOfRides);
+            //$scope.globalStats.NumOfRides = numberWithCommas($scope.globalStats.NumOfRides);
             $scope.globalStats.NumOfUsers = numberWithCommas($scope.globalStats.NumOfUsers);
             $scope.globalStats.TotalCalories = numberWithCommas($scope.globalStats.TotalCalories);
             $scope.globalStats.TotalCO2 = numberWithCommas($scope.globalStats.TotalCO2);
             $scope.globalStats.fuel = numberWithCommas(Math.ceil(result[0].TotalKM / 11));
             $scope.globalStats.TotalKM = numberWithCommas($scope.globalStats.TotalKM);
-            $scope.globalStats.TotalNumOfDays = numberWithCommas($scope.globalStats.TotalNumOfDays);
+            //$scope.globalStats.TotalNumOfDays = numberWithCommas($scope.globalStats.TotalNumOfDays);
             $scope.contentLoader = true;
         })
         

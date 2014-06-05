@@ -352,6 +352,7 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
 
 
 // Google Charts 
+// Dashbord gauger charts - for COs / KM 
 
 app.directive('chartPersonal', function () {
     return {
@@ -360,9 +361,34 @@ app.directive('chartPersonal', function () {
         link: function ($scope, $elm, $attr, $watch) {
             // Create the data table.
             var entity = $elm.attr('data-entity');
+            // Test
+            var chartType = $elm.attr('data-chart-type');
+            // State Selector var stand for period of time requested flag ( -1 = no period , 0 = spefcific month)
             $scope.$watch(function () { return $scope.statSelector }, function () {
+                
+                if (chartType == "pie") {
+                    if ($scope.statSelector == -1) {
+                        var data = google.visualization.arrayToDataTable($scope.getRanks(entity, -1));
+                        $scope.getRanks(entity, -1);
+                        }
+                    if ($scope.statSelector == 0) {
+                        var data = google.visualization.arrayToDataTable($scope.getRanks(entity, 0, $scope.calMonth, $scope.calYear));
+                        $scope.getRanks(entity, 0, $scope.calMonth, $scope.calYear);
+                    }
+
+                    var options = {
+                        is3D: true,
+                       // [Future] - Add a user slice : {mySlice : 0.4}
+                    };
+
+                    var chart = new google.visualization.PieChart($elm[0]);
+                    chart.draw(data, options);
+
+                }
+  
+            else if (chartType == "gauger") {
                 if ($scope.statSelector == -1) {
-                    var data = google.visualization.arrayToDataTable($scope.getStats(entity,"calCo2", -1));
+                    var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", -1));
                     $scope.getStats(entity, "kmRides", -1);
                     var options = {
                         width: 400, height: 240,
@@ -384,12 +410,93 @@ app.directive('chartPersonal', function () {
                 // Instantiate and draw our chart, passing in some options.
                 var chart = new google.visualization.Gauge($elm[0]);
                 chart.draw(data, options);
+            }
+
+                
             }, true);
         }
     }
 });
+//app.directive('chartPersonal', function () {
+//    return {
+//        restrict: 'A',
+//        scope: true,
+//        link: function ($scope, $elm, $attr, $watch) {
+//            // Create the data table.
+//            var entity = $elm.attr('data-entity');
+//            var type = $elm.attr('data-my-type');
+//            if (type === "pie") {
+//                var data = google.visualization.arrayToDataTable([
+//                  ['Task', 'Hours per Day'],
+//                  ['Work', 11],
+//                  ['Eat', 2],
+//                  ['Commute', 2],
+//                  ['Watch TV', 2],
+//                  ['Sleep', 7]
+//                ]);
+//                var options = {
+//                    title: 'My Daily Activities'
+//                };
+//                // Instantiate and draw our chart, passing in some options.
+//                var chart = new google.visualization.PieChart($elm[0]);
+//                chart.draw(data, options);
+//            }
+//            else {
+//                $scope.$watch(function () { return $scope.statSelector }, function () {
+//                    if ($scope.statSelector == -1) {
+//                        var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", -1));
+//                        $scope.getStats(entity, "kmRides", -1);
+//                        var options = {
+//                            width: 400, height: 240,
+//                            redFrom: 90, redTo: 100,
+//                            yellowFrom: 75, yellowTo: 90,
+//                            minorTicks: 5
+//                        };
+//                    }
+//                    if ($scope.statSelector == 0) {
+//                        var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", 0, $scope.calMonth, $scope.calYear));
+//                        $scope.getStats(entity, "kmRides", 0, $scope.calMonth, $scope.calYear);
+//                        var options = {
+//                            width: 400, height: 240,
+//                            redFrom: 90, redTo: 100,
+//                            yellowFrom: 75, yellowTo: 90,
+//                            minorTicks: 5
+//                        };
+//                    }
+//                    // Instantiate and draw our chart, passing in some options.
+//                    var chart = new google.visualization.Gauge($elm[0]);
+//                    chart.draw(data, options);
+//                }, true);
+//            }
+//        }
+//    }
+//});
 
+//app.directive('myPieChart', function () {
+//    return {
+//        restrict: 'A',
+//        scope: true,
+//        link: function ($scope, $elm, $attr, $watch) {
+//            // Create the data table.
 
+//            var data = google.visualization.arrayToDataTable([
+//                  ['Task', 'Hours per Day'],
+//                  ['Work',     11],
+//                  ['Eat',      2],
+//                  ['Commute',  2],
+//                  ['Watch TV', 2],
+//                  ['Sleep',    7]
+//            ]);
+//            var options = {
+//                title: 'My Daily Activities'
+//            };
+//            // Instantiate and draw our chart, passing in some options.
+//            var chart = new google.visualization.Gauge($elm[0]);
+//            chart.draw(data, options);
+
+//        }
+//    }
+//});
     //var data = new google.visualization.DataTable();
     //data.addColumn('string', 'Topping');
     //data.addColumn('number', 'Slices');
@@ -408,3 +515,5 @@ app.directive('chartPersonal', function () {
     //    'height': 300
 //};
 
+
+//bkup

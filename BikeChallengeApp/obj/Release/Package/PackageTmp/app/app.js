@@ -13,11 +13,11 @@
 
 //This configures the routes and associates each route with a view and a controller
 
-var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', /*, 'google-maps'*/  'googlechart', 'ui.bootstrap', 'xeditable' ]);
+var app = angular.module('bChallenge', ['ngRoute', 'angularFileUpload', /*, 'google-maps'*/  'googlechart', 'ui.bootstrap']);
 
-app.run(function (editableOptions) {
-    editableOptions.theme = 'default';
-});
+//app.run(function (editableOptions) {
+//    editableOptions.theme = 'default';
+//});
 
 app.config(['$routeProvider',
   function ($routeProvider) {
@@ -67,10 +67,11 @@ app.config(['$routeProvider',
             controller: 'homeController'
         }).
 
-        when('/contactUs', {
-            templateUrl: 'app/partials/contactUs.html',
-            controller: 'contactUsController'
-        }).
+        //when('/contactUs', {
+        //    templateUrl: 'app/partials/contactUs.html',
+        //    controller: 'contactUsController'
+        //}).
+
           //Used for testing 
         when('/workArea', { 
             templateUrl: 'app/partials/workArea.html',

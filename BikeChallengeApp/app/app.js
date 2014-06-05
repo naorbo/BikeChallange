@@ -73,9 +73,9 @@ app.config(['$routeProvider',
         //}).
 
           //Used for testing 
-        when('/workArea', { 
-            templateUrl: 'app/partials/workArea.html',
-            controller: 'workAreaController'
+        when('/updateProfile', { 
+            templateUrl: 'app/partials/updateProfile.html',
+            controller: 'updateProfileController'
         }).
 
         otherwise({

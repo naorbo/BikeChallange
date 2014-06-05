@@ -7,8 +7,10 @@
 html,
 body {
   height: 100%;
+  
   /* The html and body elements cannot have any padding or margin. */
 }
+
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
 
@@ -46,6 +48,102 @@ a.footer-link:hover {
     text-decoration:none;
 }
 
+/* nav bar hoover color */
+ .navbar-inverse .navbar-nav > li > a:hover {
+            color: #ff6a00;
+        }
+ .navbar-inverse .navbar-brand:hover {
+color: #ff6a00;
+}
+/****************************************************************************/        
+/* *********************** Home Page ***************************/
+/****************************************************************************/
+
+.jumbotron {
+            height: 350px;
+            color: white;
+            text-shadow: #444 0 3px 3px;
+            background: transparent;
+            padding-top: 150px;
+            stroke: black;
+        }
+
+        .content-background {
+            background-color: black;
+            background: url('../sources/images/1600x1200.jpg') no-repeat 100% 25%;
+            background-size: cover;
+            height: 660px;
+            width: inherit;
+        }
+
+        .circle-border {
+            background-color: #ecebe9;
+            border-radius: 50%;
+            height: 120px;
+            width: 120px;
+            text-align: center;
+            vertical-align: central;
+            font-size:20px;
+            padding-top:30px;
+  
+        }
+
+        .circle-border:hover {
+            background-color: #0094ff;
+            border-radius: 50%;
+            
+            font-size: 25px;
+            padding-top:25px;
+            color:white;
+        }
+
+        .my-icon {
+        
+            width: 50%;
+            margin: 0px auto 0px auto;
+        }
+        
+        .text4icon {
+            text-align: center;
+            vertical-align: central;
+            font-size: 15px;
+            color:#444;
+        }
+
+        .iconFrame {
+           
+            border-color: #444;
+            border-width: 1px;
+            border-radius: 50%;
+        }
+
+         .public-stats{
+            background-color:#222222;
+            padding-top:40px;
+            padding-bottom:40px;
+            /*height:150px;*/
+            color:#999999;
+        }
+        .stats{
+            font-size:20px;
+        }
+        .stats-header{
+            font-size:15px;
+        }
+        .stats-icons{
+            height:100%;
+
+        }
+        .stats-cell{
+            text-align:center;
+            vertical-align:central;
+        }
+
+        .hoverstats {
+            color: #ff6a00; 
+            
+            
+        }
 
 /****************************************************************************/        
 /* *********************** Forms Validators ***************************/
