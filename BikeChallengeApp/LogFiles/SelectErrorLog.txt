@@ -10,3 +10,5 @@ The SelectError LOG file
 18:54:46 : The multi-part identifier "C.City" could not be bound.
 The multi-part identifier "C.CityName" could not be bound.
 The multi-part identifier "C.CityName" could not be bound.
+01:03:53 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.
+01:15:08 : Timeout expired.  The timeout period elapsed prior to completion of the operation or the server is not responding.

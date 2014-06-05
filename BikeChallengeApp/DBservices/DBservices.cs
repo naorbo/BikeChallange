@@ -99,7 +99,7 @@ public class DBservices
 			break;
 			case 4:
 
-            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName
+            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserLname + ' ' + U.UserFname As DisplayName
                                 FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
                                 Where G.[Group] <> 0
                                 AND G.GroupDes = '" + data1 + @"'
@@ -245,19 +245,59 @@ public class DBservices
                             AND R.[User] = U.[User] 
                             AND U.Gender like '" + data1 + @"%'
                             " + (data3 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data3 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data3 + @"')" : "") + @"
-                            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, C.CityName
+                            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), O.OrganizationName, O.OrganizationDes, C.CityName
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data2 + @" DESC ;"; // Read From Data Base Organization Ranking
             break;
             case 18:
             
-            selectStr = @"Select COUNT(distinct U.[User]) As NumOfUsers, COUNT(distinct G.[Group]) As NumOfGroups,COUNT(distinct o.[Organization]) As NumOfOrganizations ,COUNT(distinct r.[Ride]) As NumOfRides,COUNT(distinct ru.[Route]) As NumOfRoutes,
-                        Sum(distinct R.[RideLength]) As TotalKM, COUNT(distinct R.RideDate) As TotalNumOfDays, Sum(distinct R.[RideLength])*0.16 As TotalCO2, Sum(distinct R.[RideLength])*25 As TotalCalories
-                        from Users U, groups g, Organizations o, UsersGroups ug, Rides r, [Routes] ru
+            selectStr = @"Select COUNT(distinct U.[User]) As NumOfUsers, COUNT(distinct G.[Group]) As NumOfGroups,COUNT(distinct o.[Organization]) As NumOfOrganizations ,COUNT(distinct r.[Ride]) As NumOfRides,
+                        Sum(distinct R.[RideLength]) As TotalKM, Sum(distinct R.[RideLength])*0.16 As TotalCO2, Sum(distinct R.[RideLength])*25 As TotalCalories
+                        from Users U, groups g, UsersGroups ug, Rides r, Organizations o
                         Where u.[User] = ug.[user]
                         And ug.[group] in (Select [Group] from [Groups] Where [Group]<>0)
                         AND g.Organization in (Select Organization from Organizations Where Organization<>0)
                         AND r.[User] in (Select [User] from [Users] Where [User]<>0);"; // Read From Data Base Organization Ranking
             break;
+            case 19:
+
+            selectStr = @"Select  1
+                        From Rides R
+                        Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE())
+                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+                        group by DATEPART(yyyy, R.RideDate),DATEPART(mm, R.RideDate),[User]
+                        having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > 
+                        (  
+	                        Select Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points
+	                        From Users U, Rides R
+	                        Where U.[user] = R.[user]
+	                        AND DATEPART(yyyy, R.RideDate) like  DATEPART(yyyy, '" + data2 + @"')
+	                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data2 + @"')
+	                        AND U.UserDes = '" +data1+@"'
+                        )
+                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC"; // Read From Data Base Organization Ranking
+            break;
+            case 20:
+
+            selectStr = @"Select  1
+                        From Rides R
+                        Where  DATEPART(yyyy, R.RideDate) like  DATEPART(yyyy, '" + data2 + @"')
+	                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data2 + @"')
+                        group by DATEPART(yyyy, R.RideDate),DATEPART(mm, R.RideDate),[User]
+                        having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+                        (  
+                        SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
+                        FROM Users U, Rides R
+                        Where U.[User] in ( SELECT UG.[User]
+                                    FROM UsersGroups UG, Users U2
+                                    WHERE U2.[User] = UG.[User]
+			                        AND U2.UserDes = '"+data1+@"'
+			                        )
+                        AND R.[User] = U.[User] 
+
+                        )
+                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC"; // Read From Data Base Organization Ranking
+            break;
+                /**/
             
         }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
