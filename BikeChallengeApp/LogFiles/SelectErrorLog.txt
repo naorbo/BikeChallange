@@ -7,3 +7,6 @@ The SelectError LOG file
 15:12:05 : Incorrect syntax near 'one'.
 15:23:26 : Invalid column name 'User_Points'.
 16:07:28 : Invalid column name 'User_Points'.
+18:54:46 : The multi-part identifier "C.City" could not be bound.
+The multi-part identifier "C.CityName" could not be bound.
+The multi-part identifier "C.CityName" could not be bound.
