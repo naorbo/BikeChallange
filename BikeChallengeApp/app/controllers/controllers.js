@@ -25,59 +25,95 @@ app.controller('contactUsController', function ($rootScope, $scope, $http, $time
 
 app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
 
-    //Flags
-    
-    $scope.changeCityFlag = false;
-    $scope.flipChangeCityFlag = function () { $scope.changeCityFlag = !$scope.changeCityFlag };
-    $scope.changeGenderFlag = false;
-    $scope.flipChangeGenderFlag = function () { $scope.changeGenderFlag = !$scope.changeGenderFlag };
-    $scope.changeBdayFlag = false;
-    $scope.flipChangeBdayFlag = function () { $scope.changeBdayFlag = !$scope.changeBdayFlag };
-    $scope.changeBTypeFlag = false;
-    $scope.flipChangeBTypeFlag = function () { $scope.changeBTypeFlag = !$scope.changeBTypeFlag };
-    $scope.changeOrgFlag = false;
-    $scope.flipChangeOrgFlag = function () { $scope.changeOrgFlag = !$scope.changeOrgFlag };
-    $scope.changeEmailFlag = false;
-    $scope.flipChangeEmailFlag = function () { $scope.changeEmailFlag = !$scope.changeEmailFlag };
     
 
-    // Stores personal details
-    $scope.userPersonalInfo = $rootScope.userPersonalInfo;
-    $scope.currentDetails = {
-        BicycleType: $scope.personalInfoHolder.BicycleType,
-        BirthDate: $scope.personalInfoHolder.BirthDate,
-        Gender: $scope.personalInfoHolder.Gender,
-        GroupDes: $scope.personalInfoHolder.GroupDes,
-        OrgCity: $scope.personalInfoHolder.OrgCity,
-        OrganizationDes: $scope.personalInfoHolder.OrganizationDes,
-        RiderCity: $scope.personalInfoHolder.RiderCity,
-        UserAddress: $scope.personalInfoHolder.UserAddress,
-        UserEmail: $scope.personalInfoHolder.UserEmail,
-        UserFname: $scope.personalInfoHolder.UserFname,
-        UserLname: $scope.personalInfoHolder.UserLname,
-        UserPhone: $scope.personalInfoHolder.UserPhone,
-    };
+    // Stores personal details from root scope to a scope var
+    
+    $scope.updateTempObject = function() {
+        $scope.currentDetails = {
+            BicycleType: $rootScope.userPersonalInfo.BicycleType,
+            BirthDate: $rootScope.userPersonalInfo.BirthDate,
+            Gender: $rootScope.userPersonalInfo.Gender,
+            GroupDes: $rootScope.userPersonalInfo.GroupDes,
+            GroupName: $rootScope.userPersonalInfo.GroupName,
+            OrgCity: $rootScope.userPersonalInfo.OrgCity,
+            OrganizationDes: $rootScope.userPersonalInfo.OrganizationDes,
+            OrganizationName: $rootScope.userPersonalInfo.OrganizationName,
+            City: $rootScope.userPersonalInfo.RiderCity,
+            UserAddress: $rootScope.userPersonalInfo.UserAddress,
+            email: $rootScope.userPersonalInfo.UserEmail,
+            UserFname: $rootScope.userPersonalInfo.UserFname,
+            UserLname: $rootScope.userPersonalInfo.UserLname,
+            UserPhone: $rootScope.userPersonalInfo.UserPhone,
+            ImagePath: $rootScope.userPersonalInfo.ImagePath,
+            Captain: $rootScope.userPersonalInfo.Captain
+        }
+    }
 
+    $scope.updateTempObject();
+
+    // Get group members for captain replacement 
+    $scope.getTeamMembers = function () {
+        dataFactory.getValues('Rider', true, "grpname=" + $scope.currentDetails.GroupName + "&orgname=" + $scope.currentDetails.OrganizationName)
+        .success(function (response) {
+            console.log(response);
+            $scope.groupMembers = response;
+        })
+             .error(function (error) {
+                 alert("Unable to fetch team memebrs...");
+             });
+    }
+
+    $scope.getTeamMembers();
+    
+    // Replace captain
+
+    $scope.replaceCaptain = function (newCaptain) {
+        dataFactory.updateValues('captain', newCaptain, true, 'cap_usr=' + $scope.currentUser + '&new_cap_usr=' + newCaptain.UserName)
+        .success(function (values) {
+            if (angular.fromJson(values) == "Error")
+            { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
+            else
+            {
+                alert("עדכון הושלם בהצלחה!");
+                dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                .success(function (values) {
+                    $scope.personalInfoHolder = values[0];
+                    $rootScope.userPersonalInfo = values[0];
+                    $scope.updateTempObject();
+                })
+                .error(function (value) {
+                    console.log("error");
+                });
+            }
+        })
+                     .error(function (error) {
+                         alert("עדכון נכשל!");
+                     });
+
+    }
+
+    //Update flags for each attribute
     $scope.updateFlags = {
         BicycleType: false,
         BirthDate: false,
         Gender: false,
-        GroupDes: false,
-        OrgCity: false,
-        OrganizationDes: false,
-        RiderCity: false,
+        Group: false,
+        Organization: false,
+        City: false,
         UserAddress: false,
-        UserEmail: false,
+        email: false,
         UserFname: false,
         UserLname: false,
-        UserPhone: false
+        UserPhone: false,
+        ImagePath: false
     }
-    
+    //flip update flag for each attribute 
     $scope.flipFlag = function (flag) {
         $scope.updateFlags[flag] = !$scope.updateFlags[flag];
     }
-
-    $scope.updateField = function (type,fieldValue) {
+    // set coorect update field string
+    $scope.updateField = function (type, fieldValue, helperFieldValue) {
         var field = String();
         var helperField = String();
         
@@ -86,14 +122,14 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
             case ("email"):
                 field = "RiderEmail";
                 break;
-            case ("firstName"):
+            case ("UserFname"):
                 field = "RiderFname";
                 break;
-            case ("lastName"):
+            case ("UserLname"):
                 field = "RiderLname"
                 break;
             case ("BicycleType"):
-                field = "RiderLname"
+                field = "BicycleType"
                 break;
             case ("Gender"):
                 field = "Gender"
@@ -101,39 +137,43 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
             case ("BirthDate"):
                 field = "BirthDate"
                 break;
-            case ("address"):
+            case ("UserAddress"):
                 field = "RiderAddress"
                 break;
             case ("address"):
                 field = "RiderAddress"
                 break;
-            case ("RiderCity"):
-                field = "RiderCity"
+            case ("City"):
+                field = "City"
                 break;
-            case ("phone"):
+            case ("UserPhone"):
                 field = "RiderPhone"
                 break;
-            case ("org"):
+            case ("Organization"):
                 field = "Organization"
                 helperField ="Group"
                 break;
 
         }
     
-        //{"RiderEmail":"Rider@updated.Email", "RiderFname":"עודכן" , "RiderLname":"עודכן", "RiderAddress":"Updated val" ,  "City":"רעננה", "RiderPhone":"888888",  "BicycleType": "הרים" , "ImagePath":"Updated val" , "BirthDate":"04-04-2004", "Organization":"ebay", "Group":"secondGroup"}
+        //create json object
         var updateJson = {}
-        if (field != "Organization")
+        if (field == "Organization")
         {
-            updateJson[field] = fieldValue.$viewValue;
-        }
-        else {
             updateJson[field] = fieldValue;
             updateJson[helperField] = helperFieldValue;
+            $scope.personalDetails.org = null;
+        }
+
+        else if (field == "City") {
+            updateJson[field] = fieldValue.$viewValue.CityName;
+        }
+        else
+        {
+            updateJson[field] = fieldValue.$viewValue;
            
         }
       
-        
-
         dataFactory.updateValues('Rider', updateJson, true, 'username=' + $scope.currentUser )
         .success(function (values) {
             if (angular.fromJson(values) == "Error")
@@ -141,72 +181,25 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
             else
             {
                 alert("עדכון הושלם בהצלחה!");
-                $scope.currentDetails['UserEmail'] = fieldValue.$viewValue;
-                $scope.flipFlag('UserEmail');
-                
+                $scope.currentDetails[type] = fieldValue.$viewValue;
+                $scope.flipFlag(type);
+                dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                .success(function (values) {
+                    $scope.personalInfoHolder = values[0];
+                    $rootScope.userPersonalInfo = values[0];
+                    $scope.updateTempObject();
+                })
+                .error(function (value) {
+                    console.log("error");
+                });   
             }
-
         })
                      .error(function (error) {
                          alert("עדכון נכשל!");
                      });
-        //dataFactory.updateValues = function (Rider, dataObj, parFlag, par)
-        // PUT api/Rider?username=[UserName you want to update]
-       
     }
 
-    $scope.userRegistration = function (personalDetails) {
-
-        if (personalDetails.org == undefined || personalDetails.org == null) { alert("לא נבחרה קבוצה, בחר קבוצה ונסה שנית") }
-        else {
-
-            var userDetails = {};
-
-            userDetails.RiderEmail = personalDetails.email.$viewValue;
-            userDetails.RiderFname = personalDetails.firstName.$viewValue;
-            userDetails.RiderLname = personalDetails.lastName.$viewValue;
-            userDetails.Gender = personalDetails.gender.$viewValue;
-            userDetails.RiderAddress = personalDetails.address.$viewValue;
-            userDetails.City = personalDetails.city.$viewValue.CityName;
-            userDetails.RiderPhone = personalDetails.phone.$viewValue;
-            userDetails.BicycleType = personalDetails.bikeType.$viewValue;
-            if (personalDetails.imagePath == undefined)
-            { userDetails.ImagePath = "\\ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
-            else
-            { userDetails.ImagePath = personalDetails.imagePath; }
-            userDetails.BirthDate = personalDetails.bDay.$viewValue;
-            userDetails.UserName = $scope.regDetails.userName.$viewValue;
-
-            // Captain Flag 
-            if ($scope.newOrgFlag || $scope.newTeamFlag) { userDetails.Captain = "1"; }
-            else { userDetails.Captain = "0"; };
-
-            userDetails.Organization = personalDetails.org;
-            userDetails.Group = personalDetails.team.$viewValue.GroupName;
-
-            userDetails = angular.toJson(userDetails, true);
-
-
-
-            // Post to Server
-
-            dataFactory.postValues('Rider', userDetails, false)
-                     .success(function (values) {
-                         if (angular.fromJson(values) == "Error")
-                         { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
-                         else
-                         {
-                             alert("ההרשמה הסתיימה בהצלחה!");
-                             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
-                         }
-
-                     })
-                     .error(function (error) {
-                         alert("ההרשמה נכשלה!");
-                     });
-
-        }
-    }
+    
 
     // Organization Handling 
 
@@ -284,7 +277,6 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
 
     $scope.newOrgFlag = false;
     $scope.newTeamFlag = false;
-
     $scope.flagReset = function () {
         if ($scope.newOrgFlag == false)
             $scope.newOrgFlag = true;
@@ -350,6 +342,35 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
                     // file is uploaded successfully
                     console.log(data);
                     $scope.$$childHead.personalDetails.imagePath = data.returnData;
+                    var updateJson = {
+                        ImagePath: data.returnData
+                    };
+
+                    dataFactory.updateValues('Rider', updateJson, true, 'username=' + $scope.currentUser)
+                            .success(function (values) {
+                                if (angular.fromJson(values) == "Error")
+                                { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
+                                else
+                                {
+                                    alert("עדכון הושלם בהצלחה!");
+                                    $scope.currentDetails['ImagePath'] = data.returnData;
+                                    $scope.flipFlag('ImagePath');
+                                    dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                                    .success(function (values) {
+                                        $scope.personalInfoHolder = values[0];
+                                        $rootScope.userPersonalInfo = values[0];
+                                        $scope.updateTempObject();
+                                    })
+                                    .error(function (value) {
+                                        console.log("error");
+                                    });
+                                }
+                            })
+                                         .error(function (error) {
+                                             alert("עדכון נכשל!");
+                                         });
+
+
                 }).error(function (data, status, headers, config) {
                     // file failed to upload
                     console.log(data);
@@ -386,6 +407,13 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
                     // file is uploaded successfully
                     console.log(data);
                     $scope.newOrg.imagePath = data.returnData;
+
+
+                    
+                    
+
+
+
                 }).error(function (data, status, headers, config) {
                     // file failed to upload
                     console.log(data);

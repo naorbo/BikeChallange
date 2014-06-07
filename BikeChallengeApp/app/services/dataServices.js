@@ -60,13 +60,30 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
 // ################################################ // 
 
     dataFactory.updateValues = function (urlPath, dataObj, parFlag, par) {
-        return $http({
-            method: 'PUT',
-            url: '/api/' + urlPath + '?' +par,
-            headers: { 'Authorization': 'Bearer ' + session.id },
-            data: dataObj
-        });
+        //return $http({
+        //    method: 'PUT',
+        //    url: '/api/' + urlPath + '?' +par,
+        //    headers: { 'Authorization': 'Bearer ' + session.id },
+        //    data: dataObj
+        //});
 
+
+        if (!parFlag) {
+            return $http({
+                method: 'PUT',
+                url: '/api/' + urlPath,
+                headers: { 'Authorization': 'Bearer ' + session.id },
+                data: dataObj
+            });
+        }
+        else {
+            return $http({
+                method: 'PUT',
+                url: '/api/' + urlPath + "?" + par,
+                headers: { 'Authorization': 'Bearer ' + session.id },
+                data: dataObj
+            });
+        }
     };
 
 // ############# Delete ############################## // 
