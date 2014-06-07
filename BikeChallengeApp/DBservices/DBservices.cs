@@ -66,7 +66,7 @@ public class DBservices
             switch(select)
             {
 			case 1:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id  
@@ -482,7 +482,8 @@ public class DBservices
     public int updateRiderInDatabase(Rider rdr, string username, string new_cap_user="")
         {
         SqlConnection con;
-        SqlCommand cmd;
+        SqlCommand cmd, cmd1;
+        
         try
         {
             con = connect("DefaultConnection"); // create the connection
@@ -498,6 +499,24 @@ public class DBservices
         try
         {
             int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            if (numEffected == 2 && new_cap_user == "")
+            {
+                String cStr1 = @"Update [Users] Set [Captain] = 1 
+                                Where UserDes = '" + username + @"'
+                                AND not exists (SELECT 'x'
+                                                FROM Groups G, Organizations O, Users U
+                                                Where G.[Group] <> 0
+                                                AND G.Groupname = '" + rdr.Group + @"'
+                                                AND G.Organization = O.Organization
+                                                AND O.OrganizationName = '" + rdr.Organization + @"'
+                                                AND U.Captain = 1
+                                                AND U.[User] in ( SELECT UG.[User]
+								                                FROM UsersGroups UG
+								                                WHERE G.[Group] = UG.[Group]) )";
+                cmd1 = CreateCommand(cStr1, con);
+                int numEffected1 = cmd1.ExecuteNonQuery();
+            }
+
             return numEffected;
         }
         catch (Exception ex)
@@ -632,6 +651,7 @@ public class DBservices
                               ,[ImagePath] = "+ (rdr.ImagePath != null ? "'" +rdr.ImagePath +"'" : "[ImagePath]") +@"
                               ,[BirthDate] = "+ (rdr.BirthDate != null ? "'"+ rdr.BirthDate+"'" : "[BirthDate]") +@"
                               ,[Gender] = " + (rdr.Gender != null ? "'" + rdr.Gender + "'" : "[Gender]") + @"
+                              ,[Captain] = 0 
                               ,[Organization] = " + (rdr.Organization != null && rdr.Group != null ? "(select [Organization] from Organizations where OrganizationDES = '" + rdr.Organization + "' AND Exists ( Select G.Organization From Groups G Where G.[GroupName] = '"  +rdr.Group+ @"' AND G.Organization = Organization  ))" : "[Organization]" ) +@"
                              WHERE UserDes = '" + username + @"';" ;
         sb2 = @" Update [UsersGroups] Set [Group] = " + (rdr.Group != null ? "( Select [Group] From Groups Where GroupName = '" + rdr.Group + "' )" : "[Group]") + @"  
