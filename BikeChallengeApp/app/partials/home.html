@@ -9,11 +9,61 @@
             -webkit-box-shadow: 0 0 5px 5px#888;
             box-shadow: 0 0 5px 5px #888;
         }
+
+        .form-control {
+            padding-right: 30px;
+        }
+
+            .form-control + .glyphicon {
+                position: absolute;
+                right: 0;
+                padding: 8px 27px;
+            }
+
+
     </style>
 </head>
 <body >
     <div class="content-background">
-        <div  class="container">
+        <div  class="container" style="padding-top:50px">
+            <div id="homeSignIn" class="col-md-4">
+                
+                <form ng-submit="signIn()" name="loginDetails" novalidate>
+                    <label class="col-md-offset-2" style="font-size:15px; color:white"><strong>כבר רוכבים לעבודה?</strong></label>
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <input class="form-control"
+                                   type="text"
+                                   placeholder="שם משתמש"
+                                   ng-model="loginDetails.userName"
+                                   required />
+                            <span class="glyphicon glyphicon-user"></span>
+                        </div>
+                        <div class="col-xs-9">
+                            <input class="form-control"
+                                   type="password"
+                                   ng-model="loginDetails.password"
+                                   placeholder="סיסמא"
+                                   required />
+                            <span class="glyphicon glyphicon-lock"></span>
+
+                        </div>
+                    </div>
+                   
+                   <br />
+                    <div class="row">
+                        <div class="pull-left">
+                            <button type="submit" class="btn btn-primary" ng-disabled="loginDetails.$invalid">התחבר</button>
+                            <div ng-if="failFlag" style="color:red">
+                                <p class="glyphicon glyphicon-remove"></p> {{failMSG}}
+                            </div>
+                        </div>
+                    </div>
+                </form>
+</div>
+  
+        
+
             <div class="jumbotron col-md-8 pull-right">
                 <span class="col-md-12" style="font-size:75px; font-weight:bolder">רוכבים לעבודה</span>
                 <br />

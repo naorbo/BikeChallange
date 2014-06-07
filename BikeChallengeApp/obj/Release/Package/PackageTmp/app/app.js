@@ -73,6 +73,12 @@ app.config(['$routeProvider',
         }).
 
           //Used for testing 
+        when('/work', {
+            templateUrl: 'app/partials/work.html',
+            controller: 'workController'
+        }).
+
+        
         when('/updateProfile', { 
             templateUrl: 'app/partials/updateProfile.html',
             controller: 'updateProfileController'

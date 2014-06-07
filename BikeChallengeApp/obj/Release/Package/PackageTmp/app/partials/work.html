@@ -1,0 +1,44 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="container" style="padding-top:50px">
+       
+
+
+            <form name="test" class="form-horizontal">
+
+                <div class="form-group">
+                    
+                    <label class="pull-left" >
+                        <span class="fa fa-save fa-1x">
+                        </span>
+                    </label>
+                
+                    <input type="text"  class="form-control"
+                           ng-model="UserFname"
+                           placeholder="{{currentDetails.UserFname}}"
+                           data-tooltip="שם פרטי"
+                           data-tooltip-trigger="focus"
+                           data-tooltip-placement="right" />
+                    
+                </div>
+
+                <div class="form-group" ng-class="{ 'has-error' : personalDetails.firstName.$invalid && personalDetails.firstName.$dirty , 'has-success' : personalDetails.firstName.$valid , 'has-required' : personalDetails.firstName.$pristine}">
+                    <input name="UserFname"
+                           type="text"
+                           class="form-control"
+                           ng-model="UserFname"
+                           placeholder="{{currentDetails.UserFname}}"
+                           data-tooltip="שם פרטי"
+                           data-tooltip-trigger="focus"
+                           data-tooltip-placement="right"
+                           required />
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+</html>

@@ -504,7 +504,7 @@ app.controller('aboutController', function ($scope) {
 // ####################################################################################################################################################### // 
 
 
-app.controller('homeController', function ($scope,authFactory) {
+app.controller('homeController', function ($rootScope, $scope, authFactory,AUTH_EVENTS) {
     
     $scope.isActiveCol = [false, false, false, false, false, false, false];
     $contentLoader = false;
@@ -530,7 +530,18 @@ app.controller('homeController', function ($scope,authFactory) {
             $scope.contentLoader = true;
         })
         
-    
+        $scope.failMSG = "שם משתמש או סיסמא שגויה, נסה שנית"
+        $scope.failFlag = false;
+        $scope.signIn = function () {
+            authFactory.login($scope.loginDetails.userName, $scope.loginDetails.password).then(function () {
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                console.log("Event BC - user logged ");
+            }, function () {
+                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                console.log("Event BC - bad login ");
+                $scope.failFlag = true;
+            });
+        }
         
    
 });

@@ -10,10 +10,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="app/app.js">
-      <publishTime>06/06/2014 03:45:41</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/controllers/controllers.js">
-      <publishTime>06/06/2014 04:13:45</publishTime>
+      <publishTime>06/07/2014 22:40:17</publishTime>
     </File>
     <File Include="app/directives/directives.js">
       <publishTime>06/06/2014 02:34:46</publishTime>
@@ -25,31 +25,34 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2014 02:34:46</publishTime>
     </File>
     <File Include="app/partials/contactUs.html">
-      <publishTime>06/06/2014 03:57:25</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/dashboard.html">
-      <publishTime>06/06/2014 04:17:41</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/home.html">
-      <publishTime>06/06/2014 02:34:48</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/logIn.html">
       <publishTime>06/06/2014 02:34:48</publishTime>
     </File>
     <File Include="app/partials/myTeam.html">
-      <publishTime>06/06/2014 02:34:43</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/sponsers.html">
       <publishTime>05/31/2014 17:24:11</publishTime>
     </File>
     <File Include="app/partials/updateProfile.html">
-      <publishTime>06/06/2014 02:34:44</publishTime>
+      <publishTime>06/07/2014 22:35:17</publishTime>
     </File>
     <File Include="app/partials/userProfile.html">
-      <publishTime>06/06/2014 02:34:44</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/userRegistration.html">
-      <publishTime>06/06/2014 02:34:44</publishTime>
+      <publishTime>06/07/2014 16:03:14</publishTime>
+    </File>
+    <File Include="app/partials/work.html">
+      <publishTime>06/07/2014 16:03:14</publishTime>
     </File>
     <File Include="app/partials/workArea.html">
       <publishTime>06/04/2014 01:36:58</publishTime>
@@ -58,7 +61,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2014 02:34:48</publishTime>
     </File>
     <File Include="app/services/dataServices.js">
-      <publishTime>06/06/2014 02:34:48</publishTime>
+      <publishTime>06/07/2014 22:24:27</publishTime>
     </File>
     <File Include="Areas/HelpPage/HelpPage.css">
       <publishTime>03/21/2014 20:08:25</publishTime>
@@ -103,7 +106,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="bin/BikeChallengeApp.dll">
-      <publishTime>06/06/2014 04:21:00</publishTime>
+      <publishTime>06/07/2014 22:45:13</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
       <publishTime>03/21/2014 20:08:29</publishTime>
@@ -250,7 +253,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>06/06/2014 04:19:33</publishTime>
+      <publishTime>06/07/2014 22:44:21</publishTime>
     </File>
     <File Include="packages.config">
       <publishTime>05/09/2014 17:20:15</publishTime>
@@ -1165,7 +1168,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 21:01:31</publishTime>
     </File>
     <File Include="Scripts/xeditable.js">
-      <publishTime>05/31/2014 22:17:05</publishTime>
+      <publishTime>01/01/0001 00:00:00</publishTime>
     </File>
     <File Include="Scripts/_references.js">
       <publishTime>06/06/2014 02:34:44</publishTime>
