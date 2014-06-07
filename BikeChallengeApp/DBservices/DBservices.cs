@@ -99,7 +99,7 @@ public class DBservices
 			break;
 			case 4:
 
-            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserLname + ' ' + U.UserFname As DisplayName
+            selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName
                                 FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
                                 Where G.[Group] <> 0
                                 AND G.GroupDes = '" + data1 + @"'
@@ -631,9 +631,10 @@ public class DBservices
                               ,[BicycleType] = "+ (rdr.BicycleType != null ? "'"+rdr.BicycleType+"'" : "[BicycleType]") +@"
                               ,[ImagePath] = "+ (rdr.ImagePath != null ? "'" +rdr.ImagePath +"'" : "[ImagePath]") +@"
                               ,[BirthDate] = "+ (rdr.BirthDate != null ? "'"+ rdr.BirthDate+"'" : "[BirthDate]") +@"
-                              ,[Organization] = " + (rdr.Organization != null && rdr.Group != null ? "(select [Organization] from Organizations where OrganizationDES = '" + rdr.Organization + "' AND Exists ( Select G.Organization From Groups G Where G.[GroupName] = '"  +rdr.Group+ @"' AND G.Organization = Organization ))
-                         WHERE UserDes = '" + username + @"';" : "[Organization]");
-        sb2 = @" Update [UsersGroups] Set [Group] = ( Select [Group] From Groups Where GroupName = " + (rdr.Group != null ? "'"+rdr.Group+"'" : "[GroupName]") + @" ) 
+                              ,[Gender] = " + (rdr.Gender != null ? "'" + rdr.Gender + "'" : "[Gender]") + @"
+                              ,[Organization] = " + (rdr.Organization != null && rdr.Group != null ? "(select [Organization] from Organizations where OrganizationDES = '" + rdr.Organization + "' AND Exists ( Select G.Organization From Groups G Where G.[GroupName] = '"  +rdr.Group+ @"' AND G.Organization = Organization  ))" : "[Organization]" ) +@"
+                             WHERE UserDes = '" + username + @"';" ;
+        sb2 = @" Update [UsersGroups] Set [Group] = " + (rdr.Group != null ? "( Select [Group] From Groups Where GroupName = '" + rdr.Group + "' )" : "[Group]") + @"  
                         Where [User] = ( Select [User] From [Users] Where UserDes = '" + username + "');" ;
         command = prefix + sb + sb2;
         return command;
