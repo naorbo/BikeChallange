@@ -129,10 +129,3 @@ C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.H
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
-C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
->>>>>>> b9f19352c37dec82cffd87f4567d19f44807051d
->>>>>>> 4c3a829f71dd8aa56cf9f8855b735a3c19f8e29a

@@ -5,7 +5,55 @@
 </head>
 <body>
     <div class="container">
+        <div class="col-md-6 pull-right" style="padding-top:30px">
+            <fieldset>
+                <legend>
+                    <span>צור עמנו קשר </span>
+                </legend>
+            </fieldset>
 
+            <form name="contactUsForm">
+                <div class="form-group">
+                    <input name="name"
+                           type="text"
+                           class="form-control"
+                           ng-model="name"
+                           placeholder="שם"
+                           data-tooltip="שם"
+                           data-tooltip-trigger="focus"
+                           data-tooltip-placement="right"
+                           required />
+                </div>
+                <div class="form-group">
+                    <input name="address"
+                           type="text"
+                           class="form-control"
+                           ng-model="name"
+                           placeholder="כתובת דואר אלקטרוני"
+                           data-tooltip="דואר אלקטרוני" 
+                           data-tooltip-trigger="focus"
+                           data-tooltip-placement="right" />
+                </div>
+                
+                <div class="form-group">
+                <input name="subject"
+                    type="text"
+                    class="form-control"
+                    ng-model="subject"
+                    placeholder="נושא"
+                    data-tooltip="נושא"
+                    data-tooltip-trigger="focus"
+                    data-tooltip-placement="right" />
+
+                </div>
+
+                <div class="form-group">
+                    <textarea class="text" data-tooltip="תוכן" name="Text1" cols="90" rows="5" ng-model="fillbox" placeholder="תוכן הפנייה"></textarea>
+                  
+                </div>
+                <button type="submit" class="btn btn-primary" ng-disabled="contactUsForm.$invalid">שלח!</button>
+            </form>
+        </div>
     </div>
 
 </body>

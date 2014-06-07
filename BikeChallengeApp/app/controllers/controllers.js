@@ -1,5 +1,22 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
+
+// ####################################################################################################################################################### // 
+// #########################################                workController               ################################################################ // 
+// ####################################################################################################################################################### // 
+app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+
+
+
+});
+// ####################################################################################################################################################### // 
+// #########################################                contactUsController               ################################################################ // 
+// ####################################################################################################################################################### // 
+app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+
+
+
+});
 // ####################################################################################################################################################### // 
 // #########################################                updateProfileController               ################################################################ // 
 // ####################################################################################################################################################### // 
@@ -20,7 +37,9 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
     $scope.flipChangeBTypeFlag = function () { $scope.changeBTypeFlag = !$scope.changeBTypeFlag };
     $scope.changeOrgFlag = false;
     $scope.flipChangeOrgFlag = function () { $scope.changeOrgFlag = !$scope.changeOrgFlag };
-
+    $scope.changeEmailFlag = false;
+    $scope.flipChangeEmailFlag = function () { $scope.changeEmailFlag = !$scope.changeEmailFlag };
+    
 
     // Stores personal details
     $scope.userPersonalInfo = $rootScope.userPersonalInfo;
@@ -37,6 +56,103 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
         UserFname: $scope.personalInfoHolder.UserFname,
         UserLname: $scope.personalInfoHolder.UserLname,
         UserPhone: $scope.personalInfoHolder.UserPhone,
+    };
+
+    $scope.updateFlags = {
+        BicycleType: false,
+        BirthDate: false,
+        Gender: false,
+        GroupDes: false,
+        OrgCity: false,
+        OrganizationDes: false,
+        RiderCity: false,
+        UserAddress: false,
+        UserEmail: false,
+        UserFname: false,
+        UserLname: false,
+        UserPhone: false
+    }
+    
+    $scope.flipFlag = function (flag) {
+        $scope.updateFlags[flag] = !$scope.updateFlags[flag];
+    }
+
+    $scope.updateField = function (type,fieldValue) {
+        var field = String();
+        var helperField = String();
+        
+        switch (type) {
+
+            case ("email"):
+                field = "RiderEmail";
+                break;
+            case ("firstName"):
+                field = "RiderFname";
+                break;
+            case ("lastName"):
+                field = "RiderLname"
+                break;
+            case ("BicycleType"):
+                field = "RiderLname"
+                break;
+            case ("Gender"):
+                field = "Gender"
+                break;
+            case ("BirthDate"):
+                field = "BirthDate"
+                break;
+            case ("address"):
+                field = "RiderAddress"
+                break;
+            case ("address"):
+                field = "RiderAddress"
+                break;
+            case ("RiderCity"):
+                field = "RiderCity"
+                break;
+            case ("phone"):
+                field = "RiderPhone"
+                break;
+            case ("org"):
+                field = "Organization"
+                helperField ="Group"
+                break;
+
+        }
+    
+        //{"RiderEmail":"Rider@updated.Email", "RiderFname":"עודכן" , "RiderLname":"עודכן", "RiderAddress":"Updated val" ,  "City":"רעננה", "RiderPhone":"888888",  "BicycleType": "הרים" , "ImagePath":"Updated val" , "BirthDate":"04-04-2004", "Organization":"ebay", "Group":"secondGroup"}
+        var updateJson = {}
+        if (field != "Organization")
+        {
+            updateJson[field] = fieldValue.$viewValue;
+        }
+        else {
+            updateJson[field] = fieldValue;
+            updateJson[helperField] = helperFieldValue;
+           
+        }
+      
+        
+
+        dataFactory.updateValues('Rider', updateJson, true, 'username=' + $scope.currentUser )
+        .success(function (values) {
+            if (angular.fromJson(values) == "Error")
+            { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
+            else
+            {
+                alert("עדכון הושלם בהצלחה!");
+                $scope.currentDetails['UserEmail'] = fieldValue.$viewValue;
+                $scope.flipFlag('UserEmail');
+                
+            }
+
+        })
+                     .error(function (error) {
+                         alert("עדכון נכשל!");
+                     });
+        //dataFactory.updateValues = function (Rider, dataObj, parFlag, par)
+        // PUT api/Rider?username=[UserName you want to update]
+       
     }
 
     $scope.userRegistration = function (personalDetails) {
@@ -1507,7 +1623,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                     else if (entity == "group") {
                         if (monthParsed == monthStat.Month && yearParsed == monthStat.Year) {
                             kmSummed = kmSummed + monthStat.Group_KM;
-                            ridesSummed = ridesSummed + monthStat._of_Rides;
+                            ridesSummed = ridesSummed + monthStat.Num_of_Rides;
                         }
                     }
                     else {

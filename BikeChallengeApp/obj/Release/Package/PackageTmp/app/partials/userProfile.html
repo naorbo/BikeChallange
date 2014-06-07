@@ -32,7 +32,6 @@
                             <tr>
                                 <td>כתובת דואר אלקטרוני</td>
                                 <td>{{personalInfoHolder.UserEmail}}</td>
-
                             </tr>
                             <tr>
                                 <td>כתובת</td>
@@ -50,6 +49,10 @@
                                 <td>מספר טלפון</td>
                                 <td>{{personalInfoHolder.UserPhone}}</td>
                             </tr>
+                            <tr>
+                                <td>סוג אופניים</td>
+                                <td>{{personalInfoHolder.BicycleType}}</td>
+                            </tr>
                         </table>
                     </div>
                 </div>
@@ -63,7 +66,7 @@
                         <table class="table col-md-6">
                             <tr>
                                 <td>שם הארגון</td>
-                                <td>{{personalInfoHolder.OrganizationName}}</td>
+                                <td>{{personalInfoHolder.OrganizationDes}}</td>
 
                             </tr>
                             <tr>
@@ -76,52 +79,17 @@
                             </tr>
                             <tr>
                                 <td>קפטן</td>
-                                <td>{{userGroup.Captain_UserName}}</td>
+                                <td>{{userGroup.DisplayName}}</td>
                             </tr>
 
                         </table>
 
-                        <!--div class="col-md-6"><img src={{myGroup.OrganizationImage}} class="img-responsive"/> </!--div>-->
+                       
                     </div>
                 </div>
             </div>
 
         </div>
-        <div class="row">
-            <div class="col-md-6 pull-right">
-
-                <div class="panel panel-primary ">
-                    <div class="panel-heading">מסלול מועדף</div>
-                    <div class="panel-body">
-                        <table class="table col-md-6">
-                            <tr>
-                                <td>שם המסלול</td>
-                                <td></td>
-
-                            </tr>
-                            <tr>
-                                <td>אורך המסלול</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>מקור</td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>יעד</td>
-                                <td></td>
-                            </tr>
-
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-
-
-        </div>
-
-
 
     </div>
 </body>

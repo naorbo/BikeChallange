@@ -62,10 +62,11 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
     dataFactory.updateValues = function (urlPath, dataObj, parFlag, par) {
         return $http({
             method: 'PUT',
-            url: '/api/' + urlPath,
+            url: '/api/' + urlPath + '?' +par,
             headers: { 'Authorization': 'Bearer ' + session.id },
             data: dataObj
         });
+
     };
 
 // ############# Delete ############################## // 

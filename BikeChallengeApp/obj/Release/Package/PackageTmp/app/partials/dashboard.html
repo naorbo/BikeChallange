@@ -71,7 +71,7 @@
     <div class="container">
         <div class="row">
             <div class="row col-md-6" style="float:left">
-
+                <!-- Calendar Navigation-->
                 <div class="row col-md-12 pull-left" style="align-content:center; padding-top:20px">
                     <table style="table-layout:fixed; width:100%">
                         <tr>
@@ -99,12 +99,12 @@
 
                 </div>
 
-
+                <!--Calendar-->
                 <div class="row pull-left" id="myCal" ng-model="calMonth" data-calendar month={{calMonth+1}} data-dates="calDates"> </div>
             </div>
             <div class="row col-md-1"></div>
             <div class="row col-md-5" style="padding-top:20px">
-
+                <!--Right Dash Navigation-->
                 <div class=" row col-md-8  col-md-offset-2 btn-group  ">
                     <button class="btn btn-default btn-lg  glyphicon glyphicon-road " ng-click="rightDash.switch=1" ng-class="{ 'active' : rightDash.switch==1 }" title="מסלולים"></button>
                     &nbsp;
@@ -118,84 +118,90 @@
 
                 <div class="row col-md-12">
 
-
+                    
                     <div ng-switch data-on="rightDash.switch" style="padding-top:50px">
-
-
+                        <!-- Right Dash Switch Handling-->
                         <div ng-switch-when="1">
                             <hr />
+                            
+                                <div class="row scroll-down-text" ng-click="flipShowMyRoutesFlag()">
+                                    <strong class="pull-right">המסלולים שלי</strong>
+                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                                </div>
+                                <div id="viewUserRoutes" ng-if="showMyRoutesFlag">
+                                    <br />
+                                    <!-- View User's Routes-->
+                                    <table class="table table-hover">
 
-                            <div class="row scroll-down-text" ng-click="flipShowMyRoutesFlag()">
-                                <strong class="pull-right">המסלולים שלי</strong>
-                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                            </div>
-
-
-                            <div id="viewUserRoutes" ng-if="showMyRoutesFlag">
-
-                                <br />
-
-                                <table class="table table-hover">
-
-                                    <thead style="font-weight: bold;">
-                                        <tr>
-                                            <td>שם המסלול</td>
-                                            <td>תיאור</td>
-                                            <td>מקור</td>
-                                            <td>יעד</td>
-                                            <td>אורך</td>
-                                            <td></td>
+                                        <thead style="font-weight: bold;">
+                                            <tr>
+                                                <td>שם המסלול</td>
+                                                <td>תיאור</td>
+                                                <td>מקור</td>
+                                                <td>יעד</td>
+                                                <td>אורך</td>
+                                                <td></td>
+                                            </tr>
+                                        </thead>
+                                        <tr ng-repeat="route in userRoutes">
+                                            <td>{{route.RouteType}}</td> <!-- Route Name Replacement-->
+                                            <td>{{route.Comments}}</td>
+                                            <td>{{route.RouteSource}}</td>
+                                            <td>{{route.RouteDestination}}</td>
+                                            <td>{{route.RouteLength}}</td>
+                                            <td><button class="glyphicon glyphicon-remove" title="מחיקת המסלול" style="border:none; background:none; color:red" ng-click="deleteRoute(route)"></button></td>
                                         </tr>
-                                    </thead>
-                                    <tr ng-repeat="route in userRoutes">
-                                        <td>{{route.RouteType}}</td> <!-- Route Name Replacement-->
-                                        <td>{{route.Comments}}</td>
-                                        <td>{{route.RouteSource}}</td>
-                                        <td>{{route.RouteDestination}}</td>
-                                        <td>{{route.RouteLength}}</td>
-                                        <td><button class="glyphicon glyphicon-remove" title="מחיקת המסלול" style="border:none; background:none; color:red" ng-click="deleteRoute(route)"></button></td>
-                                    </tr>
-                                </table>
+                                    </table>
 
+                                </div>
+                                <hr />
+                                <div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
+                                    <strong>הוספת מסלול חדש</strong>
+                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                                </div>
+
+                                <form ng-submit="addNewRoute(newRoute)" name="newRoute" ng-if="addNewRouteFlag" style="width:50%" novalidate>
+                                    <br />
+                                    <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                                    <input type="text" class="form-control" ng-model="newRoute.source" placeholder="מקור" required /><br />
+                                    <input type="text" class="form-control" ng-model="newRoute.destination" placeholder="יעד" required /><br />
+                                    <input type="number" class="form-control" ng-model="newRoute.lenght" placeholder="אורך המסלול" min="0" required /><br />
+                                    <input type="text" class="form-control" ng-model="newRoute.comments" placeholder="הערות" /><br />
+                                    <button type="submit" class="btn btn-success" ng-disabled="newRoute.$invalid">הוסף מסלול</button>
+                                </form>
+
+                                <hr />
+
+                                <div class="row scroll-down-text" ng-click="flipAddNewSRideFlag()">
+                                    <strong>דיווח נסיעה ספונטנית</strong>
+                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                                </div>
+                                <form ng-submit="addNewSpontanicRide(newSRide)" name="newSRide" ng-if="addNewSRideFlag" style="width:50%" novalidate>
+                                    <br />
+                                    <input type="text" class="form-control" ng-model="newSRide.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                                    <input type="date" class="form-control" ng-model="newSRide.date" placeholder="תאריך" required /><br />
+                                    <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
+                                    <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
+                                    <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
+                                    <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות" required /><br />
+                                    <button type="submit" class="btn btn-success" ng-disabled="newSRide.$invalid">הוסף דיווח</button>
+                                </form>
+                                <hr />
+                                <div class="row scroll-down-text" style="padding-bottom:700px"></div>
                             </div>
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
-                                <strong>הוספת מסלול חדש</strong>
-                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                            </div>
-
-                            <form ng-submit="addNewRoute(newRoute)" name="newRoute" ng-if="addNewRouteFlag" style="width:50%" novalidate>
-                                <br />
-                                <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
-                                <input type="text" class="form-control" ng-model="newRoute.source" placeholder="מקור" required /><br />
-                                <input type="text" class="form-control" ng-model="newRoute.destination" placeholder="יעד" required /><br />
-                                <input type="number" class="form-control" ng-model="newRoute.lenght" placeholder="אורך המסלול" min="0" required /><br />
-                                <input type="text" class="form-control" ng-model="newRoute.comments" placeholder="הערות" /><br />
-                                <button type="submit" class="btn btn-success" ng-disabled="newRoute.$invalid">הוסף מסלול</button>
-                            </form>
-
-                            <hr />
-
-                            <div class="row scroll-down-text" ng-click="flipAddNewSRideFlag()">
-                                <strong>דיווח נסיעה ספונטנית</strong>
-                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                            </div>
-                            <form ng-submit="addNewSpontanicRide(newSRide)" name="newSRide" ng-if="addNewSRideFlag" style="width:50%" novalidate>
-                                <br />
-                                <input type="text" class="form-control" ng-model="newSRide.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
-                                <input type="date" class="form-control" ng-model="newSRide.date" placeholder="תאריך" required /><br />
-                                <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
-                                <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
-                                <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
-                                <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות" required /><br />
-                                <button type="submit" class="btn btn-success" ng-disabled="newSRide.$invalid">הוסף דיווח</button>
-                            </form>
-                            <hr />
-
-                        </div>
 
                         <div ng-switch-when="2">
-                            <div><a>אירועים</a></div>
+                            <div class="row scroll-down-text" ng-click="">
+                                <strong class="pull-right">ארועים עתידיים</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="">
+                                <strong class="pull-right">אירועים אליהם נרשמתי</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <hr />
+                            <div class="row scroll-down-text" style="padding-bottom:700px"></div>
                         </div>
 
                         <div ng-switch-when="3">
@@ -224,7 +230,7 @@
                                 <br />
                                 <table class="table table-hover table-bordered">
                                     <thead>
-                                        <tr class="success">
+                                        <tr class="active">
                                             <td>#</td>
                                             <td>שם</td>
                                             <td>קבוצה</td>
@@ -258,7 +264,7 @@
                                 <br />
                                 <table class="table table-hover table-bordered">
                                     <thead>
-                                        <tr class="success">
+                                        <tr class="active">
                                             <td>#</td>
                                             <td>שם הקבוצה</td>
                                             <td>שם הארגון</td>
@@ -292,7 +298,7 @@
                                 <br />
                                 <table class="table table-hover table-bordered">
                                     <thead>
-                                        <tr class="success">
+                                        <tr class="active">
                                             <td>#</td>
                                             <td>שם הארגון</td>
                                             <td>עיר</td>
@@ -317,6 +323,7 @@
                                 </table>
                             </div>
                             <hr />
+                            <div class="row scroll-down-text" style="padding-bottom:700px"></div>
                         </div>
 
 
@@ -486,7 +493,7 @@
                                 </table>
                             </div>
 
-
+                            <div class="row scroll-down-text" style="padding-bottom:700px"></div>
                         </div>
 
 

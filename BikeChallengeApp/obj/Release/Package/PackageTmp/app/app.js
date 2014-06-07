@@ -26,10 +26,10 @@ app.config(['$routeProvider',
             templateUrl: 'app/partials/userRegistration.html',
             controller: 'signUpController'
         }).
-        when('/about', {
-            templateUrl: 'app/partials/about.html',
-            controller: 'aboutController'
-        }).
+        //when('/about', {
+        //    templateUrl: 'app/partials/about.html',
+        //    controller: 'aboutController'
+        //}).
 
         when('/home', {
             templateUrl: 'app/partials/home.html',
@@ -67,15 +67,15 @@ app.config(['$routeProvider',
             controller: 'homeController'
         }).
 
-        //when('/contactUs', {
-        //    templateUrl: 'app/partials/contactUs.html',
-        //    controller: 'contactUsController'
-        //}).
+        when('/contactUs', {
+            templateUrl: 'app/partials/contactUs.html',
+            controller: 'contactUsController'
+        }).
 
           //Used for testing 
-        when('/workArea', { 
-            templateUrl: 'app/partials/workArea.html',
-            controller: 'workAreaController'
+        when('/updateProfile', { 
+            templateUrl: 'app/partials/updateProfile.html',
+            controller: 'updateProfileController'
         }).
 
         otherwise({

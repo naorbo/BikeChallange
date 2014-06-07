@@ -253,13 +253,16 @@
 
 
             <!-- Organization Picker Modal Window  -->
-
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myModalLabel">בחר ארגון</h4>
+                            <span class="modal-title" id="myModalLabel">בחר ארגון</span>
+                            <div class="pull-left">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
+                                <button type="button" class="btn btn-primary" ng-click="myOrg(orgSelection)">שמור</button>
+                            </div>
                         </div>
                         <div class="modal-body row">
                             <div class="row">
@@ -270,9 +273,11 @@
                                     </div>
                                 </div>
                                 <div class="col-md-7">
+
                                     <span><i class="glyphicon glyphicon-info-sign" style="color:blue">&nbsp;</i><small>לא מצאת את הארגון שלך?, סגור את החלונית ובחר "יצירת ארגון חדש"</small></span>
                                 </div>
                             </div>
+
                             <hr />
                             <br />
                             <div ng-repeat="org in orgs | filter:query">
@@ -283,7 +288,7 @@
                                             <div class="panel-heading">
                                                 <span>{{org.OrganizationDes}},</span>
                                                 <span><small>{{org.OrganizationType}}</small></span>
-                                                <span><small>( {{org.City}} )</small></span>
+                                                <span><small>( {{org.CityName}} )</small></span>
                                             </div>
                                             <div class="panel-body">
                                                 <img src="{{org.OrganiztionImage}}" class="img-rounded img-responsive" style="height:70px">
@@ -294,12 +299,12 @@
                             </div>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">ביטול</button>
-                            <button type="button" class="btn btn-primary" ng-click="myOrg(orgSelection)">שמור</button>
+
                         </div>
                     </div>
                 </div>
             </div>
+            
 
             <!-- Organization Creator Modal Window  -->
             <div class="modal fade" id="myNewOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -337,7 +342,7 @@
                     <div class="modal-content">
                         <div class="modal-header">
                             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                            <h4 class="modal-title" id="myNewTeamModalLabel">יצירת קבוצה חדש</h4>
+                            <h4 class="modal-title" id="myNewTeamModalLabel">יצירת קבוצה חדשה</h4>
                         </div>
                         <div class="modal-body row">
                             <br />
@@ -357,4 +362,3 @@
     </div>
 </body>
 </html>
-
