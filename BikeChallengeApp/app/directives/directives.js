@@ -202,7 +202,7 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
           monthLength = daysInMonth(firstDay),
           heading = formatDateHeading(firstDay);
 
-        if (!dates || !dates.length) { dates = [currentDate.getDate()] };
+       // if (!dates || !dates.length) { dates = [currentDate.getDate()] };
 
         var tpl = [
           '<div class="cal">',
@@ -226,10 +226,12 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
                     if (day < 10) { dayZeroPrefix = "0" };
                     if (month < 10) { monthZeroPrefix = "0" };
                     if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
-                        row.push('<div  data-close-popovers class="cal-highlight-today closepopper" data-daily-sum   id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">'); // cal-day class attrb was removed ** 
-                    };
-                    if (dates.indexOf(day) != -1) row.push('<div  data-close-popovers class="cal-day cal-highlight closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
-                    if (dates.indexOf(day) == -1) row.push('<div  data-close-popovers  class="cal-day closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
+                        row.push('<div  data-close-popovers class="cal-highlight-today cal-day closepopper" data-daily-sum   id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">'); // cal-day class attrb was removed ** 
+                    }
+                    else if  
+                    (dates.indexOf(day) != -1) { row.push('<div  data-close-popovers class="cal-day cal-highlight closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');}
+                    else if (dates.indexOf(day) == -1) {row.push('<div  data-close-popovers  class="cal-day closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
+                    }
                     row.push(day + '</div>');
                     day++;
                     dayZeroPrefix = "";
