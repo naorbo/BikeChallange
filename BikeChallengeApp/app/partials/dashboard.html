@@ -30,12 +30,6 @@
                     <td>{{uh.RideLength}}</td>
                 </tr>
             </table>
-
-            <!--<div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
-                <strong>הוספת מסלול חדש</strong>
-                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-            </div>-->
-
         </div>
         <hr />
         <div class="row scroll-down-text pull-right" style="width:100%" >
@@ -183,10 +177,27 @@
                                     <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
                                     <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
                                     <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
-                                    <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות" required /><br />
+                                    <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות"  /><br />
                                     <button type="submit" class="btn btn-success" ng-disabled="newSRide.$invalid">הוסף דיווח</button>
                                 </form>
                                 <hr />
+
+
+                            <div class="row scroll-down-text" ng-click="flipAddNewRRideFlag()">
+                                <strong>דיווח נסיעה ממסלול</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <form ng-submit="addNewRRideMenu(newRRide)" name="newRRide" ng-if="addNewRRideFlag" style="width:50%" novalidate>
+                                <br />
+                                <label>שם המסלול</label>
+                                <select id="routeSelectMenu" class=" btn btn-default btn-sm form-control dropdown-toggle" ng-model="newRRide.routeName" ng-options="r.RouteType for r in userRoutes" required> </select>
+                                <input type="date" class="form-control" ng-model="newRRide.date" placeholder="תאריך" required /><br />
+                                <br />
+                                <label for="roundTrip">האם רכבת גם בדרך חזרה ?</label>
+                                <input id="roundTrip" type="checkbox" data-icheck ng-model="newRRide.roundTrip" value="true" />
+                                <button type="submit" class="btn btn-success" ng-disabled="newRRide.$invalid">הוסף דיווח</button>
+                            </form>
+                            <hr />
                                 <div class="row scroll-down-text" style="padding-bottom:700px"></div>
                             </div>
 
