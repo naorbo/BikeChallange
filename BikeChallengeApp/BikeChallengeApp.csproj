@@ -194,6 +194,7 @@
     <Compile Include="Controllers\CaptainController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\DataController.cs" />
+    <Compile Include="Controllers\EventController.cs" />
     <Compile Include="Controllers\OrganizationImageController.cs" />
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\RidesController.cs" />
@@ -213,6 +214,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BikeChallengeAppContext.cs" />
     <Compile Include="Models\Cities.cs" />
+    <Compile Include="Models\Event.cs" />
     <Compile Include="Models\LogFiles.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Organization.cs" />
