@@ -1070,7 +1070,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                  });
 
     // Get Global Ranking (Current Challenge)
-    var challengeDate = new Date();
+    var challengeDate = new Date($scope.calYear,$scope.calMonth,1);
     var parsedDay = (challengeDate.getDate()).toString() ;
     if (parsedDay < 10) {parsedDay = ("0").concat(parsedDay)}
     var parsedMonth = (challengeDate.getMonth() + 1).toString();
@@ -1194,10 +1194,12 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         if (arg == -1) {
             $scope.calMonth = $scope.calMonth - 1;
             $scope.refreshCal = !$scope.refreshCal;
+           
         }
         else if (arg == 1) {
             $scope.calMonth = $scope.calMonth + 1;
             $scope.refreshCal = !$scope.refreshCal;
+           
         }
 
         else {
@@ -1205,6 +1207,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
             var tmp = new Date();
             $scope.calMonth = tmp.getMonth();
             $scope.refreshCal = !$scope.refreshCal;
+           
 
         }
 
@@ -1279,7 +1282,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                  .error(function (error) {
                      console.log("error");
                  });
-        // Get Global Ranking (Current Challenge)
+        // Initialization - Get Global Ranking (Current Challenge)
         var challengeDate = new Date();
         var parsedDay = (challengeDate.getDate()).toString();
         if (parsedDay < 10) { parsedDay = ("0").concat(parsedDay) }
@@ -1315,6 +1318,8 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                      .error(function (error) {
                          console.log("error");
                      });
+        
+
 
     }
     
@@ -1892,8 +1897,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
     // Display Month holder 
     var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-    var bcDate = new Date();
-    $scope.displayMonth = monthNames[bcDate.getMonth()];
+    $scope.displayMonth = monthNames[$scope.calMonth];
 
 
 

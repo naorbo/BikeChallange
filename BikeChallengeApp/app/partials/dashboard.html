@@ -1,15 +1,10 @@
 ﻿<!DOCTYPE html>
 
-<style>
-
-    
-
-</style>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
-
+   
     <script type="text/ng-template" id="popoverTemplate.html" >
         <hr />
         <div id="btnpress" class=" row scroll-down-text pull-right" style="width:100%" >
@@ -34,6 +29,7 @@
         <hr />
         <div class="row scroll-down-text pull-right" style="width:100%" >
             <strong class="pull-right" style="padding-right:1em">דיווח רכיבה<span style="padding-right: 12em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="flipRideFlag()"></span></strong>
+            <br />
         </div>
         <div class="row" ng-if="addRideFlag">
             <br />
@@ -55,9 +51,20 @@
 
 
     </script>
+    <style>
+        .popover-title {
+            height: 40px;
+            background-color:#689df2;
+            color:white;
+            font-weight:bold;
+        }
+    </style>
 
 
 </head>
+
+
+
 
 
 
