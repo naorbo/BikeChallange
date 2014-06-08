@@ -27,8 +27,15 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
 
+        // GET api/event
+        public DataTable Get()
+        {
+            dbs = dbs.ReadFromDataBase(26);
+            return dbs.dt;
+        }
+
         // POST api/Event
-        // {"EventName":"", "City":"", "EventDes":"","EventType":"", "EventDate":""}
+        // {"EventName":"", "City":"","EventType":"", "EventDate":""}
         public string updateDB([FromBody]Event evt)
         {
             List<Object> mlist = new List<Object>();
@@ -47,7 +54,7 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        // POST api/Event?eventname=&username&
+        // POST insert rider into an event api/Event?eventname=&username&
         public string RiderInEvent(string eventname, string username)
         {
             int return_val = 0;
@@ -59,7 +66,7 @@ namespace BikeChallengeApp.Controllers
             }
             catch (Exception ex)
             {
-                string Response = ("Error while trying to Update the Rider(user) " + username + " to the event " eventname ", "+ ex.Message);
+                string Response = ("Error while trying to Update the Rider(user) " + username + " to the event " + eventname + ", "+ ex.Message);
                 lf.Main("UsersEvents", Response);
                 return "Error";
             }

@@ -33,3 +33,16 @@ The multi-part identifier "C.CityName" could not be bound.
 22:24:44 : Conversion failed when converting date and/or time from character string.
 22:25:44 : Conversion failed when converting date and/or time from character string.
 22:36:04 : Conversion failed when converting date and/or time from character string.
+00:44:44 : The multi-part identifier "e.EventStatus" could not be bound.
+Invalid column name 'EventDes'.
+Invalid column name 'EventDate'.
+Invalid column name 'EventType'.
+Invalid column name 'EventCity'.
+00:46:08 : Invalid column name 'EventDes'.
+Invalid column name 'EventDate'.
+Invalid column name 'EventType'.
+Invalid column name 'EventCity'.
+00:48:15 : Invalid column name 'EventDes'.
+Invalid column name 'EventDate'.
+Invalid column name 'EventType'.
+Invalid column name 'EventCity'.

@@ -1,0 +1,5 @@
+The Event LOG file
+00:37:34 : Incorrect syntax near 'EventName'.
+Incorrect syntax near ','.
+00:39:00 : Incorrect syntax near 'EventName'.
+Incorrect syntax near ','.

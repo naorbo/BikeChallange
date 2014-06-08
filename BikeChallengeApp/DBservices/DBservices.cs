@@ -300,12 +300,22 @@ public class DBservices
 
             case 25:
 
-            selectStr = @"  Select ue.EventDes, ue.EventDate, ue.EventType, ue.EventCity
-                            From UsersEvents ue, Users U
+            selectStr = @"    Select e.EventDes, e.EventDate, e.EventType, C.CityName
+                            From UsersEvents ue, Users U, [Events] e, Cities C
                             Where ue.[User] = u.[User]
-                            AND u.UserDes = '"+ data1 +@"'
-                            AND e.EventStatus = 'open'; "; // Read From Data Base Organization Ranking
+                            AND u.UserDes = '" + data1 + @"'
+                            AND ue.[Event] = e.[Event]
+                            AND e.EventStatus = 'open'
+							AND e.City = c.City; "; // Read From Data Base Organization Ranking
             break;
+            case 26:
+
+            selectStr = @"  Select e.EventDes, e.EventDate, e.EventType, C.CityName
+                            From [Events] e, Cities C
+                            Where e.EventStatus = 'open'
+							AND e.City = c.City;"; // Read From Data Base Organization Ranking
+            break;
+             
                 /**/
             
         }
@@ -449,7 +459,7 @@ public class DBservices
                 cStr = BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
                 break;
             case "UserEvent":
-                cStr = BuildDelteUserEventCommand(data1, data2);      // helper method to build the insert string
+                cStr = BuildDelteUserEventCommand(data1);      // helper method to build the insert string
                 break;
             
         }
@@ -832,13 +842,13 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String prefix = @"([EventName]
+        String prefix = @"INSERT INTO [Events]([EventName]
            ,[City]
            ,[EventDes]
            ,[EventType]
            ,[EventStatus]
            ,[EventDate])";
-        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}','{6}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, "Open", evt.EventDate);
+        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, "Open", evt.EventDate);
         command = prefix + sb.ToString();
         return command;
     }
@@ -846,7 +856,7 @@ public class DBservices
     public int updateRiderIneventDatabase(string eventname, string username)
         {
         SqlConnection con;
-        SqlCommand cmd, ;
+        SqlCommand cmd ;
         
         try
         {
@@ -883,11 +893,11 @@ public class DBservices
     }
     private String BuildInsertRiderEventCommand(string eventname, string username)
     {
-        String command = @"([Event]
+        String command = @"INSERT INTO USERSEVENTS([Event]
                             ,[User])
                                VALUES
-                        ( (Select Event From [Events] Where EventName = '" + eventname + @"' )   
-                       ,(Select [User] From [Users] Where UserDes = '" + username + @"') ";
+                        ( (Select Event From [Events] Where EventDes = '" + eventname + @"' )   
+                       ,(Select [User] From [Users] Where UserDes = '" + username + @"') )";
 
         return command;
     }
