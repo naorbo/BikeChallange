@@ -297,6 +297,15 @@ public class DBservices
                         )
                         order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC"; // Read From Data Base Organization Ranking
             break;
+
+            case 25:
+
+            selectStr = @"  Select ue.EventDes, ue.EventDate, ue.EventType, ue.EventCity
+                            From UsersEvents ue, Users U
+                            Where ue.[User] = u.[User]
+                            AND u.UserDes = '"+ data1 +@"'
+                            AND e.EventStatus = 'open'; "; // Read From Data Base Organization Ranking
+            break;
                 /**/
             
         }
@@ -336,6 +345,7 @@ public class DBservices
         else if(typeOfObject.Contains("Organization"))  _class = "Organization";
         else if(typeOfObject.Contains("Group"))  _class = "Group";
         else if (typeOfObject.Contains("Rides")) _class = "Rides";
+        else if (typeOfObject.Contains("Event")) _class = "Event";
         
         SqlConnection con;
         SqlCommand cmd;
@@ -379,6 +389,10 @@ public class DBservices
             ridename = DateTime.Now.ToString("dd-MM-yyyy-hh-mm-ss");
             cStr = BuildInsertRidesFromroutesCommand1(data1, data2, data3, ridename, data4);
             }
+            break;
+            case "Event":
+            foreach (Event obj in s)
+                cStr = BuildInsertEventsCommand(obj);      // helper method to build the insert string
             break;
         }       
         cmd = CreateCommand(cStr, con);             // create the command
@@ -433,6 +447,9 @@ public class DBservices
 
             case "Routes":
                 cStr = BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
+                break;
+            case "UserEvent":
+                cStr = BuildDelteUserEventCommand(data1, data2);      // helper method to build the insert string
                 break;
             
         }
@@ -807,4 +824,81 @@ public class DBservices
         return command;
     }
     #endregion
+
+    #region Events
+
+    private String BuildInsertEventsCommand(Event evt)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"([EventName]
+           ,[City]
+           ,[EventDes]
+           ,[EventType]
+           ,[EventStatus]
+           ,[EventDate])";
+        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}','{6}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, "Open", evt.EventDate);
+        command = prefix + sb.ToString();
+        return command;
+    }
+
+    public int updateRiderIneventDatabase(string eventname, string username)
+        {
+        SqlConnection con;
+        SqlCommand cmd, ;
+        
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("UsersEvents", ex.Message);
+            return 0;
+        }
+        String cStr = BuildInsertRiderEventCommand(eventname, username);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("UsersEvents", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    private String BuildInsertRiderEventCommand(string eventname, string username)
+    {
+        String command = @"([Event]
+                            ,[User])
+                               VALUES
+                        ( (Select Event From [Events] Where EventName = '" + eventname + @"' )   
+                       ,(Select [User] From [Users] Where UserDes = '" + username + @"') ";
+
+        return command;
+    }
+    private String BuildDelteUserEventCommand(string username)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        String prefix = @"  DELETE FROM [UsersEvents] Where [USER] in ( Select [User] From Users Where UserDes = '" + username + @"' );";
+        command = prefix;
+        return command;
+    }
+#endregion
+    
 }
