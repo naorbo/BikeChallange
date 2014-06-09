@@ -504,11 +504,11 @@ app.controller('aboutController', function ($scope) {
 // ####################################################################################################################################################### // 
 
 
-app.controller('homeController', function ($scope,authFactory) {
+app.controller('homeController', function ($rootScope, $scope, authFactory,AUTH_EVENTS) {
     
     $scope.isActiveCol = [false, false, false, false, false, false, false];
     $contentLoader = false;
-    
+   
     function numberWithCommas(n) {
         var parts = n.toString().split(".");
         return parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ",") + (parts[1] ? "." + parts[1] : "");
@@ -530,7 +530,18 @@ app.controller('homeController', function ($scope,authFactory) {
             $scope.contentLoader = true;
         })
         
-    
+        $scope.failMSG = "שם משתמש או סיסמא שגויה, נסה שנית"
+        $scope.failFlag = false;
+        $scope.signIn = function () {
+            authFactory.login($scope.loginDetails.userName, $scope.loginDetails.password).then(function () {
+                $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+                console.log("Event BC - user logged ");
+            }, function () {
+                $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+                console.log("Event BC - bad login ");
+                $scope.failFlag = true;
+            });
+        }
         
    
 });
@@ -1059,8 +1070,8 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                  });
 
     // Get Global Ranking (Current Challenge)
-    var challengeDate = new Date();
-    var parsedDay = (challengeDate.getDay()).toString() ;
+    var challengeDate = new Date($scope.calYear,$scope.calMonth,1);
+    var parsedDay = (challengeDate.getDate()).toString() ;
     if (parsedDay < 10) {parsedDay = ("0").concat(parsedDay)}
     var parsedMonth = (challengeDate.getMonth() + 1).toString();
     if (parsedMonth < 10) { parsedMonth = ("0").concat(parsedMonth) }
@@ -1116,7 +1127,7 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
     console.log("Inside myTeam View");
     //Fetch team data 
     $scope.userDetails = $rootScope.userPersonalInfo;
-    $scope.myGroupName = $scope.userDetails.GroupName;
+    $scope.myGroupName = $scope.userDetails.GroupDes;
     dataFactory.getValues('Rider', true, "grpname=" + $scope.userDetails.GroupName + "&orgname=" + $scope.userDetails.OrganizationName)
                 .success(function (values) {
                     $scope.teamData = values;
@@ -1183,10 +1194,12 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
         if (arg == -1) {
             $scope.calMonth = $scope.calMonth - 1;
             $scope.refreshCal = !$scope.refreshCal;
+           
         }
         else if (arg == 1) {
             $scope.calMonth = $scope.calMonth + 1;
             $scope.refreshCal = !$scope.refreshCal;
+           
         }
 
         else {
@@ -1194,6 +1207,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
             var tmp = new Date();
             $scope.calMonth = tmp.getMonth();
             $scope.refreshCal = !$scope.refreshCal;
+           
 
         }
 
@@ -1268,9 +1282,9 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                  .error(function (error) {
                      console.log("error");
                  });
-        // Get Global Ranking (Current Challenge)
+        // Initialization - Get Global Ranking (Current Challenge)
         var challengeDate = new Date();
-        var parsedDay = (challengeDate.getDay()).toString();
+        var parsedDay = (challengeDate.getDate()).toString();
         if (parsedDay < 10) { parsedDay = ("0").concat(parsedDay) }
         var parsedMonth = (challengeDate.getMonth() + 1).toString();
         if (parsedMonth < 10) { parsedMonth = ("0").concat(parsedMonth) }
@@ -1304,6 +1318,8 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                      .error(function (error) {
                          console.log("error");
                      });
+        
+
 
     }
     
@@ -1364,24 +1380,34 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
             roundtrip: selectedRoute.roundTrip
         }
         
-        var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
-       
-        // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
-       
-        dataFactory.postValues('Rides', newRide, true, dataString)
-                        .success(function (response) {
-                            x = x.concat("#").concat(newRide.ridedate);
-                            $(x).popover("hide");
-                            $(x).addClass("cal-highlight");
-                            $scope.flipRideFlag();
-                            $scope.calDates = $scope.getRidesPerMonth()
-                            
-                        })
-                          
-                        .error(function (response) {
-                            console.log("error");
-                        });
+        var tempDate = new Date(); 
+        var tempStart = new Date(tempDate.getFullYear(), tempDate.getMonth(), 1)
+        var myRideDate = new Date(newRide.ridedate);
+        
+        if (myRideDate <= tempDate && myRideDate >= tempStart) {
 
+
+            var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
+
+            // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+
+            dataFactory.postValues('Rides', newRide, true, dataString)
+                            .success(function (response) {
+                                x = x.concat("#").concat(newRide.ridedate);
+                                $(x).popover("hide");
+                                $(x).addClass("cal-highlight");
+                                $scope.flipRideFlag();
+                                $scope.calDates = $scope.getRidesPerMonth()
+
+                            })
+
+                            .error(function (response) {
+                                console.log("error");
+                            });
+        }
+        else {
+            alert('דיווח נסיעה יכול להתבצע רק בחודש התחרות הפעיל');
+        }
 
     }
 
@@ -1402,6 +1428,11 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.flipAddNewRouteFlag = function () { $scope.addNewRouteFlag = !$scope.addNewRouteFlag };
     $scope.addNewSRideFlag = false;
     $scope.flipAddNewSRideFlag = function () { $scope.addNewSRideFlag = !$scope.addNewSRideFlag };
+
+    $scope.addNewRRideFlag = false;
+    $scope.flipAddNewRRideFlag = function () { $scope.addNewRRideFlag = !$scope.addNewRRideFlag };
+
+    
     $scope.userStatsFlag = false;
     $scope.flipUserStatsFlag = function () {
         $scope.userStatsFlag = !$scope.userStatsFlag;
@@ -1791,33 +1822,82 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
     // Add a spontanues ride 
     $scope.addNewSpontanicRide = function (newRide) {
-        var newSRide = {
-            UserName: $rootScope.userPersonalInfo.UserName,
-            RideType: newRide.type,
-            RideLength: newRide.lenght,
-            RideSource: newRide.source,
-            RideDate: newRide.date,
-            RideDestination: newRide.destination
+
+        var tempDate = new Date();
+        var tempStart = new Date(tempDate.getFullYear(), tempDate.getMonth(), 1)
+        var myRideDate = new Date(newRide.date);
+
+        if (myRideDate <= tempDate && myRideDate >= tempStart) {
+
+            var newSRide = {
+                UserName: $rootScope.userPersonalInfo.UserName,
+                RideType: newRide.type,
+                RideLength: newRide.lenght,
+                RideSource: newRide.source,
+                RideDate: newRide.date,
+                RideDestination: newRide.destination
+            }
+            dataFactory.postValues('Rides', newSRide, false)
+                                    .success(function (response) {
+                                        $scope.addNewSRideFlag = false;
+                                        $scope.getHistory();
+                                        console.log(response);
+                                        $("#" + newRide.date).addClass("cal-highlight");
+                                    })
+                                    .error(function (response) {
+                                        console.log("error");
+                                    });
         }
-        dataFactory.postValues('Rides', newSRide, false)
-                                .success(function (response) {
-                                    $scope.addNewSRideFlag = false;
-                                    $scope.getHistory();
-                                    console.log(response);
-                                    $("#" + newRide.date).addClass("cal-highlight");
-                                })
-                                .error(function (response) {
-                                    console.log("error");
-                                });
+        else {
+            alert('דיווח נסיעה יכול להתבצע רק בחודש התחרות הפעיל');
+        }
     }
 
-    
+
+
+    // Add a ride from menu's route
+
+    $scope.addNewRRideMenu = function (newRide) {
+        var newRide = {
+            username: $rootScope.userPersonalInfo.UserName,
+            routename: newRide.routeName.RouteName,
+            ridedate: newRide.date,
+            roundtrip: newRide.roundTrip
+        }
+
+        var tempDate = new Date();
+        var tempStart = new Date(tempDate.getFullYear(), tempDate.getMonth(), 1)
+        var myRideDate = new Date(newRide.ridedate);
+
+        if (myRideDate <= tempDate && myRideDate >= tempStart) {
+
+
+            var dataString = "username=" + newRide.username + '&routename=' + newRide.routename + "&ridedate=" + newRide.ridedate + "&roundtrip=" + newRide.roundtrip;
+
+            // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+
+            dataFactory.postValues('Rides', newRide, true, dataString)
+                            .success(function (response) {
+                                $scope.addNewRRideFlag = false;
+                                $scope.getHistory();
+                                console.log(response);
+                                $("#" + newRide.date).addClass("cal-highlight");
+                            })
+                                    .error(function (response) {
+                                        console.log("error");
+                                    });
+        }
+        else {
+            alert('דיווח נסיעה יכול להתבצע רק בחודש התחרות הפעיל');
+        }
+
+    }
+ 
     // Bike Challnege rating controller 
 
     // Display Month holder 
     var monthNames = ['ינואר', 'פברואר', 'מרץ', 'אפריל', 'מאי', 'יוני', 'יולי', 'אוגוסט', 'ספטמבר', 'אוקטובר', 'נובמבר', 'דצמבר'];
-    var bcDate = new Date();
-    $scope.displayMonth = monthNames[bcDate.getMonth()];
+    $scope.displayMonth = monthNames[$scope.calMonth];
 
 
 

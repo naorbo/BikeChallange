@@ -615,7 +615,9 @@
     <Content Include="sources\images\1600x1200.jpg" />
     <Content Include="sources\images\800x600.jpg" />
     <Content Include="sources\images\bc_cover.jpg" />
+    <Content Include="sources\images\bc_cover_trans.png" />
     <Content Include="sources\images\biketoworkman_web.jpg" />
+    <Content Include="sources\images\brushed_%402X.png" />
     <Content Include="sources\images\social-icons.png" />
     <Content Include="sources\images\socialIcons\fb_black.png" />
     <Content Include="sources\images\socialIcons\fb_color.png" />

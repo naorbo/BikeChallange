@@ -202,7 +202,7 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
           monthLength = daysInMonth(firstDay),
           heading = formatDateHeading(firstDay);
 
-        if (!dates || !dates.length) { dates = [currentDate.getDate()] };
+       // if (!dates || !dates.length) { dates = [currentDate.getDate()] };
 
         var tpl = [
           '<div class="cal">',
@@ -226,10 +226,12 @@ app.directive('calendar', ['$compile', function ($compile, $watch, $scope, attrs
                     if (day < 10) { dayZeroPrefix = "0" };
                     if (month < 10) { monthZeroPrefix = "0" };
                     if (parseInt(currentDate.getDate()) == day && parseInt(currentDate.getMonth()) == month) {
-                        row.push('<div  data-close-popovers class="cal-highlight-today closepopper" data-daily-sum   id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">'); // cal-day class attrb was removed ** 
-                    };
-                    if (dates.indexOf(day) != -1) row.push('<div  data-close-popovers class="cal-day cal-highlight closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
-                    if (dates.indexOf(day) == -1) row.push('<div  data-close-popovers  class="cal-day closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
+                        row.push('<div  data-close-popovers class="cal-highlight-today cal-day closepopper" data-daily-sum   id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">'); // cal-day class attrb was removed ** 
+                    }
+                    else if  
+                    (dates.indexOf(day) != -1) { row.push('<div  data-close-popovers class="cal-day cal-highlight closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');}
+                    else if (dates.indexOf(day) == -1) {row.push('<div  data-close-popovers  class="cal-day closepopper" data-daily-sum  id="' + year + '-' + monthZeroPrefix + '' + (month + 1) + '-' + dayZeroPrefix + '' + day + '">');
+                    }
                     row.push(day + '</div>');
                     day++;
                     dayZeroPrefix = "";
@@ -302,7 +304,7 @@ app.directive('dailySum', function ($compile, $templateCache) {
 
             popOverContent = $compile(popOverContent)(scope);
             var options = {
-                title: '<button class="btn close pull-left"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div class="pull-right">  ' + attrs.id + '  -  סיכום יומי </div> ',
+                title: '<button class="btn close pull-left"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><span class="pull-right">  ' + attrs.id + '  -  סיכום יומי </span> ',
                 //title: '<button class="btn close pull-left"  id="close" onclick="angular.element(&quot;#' + attrs.id + '&quot;).popover(&quot;hide&quot;)">&times;</button><div class="pull-right" ng-model=' + attrs.id + '>  ' + attrs.id + '  -  סיכום יומי </div> ',
                 content: popOverContent,
                 placement: "right",

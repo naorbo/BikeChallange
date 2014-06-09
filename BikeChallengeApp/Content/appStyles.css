@@ -2,14 +2,16 @@
 /* ***** Sticky footer styles ***
 *********************************/
 
-
+@import url(http://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
 
 html,
 body {
   height: 100%;
-  
+  font-family: 'Open Sans Hebrew', serif;
+  background-image:url(../sources/images/brushed_@2x.png); background-repeat:repeat
   /* The html and body elements cannot have any padding or margin. */
 }
+
 
 
 .nav, .pagination, .carousel, .panel-title a { cursor: pointer; }
@@ -49,17 +51,24 @@ a.footer-link:hover {
 }
 
 /* nav bar hoover color */
+ .navbar-inverse .navbar-nav > li  {
+            
+            font-weight:bold;
+        }
+
  .navbar-inverse .navbar-nav > li > a:hover {
             color: #ff6a00;
+            font-weight:bold;
         }
  .navbar-inverse .navbar-brand:hover {
 color: #ff6a00;
+font-weight:bold;
 }
 /****************************************************************************/        
 /* *********************** Home Page ***************************/
 /****************************************************************************/
 
-.jumbotron {
+        .jumbotron {
             height: 350px;
             color: white;
             text-shadow: #444 0 3px 3px;
@@ -208,6 +217,7 @@ color: #ff6a00;
 		  padding: 30px;
 		  cursor: pointer;
 		  border: 1px solid transparent;
+          background-color:white;
 		}
 		div.cal div.cal-highlight {
 		  background-color: #AAA;
@@ -223,6 +233,7 @@ color: #ff6a00;
 		}
 		div.cal div.cal-day:hover {
 		  border: 1px solid #111;
+          background-color:#689DF2;
 		}
 
         /* Cal Widget - Daily Summary */

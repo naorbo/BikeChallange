@@ -12,6 +12,7 @@
     <link href="Content/appStyles.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
     <!--<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">-->
+    
     <style>
     </style>
 
@@ -26,7 +27,7 @@
     <div class="nav navbar-inverse navbar-fixed-top">
 
         <div >
-            <a href="#" class="navbar-brand" title="07062014-2">Bike Challenge</a>
+            <a href="#" class="navbar-brand" title="09062014-5">Bike Challenge</a>
 
             <!-- Nav Bar Responsive Icon Stack-->
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
@@ -53,13 +54,13 @@
                 
                 <ul ng-if="currentUser" class="nav navbar-nav pull-left">
                     <li class="dropdown">
-                        <a class="dropdown-toggle" data-toggle="dropdown">{{ currentUser }}<b class="caret"></b></a>
+                        <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;<span>{{ currentUser }}</span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li ng-if="currentUser"><a href="#userProfile">פרופיל אישי</a></li>
+                            <li ng-if="currentUser"><a href="#userProfile"><i class="fa fa-info"></i>&nbsp;&nbsp;<span>פרופיל אישי</span></a></li>
                             <li class="divider"></li>
-                            <li ng-if="currentUser"><a href="#updateProfile">עדכון פרטים</a></li>
+                            <li ng-if="currentUser"><a href="#updateProfile"><i class="fa fa-edit"></i>&nbsp;&nbsp;<span>עדכון פרטים</span></a></li>
                             <li class="divider"></li>
-                            <li><a ng-if="currentUser" ng-click="signOut()">התנתק</a></li>
+                            <li><a ng-if="currentUser" ng-click="signOut()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;<span>התנתק</span></a></li>
 
                         </ul>
                 </ul>
