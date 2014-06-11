@@ -944,6 +944,61 @@ public class DBservices
 
     #region Events
 
+    // Update An Existing Rider
+    public int updateEventInDatabase(Event evt, string eventname)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Events", ex.Message);
+            return 0;
+        }
+        String cStr = BuildUpdateEventCommand(evt, eventname);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Events", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    private String BuildUpdateEventCommand(Event evt, string eventname)
+    {
+        
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"UPDATE [Events]
+                           SET [City] = " + (evt.City != "" ? " (select city from Cities where CityName = '" + evt.City + "' )" : "[City]") + @"
+                              ,[EventDes] = " + (evt.EventDes != "" ? "'" + evt.EventDes + "'" : "[EventDes]") + @"
+                              ,[EventType] = " + (evt.EventType != "" ? "'" + evt.EventType + "'" : "[EventType]") + @"
+                              ,[EventStatus] = " + (evt.EventStatus != "" ? "'" + evt.EventStatus + "'" : "[EventStatus]") + @"
+                              ,[EventDate] = " + (evt.EventDate != "" ? "'" + evt.EventDate + "'" : "[EventDate]") + @"
+                         WHERE [EventDes] = '" + eventname +"' ";
+        return command;
+    }
+
     private String BuildInsertEventsCommand(Event evt)
     {
         String command;
@@ -955,7 +1010,7 @@ public class DBservices
            ,[EventType]
            ,[EventStatus]
            ,[EventDate])";
-        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, "Open", evt.EventDate);
+        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, evt.EventStatus, evt.EventDate);
         command = prefix + sb.ToString();
         return command;
     }

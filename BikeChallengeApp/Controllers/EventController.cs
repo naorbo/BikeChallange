@@ -78,7 +78,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // DELETE User From Event 
-        // api/Event?usernme
+        // api/Event?usernme=
         public string Delete(string username)
         {
             int return_val = 0;
@@ -102,8 +102,8 @@ namespace BikeChallengeApp.Controllers
         }
 
         // DELETE Event 
-        // api/Event?eventname
-        public string Delete(string eventname)
+        // api/Event?eventname=
+        public string DeleteEvent(string eventname)
         {
             int return_val = 0;
             LogFiles lf = new LogFiles();
@@ -121,6 +121,27 @@ namespace BikeChallengeApp.Controllers
             }
             Response = "The Event " + eventname + " was Deleted from the Event";
             lf.Main("UserEvent", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
+        // PUT api/Event?eventname=
+        // {"EventName":"", "City":"","EventType":"", "EventDate":"","EventStatus":""}
+        public string Put(string eventname, [FromBody]Event evt)
+        {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
+            try
+            {
+                return_val = dbs.updateEventInDatabase(evt, eventname);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error while trying to Update the Event " + eventname + " to the database " + ex.Message);
+                lf.Main("Events", Response);
+                return "Error";
+            }
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
