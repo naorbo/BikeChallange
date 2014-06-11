@@ -125,3 +125,20 @@ Invalid column name 'EventCity'.
 23:22:22 : Conversion failed when converting date and/or time from character string.
 23:22:22 : Conversion failed when converting date and/or time from character string.
 23:22:22 : Conversion failed when converting date and/or time from character string.
+20:47:41 : Cannot find table 1.
+20:50:41 : Incorrect syntax near ';'.
+21:36:39 : Unable to cast object of type 'System.Data.DataRow' to type 'System.IConvertible'.Couldn't store <System.Data.DataRow> in NumOfUsers Column.  Expected type is Int32.
+21:37:47 : Unable to cast object of type 'System.Data.DataRow' to type 'System.IConvertible'.Couldn't store <System.Data.DataRow> in NumOfUsers Column.  Expected type is Int32.
+21:39:30 : Unable to cast object of type 'System.Data.DataRow' to type 'System.IConvertible'.Couldn't store <System.Data.DataRow> in NumOfUsers Column.  Expected type is Int32.
+21:45:50 : Column 'NumOfRidess' does not belong to table Table.
+21:58:36 : This row already belongs to another table.
+21:59:06 : Column 'NumOfUsers' does not belong to table .
+22:20:09 : Object reference not set to an instance of an object.
+22:23:47 : Object reference not set to an instance of an object.
+18:58:50 : Conversion failed when converting date and/or time from character string.
+18:59:02 : Conversion failed when converting date and/or time from character string.
+20:46:33 : Cannot find table 1.
+20:48:55 : Cannot find table 0.
+21:41:39 : Conversion failed when converting date and/or time from character string.
+21:41:39 : Conversion failed when converting date and/or time from character string.
+21:41:49 : Conversion failed when converting date and/or time from character string.

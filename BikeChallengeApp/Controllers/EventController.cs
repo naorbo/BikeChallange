@@ -28,6 +28,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // GET api/event
+        // get all of the events
         public DataTable Get()
         {
             dbs = dbs.ReadFromDataBase(26);
@@ -35,6 +36,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST api/Event
+        // insert new event
         // {"EventName":"", "City":"","EventType":"", "EventDate":""}
         public string updateDB([FromBody]Event evt)
         {
@@ -54,7 +56,8 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        // POST insert rider into an event api/Event?eventname=&username&
+        // POST insert rider into an event 
+        // api/Event?eventname=&username&
         public string RiderInEvent(string eventname, string username)
         {
             int return_val = 0;
@@ -74,7 +77,8 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        // DELETE User From Event api/Event?usernme
+        // DELETE User From Event 
+        // api/Event?usernme
         public string Delete(string username)
         {
             int return_val = 0;
@@ -92,6 +96,30 @@ namespace BikeChallengeApp.Controllers
                 return "Error";
             }
             Response = "The Rider " + username + " was Deleted from the Event";
+            lf.Main("UserEvent", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
+        // DELETE Event 
+        // api/Event?eventname
+        public string Delete(string eventname)
+        {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
+            string Response = "";
+            try
+            {
+                return_val = dbs.DeleteDatabase("Event", eventname);
+            }
+            catch (Exception ex)
+            {
+                Response = ("Error in the Delete process the Event from an event database " + ex.Message);
+                lf.Main("UserEvent", Response);
+                return "Error";
+            }
+            Response = "The Event " + eventname + " was Deleted from the Event";
             lf.Main("UserEvent", Response);
             if (return_val == 0) { return "Error"; }
             return "Success";
