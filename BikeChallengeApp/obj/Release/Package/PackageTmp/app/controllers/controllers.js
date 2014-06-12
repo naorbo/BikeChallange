@@ -4,15 +4,20 @@
 // ####################################################################################################################################################### // 
 // #########################################                workController               ################################################################ // 
 // ####################################################################################################################################################### // 
-app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
+    dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
+                    .success(function (values) {
+                        $scope.personalInfoHolder = values[0];
+                        $scope.personalInfoHolder.ImagePath = $scope.personalInfoHolder.ImagePath.substr(1);
+                    });
 
 
 });
 // ####################################################################################################################################################### // 
 // #########################################                contactUsController               ################################################################ // 
 // ####################################################################################################################################################### // 
-app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
 
 
@@ -23,7 +28,7 @@ app.controller('contactUsController', function ($rootScope, $scope, $http, $time
 
 
 
-app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
     
 
@@ -331,7 +336,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/UserImage?UserName=" + $scope.personalInfoHolder.UserName, // webapi url
+                    url: serverBaseUrl +  "/api/UserImage?UserName=" + $scope.personalInfoHolder.UserName, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -396,7 +401,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -461,10 +466,6 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
 
 });
 
-
-
-
-
 // ####################################################################################################################################################### // 
 // #########################################                bikeChallengeController               ################################################################ // 
 // ####################################################################################################################################################### // 
@@ -486,13 +487,9 @@ app.controller('bikeChallengeController', function ($scope) {
     };
 });
 
-
-
 // ####################################################################################################################################################### // 
 // #########################################                aboutController               ################################################################ // 
 // ####################################################################################################################################################### // 
-
-
 
 app.controller('aboutController', function ($scope) {
 
@@ -504,7 +501,7 @@ app.controller('aboutController', function ($scope) {
 // ####################################################################################################################################################### // 
 
 
-app.controller('homeController', function ($rootScope, $scope, authFactory,AUTH_EVENTS) {
+app.controller('homeController', function ($rootScope, $scope, authFactory, AUTH_EVENTS, serverBaseUrl) {
     
     $scope.isActiveCol = [false, false, false, false, false, false, false];
     $contentLoader = false;
@@ -552,7 +549,7 @@ app.controller('homeController', function ($rootScope, $scope, authFactory,AUTH_
 
 
 
-app.controller('loginController', function ($rootScope, $scope, authFactory, AUTH_EVENTS) {
+app.controller('loginController', function ($rootScope, $scope, authFactory, AUTH_EVENTS, serverBaseUrl) {
     
     $scope.failMSG = "שם משתמש או סיסמא שגויה, נסה שנית"
     $scope.failFlag = false;
@@ -574,7 +571,7 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 
 
 
-app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS) {
+app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
@@ -776,7 +773,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
+                    url: serverBaseUrl + "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -812,7 +809,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             var $file = $files[i];
             (function (index) {
                 $scope.upload[index] = $upload.upload({
-                    url: "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
                     method: "POST",
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
@@ -891,7 +888,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
 
 
-app.controller('mainController', function ($rootScope, $location, $scope ,authFactory,dataFactory, session, AUTH_EVENTS) {
+app.controller('mainController', function ($rootScope, $location, $scope, authFactory, dataFactory, session, AUTH_EVENTS, serverBaseUrl) {
     
 
    
@@ -904,7 +901,13 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
             dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
                     .success(function (values) {
                         $scope.personalInfoHolder = values[0];
+
+                        //$scope.personalInfoHolder.ImagePath = $scope.personalInfoHolder.ImagePath.substr(1);
+
                         $rootScope.userPersonalInfo = values[0];
+
+                       // $rootScope.personalInfoHolder.ImagePath = $rootScope.personalInfoHolder.ImagePath.substr(1);
+
                         console.log("Fetch user info for " + $scope.currentUser);
                         console.log($scope.personalInfoHolder);
 
@@ -966,7 +969,7 @@ app.controller('mainController', function ($rootScope, $location, $scope ,authFa
 
 //User Profile - Get Data 
 
-app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory) {
+app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory, serverBaseUrl) {
     
     console.log($scope.currentUser);
     $scope.userGroupInfo = $rootScope.userGroup;
@@ -1122,7 +1125,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 // #########################################               myTeamController               ########################################################### // 
 // ####################################################################################################################################################### // 
 
-app.controller('myTeamController', function ($rootScope, $scope,dataFactory, authFactory, AUTH_EVENTS) {
+app.controller('myTeamController', function ($rootScope, $scope, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
     console.log("Inside myTeam View");
     //Fetch team data 
@@ -1142,7 +1145,7 @@ app.controller('myTeamController', function ($rootScope, $scope,dataFactory, aut
 // ####################################################################################################################################################### // 
 
 
-app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS) {
+app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS, serverBaseUrl) {
     console.log("Inside dashboard View");
       
     

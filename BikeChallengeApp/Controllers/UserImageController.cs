@@ -52,7 +52,7 @@ namespace BikeChallengeApp.Controllers
             // Through the request response you can return an object to the Angular controller
             // You will be able to access this in the .success callback through its data attribute
             // If you want to send something to the .error callback, use the HttpStatusCode.BadRequest instead
-            var returnData = "\\ProfileImages\\Users\\" + UserName + suffix;
+            var returnData = "ProfileImages\\Users\\" + UserName + suffix;
             return this.Request.CreateResponse(HttpStatusCode.OK, new { returnData });
         }
 

@@ -2,10 +2,10 @@
 // ********************************************************* //
 
 
-app.factory('dataFactory', function ($rootScope,  $http, session) {
+app.factory('dataFactory', function ($rootScope, $http, session, serverBaseUrl) {
 
     var dataFactory = {};
-
+    //var serverBaseUrl = 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/'
 
 // ############# GET ############################## // 
 // ################################################ // 
@@ -16,7 +16,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
             if (!parFlag) {
                 return $http({
                     method: 'GET',
-                    url: '/api/' + urlPath,
+                    url: serverBaseUrl + '/api/' + urlPath,
                     headers: { 'Authorization': 'Bearer ' + session.id },
                 });
             }
@@ -24,7 +24,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
                 console.log("In Flag");
                 return $http({
                     method: 'GET',
-                    url: '/api/' + urlPath+ '?' + par,
+                    url: serverBaseUrl + '/api/' + urlPath + '?' + par,
                     headers: { 'Authorization': 'Bearer ' + session.id },
                 });
 
@@ -39,7 +39,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
         if (!parFlag){
         return $http({
             method: 'POST',
-            url: '/api/' + urlPath,
+            url: serverBaseUrl + '/api/' + urlPath,
             headers: { 'Authorization': 'Bearer ' + session.id },
             data: dataObj
         });
@@ -47,7 +47,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
         else {
             return $http({
                 method: 'POST',
-                url: '/api/' + urlPath + "?" + par,
+                url: serverBaseUrl + '/api/' + urlPath + "?" + par,
                 headers: { 'Authorization': 'Bearer ' + session.id },
             });
         }
@@ -71,7 +71,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
         if (!parFlag) {
             return $http({
                 method: 'PUT',
-                url: '/api/' + urlPath,
+                url: serverBaseUrl + '/api/' + urlPath,
                 headers: { 'Authorization': 'Bearer ' + session.id },
                 data: dataObj
             });
@@ -79,7 +79,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
         else {
             return $http({
                 method: 'PUT',
-                url: '/api/' + urlPath + "?" + par,
+                url: serverBaseUrl + '/api/' + urlPath + "?" + par,
                 headers: { 'Authorization': 'Bearer ' + session.id },
                 data: dataObj
             });
@@ -92,7 +92,7 @@ app.factory('dataFactory', function ($rootScope,  $http, session) {
     dataFactory.deleteValues = function (urlPath, par) {
         return $http({
             method: 'DELETE',
-            url: '/api/' + urlPath + '?' + par,
+            url: serverBaseUrl + '/api/' + urlPath + '?' + par,
             headers: { 'Authorization': 'Bearer ' + session.id },
             
         });

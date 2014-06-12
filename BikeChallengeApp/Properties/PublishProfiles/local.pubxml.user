@@ -1,0 +1,1339 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+This file is used by the publish/package process of your Web project. You can customize the behavior of this process
+by editing this MSBuild file. In order to learn more about this please visit http://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>c:\Published\</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <File Include="app/app.js">
+      <publishTime>06/11/2014 23:43:32</publishTime>
+    </File>
+    <File Include="app/controllers/controllers.js">
+      <publishTime>06/12/2014 21:36:37</publishTime>
+    </File>
+    <File Include="app/directives/directives.js">
+      <publishTime>06/09/2014 00:14:01</publishTime>
+    </File>
+    <File Include="app/partials/about.html">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="app/partials/bikeChallenge.html">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="app/partials/contactUs.html">
+      <publishTime>06/07/2014 16:03:14</publishTime>
+    </File>
+    <File Include="app/partials/dashboard.html">
+      <publishTime>06/09/2014 00:14:01</publishTime>
+    </File>
+    <File Include="app/partials/home.html">
+      <publishTime>06/12/2014 21:02:39</publishTime>
+    </File>
+    <File Include="app/partials/logIn.html">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="app/partials/myTeam.html">
+      <publishTime>06/06/2014 02:34:43</publishTime>
+    </File>
+    <File Include="app/partials/sponsers.html">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
+    <File Include="app/partials/updateProfile.html">
+      <publishTime>06/07/2014 22:35:17</publishTime>
+    </File>
+    <File Include="app/partials/userProfile.html">
+      <publishTime>06/12/2014 21:31:37</publishTime>
+    </File>
+    <File Include="app/partials/userRegistration.html">
+      <publishTime>06/06/2014 02:34:44</publishTime>
+    </File>
+    <File Include="app/partials/work.html">
+      <publishTime>06/12/2014 21:33:57</publishTime>
+    </File>
+    <File Include="app/services/appservices.js">
+      <publishTime>06/12/2014 20:36:34</publishTime>
+    </File>
+    <File Include="app/services/dataServices.js">
+      <publishTime>06/11/2014 23:46:05</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/HelpPage.css">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Api.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ApiGroup.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/HelpPageApiModel.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/ImageSample.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/InvalidSample.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Parameters.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/Samples.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/DisplayTemplates/TextSample.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Help/Index.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Shared/_Layout.cshtml">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/Web.config">
+      <publishTime>03/21/2014 20:08:25</publishTime>
+    </File>
+    <File Include="Areas/HelpPage/Views/_ViewStart.cshtml">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="bin/Antlr3.Runtime.dll">
+      <publishTime>03/21/2014 20:08:26</publishTime>
+    </File>
+    <File Include="bin/BikeChallengeApp.dll">
+      <publishTime>06/12/2014 21:49:49</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.dll">
+      <publishTime>03/21/2014 20:08:29</publishTime>
+    </File>
+    <File Include="bin/EntityFramework.SqlServer.dll">
+      <publishTime>03/21/2014 20:08:29</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
+      <publishTime>03/21/2014 20:08:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
+      <publishTime>03/21/2014 20:08:33</publishTime>
+    </File>
+    <File Include="bin/Microsoft.AspNet.Identity.Owin.dll">
+      <publishTime>03/21/2014 20:08:32</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.dll">
+      <publishTime>03/21/2014 20:08:33</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
+      <publishTime>03/21/2014 20:08:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Cookies.dll">
+      <publishTime>03/21/2014 20:08:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.dll">
+      <publishTime>03/21/2014 20:08:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
+      <publishTime>03/21/2014 20:08:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Google.dll">
+      <publishTime>03/21/2014 20:08:35</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.MicrosoftAccount.dll">
+      <publishTime>03/21/2014 20:08:36</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
+      <publishTime>03/21/2014 20:08:34</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
+      <publishTime>03/21/2014 20:08:35</publishTime>
+    </File>
+    <File Include="bin/Microsoft.Web.Infrastructure.dll">
+      <publishTime>03/21/2014 20:08:22</publishTime>
+    </File>
+    <File Include="bin/Newtonsoft.Json.dll">
+      <publishTime>03/21/2014 20:08:18</publishTime>
+    </File>
+    <File Include="bin/Owin.dll">
+      <publishTime>03/21/2014 20:08:33</publishTime>
+    </File>
+    <File Include="bin/System.Net.Http.Formatting.dll">
+      <publishTime>04/08/2014 23:21:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Cors.dll">
+      <publishTime>04/08/2014 23:21:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Helpers.dll">
+      <publishTime>03/21/2014 20:08:21</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Cors.dll">
+      <publishTime>04/08/2014 23:21:40</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.dll">
+      <publishTime>04/08/2014 23:21:39</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.Owin.dll">
+      <publishTime>03/21/2014 20:08:36</publishTime>
+    </File>
+    <File Include="bin/System.Web.Http.WebHost.dll">
+      <publishTime>03/21/2014 20:08:24</publishTime>
+    </File>
+    <File Include="bin/System.Web.Mvc.dll">
+      <publishTime>03/21/2014 20:08:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.Optimization.dll">
+      <publishTime>03/21/2014 20:08:21</publishTime>
+    </File>
+    <File Include="bin/System.Web.Razor.dll">
+      <publishTime>03/21/2014 20:08:21</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Deployment.dll">
+      <publishTime>03/21/2014 20:08:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.dll">
+      <publishTime>03/21/2014 20:08:22</publishTime>
+    </File>
+    <File Include="bin/System.Web.WebPages.Razor.dll">
+      <publishTime>03/21/2014 20:08:22</publishTime>
+    </File>
+    <File Include="bin/WebGrease.dll">
+      <publishTime>03/21/2014 20:08:27</publishTime>
+    </File>
+    <File Include="Content/all.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="Content/appStyles.css">
+      <publishTime>06/09/2014 23:19:17</publishTime>
+    </File>
+    <File Include="Content/bootstrap-rtl.css">
+      <publishTime>03/21/2014 21:04:43</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.css.map">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Content/bootstrap-theme.min.css">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
+    <File Include="Content/bootstrap.css.map">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Content/bootstrap.min.css">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Content/Site.css">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Content/xeditable.css">
+      <publishTime>05/31/2014 22:17:05</publishTime>
+    </File>
+    <File Include="favicon.ico">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.eot">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.svg">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.ttf">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="fonts/glyphicons-halflings-regular.woff">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Global.asax">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="index.html">
+      <publishTime>06/10/2014 13:24:37</publishTime>
+    </File>
+    <File Include="packages.config">
+      <publishTime>05/09/2014 17:20:15</publishTime>
+    </File>
+    <File Include="ProfileImages/Users/defaultUser/defaultUserImage.jpg">
+      <publishTime>05/25/2014 20:21:46</publishTime>
+    </File>
+    <File Include="Scripts/angular-animate.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-animate.min.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-animate.min.js.map">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-cookies.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-cookies.min.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-cookies.min.js.map">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-csp.css">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-google-maps.js">
+      <publishTime>05/03/2014 22:23:24</publishTime>
+    </File>
+    <File Include="Scripts/angular-loader.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-loader.min.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular-loader.min.js.map">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-mocks.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-resource.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-resource.min.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-resource.min.js.map">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-route.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-route.min.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-route.min.js.map">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-sanitize.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-sanitize.min.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-sanitize.min.js.map">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-scenario.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-touch.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-touch.min.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-touch.min.js.map">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/angular-ui-router.js">
+      <publishTime>04/10/2014 22:49:57</publishTime>
+    </File>
+    <File Include="Scripts/angular-ui-router.min.js">
+      <publishTime>04/10/2014 22:49:57</publishTime>
+    </File>
+    <File Include="Scripts/angular.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular.min.js">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/angular.min.js.map">
+      <publishTime>03/21/2014 21:01:35</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload-html5-shim.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload-html5-shim.min.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload-shim.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload-shim.min.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/angular-file-upload.min.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/bower.json">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/FileAPI.flash.swf">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/AngularFileUpload/FileAPI.min.js">
+      <publishTime>04/26/2014 11:41:53</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.js">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Scripts/bootstrap.min.js">
+      <publishTime>03/21/2014 21:01:46</publishTime>
+    </File>
+    <File Include="Scripts/errors.json">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_af-na.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_af-za.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_af.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_am-et.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_am.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-001.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-ae.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-bh.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-dz.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-eg.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-iq.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-jo.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-kw.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-lb.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-ly.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-ma.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-om.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-qa.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-sa.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-sd.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-sy.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-tn.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar-ye.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ar.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_bg-bg.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_bg.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_bn-bd.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_bn-in.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_bn.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ca-ad.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ca-es.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ca.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_cs-cz.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_cs.js">
+      <publishTime>03/21/2014 21:01:34</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_da-dk.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_da.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-at.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-be.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-ch.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-de.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-li.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de-lu.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_de.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_el-cy.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_el-gr.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_el.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-as.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-au.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-bb.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-be.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-bm.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-bw.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-bz.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-ca.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-dsrt-us.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-dsrt.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-fm.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-gb.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-gu.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-gy.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-hk.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-ie.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-in.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-iso.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-jm.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-mh.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-mp.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-mt.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-mu.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-na.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-nz.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-ph.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-pk.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-pr.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-pw.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-sg.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-tc.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-tt.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-um.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-us.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-vg.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-vi.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-za.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en-zw.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_en.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-419.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ar.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-bo.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-cl.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-co.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-cr.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-do.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ea.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ec.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-es.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-gq.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-gt.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-hn.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ic.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-mx.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ni.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-pa.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-pe.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-pr.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-py.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-sv.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-us.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-uy.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es-ve.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_es.js">
+      <publishTime>03/21/2014 21:01:33</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_et-ee.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_et.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_eu-es.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_eu.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fa-af.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fa-ir.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fa.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fi-fi.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fi.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fil-ph.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fil.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-be.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-bf.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-bi.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-bj.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-bl.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ca.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-cd.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-cf.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-cg.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ch.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ci.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-cm.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-dj.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-fr.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ga.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-gf.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-gn.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-gp.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-gq.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-km.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-lu.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-mc.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-mf.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-mg.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ml.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-mq.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-ne.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-re.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr-yt.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_fr.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gl-es.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gl.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gsw-ch.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gsw.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gu-in.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_gu.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_he-il.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_he.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hi-in.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hi.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hr-hr.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hr.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hu-hu.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_hu.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_id-id.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_id.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_in.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_is-is.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_is.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_it-it.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_it-sm.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_it.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_iw.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ja-jp.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ja.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_kn-in.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_kn.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ko-kr.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ko.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ln-cd.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ln.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_lt-lt.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_lt.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_lv-lv.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_lv.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ml-in.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ml.js">
+      <publishTime>03/21/2014 21:01:32</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_mr-in.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_mr.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ms-my.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ms.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_mt-mt.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_mt.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_nl-cw.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_nl-nl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_nl-sx.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_nl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_no.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_or-in.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_or.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_pl-pl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_pl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_pt-br.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_pt-pt.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_pt.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ro-ro.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ro.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ru-ru.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ru.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sk-sk.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sk.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sl-si.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sq-al.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sq.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sr-cyrl-rs.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sr-latn-rs.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sr.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sv-se.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sv.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sw-tz.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_sw.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ta-in.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ta.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_te-in.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_te.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_th-th.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_th.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_tl.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_tr-tr.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_tr.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_uk-ua.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_uk.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ur-pk.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_ur.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_vi-vn.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_vi.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zh-cn.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zh-hans-cn.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zh-hk.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zh-tw.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zh.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zu-za.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/i18n/angular-locale_zu.js">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/icheck.js">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.0.js">
+      <publishTime>03/21/2014 21:00:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.0.min.js">
+      <publishTime>03/21/2014 21:00:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery-2.1.0.min.map">
+      <publishTime>03/21/2014 21:00:54</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.js">
+      <publishTime>03/21/2014 20:08:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.min.js">
+      <publishTime>03/21/2014 20:08:37</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.js">
+      <publishTime>03/21/2014 20:08:38</publishTime>
+    </File>
+    <File Include="Scripts/jquery.validate.unobtrusive.min.js">
+      <publishTime>03/21/2014 20:08:38</publishTime>
+    </File>
+    <File Include="Scripts/modernizr-2.6.2.js">
+      <publishTime>03/21/2014 20:08:26</publishTime>
+    </File>
+    <File Include="Scripts/ng-google-chart.js">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="Scripts/respond.js">
+      <publishTime>03/21/2014 20:08:27</publishTime>
+    </File>
+    <File Include="Scripts/respond.min.js">
+      <publishTime>03/21/2014 20:08:27</publishTime>
+    </File>
+    <File Include="Scripts/ui-bootstrap-custom-tpls-0.10.0.js">
+      <publishTime>05/31/2014 17:24:11</publishTime>
+    </File>
+    <File Include="Scripts/underscore-min.js">
+      <publishTime>05/09/2014 10:10:08</publishTime>
+    </File>
+    <File Include="Scripts/version.json">
+      <publishTime>03/21/2014 21:01:31</publishTime>
+    </File>
+    <File Include="Scripts/_references.js">
+      <publishTime>06/04/2014 23:21:06</publishTime>
+    </File>
+    <File Include="skins/square/aero%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/aero.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/aero.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/blue%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/blue.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/blue.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/green%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/green.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/green.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/grey%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/grey.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/grey.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/orange%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/orange.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/orange.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/pink%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/pink.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/pink.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/purple%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/purple.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/purple.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/red%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/red.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/red.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/square%402x.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/square.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/square.png">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/Thumbs.db">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="skins/square/yellow%402x.png">
+      <publishTime>04/21/2014 09:48:01</publishTime>
+    </File>
+    <File Include="skins/square/yellow.css">
+      <publishTime>04/21/2014 09:48:01</publishTime>
+    </File>
+    <File Include="skins/square/yellow.png">
+      <publishTime>04/21/2014 09:48:01</publishTime>
+    </File>
+    <File Include="skins/square/_all.css">
+      <publishTime>04/21/2014 09:48:00</publishTime>
+    </File>
+    <File Include="sources/images/1024x768.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/1280x1024.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/1600x1200.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/800x600.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/bc_cover.jpg">
+      <publishTime>04/13/2014 22:32:32</publishTime>
+    </File>
+    <File Include="sources/images/bc_cover_trans.png">
+      <publishTime>06/09/2014 23:15:48</publishTime>
+    </File>
+    <File Include="sources/images/biketoworkman_web.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="sources/images/brushed_%402X.png">
+      <publishTime>06/09/2014 22:15:17</publishTime>
+    </File>
+    <File Include="sources/images/social-icons.png">
+      <publishTime>05/17/2014 12:23:06</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/fb_black.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/fb_color.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/gplus_black.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/gplus_color.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/mail_black.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/mail_color.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/yt_black.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/socialIcons/yt_color.png">
+      <publishTime>05/23/2014 19:27:01</publishTime>
+    </File>
+    <File Include="sources/images/test.jpg">
+      <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="Views/Home/Index.cshtml">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Views/Shared/Error.cshtml">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Views/Shared/_Layout.cshtml">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Views/Web.config">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Views/_ViewStart.cshtml">
+      <publishTime>03/21/2014 20:08:16</publishTime>
+    </File>
+    <File Include="Web.config">
+      <publishTime>06/11/2014 20:50:09</publishTime>
+    </File>
+  </ItemGroup>
+</Project>

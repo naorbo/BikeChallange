@@ -125,3 +125,16 @@ Invalid column name 'EventCity'.
 23:22:22 : Conversion failed when converting date and/or time from character string.
 23:22:22 : Conversion failed when converting date and/or time from character string.
 23:22:22 : Conversion failed when converting date and/or time from character string.
+20:56:19 : Conversion failed when converting date and/or time from character string.
+20:56:19 : Conversion failed when converting date and/or time from character string.
+20:56:19 : Conversion failed when converting date and/or time from character string.
+22:39:16 : Conversion failed when converting date and/or time from character string.
+22:39:17 : Conversion failed when converting date and/or time from character string.
+22:39:17 : Conversion failed when converting date and/or time from character string.
+23:07:53 : Conversion failed when converting date and/or time from character string.
+23:07:53 : Conversion failed when converting date and/or time from character string.
+23:07:53 : Conversion failed when converting date and/or time from character string.
+23:32:31 : Conversion failed when converting date and/or time from character string.
+23:32:31 : Conversion failed when converting date and/or time from character string.
+23:32:31 : Conversion failed when converting date and/or time from character string.
+22:33:27 : A network-related or instance-specific error occurred while establishing a connection to SQL Server. The server was not found or was not accessible. Verify that the instance name is correct and that SQL Server is configured to allow remote connections. (provider: Named Pipes Provider, error: 40 - Could not open a connection to SQL Server)

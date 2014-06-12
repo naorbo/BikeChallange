@@ -1,13 +1,12 @@
 ﻿// Authentication services (signin, signout, signup, logout) 
 // ********************************************************* //
-app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS, httpBuffer) {
+app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS, serverBaseUrl, httpBuffer) {
 
     var service = {};
     service.loginToken = {};
     var currentSession = {};
 
-   
-
+    //var serverBaseUrl = 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/'
     service.getAccessToken = function () {
         return loginToken.access_token;
     };
@@ -16,7 +15,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
         var deferred = $q.defer();
         $http({
             method: 'GET',
-            url: 'api/Data',
+            url: serverBaseUrl + '/api/Data',
         })
             .success(function (response) {
                 console.log(response)
@@ -38,7 +37,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
 
         $http({
             method: 'POST',
-            url: '/Token',
+            url: serverBaseUrl + '/Token',
             headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
             data: $.param(loginData)
         })
@@ -67,7 +66,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
         console.log("out..");
         $http({
             method: 'POST',
-            url: '/api/Account/Logout',
+            url: serverBaseUrl + '/api/Account/Logout',
             headers: { 'Authorization': 'Bearer ' + this.loginToken.access_token },
         })
             .success(function (response) {
@@ -90,7 +89,7 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
         var deferred = $q.defer();
         $http({
             method: 'POST',
-            url: '/api/Account/Register',
+            url: serverBaseUrl + '/api/Account/Register',
             headers: { 'Content-Type': 'application/json; charset=utf-8' },
             data: 
                 {

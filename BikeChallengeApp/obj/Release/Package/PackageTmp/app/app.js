@@ -103,6 +103,8 @@ app.constant('AUTH_EVENTS', {
     notAuthorized: 'auth-not-authorized'
 });
 
+app.value('serverBaseUrl', 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge');
+
 
 
 // Handles 401 Repsonse - Not authorized requests 

@@ -259,56 +259,23 @@ font-weight:bold;
 /****************************************************************************/        
 /* *********************** Social Icons Styles ***************************/
 /****************************************************************************/
-        
-        
-        .facebook {
-            border:none;
-
-        }
-
-        #fb {
-            height: 26px;
-            width: 26px;
-            content: url('../sources/images/socialIcons/fb_black.png');
-            border-image:none;
-            border:0;
-}
-
+      
         #fb:hover {
-            content: url('../sources/images/socialIcons/fb_color.png');
-            border-image:none;
-            border:0;
+            color:#4C66A4
+          
         }
 
-        #gp {
-            height: 26px;
-            width: 26px;
-            content: url('../sources/images/socialIcons/gplus_black.png');
-            border-image:none;
-}
-
+      
         #gp:hover {
-            content: url('../sources/images/socialIcons/gplus_color.png');
+          color:#fa1919
         }
-        
-        #yt {
-            height: 26px;
-            width: 26px;
-            content: url('../sources/images/socialIcons/yt_black.png');
-}
-
+      
         #yt:hover {
-            content: url('../sources/images/socialIcons/yt_color.png');
+           color:#ff0000
         }
-
-        #mail {
-            height: 26px;
-            width: 26px;
-            content: url('../sources/images/socialIcons/mail_black.png');
-}
 
         #mail:hover {
-            content: url('../sources/images/socialIcons/mail_color.png');
+            color:#999999
         }
 
       
