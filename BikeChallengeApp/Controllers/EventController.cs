@@ -15,31 +15,42 @@ using System.Web;
 namespace BikeChallengeApp.Controllers
 {
     public class EventController : ApiController
-    {
-        int return_val = 0;
-        LogFiles lf = new LogFiles();
-        DBservices dbs = new DBservices();
+    {   
 
         // GET api/event?username=[The name of the organization]
         public DataTable Get(string username)
         {
-            dbs = dbs.ReadFromDataBase(25, username);
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(20, username);
             return dbs.dt;
         }
 
-        // GET api/event
+        // GET api/event/GetEvents
         // get all of the events
-        public DataTable Get()
+        public DataTable GetEvents()
         {
-            dbs = dbs.ReadFromDataBase(26);
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(21);
+            return dbs.dt;
+        }
+
+        // GET api/event/GetUsers?eventname
+        // get all of users from a specific event
+        public DataTable GetUsers(string eventname)
+        {
+            DBservices dbs = new DBservices();
+            dbs = dbs.ReadFromDataBase(22, eventname);
             return dbs.dt;
         }
 
         // POST api/Event
         // insert new event
-        // {"EventName":"", "City":"","EventType":"", "EventDate":""}
+        // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":""}
         public string updateDB([FromBody]Event evt)
         {
+            DBservices dbs = new DBservices();
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
             List<Object> mlist = new List<Object>();
             mlist.Add(evt);
             try

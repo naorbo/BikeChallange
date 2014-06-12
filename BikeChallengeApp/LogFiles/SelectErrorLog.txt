@@ -142,3 +142,8 @@ Invalid column name 'EventCity'.
 21:41:39 : Conversion failed when converting date and/or time from character string.
 21:41:39 : Conversion failed when converting date and/or time from character string.
 21:41:49 : Conversion failed when converting date and/or time from character string.
+20:46:51 : Conversion failed when converting date and/or time from character string.
+20:47:03 : Conversion failed when converting date and/or time from character string.
+20:47:20 : Conversion failed when converting date and/or time from character string.
+20:47:20 : Conversion failed when converting date and/or time from character string.
+20:47:23 : Conversion failed when converting date and/or time from character string.

@@ -259,8 +259,8 @@ public class DBservices
             break;
             
             case 19:
-                    // Works - count the num of rows above the user
-            selectStr = @"Select  1 AS UserRanking, 1 AS GroupRanking,  1 AS Group_Points,  1 AS OrganizationRanking,  1 AS Organization_Points
+            // Works - count the num of rows above the user // ,  1 AS Organization_Points,  1 AS Group_Points,
+            selectStr = @"Select  1 AS UserRanking, 1 AS GroupRanking,   1 AS OrganizationRanking
                         From Rides R
                         Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"')
                         AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
@@ -282,23 +282,39 @@ public class DBservices
                         order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC" ;// Read From Data Base Organization Ranking
             break;
 
-            case 25:
+            case 20:
 
-            selectStr = @"    Select e.EventDes, e.EventDate, e.EventType, C.CityName
-                            From UsersEvents ue, Users U, [Events] e, Cities C
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent
+                            From UsersEvents ue, Users U, [Events] e, Cities C, UsersEvents UE2
                             Where ue.[User] = u.[User]
                             AND u.UserDes = '" + data1 + @"'
                             AND ue.[Event] = e.[Event]
-                            AND e.EventStatus = 'open'
-							AND e.City = c.City; "; // Read From Data Base Organization Ranking
+                            AND e.City = c.City
+                            AND ue.[Event] = UE2.[Event]
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName "; // Read From Data Base Organization Ranking
             break;
-            case 26:
+            case 21:
 
-            selectStr = @"  Select e.EventDes, e.EventDate, e.EventType, C.CityName
-                            From [Events] e, Cities C
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User]) NumOfRidersInEvent
+                            From [Events] e, Cities C, usersevents ue
                             Where e.[Event] <> 0
-                            AND e.EventStatus = 'open'
-							AND e.City = c.City;"; // Read From Data Base Organization Ranking
+                            AND e.City = c.City
+                            AND e.[event] = ue.[event]
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName"; // Read From Data Base Organization Ranking
+            break;
+            case 22:
+
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+                            From UsersEvents ue, [Events] e,  Users U, Cities C, Cities CU, Groups g, Organizations o, usersgroups ug
+                            Where e.[Event] <> 0
+                            AND e.EventDes = '" + data1+ @"'
+							AND e.City = c.City
+                            AND e.[Event] = ue.[Event]
+                            AND ue.[User] = U.[User]
+                            AND U.City = cu.city
+                            AND U.[User] = ug.[user]
+                            AND ug.[Group] = g.[group]
+                            AND g.[Organization] = o.[Organization] ;" ; // Read From Data Base Organization Ranking
             break;
              
                 /**/
@@ -330,12 +346,13 @@ public class DBservices
                 newRow["TotalKM"] = dt.Rows[3].ItemArray[4];
                 newRow["TotalCO2"] = dt.Rows[3].ItemArray[5];
                 newRow["TotalCalories"] = dt.Rows[3].ItemArray[6];
-                
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr.Delete();
+                }
+                //dt.AcceptChanges();
                 dt.Rows.Add(newRow);
-                dt.Rows[0].Delete();
-                dt.Rows[1].Delete();
-                dt.Rows[2].Delete();
-                dt.Rows[3].Delete();
                 dt.AcceptChanges();
                 dbS.db = db;
                 dbS.dc = dc;
@@ -411,15 +428,17 @@ public class DBservices
                 newRow["UserRanking"] = UserRanking;// dt.Rows[0].ItemArray.Count();
                 newRow["GroupRanking"] = dsb.Tables[0].Rows.Count + 1; //dt.Rows[1].ItemArray[0];
                 //newRow["GroupDes"] = dt.Rows[1].ItemArray[1];
-                newRow["Group_Points"] = 1;
+                //newRow["Group_Points"] = 1;
                 newRow["OrganizationRanking"] = dsc.Tables[0].Rows.Count + 1;
                // newRow["OrganizationDes"] = dt.Rows[2].ItemArray[4];
-                newRow["Organization_Points"] = 1;
+                //newRow["Organization_Points"] = 1;
                 
-
-                dt1.Rows.Add(newRow);
-                dt1.Rows[0].Delete();
+                foreach (DataRow dr in dt1.Rows)
+                {
+                        dr.Delete();
+                }
                 dt1.AcceptChanges();
+                dt1.Rows.Add(newRow);
                 dbS.db = db;
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
