@@ -57,21 +57,18 @@ namespace BikeChallengeApp.Controllers
             date = (date != null ? date : "");
             dbs = dbs.ReadFromDataBase(17, gender, order, date);
             return dbs.dt;
-        }/*
+        }
         // GET Ranking per Organization
         //orgname=[If you want to get the ranking within the org]/ gender=[if you want to get the ranking according to gender]
         // api/Ranking?username=tester10&date=06-01-2014
-        public DataTable GetRank(string username, string date)
+        public DataTable GetRank(string username, string grpname, string orgname, string date)
         {
             DBservices dbs = new DBservices();
             username = (username != null ? username : "");
             date = (date != null ? date : "");
-            dbs = dbs.ReadFromDataBase(19, username, date);
-            string userRank = Convert.ToString(dbs.dt.Rows.Count + 1);
-            dbs = dbs.ReadFromDataBase(20, username, date);
-            string groupRank = Convert.ToString(dbs.dt.Rows.Count + 1);
-            return dbs.dt;
+            dbs = dbs.ReadFromDataBase(19, username, grpname,orgname, date);
+            return dbs.dt1;
 
-        }*/
+        }
     }
 }

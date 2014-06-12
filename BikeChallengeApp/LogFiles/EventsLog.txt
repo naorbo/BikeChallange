@@ -3,3 +3,4 @@ The Events LOG file
 00:34:39 : Error updating the Group database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
 00:34:50 : Error updating the Group database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
 00:37:29 : Error updating the Group database Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
+19:53:36 : Error updating the Group database Object reference not set to an instance of an object.

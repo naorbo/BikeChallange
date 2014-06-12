@@ -14,8 +14,8 @@ using BikeChallengeApp.Models;
 public class DBservices
 {
     #region Init
-    public SqlDataAdapter da;
-    public DataTable dt;
+    public SqlDataAdapter da,db,dc,dd;
+    public DataTable dt, dt1;
     LogFiles lf = new LogFiles();
 
     public DBservices()
@@ -62,7 +62,8 @@ public class DBservices
         try
         {
             con = dbS.connect("DefaultConnection"); // open the connection to the database/
-            String selectStr = "";
+            String selectStr, selectStr1, selectStr2, selectStr3;
+            selectStr = selectStr1 = selectStr2 = selectStr3 = "";
             switch(select)
             {
 			case 1:
@@ -250,38 +251,19 @@ public class DBservices
             break;
             case 18:
             
-            selectStr = @"Select COUNT(distinct U.[User]) As NumOfUsers, COUNT(distinct G.[Group]) As NumOfGroups,COUNT(distinct o.[Organization]) As NumOfOrganizations ,COUNT(distinct r.[Ride]) As NumOfRides,
-                        Sum(distinct R.[RideLength]) As TotalKM, Sum(distinct R.[RideLength])*0.16 As TotalCO2, Sum(distinct R.[RideLength])*25 As TotalCalories
-                        from Users U, groups g, UsersGroups ug, Rides r, Organizations o
-                        Where u.[User] = ug.[user]
-                        And ug.[group] in (Select [Group] from [Groups] Where [Group]<>0)
-                        AND g.Organization in (Select Organization from Organizations Where Organization<>0)
-                        AND r.[User] in (Select [User] from [Users] Where [User]<>0);"; // Read From Data Base Organization Ranking
+            selectStr  = "Select COUNT( [User]) As NumOfUsers from users where [user]<>0 ;";
+            selectStr1 = "Select COUNT( [Organization]) As NumOfOrganizations from Organizations where Organization<>0;";
+            selectStr2 = "Select COUNT([Group]) As NumOfGroups from Groups where [Group]<>0;";
+            selectStr3 = @"Select COUNT( [Ride]) As NumOfRides,Sum( [RideLength]) As TotalKM,
+                           Sum( [RideLength])*0.16 As TotalCO2, Sum( [RideLength])*25 As TotalCalories from Rides where Ride<>0;"; // Read From Data Base Organization Ranking 
             break;
+            
             case 19:
-
-            selectStr = @"Select  1
+            // Works - count the num of rows above the user // ,  1 AS Organization_Points,  1 AS Group_Points,
+            selectStr = @"Select  1 AS UserRanking, 1 AS GroupRanking,   1 AS OrganizationRanking
                         From Rides R
-                        Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE())
-                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
-                        group by DATEPART(yyyy, R.RideDate),DATEPART(mm, R.RideDate),[User]
-                        having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > 
-                        (  
-	                        Select Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points
-	                        From Users U, Rides R
-	                        Where U.[user] = R.[user]
-	                        AND DATEPART(yyyy, R.RideDate) like  DATEPART(yyyy, '" + data2 + @"')
-	                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data2 + @"')
-	                        AND U.UserDes = '" +data1+@"'
-                        )
-                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC"; // Read From Data Base Organization Ranking
-            break;
-            case 20:
-
-            selectStr = @"Select  1
-                        From Rides R
-                        Where  DATEPART(yyyy, R.RideDate) like  DATEPART(yyyy, '" + data2 + @"')
-	                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data2 + @"')
+                        Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"')
+                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
                         group by DATEPART(yyyy, R.RideDate),DATEPART(mm, R.RideDate),[User]
                         having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
                         (  
@@ -290,42 +272,182 @@ public class DBservices
                         Where U.[User] in ( SELECT UG.[User]
                                     FROM UsersGroups UG, Users U2
                                     WHERE U2.[User] = UG.[User]
-			                        AND U2.UserDes = '"+data1+@"'
+                                    AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"')
+			                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+			                        AND U2.UserDes = '" + data1 + @"'
 			                        )
                         AND R.[User] = U.[User] 
 
                         )
-                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC"; // Read From Data Base Organization Ranking
+                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC" ;// Read From Data Base Organization Ranking
             break;
 
-            case 25:
+            case 20:
 
-            selectStr = @"    Select e.EventDes, e.EventDate, e.EventType, C.CityName
-                            From UsersEvents ue, Users U, [Events] e, Cities C
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent
+                            From UsersEvents ue, Users U, [Events] e, Cities C, UsersEvents UE2
                             Where ue.[User] = u.[User]
                             AND u.UserDes = '" + data1 + @"'
                             AND ue.[Event] = e.[Event]
-                            AND e.EventStatus = 'open'
-							AND e.City = c.City; "; // Read From Data Base Organization Ranking
+                            AND e.City = c.City
+                            AND ue.[Event] = UE2.[Event]
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName "; // Read From Data Base Organization Ranking
             break;
-            case 26:
+            case 21:
 
-            selectStr = @"  Select e.EventDes, e.EventDate, e.EventType, C.CityName
-                            From [Events] e, Cities C
-                            Where e.EventStatus = 'open'
-							AND e.City = c.City;"; // Read From Data Base Organization Ranking
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User]) NumOfRidersInEvent
+                            From [Events] e, Cities C, usersevents ue
+                            Where e.[Event] <> 0
+                            AND e.City = c.City
+                            AND e.[event] = ue.[event]
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName"; // Read From Data Base Organization Ranking
+            break;
+            case 22:
+
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+                            From UsersEvents ue, [Events] e,  Users U, Cities C, Cities CU, Groups g, Organizations o, usersgroups ug
+                            Where e.[Event] <> 0
+                            AND e.EventDes = '" + data1+ @"'
+							AND e.City = c.City
+                            AND e.[Event] = ue.[Event]
+                            AND ue.[User] = U.[User]
+                            AND U.City = cu.city
+                            AND U.[User] = ug.[user]
+                            AND ug.[Group] = g.[group]
+                            AND g.[Organization] = o.[Organization] ;" ; // Read From Data Base Organization Ranking
             break;
              
                 /**/
             
         }
-			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter
+			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter  
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-            da.Fill(ds);                        // Fill the datatable (in the dataset), using the Select command
-            DataTable dt = ds.Tables[0];
+            da.Fill(ds);
+            DataTable dt = ds.Tables[0]; // Fill the datatable (in the dataset), using the Select command
+            
+            /******************************* Select Querry of all of the data in the DB ********************/
+
+            if (selectStr1 != "") 
+            {
+                SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
+                SqlDataAdapter dc = new SqlDataAdapter(selectStr2, con);
+                SqlDataAdapter dd = new SqlDataAdapter(selectStr3, con);
+
+                db.Fill(ds.Tables[0]);
+                dc.Fill(ds.Tables[0]);
+                dd.Fill(ds.Tables[0]);
+                dt = ds.Tables[0];
+
+                DataRow newRow = dt.NewRow();
+                newRow["NumOfUsers"] = dt.Rows[0].ItemArray[0];
+                newRow["NumOfGroups"] = dt.Rows[1].ItemArray[1];
+                newRow["NumOforganizations"] = dt.Rows[2].ItemArray[2];
+                newRow["NumOfRides"] = dt.Rows[3].ItemArray[3];
+                newRow["TotalKM"] = dt.Rows[3].ItemArray[4];
+                newRow["TotalCO2"] = dt.Rows[3].ItemArray[5];
+                newRow["TotalCalories"] = dt.Rows[3].ItemArray[6];
+
+                foreach (DataRow dr in dt.Rows)
+                {
+                    dr.Delete();
+                }
+                //dt.AcceptChanges();
+                dt.Rows.Add(newRow);
+                dt.AcceptChanges();
+                dbS.db = db;
+                dbS.dc = dc;
+                dbS.dd = dd;
+            }
+
+            /******************************* Handle the Rank of the User / Group / Organization ********************/
+
+            if (select == 19) 
+            {
+                DataTable dt1 = ds.Tables[0];
+                int UserRanking = dt1.Rows.Count + 1;
+                selectStr1 = @"SELECT 1 AS GroupRanking, G.GroupDes, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points
+                                FROM Groups G, Users U, Rides R
+                                Where G.[Group] <> 0
+                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+                                AND R.[User] = U.[User] 
+                                AND U.[User] in ( SELECT UG.[User]
+                                            FROM UsersGroups UG
+                                            WHERE G.[Group] = UG.[Group])
+                                group by G.GroupDes
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+			                                (
+			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
+			                                FROM Groups G, Organizations O, Users U, Rides R
+			                                Where G.[Group] <> 0
+			                                AND G.Organization = O.Organization
+			                                AND O.OrganizationDes like '" + data3 + @"%'
+			                                AND G.GroupDes like '" + data2 + @"%'
+			                                AND U.[User] in ( SELECT UG.[User]
+						                                FROM UsersGroups UG
+						                                WHERE G.[Group] = UG.[Group])
+			                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+			                                AND R.[User] = U.[User] 
+			                                group by G.GroupName )
+		  
+                                order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC;";
+
+                selectStr2 = @"SELECT 1 AS OrganizationRanking, O.OrganizationDes,  Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points
+                                FROM Groups G, Organizations O, Users U, Rides R
+                                Where G.[Group] <> 0
+                                AND G.Organization = O.Organization
+                                AND U.[User] in ( SELECT UG.[User]
+                                            FROM UsersGroups UG
+                                            WHERE G.[Group] = UG.[Group])
+                                AND R.[User] = U.[User] 
+                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+                                group by O.OrganizationDes
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+			                                (
+			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
+			                                FROM Groups G, Organizations O, Users U, Rides R
+			                                Where G.[Group] <> 0
+			                                AND G.Organization = O.Organization
+			                                AND O.OrganizationDes like '" + data3 + @"%'
+			                                AND U.[User] in ( SELECT UG.[User]
+						                                FROM UsersGroups UG
+						                                WHERE G.[Group] = UG.[Group])
+			                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+			                                AND R.[User] = U.[User] 
+			                                group by O.OrganizationName )
+                                order by Organization_Points DESC ;";
+
+                SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
+                SqlDataAdapter dc = new SqlDataAdapter(selectStr2, con);
+
+                DataSet dsb = new DataSet();
+                DataSet dsc = new DataSet();
+                db.Fill(dsb);
+                dc.Fill(dsc);
+
+                DataRow newRow = dt1.NewRow();
+                newRow["UserRanking"] = UserRanking;// dt.Rows[0].ItemArray.Count();
+                newRow["GroupRanking"] = dsb.Tables[0].Rows.Count + 1; //dt.Rows[1].ItemArray[0];
+                //newRow["GroupDes"] = dt.Rows[1].ItemArray[1];
+                //newRow["Group_Points"] = 1;
+                newRow["OrganizationRanking"] = dsc.Tables[0].Rows.Count + 1;
+               // newRow["OrganizationDes"] = dt.Rows[2].ItemArray[4];
+                //newRow["Organization_Points"] = 1;
+                
+                foreach (DataRow dr in dt1.Rows)
+                {
+                        dr.Delete();
+                }
+                dt1.AcceptChanges();
+                dt1.Rows.Add(newRow);
+                dbS.db = db;
+                dbS.dc = dc;
+                dbS.dt1 = dt1;
+            }
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
             dbS.dt = dt;
+
             dbS.da = da;
+           
             return dbS;
         }
     
@@ -461,6 +583,10 @@ public class DBservices
             case "UserEvent":
                 cStr = BuildDelteUserEventCommand(data1);      // helper method to build the insert string
                 break;
+            case "Event":
+                cStr = BuildDelteEventCommand(data1);      // helper method to build the insert string
+                break;
+
             
         }
         cmd = CreateCommand(cStr, con);             // create the command
@@ -837,6 +963,61 @@ public class DBservices
 
     #region Events
 
+    // Update An Existing Rider
+    public int updateEventInDatabase(Event evt, string eventname)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Events", ex.Message);
+            return 0;
+        }
+        String cStr = BuildUpdateEventCommand(evt, eventname);      // helper method to build the insert string
+        cmd = CreateCommand(cStr, con);             // create the command
+        try
+        {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command
+            return numEffected;
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Events", ex.Message);
+            return 0;
+            //return 0;
+        }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+
+    private String BuildUpdateEventCommand(Event evt, string eventname)
+    {
+        
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"UPDATE [Events]
+                           SET [City] = " + (evt.City != "" ? " (select city from Cities where CityName = '" + evt.City + "' )" : "[City]") + @"
+                              ,[EventDes] = " + (evt.EventDes != "" ? "'" + evt.EventDes + "'" : "[EventDes]") + @"
+                              ,[EventType] = " + (evt.EventType != "" ? "'" + evt.EventType + "'" : "[EventType]") + @"
+                              ,[EventStatus] = " + (evt.EventStatus != "" ? "'" + evt.EventStatus + "'" : "[EventStatus]") + @"
+                              ,[EventDate] = " + (evt.EventDate != "" ? "'" + evt.EventDate + "'" : "[EventDate]") + @"
+                         WHERE [EventDes] = '" + eventname +"' ";
+        return command;
+    }
+
     private String BuildInsertEventsCommand(Event evt)
     {
         String command;
@@ -848,7 +1029,7 @@ public class DBservices
            ,[EventType]
            ,[EventStatus]
            ,[EventDate])";
-        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, "Open", evt.EventDate);
+        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, evt.EventStatus, evt.EventDate);
         command = prefix + sb.ToString();
         return command;
     }
@@ -903,11 +1084,18 @@ public class DBservices
     }
     private String BuildDelteUserEventCommand(string username)
     {
-        String command;
         StringBuilder sb = new StringBuilder();
-        String prefix = @"  DELETE FROM [UsersEvents] Where [USER] in ( Select [User] From Users Where UserDes = '" + username + @"' );";
-        command = prefix;
+        String command = @"  DELETE FROM [UsersEvents] Where [USER] in ( Select [User] From Users Where UserDes = '" + username + @"' );";
         return command;
+    }
+    
+    private String BuildDelteEventCommand(string eventname)
+    {
+        String command = @"  DELETE FROM [UsersEvents] Where [Event] = (Select [Event] from [Events] Where [EventName]  = '" + eventname + @"') ;";
+        StringBuilder sb = new StringBuilder();
+        String prefix = @"  DELETE FROM [Events] Where [EventName]  = '" + eventname + @"' ;";
+        command = prefix;
+        return command + prefix;
     }
 #endregion
     
