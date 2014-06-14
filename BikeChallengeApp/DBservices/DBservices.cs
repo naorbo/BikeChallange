@@ -321,6 +321,41 @@ public class DBservices
                                 FROM [Organizations]
                                 WHERE [OrganizationDes] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
             break;
+            case 24:
+            selectStr = @"  DECLARE @max INT
+                            DECLARE @min INT
+                            SELECT TOP 1 @max=U.[User]
+                            FROM [Rides] R, Users U
+                            Where U.[User]<> 0
+                            AND R.[Ride] <> 0
+                            AND R.[USER] = U.[User]
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            Group by U.[User]
+                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @"
+                            AND Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) < " + data2 + @"
+                            order by U.[USER] DESC;
+
+                            SELECT TOP 1 @min=U.[User]
+                            FROM [Rides] R, Users U
+                            Where U.[User]<> 0
+                            AND R.[Ride] <> 0
+                            AND R.[USER] = U.[User]
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            Group by U.[User]
+                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @"
+                            AND Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) < " + data2 + @"
+                            order by U.[USER] ASC;
+
+                            Select [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+                            FROM [Rides] R, Users U, UsersGroups ug, Groups g, Organizations o
+                            Where R.[Ride] <> 0
+                            AND R.[USER] = U.[User]
+                            AND U.[User]=ug.[User]
+                            AND ug.[Group]=g.[Group]
+                            AND g.Organization=o.Organization
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            AND U.[user] = ( select dbo.Random(@max,@min,RAND()))"; // ReadFromDataBaseUserName
+            break;
                 /**/
             
         }
@@ -393,6 +428,20 @@ public class DBservices
                 dbS.db = db;
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
+            }
+            /**************END OF******* Handle the Rank of the User / Group / Organization *******END OF**************/
+          
+            /******************************* Shuffle the winner ********************/
+            if (select == 24)
+            {
+                if (dt.Rows.Count == 0)
+                    dt = Shuffle(dt, con, selectStr);
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dt.Rows.IndexOf(dr) != 0)
+                        dr.Delete();
+                }
+                dt.AcceptChanges();
             }
             /**************END OF******* Handle the Rank of the User / Group / Organization *******END OF**************/
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
@@ -565,7 +614,7 @@ public class DBservices
     }
     #endregion
 
-    #region Group/ Organization Rank
+    #region Group/ Organization Rank AND Shuffle Method
 
     private String BuildGrouprankCommand(string data2, string data3, string data4)
     {
@@ -632,7 +681,20 @@ public class DBservices
 
         return command;
     }
-    
+    private DataTable Shuffle(DataTable dt, SqlConnection con, String selectStr)
+    {
+        da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+        DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+        da.Fill(ds);
+        dt = ds.Tables[0]; // Fill the datatable (in the dataset), using the Select command 
+
+        if (dt.Rows.Count == 0)
+        {
+            dt = Shuffle(dt, con, selectStr);
+        }
+
+        return dt;
+    }
     #endregion
 
     #region Organizations

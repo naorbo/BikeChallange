@@ -200,6 +200,7 @@
     <Compile Include="Controllers\RankingController.cs" />
     <Compile Include="Controllers\RidesController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\ShuffleController.cs" />
     <Compile Include="Controllers\StatController.cs" />
     <Compile Include="Controllers\UserImageController.cs" />
     <Compile Include="Controllers\GroupController.cs" />

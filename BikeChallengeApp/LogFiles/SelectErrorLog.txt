@@ -163,3 +163,7 @@ Invalid column name 'EventCity'.
 20:47:20 : Conversion failed when converting date and/or time from character string.
 20:47:23 : Conversion failed when converting date and/or time from character string.
 >>>>>>> origin/master
+23:20:20 : Incorrect syntax near the keyword 'AND'.
+Incorrect syntax near the keyword 'AND'.
+23:20:54 : Incorrect syntax near the keyword 'AND'.
+Incorrect syntax near the keyword 'AND'.
