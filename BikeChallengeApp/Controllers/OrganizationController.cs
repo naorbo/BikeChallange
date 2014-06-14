@@ -29,6 +29,7 @@ namespace BikeChallengeApp.Controller
         // api/Organization?orgname=[The name of the organization] - Not case sensative
         public DataTable GetUser(string orgname)
         {
+            orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(6, orgname);
             return dbs.dt;
         }

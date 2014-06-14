@@ -32,7 +32,7 @@ namespace BikeChallengeApp.Models
         public string RideType
         {
             get { return rideType; }
-            set { rideType = value; }
+            set { rideType = value; rideType = rideType.Replace("'", "''"); }
         }
 
         string rideDate;
@@ -52,13 +52,13 @@ namespace BikeChallengeApp.Models
         public string RideSource
         {
             get { return rideSource; }
-            set { rideSource = value; }
+            set { rideSource = value; rideSource = rideSource.Replace("'", "''"); }
         }
         string rideDestination;
         public string RideDestination
         {
             get { return rideDestination; }
-            set { rideDestination = value; }
+            set { rideDestination = value; rideDestination = rideDestination.Replace("'", "''"); }
         }
         public Rides(string username, string ridetype, decimal rideLength, string ridedestination, string ridesource, string ridedate)
         {

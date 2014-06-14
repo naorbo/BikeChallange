@@ -29,6 +29,8 @@ namespace BikeChallengeApp.Controllers
             gender = (gender != null ? gender : "");
             order = (order != null ? order : "Points");
             date = (date != null ? date : "");
+            grpname = grpname.Replace("'", "''");
+            orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(15, grpname, orgname, gender,order, date);
             return dbs.dt;
         }
@@ -43,6 +45,7 @@ namespace BikeChallengeApp.Controllers
             gender = (gender != null ? gender : "");
             order = (order != null ? order : "Points");
             date = (date != null ? date : "");
+            orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(16, orgname, gender, order, date);
             return dbs.dt;
         }
@@ -66,6 +69,9 @@ namespace BikeChallengeApp.Controllers
             DBservices dbs = new DBservices();
             username = (username != null ? username : "");
             date = (date != null ? date : "");
+            grpname = grpname.Replace("'", "''");
+            grpname = grpname.Replace("'", "''");
+            orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(19, username, grpname,orgname, date);
             return dbs.dt1;
 

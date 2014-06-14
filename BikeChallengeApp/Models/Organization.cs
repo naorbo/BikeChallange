@@ -17,7 +17,8 @@ namespace BikeChallengeApp.Models
             set 
             {
             organizationName = value;
-            organizationDes = value;
+            organizationName = organizationName.Replace("'", "''");
+            organizationDes = organizationName;
             organizationName = organizationName.Replace("&", "'+CHAR(37)+'26");
             organizationName = organizationName.Replace(" ", "'+CHAR(37)+'20");
             }
@@ -42,7 +43,7 @@ namespace BikeChallengeApp.Models
         public string OrganizationType
         {
             get { return organizationType; }
-            set { organizationType = value; }
+            set { organizationType = value; organizationType = organizationType.Replace("'", "''"); }
         }
 
         string organizationCity;

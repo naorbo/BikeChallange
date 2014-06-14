@@ -45,6 +45,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable GetUser(string username)
         {
             DBservices dbs = new DBservices();
+            username = username.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(9, username);
             return dbs.dt;
         }
@@ -65,7 +66,7 @@ namespace BikeChallengeApp.Controllers
             DBservices dbs = new DBservices();
             int return_val = 0;
             LogFiles lf = new LogFiles();
-
+            username = username.Replace("'", "''");
             string Response = "";
             try
             {

@@ -17,7 +17,8 @@ namespace BikeChallengeApp.Models
             set
             {
                 eventName = value;
-                eventDes = value;
+                eventName = eventName.Replace("'", "''");
+                eventDes = eventName;
                 eventName = eventName.Replace("&", "'+CHAR(37)+'26");
                 eventName = eventName.Replace(" ", "'+CHAR(37)+'20");
             }
@@ -41,14 +42,16 @@ namespace BikeChallengeApp.Models
         public string EventType
         {
             get { return eventType; }
-            set { eventType = value; }
+            set { eventType = value;
+            eventType = eventType.Replace("'", "''");
+            }
         }
 
         string eventStatus;
         public string EventStatus
         {
             get { return eventStatus; }
-            set { eventStatus = value; }
+            set { eventStatus = value; eventStatus = eventStatus.Replace("'", "''"); }
         }
 
         string eventDate;
@@ -61,7 +64,7 @@ namespace BikeChallengeApp.Models
 
          public Event()
         {
-
+            
         }
          public Event(string eventName, string eventDate, string eventDes, string city, string eventType, string eventStatus)
         {

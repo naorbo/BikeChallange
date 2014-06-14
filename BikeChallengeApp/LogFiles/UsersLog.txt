@@ -68,3 +68,9 @@ The statement has been terminated.
 21:26:32 : Error while trying to Update the Rider(user) almazak to the database Object reference not set to an instance of an object.
 22:05:47 : Cannot insert the value NULL into column 'City', table 'igroup1_prod.dbo.Users'; column does not allow nulls. UPDATE fails.
 The statement has been terminated.
+14:25:45 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+14:26:22 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.
+14:27:10 : Violation of UNIQUE KEY constraint 'UQ__Users__08638DF87BE56230'. Cannot insert duplicate key in object 'dbo.Users'.
+The statement has been terminated.

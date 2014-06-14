@@ -14,14 +14,14 @@ namespace BikeChallengeApp.Models
         public string Group
         {
             get { return group; }
-            set { group = value; }
+            set { group = value; group = group.Replace("'", "''"); }
         }
         private string organization;
 
         public string Organization
         {
             get { return organization; }
-            set { organization = value; }
+            set { organization = value; organization = organization.Replace("'", "''"); }
         }
         private string city;
 
@@ -50,7 +50,7 @@ namespace BikeChallengeApp.Models
         public string RiderFname
         {
             get { return riderfname; }
-            set { riderfname = value; }
+            set { riderfname = value; riderfname = riderfname.Replace("'", "''"); }
         }
 
         private string riderlname;
@@ -58,7 +58,7 @@ namespace BikeChallengeApp.Models
         public string RiderLname
         {
             get { return riderlname; }
-            set { riderlname = value; }
+            set { riderlname = value; riderlname = riderlname.Replace("'", "''"); }
         }
 
         private string gender;
@@ -121,7 +121,7 @@ namespace BikeChallengeApp.Models
         public string RiderAddress
         {
             get { return riderAddress; }
-            set { riderAddress = value; }
+            set { riderAddress = value; riderAddress = riderAddress.Replace("'", "''"); }
         }
 
         public Rider()

@@ -21,6 +21,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable Get(string username)
         {
             DBservices dbs = new DBservices();
+            username = username.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(20, username);
             return dbs.dt;
         }
@@ -39,6 +40,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable GetUsers(string eventname)
         {
             DBservices dbs = new DBservices();
+            eventname = eventname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(22, eventname);
             return dbs.dt;
         }
@@ -68,12 +70,14 @@ namespace BikeChallengeApp.Controllers
         }
 
         // POST insert rider into an event 
-        // api/Event?eventname=&username&
+        // api/Event?eventname=&username=
         public string RiderInEvent(string eventname, string username)
         {
             int return_val = 0;
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
+            eventname = eventname.Replace("'", "''");
+            username = username.Replace("'", "''");
             try
             {
                 return_val = dbs.updateRiderIneventDatabase(eventname, username);
@@ -96,6 +100,7 @@ namespace BikeChallengeApp.Controllers
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
             string Response = "";
+            username = username.Replace("'", "''");
             try
             {
                 return_val = dbs.DeleteDatabase("UserEvent", username);
@@ -120,6 +125,7 @@ namespace BikeChallengeApp.Controllers
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
             string Response = "";
+            eventname = eventname.Replace("'", "''");
             try
             {
                 return_val = dbs.DeleteDatabase("Event", eventname);
@@ -143,6 +149,7 @@ namespace BikeChallengeApp.Controllers
             int return_val = 0;
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
+            eventname = eventname.Replace("'", "''");
             try
             {
                 return_val = dbs.updateEventInDatabase(evt, eventname);

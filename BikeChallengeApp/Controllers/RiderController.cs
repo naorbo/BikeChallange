@@ -21,6 +21,8 @@ namespace BikeChallengeApp.Controllers
         public DataTable Get(string grpname, string orgname)
         {
             DBservices dbs = new DBservices();
+            grpname = grpname.Replace("'", "''");
+            orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(1, grpname, orgname);
             return dbs.dt;
         }
@@ -30,6 +32,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable GetUser(string username)
         {
             DBservices dbs = new DBservices();
+            username = username.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(2, username);
             return dbs.dt;
         }
@@ -72,6 +75,7 @@ namespace BikeChallengeApp.Controllers
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
             string Response= "";
+            username = username.Replace("'", "''");
             try
             {
                 return_val = dbs.DeleteDatabase("Rider",username);
@@ -95,6 +99,7 @@ namespace BikeChallengeApp.Controllers
             int return_val = 0;
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
+            username = username.Replace("'", "''");
             try
             {
                 return_val = dbs.updateRiderInDatabase(rdr,username);

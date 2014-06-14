@@ -13,6 +13,7 @@ namespace BikeChallengeApp.Controllers
         public string Get(string username)
         {
             DBservices dbs = new DBservices();
+            username = username.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(5, username);
             if (dbs.dt.Rows.Count > 0)
                 return dbs.dt.Rows[0].ItemArray[0].ToString();
