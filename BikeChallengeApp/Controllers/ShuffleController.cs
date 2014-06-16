@@ -16,11 +16,11 @@ namespace BikeChallengeApp.Controllers
 {
     public class ShuffleController : ApiController
     {
-        // GET api/Shuffle?minvalue=&maxvaule=
-        public DataTable Get(string minvalue, string maxvalue)
+        // GET api/Shuffle?date=
+        public DataTable Get(string date)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(24,minvalue,maxvalue);
+            dbs = dbs.ReadFromDataBase(24,"50",date, "BronzeWinner");
             
             return dbs.dt;
 

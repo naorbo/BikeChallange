@@ -167,3 +167,17 @@ Invalid column name 'EventCity'.
 Incorrect syntax near the keyword 'AND'.
 23:20:54 : Incorrect syntax near the keyword 'AND'.
 Incorrect syntax near the keyword 'AND'.
+22:34:11 : This row already belongs to another table.
+22:39:40 : This row already belongs to another table.
+22:43:37 : Invalid column name 'PlatinaWinner'.
+23:14:46 : There is no row at position 0.
+00:18:27 : There is no row at position 0.
+00:20:54 : There is no row at position 0.
+00:22:09 : There is no row at position 0.
+00:22:19 : There is no row at position 0.
+00:23:53 : There is no row at position 0.
+00:25:07 : There is no row at position 0.
+00:25:55 : There is no row at position 0.
+00:39:08 : The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.Couldn't store <No Rider At This Category> in BirthDate Column.  Expected type is DateTime.
+00:40:17 : The string was not recognized as a valid DateTime. There is an unknown word starting at index 0.Couldn't store <No Rider At This Category> in BirthDate Column.  Expected type is DateTime.
+00:44:05 : Input string was not in a correct format.Couldn't store <No Rider At This Category> in RiderPoints Column.  Expected type is Decimal.

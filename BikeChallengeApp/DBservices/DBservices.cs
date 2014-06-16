@@ -322,43 +322,37 @@ public class DBservices
                                 WHERE [OrganizationDes] = '" + data1 + "' ;"; // ReadFromDataBaseUserName
             break;
             case 24:
-            selectStr = @"  DECLARE @max INT
-                            DECLARE @min INT
-                            SELECT TOP 1 @max=U.[User]
-                            FROM [Rides] R, Users U
-                            Where U.[User]<> 0
-                            AND R.[Ride] <> 0
-                            AND R.[USER] = U.[User]
-                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
-                            Group by U.[User]
-                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @"
-                            AND Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) < " + data2 + @"
-                            order by U.[USER] DESC;
-
-                            SELECT TOP 1 @min=U.[User]
-                            FROM [Rides] R, Users U
-                            Where U.[User]<> 0
-                            AND R.[Ride] <> 0
-                            AND R.[USER] = U.[User]
-                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
-                            Group by U.[User]
-                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @"
-                            AND Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) < " + data2 + @"
-                            order by U.[USER] ASC;
-
-                            Select [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+            selectStr = @"  IF EXISTS (SELECT '" + data3 + @"' AS Category, [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],convert(varchar(10), [BirthDate], 120) As BirthDate,[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
                             FROM [Rides] R, Users U, UsersGroups ug, Groups g, Organizations o
-                            Where R.[Ride] <> 0
+                            Where U.[User]<> 0
                             AND R.[USER] = U.[User]
-                            AND U.[User]=ug.[User]
+                            AND  U.[User]=ug.[User]
                             AND ug.[Group]=g.[Group]
                             AND g.Organization=o.Organization
                             AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
-                            AND U.[user] = ( select dbo.Random(@max,@min,RAND()))"; // ReadFromDataBaseUserName
+                            Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " +data1+@") 
+                            BEGIN
+                                SELECT '" + data3 + @"' AS Category, [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+                                FROM [Rides] R, Users U, UsersGroups ug, Groups g, Organizations o
+                                Where U.[User]<> 0
+                                AND R.[USER] = U.[User]
+                                AND  U.[User]=ug.[User]
+                                AND ug.[Group]=g.[Group]
+                                AND g.Organization=o.Organization
+                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data2 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm,'" + data2 + @"')
+                                Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >  " + data1 + @"
+                            END
+                            ELSE
+                            BEGIN
+                                SELECT 'No Rider At This Category' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'"+data2+@"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                From Users Where [User]=0;
+                            END "; // ReadFromDataBaseUserName
             break;
                 /**/
-            
-        }
+
+            }
 			SqlDataAdapter da = new SqlDataAdapter(selectStr, con); // create the data adapter  
             DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
             da.Fill(ds);
@@ -429,19 +423,69 @@ public class DBservices
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
             }
-            /**************END OF******* Handle the Rank of the User / Group / Organization *******END OF**************/
+            /*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
           
-            /******************************* Shuffle the winner ********************/
+            /********************************** Shuffle the winner **********************************/
             if (select == 24)
             {
-                if (dt.Rows.Count == 0)
-                    dt = Shuffle(dt, con, selectStr);
+                int Upper = dt.Rows.Count;
+                int Lower = 0;
+                Random random = new Random();
+
+                int randomNumber = random.Next(Lower, Upper);
+
                 foreach (DataRow dr in dt.Rows)
                 {
-                    if (dt.Rows.IndexOf(dr) != 0)
+                    if (dt.Rows.IndexOf(dr) != randomNumber )//|| (string)dr.ItemArray[0] != "No one")
                         dr.Delete();
                 }
                 dt.AcceptChanges();
+                // 0 - 500
+                selectStr = Shuffle("150", data2, "SilverWinner");
+                da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+                DataSet db = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                da.Fill(db);
+                Upper = db.Tables[0].Rows.Count;
+                randomNumber = random.Next(Lower, Upper);
+
+                foreach (DataRow dr in db.Tables[0].Rows)
+                {
+                    if (db.Tables[0].Rows.IndexOf(dr) != randomNumber)// || (string)dr.ItemArray[0] != "No one")
+                        dr.Delete();
+                }
+                db.Tables[0].AcceptChanges();
+                dt.ImportRow(db.Tables[0].Rows[0]);
+                // 0 - 150
+                selectStr = Shuffle("500", data2, "GoldWinner");
+                da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+                DataSet dc = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                da.Fill(dc);
+                Upper = dc.Tables[0].Rows.Count;
+                randomNumber = random.Next(Lower, Upper);
+
+                foreach (DataRow dr in dc.Tables[0].Rows)
+                {
+                    if (dc.Tables[0].Rows.IndexOf(dr) != randomNumber)// || (string)dr.ItemArray[0] != "No one")
+                        dr.Delete();
+                }
+                dc.Tables[0].AcceptChanges();
+                dt.ImportRow(dc.Tables[0].Rows[0]);
+                // 0 - 50
+                selectStr = Shuffle("1500", data2, "PlatinaWinner");
+                da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+                DataSet dd = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                da.Fill(dd);
+                Upper = dd.Tables[0].Rows.Count;
+                randomNumber = random.Next(Lower, Upper );
+
+                foreach (DataRow dr in dd.Tables[0].Rows)
+                {
+                    if (dd.Tables[0].Rows.IndexOf(dr) != randomNumber)// || (string)dr.ItemArray[0] != "No one")
+                        dr.Delete();
+                }
+                dd.Tables[0].AcceptChanges();
+                dt.ImportRow(dd.Tables[0].Rows[0]);
+
             }
             /**************END OF******* Handle the Rank of the User / Group / Organization *******END OF**************/
             // add the datatable and the dataa adapter to the dbS helper class in order to be able to save it to a Session Object
@@ -681,19 +725,39 @@ public class DBservices
 
         return command;
     }
-    private DataTable Shuffle(DataTable dt, SqlConnection con, String selectStr)
+    private String Shuffle(string data1, string data2, string data3)
     {
-        da = new SqlDataAdapter(selectStr, con); // create the data adapter  
-        DataSet ds = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-        da.Fill(ds);
-        dt = ds.Tables[0]; // Fill the datatable (in the dataset), using the Select command 
+         // Fill the datatable (in the dataset), using the Select command 
 
-        if (dt.Rows.Count == 0)
-        {
-            dt = Shuffle(dt, con, selectStr);
-        }
+        String selectstr = @"IF EXISTS (SELECT '" + data3 + @"' AS Category, [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],convert(varchar(10), [BirthDate], 120) As BirthDate,[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+                            FROM [Rides] R, Users U, UsersGroups ug, Groups g, Organizations o
+                            Where U.[User]<> 0
+                            AND R.[USER] = U.[User]
+                            AND  U.[User]=ug.[User]
+                            AND ug.[Group]=g.[Group]
+                            AND g.Organization=o.Organization
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+                            having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @") 
+                            BEGIN
+                                SELECT '" + data3 + @"' AS Category, [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+                                FROM [Rides] R, Users U, UsersGroups ug, Groups g, Organizations o
+                                Where U.[User]<> 0
+                                AND R.[USER] = U.[User]
+                                AND  U.[User]=ug.[User]
+                                AND ug.[Group]=g.[Group]
+                                AND g.Organization=o.Organization
+                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data2 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm,'" + data2 + @"')
+                                Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >  " + data1 + @"
+                            END
+                            ELSE
+                            BEGIN
+                                SELECT 'No Rider At This Category' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                From Users Where [User]=0;
+                            END ";
 
-        return dt;
+        return selectstr;
     }
     #endregion
 
