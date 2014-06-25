@@ -1,5 +1,72 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
+// ####################################################################################################################################################### // 
+// #########################################                adminConsoleController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+app.controller('adminConsoleController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+
+    //Load data - init 
+    $scope.loadData = function () {
+        dataFactory.getValues('Rider')
+            .success(function (response) {
+                console.log(response);
+                $scope.users = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system users...");
+                 });
+    }
+
+    $scope.loadData();
+
+    // Accordion vars 
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
+    // Admin nav switch
+    $scope.adminNav = {
+        'switch' : 1 
+    };
+   
+    // Remove User
+    $scope.removeUser = function (userName) {
+        confirm("האם אתה בטוח שברצונך למחוק את המשתמש ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+
+                        dataFactory.deleteValues('Rider', 'username='+userName)
+                            .success(function (response) {
+                                console.log('User deletion succeeded');
+                                $scope.loadData();
+                       })
+                            .error(function (response) {
+                           console.log("error deleting user");
+                       });
+
+
+
+                        
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+
+
+
+    }
+
+});
+
 
 // ####################################################################################################################################################### // 
 // #########################################                workController               ################################################################ // 

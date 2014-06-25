@@ -1,0 +1,240 @@
+﻿<!DOCTYPE html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+
+    <style>
+        .userAttribute {
+            font-weight:bold;
+        }
+    </style>
+
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="row col-md-8" style="float:left">
+
+
+                <div ng-switch data-on="adminNav.switch" style="padding-top:50px">
+                    
+                    <div ng-switch-when="1">
+                       
+
+                        <fieldset>
+                            <legend>
+                                <span>ניהול רוכבים</span>
+                            </legend>
+                        </fieldset>
+                        
+                        <div class="form-control">
+                            <input class="pull-right" ng-model="query" style="border:none" />
+                            <span class="glyphicon glyphicon-search pull-left"></span>
+                        </div>
+
+                        <div data-accordion >
+                            <div data-accordion-group ng-repeat="user in users | filter:query" data-is-open="status1.open">
+                                <div data-accordion-heading>
+                                    <span>{{user.UserFname}}</span>&nbsp;<span>{{user.UserLname}}</span>
+                                    <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
+                                </div>
+
+                                <table class="table table-responsive table-bordered">
+                                    <tr>
+                                        <td>שם פרטי</td>
+                                        <td class="userAttribute">{{user.UserFname}}</td>
+                                        <td rowspan="12" align="center">
+                                            <img src="{{user.ImagePath}}" class="img-rounded img-responsive" style="max-height:200px;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>שם משפחה</td>
+                                        <td class="userAttribute">{{user.UserLname}}</td>
+                                       
+                                    </tr>
+                                    <tr>
+                                        <td>מין</td>
+                                        <td class="userAttribute" ng-if="user.UserGender==' m '">זכר</td>
+                                        <td class="userAttribute" ng-if="user.UserGender!=' m '">נקבה</td>
+                                    </tr>
+                                    <tr>
+                                        <td>כתובת מגורים</td>
+                                        <td class="userAttribute">{{user.UserAddress}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>עיר מגורים</td>
+                                        <td class="userAttribute">{{user.City}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>מספר טלפון</td>
+                                        <td class="userAttribute">{{user.UserPhone}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>כתובת דואר אלקטרוני</td>
+                                        <td class="userAttribute">{{user.UserEmail}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>תאריך לידה</td>
+                                        <td class="userAttribute">{{user.Birthdate}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>סוג אופניים</td>
+                                        <td class="userAttribute">{{user.BicycleType}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>ארגון</td>
+                                        <td class="userAttribute">{{user.UserOrg}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>קבוצה</td>
+                                        <td class="userAttribute">{{user.UserGroup}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>תאריך רישום</td>
+                                        <td class="userAttribute">{{user.CurDate}}</td>
+                                    </tr>
+                                </table>
+
+
+                                
+                                    <button class="btn btn-default pull-left"
+                                            ng-click="removeUser(user.UserDes)">
+                                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                        <span>מחיקת משתמש</span>
+                                    </button>
+                                
+
+                            </div>
+                        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                            <!--<table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <td>שם משפחה</td>
+                                        <td>שם פרטי</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                </thead>
+                                <tr ng-repeat="user in users">
+                                    <td>
+                                        {{user.UserFname}}
+                                    </td>
+                                </tr>
+
+                            </table>-->
+
+                        </div>
+
+                    <div ng-switch-when="2">
+                        <span>קבוצות</span>
+                    </div>
+
+                    <div ng-switch-when="3">
+                        <span>אירועים</span>
+                    </div>
+
+                    <div ng-switch-when="4">
+                        <span>תחרויות</span>
+                    </div>
+
+                    <div ng-switch-when="5">
+                        <span>דוחות</span>
+                    </div>
+
+                    <div ng-switch-when="6">
+                        <span>הודעות</span>
+                    </div>
+
+                </div>
+            </div>
+            <div class="row col-md-1"></div>
+            <div class="row col-md-3" style="padding-top:20px">
+                        <!--Right Dash Navigation-->
+                        <div class="row col-md-12">
+                            
+                            <hr />
+                            <div data-accordion>
+                                <div data-accordion-group data-is-open="status1.open" class="row scroll-down-text">
+                                    <div data-accordion-heading>
+                                        <span ng-click="adminNav.switch=1">ניהול רוכבים</span>
+                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
+                                    </div>
+
+                                    
+
+                                </div>
+                            </div>
+                            
+                            
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=1">
+                                <strong class="pull-right">ניהול רוכבים</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+
+
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=2">
+                                <strong class="pull-right">ניהול קבוצות</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+
+
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=3">
+                                <strong class="pull-right">ניהול אירועים</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=4">
+                                <strong class="pull-right">סיכום תחרויות</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+
+
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=5">
+                                <strong class="pull-right">דוחות</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+
+
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=6">
+                                <strong class="pull-right">משלוח הודעות</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <hr />
+
+                        </div>
+                    </div>
+        </div>
+    </div>
+</body>
+</html>

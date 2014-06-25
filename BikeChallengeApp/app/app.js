@@ -84,6 +84,11 @@ app.config(['$routeProvider',
             controller: 'updateProfileController'
         }).
 
+        
+        when('/adminConsole', {
+            templateUrl: 'app/partials/adminConsole.html',
+            controller: 'adminConsoleController'
+        }).
         otherwise({
             redirectTo: '/home'
         });
