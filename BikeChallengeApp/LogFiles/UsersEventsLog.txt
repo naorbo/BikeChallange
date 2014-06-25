@@ -1,8 +1,0 @@
-The UsersEvents LOG file
-00:40:24 : Incorrect syntax near 'Event'.
-Incorrect syntax near ','.
-00:41:17 : Incorrect syntax near 'Event'.
-Incorrect syntax near ','.
-00:42:38 : Incorrect syntax near 'Event'.
-Incorrect syntax near ','.
-Incorrect syntax near ')'.

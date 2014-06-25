@@ -350,6 +350,16 @@ public class DBservices
                                 From Users Where [User]=0;
                             END "; // ReadFromDataBaseUserName
             break;
+            case 25:
+            selectStr = @"  SELECT U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate,convert(varchar(10), U.[CurDate], 120) As JoinDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
+                            FROM UsersGroups UG, Users U, Groups G, Organizations O, Cities C, Cities CO
+                            Where U.[User] <> 0
+                            AND G.Organization = O.Organization                            
+                            AND UG.[User] = U.[User]
+                            AND UG.[Group] = G.[Group]
+                            AND U.City = C.City
+                            AND O.City = CO.City "; // ReadFromDataBaseUserName
+            break;
                 /**/
 
             }
@@ -423,9 +433,9 @@ public class DBservices
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
             }
-            /*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
+            //*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
           
-            /********************************** Shuffle the winner **********************************/
+            //********************************** Shuffle the winner **********************************/
             if (select == 24)
             {
                 int Upper = dt.Rows.Count;

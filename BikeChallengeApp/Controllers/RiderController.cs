@@ -42,7 +42,7 @@ namespace BikeChallengeApp.Controllers
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(7, "Users", "[User]");
+            dbs = dbs.ReadFromDataBase(25, "Users", "[User]");
             return dbs.dt;
         }
 

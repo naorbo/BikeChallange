@@ -1,8 +1,0 @@
-The Event LOG file
-00:37:34 : Incorrect syntax near 'EventName'.
-Incorrect syntax near ','.
-00:39:00 : Incorrect syntax near 'EventName'.
-Incorrect syntax near ','.
-11:46:09 : Incorrect syntax near 'וניור'.
-12:54:45 : Incorrect syntax near 'וניור'.
-Unclosed quotation mark after the character string ')'.
