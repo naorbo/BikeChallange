@@ -1,9 +1,144 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
+// ####################################################################################################################################################### // 
+// #########################################                adminConsoleController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+app.controller('adminConsoleController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+
+    //Load data - init 
+    $scope.loadData = function () {
+        //Load users
+        dataFactory.getValues('Rider')
+            .success(function (response) {
+                console.log(response);
+                $scope.sourceUsers = angular.fromJson(response);
+                $scope.users = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system users...");
+                 });
+        //Load Cities
+        dataFactory.getValues('Cities', false, 0)
+            .success(function (values) {
+                $scope.citiesHolder = angular.fromJson(values);
+                var tmp = [];
+                angular.forEach($scope.citiesHolder, function (city) {
+                    tmp.push(city.CityName);
+                })
+                $scope.filterOptions[0].values = tmp;
+                
+            })
+        dataFactory.getValues('Organization')
+         .success(function (response) {
+             console.log(response);
+             $scope.organizationsHolder = angular.fromJson(response);
+             dataFactory.getValues('Group')
+                .success(function (response) {
+                    console.log(response);
+                    $scope.groupsHolder = angular.fromJson(response);
+                    angular.forEach($scope.groupsHolder, function (group) {
+                        angular.forEach($scope.organizationsHolder, function (organization) {
+                            if (group.Organization == organization.Organization){
+                                group['orgDispalyname'] = organization.OrganizationDes;
+                                group['orgName'] = organization.OrganizationName;
+                            }
+                        })
+                    })
+                    $scope.filterOptions[1].values = $scope.groupsHolder;
+                    var tmp = [];
+                    angular.forEach($scope.organizationsHolder, function (org) {
+                        tmp.push(org.OrganizationDes);
+                    })
+                    $scope.filterOptions[4].values = tmp;
+                    
+        })
+                .error(function (error) {
+                    alert("Unable to fetch all groups...");
+                });
+         })
+                 .error(function (error) {
+                     alert("Unable to fetch all orgs...");
+                 });
+
+
+    }
+
+    $scope.loadData();
+
+    
+
+    // Accordion vars 
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
+    // Admin nav switch
+    $scope.adminNav = {
+        'switch' : 1 
+    };
+   
+    // Remove User
+    $scope.removeUser = function (userName) {
+        confirm("האם אתה בטוח שברצונך למחוק את המשתמש ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+
+                        dataFactory.deleteValues('Rider', 'username='+userName)
+                            .success(function (response) {
+                                console.log('User deletion succeeded');
+                                $scope.loadData();
+                       })
+                            .error(function (response) {
+                           console.log("error deleting user");
+                       });
+
+
+
+                        
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+
+
+
+    }
+
+    var genderOptions = [
+        'זכר', 'נקבה'
+    ];
+
+    var bikeOptions = [
+        'הרים', 'כביש', 'חשמליים'
+    ];
+
+    $scope.filterOptions = [
+        {useName: 'cityFilter', displayName: 'עיר', values: $scope.citiesHolder },
+        {useName:'groupFilter', displayName: 'קבוצה'},
+        { useName: 'genderFilter', displayName: 'מין', values: genderOptions },
+        { useName: 'bikeTypeFilter', displayName: 'סוג אופניים', values: bikeOptions },
+        {useName:'orgFilter', displayName: 'ארגון'},
+    ]
+
+
+    
+});
+
 
 // ####################################################################################################################################################### // 
 // #########################################                workController               ################################################################ // 
 // ####################################################################################################################################################### // 
+
+
 app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
     dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
@@ -17,6 +152,8 @@ app.controller('workController', function ($rootScope, $scope, $http, $timeout, 
 // ####################################################################################################################################################### // 
 // #########################################                contactUsController               ################################################################ // 
 // ####################################################################################################################################################### // 
+
+
 app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
 
@@ -1073,7 +1210,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                  });
 
     // Get Global Ranking (Current Challenge)
-    var challengeDate = new Date($scope.calYear,$scope.calMonth,1);
+    var challengeDate = new Date();
     var parsedDay = (challengeDate.getDate()).toString() ;
     if (parsedDay < 10) {parsedDay = ("0").concat(parsedDay)}
     var parsedMonth = (challengeDate.getMonth() + 1).toString();

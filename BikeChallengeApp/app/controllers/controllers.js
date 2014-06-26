@@ -8,17 +8,65 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
 
     //Load data - init 
     $scope.loadData = function () {
+        //Load users
         dataFactory.getValues('Rider')
             .success(function (response) {
                 console.log(response);
+                $scope.sourceUsers = angular.fromJson(response);
                 $scope.users = angular.fromJson(response);
             })
                  .error(function (error) {
                      alert("Unable to fetch all system users...");
                  });
+        //Load Cities
+        dataFactory.getValues('Cities', false, 0)
+            .success(function (values) {
+                $scope.citiesHolder = angular.fromJson(values);
+                var tmp = [];
+                angular.forEach($scope.citiesHolder, function (city) {
+                    tmp.push(city.CityName);
+                })
+                $scope.filterOptions[0].values = tmp;
+                
+            })
+        dataFactory.getValues('Organization')
+         .success(function (response) {
+             console.log(response);
+             $scope.organizationsHolder = angular.fromJson(response);
+             dataFactory.getValues('Group')
+                .success(function (response) {
+                    console.log(response);
+                    $scope.groupsHolder = angular.fromJson(response);
+                    angular.forEach($scope.groupsHolder, function (group) {
+                        angular.forEach($scope.organizationsHolder, function (organization) {
+                            if (group.Organization == organization.Organization){
+                                group['orgDispalyname'] = organization.OrganizationDes;
+                                group['orgName'] = organization.OrganizationName;
+                            }
+                        })
+                    })
+                    $scope.filterOptions[1].values = $scope.groupsHolder;
+                    var tmp = [];
+                    angular.forEach($scope.organizationsHolder, function (org) {
+                        tmp.push(org.OrganizationDes);
+                    })
+                    $scope.filterOptions[4].values = tmp;
+                    
+        })
+                .error(function (error) {
+                    alert("Unable to fetch all groups...");
+                });
+         })
+                 .error(function (error) {
+                     alert("Unable to fetch all orgs...");
+                 });
+
+
     }
 
     $scope.loadData();
+
+    
 
     // Accordion vars 
     $scope.oneAtATime = true;
@@ -65,6 +113,24 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
 
     }
 
+    var genderOptions = [
+        'זכר', 'נקבה'
+    ];
+
+    var bikeOptions = [
+        'הרים', 'כביש', 'חשמליים'
+    ];
+
+    $scope.filterOptions = [
+        {useName: 'cityFilter', displayName: 'עיר', values: $scope.citiesHolder },
+        {useName:'groupFilter', displayName: 'קבוצה'},
+        { useName: 'genderFilter', displayName: 'מין', values: genderOptions },
+        { useName: 'bikeTypeFilter', displayName: 'סוג אופניים', values: bikeOptions },
+        {useName:'orgFilter', displayName: 'ארגון'},
+    ]
+
+
+    
 });
 
 

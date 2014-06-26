@@ -104,34 +104,32 @@ app.factory('dataFactory', function ($rootScope, $http, session, serverBaseUrl) 
     
 });
 
+app.factory(
+            "confirm",
+            function ($window, $q) {
 
+                // Define promise-based confirm() method.
+                function confirm(message) {
 
-//app.factory('userProfileFactory', function ($rootScope, $scope, session, dataFactory) {
+                    var defer = $q.defer();
 
-//    var userProfileFactory = {};
+                    // The native confirm will return a boolean.
+                    if ($window.confirm(message)) {
 
+                        defer.resolve(true);
 
-//    // ############# GET ############################## // 
-//    // ################################################ // 
+                    } else {
 
-//    userProfileFactory.storeUserProfile = function (){
+                        defer.reject(false);
 
-//    dataFactory.getUserProfile('Rider', true, "username=" + $scope.currentUser)
-//            .success(function (values) {
-//                sessionProfile.create(values);
-//                $rootScope.personalProfile = values[0];
-//                console.log("personalProfile " + $scope.currentUser);
-//                console.log($scope.personalInfoHolder);
-//            })
+                    }
 
-//            .error(function (value) {
-//                console.log("error");
+                    return (defer.promise);
 
-//            });
-//    }
+                }
 
-//    return userProfileFactory;
+                return (confirm);
 
-
-//});
+            }
+        );
 

@@ -10,16 +10,22 @@ by editing this MSBuild file. In order to learn more about this please visit htt
   </PropertyGroup>
   <ItemGroup>
     <File Include="app/app.js">
-      <publishTime>06/11/2014 23:43:32</publishTime>
+      <publishTime>06/25/2014 21:23:21</publishTime>
     </File>
     <File Include="app/controllers/controllers.js">
-      <publishTime>06/12/2014 21:36:37</publishTime>
+      <publishTime>06/27/2014 01:46:57</publishTime>
     </File>
     <File Include="app/directives/directives.js">
       <publishTime>06/09/2014 00:14:01</publishTime>
     </File>
+    <File Include="app/filters/filters.js">
+      <publishTime>06/27/2014 01:17:22</publishTime>
+    </File>
     <File Include="app/partials/about.html">
       <publishTime>06/04/2014 01:36:58</publishTime>
+    </File>
+    <File Include="app/partials/adminConsole.html">
+      <publishTime>06/27/2014 01:43:45</publishTime>
     </File>
     <File Include="app/partials/bikeChallenge.html">
       <publishTime>06/04/2014 01:36:58</publishTime>
@@ -31,7 +37,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/09/2014 00:14:01</publishTime>
     </File>
     <File Include="app/partials/home.html">
-      <publishTime>06/12/2014 21:02:39</publishTime>
+      <publishTime>06/12/2014 23:03:02</publishTime>
     </File>
     <File Include="app/partials/logIn.html">
       <publishTime>06/04/2014 01:36:58</publishTime>
@@ -52,13 +58,13 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>06/06/2014 02:34:44</publishTime>
     </File>
     <File Include="app/partials/work.html">
-      <publishTime>06/12/2014 21:33:57</publishTime>
+      <publishTime>06/12/2014 23:03:02</publishTime>
     </File>
     <File Include="app/services/appservices.js">
-      <publishTime>06/12/2014 20:36:34</publishTime>
+      <publishTime>06/12/2014 23:03:02</publishTime>
     </File>
     <File Include="app/services/dataServices.js">
-      <publishTime>06/11/2014 23:46:05</publishTime>
+      <publishTime>06/25/2014 21:23:21</publishTime>
     </File>
     <File Include="Areas/HelpPage/HelpPage.css">
       <publishTime>03/21/2014 20:08:25</publishTime>
@@ -103,16 +109,16 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:26</publishTime>
     </File>
     <File Include="bin/BikeChallengeApp.dll">
-      <publishTime>06/12/2014 21:49:49</publishTime>
+      <publishTime>06/27/2014 01:50:15</publishTime>
     </File>
     <File Include="bin/EntityFramework.dll">
-      <publishTime>03/21/2014 20:08:29</publishTime>
+      <publishTime>06/23/2014 23:10:23</publishTime>
     </File>
     <File Include="bin/EntityFramework.SqlServer.dll">
-      <publishTime>03/21/2014 20:08:29</publishTime>
+      <publishTime>06/23/2014 23:10:23</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.Core.dll">
-      <publishTime>03/21/2014 20:08:32</publishTime>
+      <publishTime>06/23/2014 23:10:25</publishTime>
     </File>
     <File Include="bin/Microsoft.AspNet.Identity.EntityFramework.dll">
       <publishTime>03/21/2014 20:08:33</publishTime>
@@ -121,7 +127,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:32</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.dll">
-      <publishTime>03/21/2014 20:08:33</publishTime>
+      <publishTime>06/23/2014 23:10:26</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Host.SystemWeb.dll">
       <publishTime>03/21/2014 20:08:34</publishTime>
@@ -130,7 +136,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:34</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.dll">
-      <publishTime>03/21/2014 20:08:34</publishTime>
+      <publishTime>06/23/2014 23:10:26</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Facebook.dll">
       <publishTime>03/21/2014 20:08:34</publishTime>
@@ -142,7 +148,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:36</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.OAuth.dll">
-      <publishTime>03/21/2014 20:08:34</publishTime>
+      <publishTime>06/23/2014 23:10:26</publishTime>
     </File>
     <File Include="bin/Microsoft.Owin.Security.Twitter.dll">
       <publishTime>03/21/2014 20:08:35</publishTime>
@@ -202,7 +208,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>04/21/2014 09:48:00</publishTime>
     </File>
     <File Include="Content/appStyles.css">
-      <publishTime>06/09/2014 23:19:17</publishTime>
+      <publishTime>06/12/2014 23:03:02</publishTime>
     </File>
     <File Include="Content/bootstrap-rtl.css">
       <publishTime>03/21/2014 21:04:43</publishTime>
@@ -250,10 +256,10 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="index.html">
-      <publishTime>06/10/2014 13:24:37</publishTime>
+      <publishTime>06/27/2014 01:47:31</publishTime>
     </File>
     <File Include="packages.config">
-      <publishTime>05/09/2014 17:20:15</publishTime>
+      <publishTime>06/23/2014 23:10:21</publishTime>
     </File>
     <File Include="ProfileImages/Users/defaultUser/defaultUserImage.jpg">
       <publishTime>05/25/2014 20:21:46</publishTime>
@@ -1156,7 +1162,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:27</publishTime>
     </File>
     <File Include="Scripts/ui-bootstrap-custom-tpls-0.10.0.js">
-      <publishTime>05/31/2014 17:24:11</publishTime>
+      <publishTime>06/24/2014 22:47:26</publishTime>
     </File>
     <File Include="Scripts/underscore-min.js">
       <publishTime>05/09/2014 10:10:08</publishTime>
@@ -1165,7 +1171,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 21:01:31</publishTime>
     </File>
     <File Include="Scripts/_references.js">
-      <publishTime>06/04/2014 23:21:06</publishTime>
+      <publishTime>06/25/2014 22:16:33</publishTime>
     </File>
     <File Include="skins/square/aero%402x.png">
       <publishTime>04/21/2014 09:48:00</publishTime>
@@ -1333,7 +1339,7 @@ by editing this MSBuild file. In order to learn more about this please visit htt
       <publishTime>03/21/2014 20:08:16</publishTime>
     </File>
     <File Include="Web.config">
-      <publishTime>06/11/2014 20:50:09</publishTime>
+      <publishTime>06/27/2014 01:50:25</publishTime>
     </File>
   </ItemGroup>
 </Project>

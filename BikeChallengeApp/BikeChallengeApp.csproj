@@ -230,6 +230,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="app\app.js" />
+    <Content Include="app\filters\filters.js" />
     <Content Include="app\partials\adminConsole.html" />
     <Content Include="app\partials\bikeChallenge.html" />
     <Content Include="app\partials\contactUs.html" />
