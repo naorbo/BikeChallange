@@ -23,10 +23,12 @@
                                ng-readonly="showDetails"
                                ng-minlength="6"
                                ng-maxlength="20"
+                               
                                data-username-validate
                                required>
                         <p ng-show="regDetails.userName.$error.minlength" class="help-block">שם המשתמש קצר משישה תווים</p>
                         <p ng-show="regDetails.userName.$error.shorti" class="help-block">שם המשתמש קצר משישה תווים</p>
+                        <p ng-show="regDetails.userName.$error.exp" class="help-block">שם המשתמש צריך להכיל תווים באנגלית ומספרים בלבד</p>
                         <p ng-show="regDetails.userName.$error.unique" class="help-block">שם המשתמש המבוקש תפוס</p>
                     </div>
                     <!-- Password -->

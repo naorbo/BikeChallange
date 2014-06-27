@@ -92,9 +92,16 @@ app.directive('usernameValidate', function (dataFactory) {
                 console.log("Got the Direc");
                 var shortUserName = true;
                 var Unique = true;
-               // if ($scope.regDetails.userName.$viewValue == undefined) { }
-                //else{
-                    if ($scope.regDetails.userName.$viewValue.length > 5) {
+             
+             
+                if (!(/^[A-Za-z0-9]*$/.test($scope.regDetails.userName.$viewValue))) {
+                    $ctrl.$setValidity('exp', false);
+                }
+                else
+                {
+                    $ctrl.$setValidity('exp', true);
+                }
+                if ($scope.regDetails.userName.$viewValue.length > 5) {
                         $ctrl.$setValidity('shorti', shortUserName);
                         dataFactory.getValues("UserNameExists", 1, "username=" + $scope.regDetails.userName.$viewValue)
                         .success(function (response) {
