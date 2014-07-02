@@ -143,7 +143,10 @@
                                             </tr>
                                             <tr>
                                                 <td>מספר טלפון</td>
-                                                <td class="userAttribute">{{user.UserPhone}}</td>
+                                                <td class="userAttribute pull-right"
+                                                    style="direction: ltr;">
+                                                    {{user.UserPhone | phonePattrenFilter}}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>כתובת דואר אלקטרוני</td>
@@ -151,7 +154,9 @@
                                             </tr>
                                             <tr>
                                                 <td>תאריך לידה</td>
-                                                <td class="userAttribute">{{user.BirthDate}}</td>
+                                                <td class="userAttribute pull-right">
+                                                    {{user.BirthDate | datePattrenFilter}}
+                                                </td>
                                             </tr>
                                             <tr>
                                                 <td>סוג אופניים</td>
@@ -167,7 +172,7 @@
                                             </tr>
                                             <tr>
                                                 <td>תאריך רישום</td>
-                                                <td class="userAttribute">{{user.JoinDate}}</td>
+                                                <td class="userAttribute">{{user.JoinDate| datePattrenFilter}}</td>
                                             </tr>
                                             <tr>
                                                 <td></td>

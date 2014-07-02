@@ -65,9 +65,36 @@ app.filter('groupFilter', [function () {
     }
 }])
 
+app.filter('phonePattrenFilter', [function () {
+    return function (phoneNum) {
+        var template = new String;
+        if (phoneNum.length == 10) {
+            template = template.concat('(').concat(phoneNum.slice(0, 3)).concat(') ').concat(phoneNum.slice(3, 10));
+            return template;
+        }
+        else if (phoneNum.length == 9) {
+            template = template.concat('(').concat(phoneNum.slice(0, 2)).concat(') ').concat(phoneNum.slice(2, 9));
+            return template;
+        }
+        else
+            return phoneNum;
+    }
+}])
 
-
-
+app.filter('datePattrenFilter', [function () {
+    return function (date) {
+        var template = new String;
+        try {
+            template = template.concat(date.slice(8, 10)).concat('-').concat(date.slice(5, 7)).concat('-').concat(date.slice(0, 4));
+            return template;
+        }
+        catch (err)
+        {
+            return date;
+        }
+        
+    }
+}])
 
 
 
