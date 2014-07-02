@@ -284,27 +284,27 @@ public class DBservices
 
             case 20:
 
-            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
                             From UsersEvents ue, Users U, [Events] e, Cities C, UsersEvents UE2
                             Where ue.[User] = u.[User]
                             AND u.UserDes = '" + data1 + @"'
                             AND ue.[Event] = e.[Event]
                             AND e.City = c.City
                             AND ue.[Event] = UE2.[Event]
-                            group by e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName "; // Read From Data Base Organization Ranking
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails] "; // Read From Data Base Organization Ranking
             break;
             case 21:
 
-            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User])-1 NumOfRidersInEvent
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User])-1 NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
                             From [Events] e, Cities C, usersevents ue
                             Where e.[Event] <> 0
                             AND e.City = c.City
                             AND e.[event] = ue.[event]
-                            group by e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName"; // Read From Data Base Organization Ranking
+                            group by e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails]"; // Read From Data Base Organization Ranking
             break;
             case 22:
 
-            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+            selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, , e.[EventTime], e.[EventAddress], e.[EventDetails], C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
                             From UsersEvents ue, [Events] e,  Users U, Cities C, Cities CU, Groups g, Organizations o, usersgroups ug
                             Where e.[Event] <> 0
                             AND e.EventDes = '" + data1+ @"'
@@ -409,7 +409,7 @@ public class DBservices
                 DataTable dt1 = ds.Tables[0];
                 int UserRanking = dt1.Rows.Count + 1;
                 selectStr1 = BuildGrouprankCommand(data2,data3,data4); 
-                selectStr2 = BuildOrganizationrankCommand(data3);
+                selectStr2 = BuildOrganizationrankCommand(data3,data4);
 
                 SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
                 SqlDataAdapter dc = new SqlDataAdapter(selectStr2, con);
@@ -703,7 +703,7 @@ public class DBservices
         return command;
     }
 
-    private String BuildOrganizationrankCommand(string data3)
+    private String BuildOrganizationrankCommand(string data3,string data4)
     {
        
         StringBuilder sb = new StringBuilder();
@@ -716,7 +716,7 @@ public class DBservices
                                             FROM UsersGroups UG
                                             WHERE G.[Group] = UG.[Group])
                                 AND R.[User] = U.[User] 
-                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
                                 group by O.OrganizationDes
                                 having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
 			                                (
@@ -728,7 +728,7 @@ public class DBservices
 			                                AND U.[User] in ( SELECT UG.[User]
 						                                FROM UsersGroups UG
 						                                WHERE G.[Group] = UG.[Group])
-			                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+			                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
 			                                AND R.[User] = U.[User] 
 			                                group by O.OrganizationName )
                                 order by Organization_Points DESC ;";
@@ -1186,8 +1186,11 @@ public class DBservices
            ,[EventDes]
            ,[EventType]
            ,[EventStatus]
-           ,[EventDate])";
-        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, evt.EventStatus, evt.EventDate);
+           ,[EventDate]
+           ,[EventTime]
+           ,[EventAddress]
+           ,[EventDetails])";
+        sb.AppendFormat("Values('{0}', (select City from Cities Where CityName = '{1}'),'{2}','{3}','{4}','{5}','{6}','{7}','{8}')", evt.EventName, evt.City, evt.EventDes, evt.EventType, evt.EventStatus, evt.EventDate, evt.EventTime, evt.EventAddress, evt.EventDetails);
         String command2 = @"INSERT INTO USERSEVENTS([Event]
                             ,[User])
                                VALUES

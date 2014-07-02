@@ -61,12 +61,32 @@ namespace BikeChallengeApp.Models
             set { eventDate = value; }
         }
 
+        string eventDetails;
+        public string EventDetails
+        {
+            get { return eventDetails; }
+            set { eventDetails = value; }
+        }
+
+        string eventAddress;
+        public string EventAddress
+        {
+            get { return eventAddress; }
+            set { eventAddress = value; }
+        }
+
+        string eventTime;
+        public string EventTime
+        {
+            get { return eventTime; }
+            set { eventTime = value; }
+        }
 
          public Event()
         {
             
         }
-         public Event(string eventName, string eventDate, string eventDes, string city, string eventType, string eventStatus)
+         public Event(string eventName, string eventDate, string eventDes, string city, string eventType, string eventStatus, string eventTime, string eventAddress, string eventDetails)
         {
             EventName = (eventName != null ? eventName : "");
             EventDate = (eventDate != null ? eventDate : "");
@@ -74,6 +94,9 @@ namespace BikeChallengeApp.Models
             EventType = (eventType != null ? eventType : "");
             EventStatus = (eventStatus != null ? eventStatus : "");
             City = (city != null ? city : "");
+            EventTime = (eventTime != null ? eventTime : "");
+            EventAddress = (eventAddress != null ? eventAddress : "");
+            EventDetails = (eventDetails != null ? eventDetails : "");
 
         }
     }

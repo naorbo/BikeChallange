@@ -61,9 +61,8 @@ namespace BikeChallengeApp.Controllers
             dbs = dbs.ReadFromDataBase(17, gender, order, date);
             return dbs.dt;
         }
-        // GET Ranking per Organization
-        //orgname=[If you want to get the ranking within the org]/ gender=[if you want to get the ranking according to gender]
-        // api/Ranking?username=tester10&date=06-01-2014
+        // GET Self Ranking
+        // api/Ranking?username=messi10&grpname=החלוצים&orgname=barca&date=06-01-2014
         public DataTable GetRank(string username, string grpname, string orgname, string date)
         {
             DBservices dbs = new DBservices();
