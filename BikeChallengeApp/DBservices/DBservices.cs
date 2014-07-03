@@ -665,6 +665,13 @@ public class DBservices
             case "Event":
                 cStr = BuildDelteEventCommand(data1);      // helper method to build the insert string
                 break;
+            case "Groups":
+                cStr = BuildDelteGroupCommand(data1,data2);      // helper method to build the insert string
+                break;
+            case "Organizations":
+                cStr = BuildDelteOrganizationCommand(data1);      // helper method to build the insert string
+                break;
+                
 
 
         }
@@ -1312,8 +1319,24 @@ public class DBservices
         String command = @"  DELETE FROM [UsersEvents] Where [Event] = (Select [Event] from [Events] Where [EventName]  = '" + eventname + @"') ;";
         StringBuilder sb = new StringBuilder();
         String prefix = @"  DELETE FROM [Events] Where [EventName]  = '" + eventname + @"' ;";
-        command = prefix;
+
         return command + prefix;
+    }
+    private String BuildDelteGroupCommand(string grpname, string orgname)
+    {
+        //String command = @"  DELETE FROM [UsersGroups] Where [Group] = ( Select [group] From Groups where GroupDes =  '" + grpname + @"') ;";
+
+        String prefix = @"  DELETE FROM [Groups] Where [GroupDes] = '" + grpname + @"' AND Organization = ( Select Organization From Organizations where OrganizationDes =  '" + orgname + @"') ;";
+
+        return prefix;
+    }
+
+    private String BuildDelteOrganizationCommand(string orgname)
+    {
+
+        String command = @" DELETE FROM Organizations where OrganizationDes = '" + orgname + @"' ;";
+
+        return command;
     }
     #endregion
 

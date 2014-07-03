@@ -1,0 +1,3 @@
+The Group LOG file
+23:27:58 : Violation of UNIQUE KEY constraint 'uc_GroupsInOrgs'. Cannot insert duplicate key in object 'dbo.Groups'.
+The statement has been terminated.

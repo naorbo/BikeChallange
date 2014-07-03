@@ -11,6 +11,13 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Web;
+using iTextSharp.text;
+using iTextSharp.text.pdf;
+using System.IO;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
 
 namespace BikeChallengeApp.Controllers
 {
@@ -68,5 +75,57 @@ namespace BikeChallengeApp.Controllers
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
+        // DELETE Group 
+        // api/Group?grpname=groupname&orgname=organizationanme
+        public string DeleteGroup(string grpname, string orgname)
+        {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
+            string Response = "";
+            grpname = grpname.Replace("'", "''");
+            orgname = orgname.Replace("'", "''");
+            try
+            {
+                return_val = dbs.DeleteDatabase("Groups", grpname, orgname);
+            }
+            catch (Exception ex)
+            {
+                Response = ("Error in the Delete process the group from an event database " + ex.Message);
+                lf.Main("Groups", Response);
+                return "Error";
+            }
+            Response = "The Group " + grpname + " was Deleted from the Event";
+            lf.Main("Groups", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
+        public void PDF(int f)
+        {
+            string str = HttpContext.Current.ToString();
+            
+            Document document = new Document();
+            PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
+            document.Open();
+            Paragraph P = new Paragraph(str, FontFactory.GetFont("Arial", 10));
+            //Paragraph P2 = new Paragraph(val.ToString(), FontFactory.GetFont("Arial", 10));
+            document.Add(P);
+            //document.Add(P2);
+            document.Close();
+        }
+
+     /*   private object GetFormData<T>(MultipartFormDataStreamProvider result)
+        {
+            if (result.FormData.HasKeys())
+            {
+                var unescapedFormData = Uri.UnescapeDataString(result.FormData
+                    .GetValues(0).FirstOrDefault() ?? String.Empty);
+                if (!String.IsNullOrEmpty(unescapedFormData))
+                    return JsonConvert.DeserializeObject<T>(unescapedFormData);
+            }
+
+            return null;
+        }*/
     }
 }

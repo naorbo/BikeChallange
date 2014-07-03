@@ -60,6 +60,32 @@ namespace BikeChallengeApp.Controller
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
+
+        // DELETE Organization 
+        // api/Organization?orgname=organizationanme
+        public string DeleteOrganization(string orgname)
+        {
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            DBservices dbs = new DBservices();
+            string Response = "";
+            orgname = orgname.Replace("'", "''");
+            try
+            {
+                return_val = dbs.DeleteDatabase("Organizations", orgname);
+            }
+            catch (Exception ex)
+            {
+                Response = ("Error in the Delete process the Organization from the database " + ex.Message);
+                lf.Main("Organizations", Response);
+                return "Error";
+            }
+            Response = "The Organization " + orgname + " was Deleted from the Event";
+            lf.Main("Organizations", Response);
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
+
         
 
     }
