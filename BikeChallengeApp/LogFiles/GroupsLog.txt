@@ -1,0 +1,4 @@
+The Groups LOG file
+00:06:22 : The Group צ''ופציקון''ן was Deleted from the Event
+00:23:56 : Error updating the Group database Object reference not set to an instance of an object.
+00:24:01 : Error updating the Group database Object reference not set to an instance of an object.
