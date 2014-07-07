@@ -11,11 +11,11 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Web;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
+//using iTextSharp.text;
+//using iTextSharp.text.pdf;
 using System.IO;
 using Newtonsoft.Json;
-using System.Net.Http;
+//using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 
@@ -101,19 +101,19 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        public void PDF(int f)
-        {
-            string str = HttpContext.Current.ToString();
+        //public void PDF(int f)
+        //{
+        //    string str = HttpContext.Current.ToString();
             
-            Document document = new Document();
-            PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
-            document.Open();
-            Paragraph P = new Paragraph(str, FontFactory.GetFont("Arial", 10));
-            //Paragraph P2 = new Paragraph(val.ToString(), FontFactory.GetFont("Arial", 10));
-            document.Add(P);
-            //document.Add(P2);
-            document.Close();
-        }
+        //    Document document = new Document();
+        //    PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
+        //    document.Open();
+        //    Paragraph P = new Paragraph(str, FontFactory.GetFont("Arial", 10));
+        //    //Paragraph P2 = new Paragraph(val.ToString(), FontFactory.GetFont("Arial", 10));
+        //    document.Add(P);
+        //    //document.Add(P2);
+        //    document.Close();
+        //}
 
      /*   private object GetFormData<T>(MultipartFormDataStreamProvider result)
         {

@@ -205,11 +205,11 @@
                             </div>    
                             </div>
                                          
-                    <!-- Groups/Orgs Management Interface-->
+                    <!-- Groups Management Interface-->
                     <div ng-switch-when="2">
                         
                         <fieldset>
-                            <legend>ניהול ארגונים וקבוצות</legend>
+                            <legend>ניהול קבוצות</legend>
                         </fieldset>
                         
                         <div class="row">
@@ -252,13 +252,11 @@
                             </div>
 
 
-
-
-                            <div ng-if="org.Organization == group.Organization" data-accordion ng-repeat="group in groupsHolder |  orderBy:'orgDispalyname'">
-                                <div data-accordion-group data-is-open="statusGroup.open">
-                                    <div data-accordion-heading>
-                                        <span>{{group.GroupDes}}</span>
-                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': statusGroup.open, 'glyphicon-chevron-right pull-left': !statusGroup.open}"></i>
+                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in groupsHolder |  orderBy:'orgDispalyname'">
+                                <div data-accordion-group data-is-open="statusGroup.open" >
+                                    <div  data-accordion-heading>
+                                        <span ng-click="undoDemote()">{{group.GroupDes}}</span>
+                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': statusGroup.open, 'glyphicon-chevron-right pull-left': !statusGroup.open}" ng-click="undoDemote()"></i>
                                     </div>
 
                                     <table class="table table-responsive table-condensed">
@@ -274,17 +272,44 @@
                                         </tr>
                                         <tr>
                                             <td>קפטן הקבוצה</td>
-                                            <td class="userAttribute">{{group.GroupCaptain}}</td>
+                                            <td class="userAttribute">{{group.DisplayName}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>מספר רוכבים</td>
+                                            <td class="userAttribute">{{group.GroupHeadCount}}</td>
+                                        </tr>
+
+
+                                        <tr ng-if="replaceCaptainFlag">
+                                            <td><strong>בחר קפטן חדש</strong></td>
+                                            <td>
+                                                <select ng-model="newCaptain"
+                                                        class="pull-right"
+                                                        ng-options="newCaptain.UserDisplayName for newCaptain  in riderPerGroup"
+                                                         />
+                                                &nbsp;<i class="glyphicon glyphicon-save"
+                                                         ng-click="saveNewCaptain(group.Captain_UserName,newCaptain)"
+                                                         title="עדכן"
+                                                         style="color:green"></i>
+                                                &nbsp;<i class="glyphicon glyphicon-remove-circle"
+                                                           ng-click="undoDemote()"
+                                                           title="בטל"
+                                                           style="color:red"></i>
+                                            </td>
                                         </tr>
 
                                     </table>
 
                                     <button class="btn btn-default pull-left"
-                                            ng-click="removeGroup(group.GroupName, group.orgName)">
+                                            ng-click="removeGroup(group.GroupName, group.OrganizationName)">
                                         <i class="glyphicon glyphicon-remove" style="color:red"></i>
                                         <span>מחיקת קבוצה</span>
                                     </button>
-
+                                    <button class="btn btn-default pull-left"
+                                            ng-click="demoteCaptain(group.GroupName, group.OrganizationName)">
+                                        <i class="glyphicon glyphicon-flag" style="color:blue"></i>
+                                        <span>החלפת קפטן</span>
+                                    </button>
 
                                 </div>
                             </div>
@@ -297,11 +322,34 @@
 
                     </div>
 
-                    <!-- BikeChallenge Events Management Interface-->
+                    <!-- Organizations Management Interface-->
                     <div ng-switch-when="3">
                         <fieldset>
-                            <legend>ניהול אירועים</legend>
+                            <legend>ניהול ארגונים</legend>
                         </fieldset>
+                        
+                        
+                        <div class="row">
+                            <div class="col-md-4 pull-right" style="font-weight:bolder">
+                                <label><strong style="color:black">סינון תוצאות</strong></label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 pull-right" style="margin-bottom:20px;">
+                            <label><strong>ארגון</strong></label>
+                            <div class="form-control">
+                                <select ng-model="orgGrpMgmt"
+                                        class="pull-right"
+                                        ng-options="value for value in filterOptions[4].values"
+                                        style="border:none" />
+                                <span class="glyphicon glyphicon-filter pull-left"
+                                      ng-class="{'cancelFilter' : orgGrpMgmt}"
+                                      ng-click="orgGrpMgmt=undefined"></span>
+                            </div>
+                            <hr />
+                        </div>
+
+
+
                     </div>
 
                     <div ng-switch-when="4">
@@ -319,6 +367,12 @@
                     <div ng-switch-when="6">
                         <fieldset>
                             <legend>משלוח הודעות</legend>
+                        </fieldset>
+                    </div>
+                    <!-- BikeChallenge Events Management Interface-->
+                    <div ng-switch-when="7">
+                        <fieldset>
+                            <legend>ניהול אירועים</legend>
                         </fieldset>
                     </div>
 
@@ -343,6 +397,11 @@
                                 <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
                             </div>
 
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=3">
+                                <strong class="pull-right">ניהול ארגונים</strong>
+                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                            </div>
 
                             <hr />
                             <div class="row scroll-down-text" ng-click="adminNav.switch=3">

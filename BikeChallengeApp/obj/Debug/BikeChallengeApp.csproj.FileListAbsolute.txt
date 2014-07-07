@@ -192,6 +192,5 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Owi
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Owin.xml
-C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb

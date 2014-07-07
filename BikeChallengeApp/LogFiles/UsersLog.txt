@@ -1,3 +1,4 @@
 The Users LOG file
 21:33:34 : The Rider tester10 was Deleted from the Database
 01:37:16 : The Rider tester100 was Deleted from the Database
+21:24:43 : The Rider ntester13 was Deleted from the Database
