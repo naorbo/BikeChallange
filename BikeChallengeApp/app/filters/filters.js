@@ -1,6 +1,6 @@
 ﻿/// <reference path="../Scripts/angular.js" />
 
-//Users Management filter 
+//Users Management filters
 //city, org, gender, group, bike
 
 app.filter('cityFilter', [function () {
@@ -97,5 +97,20 @@ app.filter('datePattrenFilter', [function () {
 }])
 
 
+//Groups Management filters
 
 
+app.filter('groupsOrgFilter', [function () {
+    return function (orgs, orgGrgMgmnt) {
+        var filteredGroups = [];
+        if (orgGrgMgmnt != undefined) {
+            angular.forEach(orgs, function (org) {
+                if (org.OrganizationDes == orgGrgMgmnt)
+                    filteredGroups.push(org);
+            })
+            return filteredGroups;
+        }
+        else
+            return orgs;
+    }
+}])

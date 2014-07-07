@@ -29,6 +29,9 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 $scope.filterOptions[0].values = tmp;
                 
             })
+
+        // Load groups & orgs
+
         dataFactory.getValues('Organization')
          .success(function (response) {
              console.log(response);
@@ -112,6 +115,36 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
 
 
     }
+
+    //Remove Group
+    $scope.removeGroup = function (groupName, organizationName) {
+        confirm("האם אתה בטוח שברצונך למחוק את הקבוצה ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+
+                        dataFactory.deleteValues('group', 'username=' + userName)
+                            .success(function (response) {
+                                console.log('User deletion succeeded');
+                                $scope.loadData();
+                            })
+                            .error(function (response) {
+                                console.log("error deleting user");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
+
 
     var genderOptions = [
         'זכר', 'נקבה'
