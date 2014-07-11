@@ -15,9 +15,11 @@ using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
 using Newtonsoft.Json;
-using System.Net.Http;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+
+
 
 namespace BikeChallengeApp.Controllers
 {
@@ -100,32 +102,7 @@ namespace BikeChallengeApp.Controllers
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
+        
 
-        public void PDF(int f)
-        {
-            string str = HttpContext.Current.ToString();
-            
-            Document document = new Document();
-            PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
-            document.Open();
-            Paragraph P = new Paragraph(str, FontFactory.GetFont("Arial", 10));
-            //Paragraph P2 = new Paragraph(val.ToString(), FontFactory.GetFont("Arial", 10));
-            document.Add(P);
-            //document.Add(P2);
-            document.Close();
-        }
-
-     /*   private object GetFormData<T>(MultipartFormDataStreamProvider result)
-        {
-            if (result.FormData.HasKeys())
-            {
-                var unescapedFormData = Uri.UnescapeDataString(result.FormData
-                    .GetValues(0).FirstOrDefault() ?? String.Empty);
-                if (!String.IsNullOrEmpty(unescapedFormData))
-                    return JsonConvert.DeserializeObject<T>(unescapedFormData);
-            }
-
-            return null;
-        }*/
     }
 }

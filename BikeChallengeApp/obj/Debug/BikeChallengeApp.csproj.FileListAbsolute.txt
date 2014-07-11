@@ -69,6 +69,7 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Antlr3.Runtime.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\EntityFramework.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\EntityFramework.SqlServer.dll
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.AspNet.Identity.Core.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.AspNet.Identity.EntityFramework.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.AspNet.Identity.Owin.dll
@@ -83,6 +84,7 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.Owin.Security.Twitter.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Microsoft.Web.Infrastructure.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Newtonsoft.Json.dll
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\nunit.framework.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\Owin.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Net.Http.Formatting.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Cors.dll
@@ -98,6 +100,8 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.WebPages.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.WebPages.Razor.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\WebGrease.dll
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.xml
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\nunit.framework.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Net.Http.Formatting.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.xml
@@ -128,5 +132,4 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Owin.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb
-C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.dll
-C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.xml
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
