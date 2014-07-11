@@ -2,3 +2,10 @@ The Groups LOG file
 00:06:22 : The Group צ''ופציקון''ן was Deleted from the Event
 00:23:56 : Error updating the Group database Object reference not set to an instance of an object.
 00:24:01 : Error updating the Group database Object reference not set to an instance of an object.
+21:19:54 : The Group האוספים was Deleted from the Event
+21:21:36 : The DELETE statement conflicted with the REFERENCE constraint "FK__UsersGrou__Group__1E3A7A34". The conflict occurred in database "igroup1_prod", table "dbo.UsersGroups", column 'Group'.
+The statement has been terminated.
+21:21:36 : The Group החלוצים was Deleted from the Event
+21:23:55 : The DELETE statement conflicted with the REFERENCE constraint "FK__UsersGrou__Group__1E3A7A34". The conflict occurred in database "igroup1_prod", table "dbo.UsersGroups", column 'Group'.
+The statement has been terminated.
+21:23:55 : The Group החלוצים was Deleted from the Event

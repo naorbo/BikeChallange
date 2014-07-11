@@ -1,3 +1,5 @@
 The Rider LOG file
 21:33:34 : The DELETE statement conflicted with the REFERENCE constraint "fk_fUser". The conflict occurred in database "igroup1_prod", table "dbo.Rides", column 'User'.
 The statement has been terminated.
+21:24:43 : The DELETE statement conflicted with the REFERENCE constraint "fk_fUser". The conflict occurred in database "igroup1_prod", table "dbo.Rides", column 'User'.
+The statement has been terminated.

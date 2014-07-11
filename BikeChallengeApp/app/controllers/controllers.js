@@ -29,6 +29,9 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 $scope.filterOptions[0].values = tmp;
                 
             })
+
+        // Load groups & orgs
+
         dataFactory.getValues('Organization')
          .success(function (response) {
              console.log(response);
@@ -52,7 +55,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                     })
                     $scope.filterOptions[4].values = tmp;
                     
-        })
+                })
                 .error(function (error) {
                     alert("Unable to fetch all groups...");
                 });
@@ -93,10 +96,10 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                             .success(function (response) {
                                 console.log('User deletion succeeded');
                                 $scope.loadData();
-                       })
+                            })
                             .error(function (response) {
-                           console.log("error deleting user");
-                       });
+                                console.log("error deleting user");
+                            });
 
 
 
@@ -112,6 +115,91 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
 
 
     }
+
+
+    
+    //Remove Group
+    $scope.removeGroup = function (groupName, organizationName) {
+        confirm("האם אתה בטוח שברצונך למחוק את הקבוצה ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                        // api/Group?grpname=groupname&orgname=organizationanme
+                        dataFactory.deleteValues('Group', 'grpname=' + groupName + '&orgname=' + organizationName )
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error')
+                                {
+                                    alert('לא ניתן למחוק קבוצה המכילה משתמשים פעילים')
+                                }
+                                else
+                                {
+                                    console.log('Group deletion succeeded');
+                                    $scope.loadData();
+                                }
+                                
+                            })
+                            .error(function (response) {
+                                console.log("error deleting group");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
+
+
+    // Replace the captain
+    // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+    $scope.replaceCaptainFlag = false;
+    $scope.demoteCaptain = function (groupName, orgName) {
+        $scope.riderPerGroup = []; 
+        dataFactory.getValues('Rider', true, 'grpname=' + groupName + '&orgname=' + orgName)
+            .success(function (values) {
+                $scope.riderPerGroup = angular.fromJson(values);
+                $scope.replaceCaptainFlag = true;
+            })
+                
+    }
+    
+    // Put api/captain?cap_usr=""&new_cap_usr=""
+    // cap_usr-"The user name of old captain", new_cap_usr-"The user name of new captain"
+    $scope.saveNewCaptain = function (oldCaptain, newCaptain) {
+        dataFactory.updateValues('captain', newCaptain, true, 'cap_usr=' + oldCaptain + '&new_cap_usr=' + newCaptain.UserName)
+            .success(function (values) {
+                if (angular.fromJson(values) == "Error")
+                { alert("עדכון נכשל!"); }
+                else
+                {
+                    alert("עדכון הושלם בהצלחה!");
+                    $scope.loadData();
+                    $scope.replaceCaptainFlag = false;
+                }
+            })
+                .error(function (error) {
+                    alert("עדכון נכשל!");
+                });
+    }
+            
+        
+    //Undo Captain demote
+
+    $scope.undoDemote = function () {
+        $scope.replaceCaptainFlag = false;
+    }
+
+
+
+    
+    
+    
 
     var genderOptions = [
         'זכר', 'נקבה'
