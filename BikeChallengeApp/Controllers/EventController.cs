@@ -93,17 +93,18 @@ namespace BikeChallengeApp.Controllers
         }
 
         // DELETE User From Event 
-        // api/Event?usernme=
-        public string Delete(string username)
+        // api/Event?usernme=""&eventname=""
+        public string Delete(string username, string eventname)
         {
             int return_val = 0;
             LogFiles lf = new LogFiles();
             DBservices dbs = new DBservices();
             string Response = "";
             username = username.Replace("'", "''");
+            eventname = eventname.Replace("'", "''");
             try
             {
-                return_val = dbs.DeleteDatabase("UserEvent", username);
+                return_val = dbs.DeleteDatabase("UserEvent", username, eventname);
             }
             catch (Exception ex)
             {
@@ -143,7 +144,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // PUT api/Event?eventname=
-        // {"City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
+        // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
         public string Put(string eventname, [FromBody]Event evt)
         {
             int return_val = 0;

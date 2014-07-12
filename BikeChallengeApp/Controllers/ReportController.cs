@@ -23,26 +23,10 @@ namespace BikeChallengeApp.Controllers
 {
     public class ReportController : ApiController
     {
-        // api/Report/?f=5
-        // {"GroupName":"1", "OrganizationName":"2"},{"GroupName":"2", "OrganizationName":"3"}
-        /*[System.Web.Http.HttpPost]
-        public ActionResult saveUserInfos(string data)
-        {
-            try
-            {
-                var userInfoList = JsonConvert.DeserializeObject<IEnumerable<Group>>(data);
-                userInfoList.ToString();
-                //Save these data to Your DB 
+        // api/Report/
+        // {"GroupName":"1", "OrganizationName":"1"},{"GroupName":"2", "OrganizationName":"2"}
 
-                return Json("Success");
-            }
-            catch (JsonReaderException e)
-            {
-
-                return Json(e.Message);
-            }
-        } 
-        public Task<HttpResponseMessage> YourAction(int f, [FromBody]string grp)
+        public string myAction([FromBody]List<Group> grp)
         {
             var resolveRequest = Request.Content.ReadAsStringAsync();
             
@@ -60,7 +44,7 @@ namespace BikeChallengeApp.Controllers
             List<Object> mlist = new List<Object>();
             mlist.Add(grp);
             
-             * string str = "LOGO";
+            string str = "LOGO";
             Document document = new Document();
             PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
             PdfPTable table = new PdfPTable(3);
@@ -97,7 +81,7 @@ namespace BikeChallengeApp.Controllers
             //document.Add(P2);
             document.Close();
             
-            return null;
-        } */
+            return "";
+        }
     }
 }

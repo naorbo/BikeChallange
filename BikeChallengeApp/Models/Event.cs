@@ -19,8 +19,7 @@ namespace BikeChallengeApp.Models
                 eventName = value;
                 eventName = eventName.Replace("'", "''");
                 eventDes = eventName;
-                eventName = eventName.Replace("&", "'+CHAR(37)+'26");
-                eventName = eventName.Replace(" ", "'+CHAR(37)+'20");
+                eventName = DateTime.Now.ToString("dd-MM-yy-hh-mm-ss"); 
             }
         }
 

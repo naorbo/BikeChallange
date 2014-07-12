@@ -62,7 +62,6 @@ C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeA
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Owin.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb
-C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\BikeChallengeApp.dll.config
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\BikeChallengeApp.dll
 C:\Users\Shlomi\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\BikeChallengeApp.pdb
@@ -197,3 +196,4 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeCha
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.dll
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Newtonsoft.Json.xml
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache

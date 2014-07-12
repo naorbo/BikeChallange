@@ -303,7 +303,7 @@ public class DBservices
 
                 case 20:
 
-                    selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
+                    selectStr = @"  Select e.EventName, e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, C.CityName,COUNT(ue2.[User]) AS NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
                             From UsersEvents ue, Users U, [Events] e, Cities C, UsersEvents UE2
                             Where ue.[User] = u.[User]
                             AND u.UserDes = '" + data1 + @"'
@@ -314,7 +314,7 @@ public class DBservices
                     break;
                 case 21:
 
-                    selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User])-1 NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
+                    selectStr = @"  Select e.EventName, e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.EventStatus, C.CityName, COUNT(ue.[User])-1 NumOfRidersInEvent, e.[EventTime], e.[EventAddress], e.[EventDetails]
                             From [Events] e, Cities C, usersevents ue
                             Where e.[Event] <> 0
                             AND e.City = c.City
@@ -323,10 +323,10 @@ public class DBservices
                     break;
                 case 22:
 
-                    selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.[EventTime], e.[EventAddress], e.[EventDetails], C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+                    selectStr = @"  Select e.EventName,e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.[EventTime], e.[EventAddress], e.[EventDetails], C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
                             From UsersEvents ue, [Events] e,  Users U, Cities C, Cities CU, Groups g, Organizations o, usersgroups ug
                             Where e.[Event] <> 0
-                            AND e.EventDes = '" + data1 + @"'
+                            AND e.EventName = '" + data1 + @"'
 							AND e.City = c.City
                             AND e.[Event] = ue.[Event]
                             AND ue.[User] = U.[User]
@@ -664,7 +664,7 @@ public class DBservices
                 cStr = BuildDelteRouteCommand(data1, data2);      // helper method to build the insert string
                 break;
             case "UserEvent":
-                cStr = BuildDelteUserEventCommand(data1);      // helper method to build the insert string
+                cStr = BuildDelteUserEventCommand(data1, data2);      // helper method to build the insert string
                 break;
             case "Event":
                 cStr = BuildDelteEventCommand(data1);      // helper method to build the insert string
@@ -1230,13 +1230,14 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"UPDATE [Events]
                            SET [City] = " + (evt.City != "" ? " (select city from Cities where CityName = '" + evt.City + "' )" : "[City]") + @"
+                              ,[EventDes] = " + (evt.EventDes != "" ? "'" + evt.EventDes + "'" : "[EventDes]") + @"
                               ,[EventType] = " + (evt.EventType != "" ? "'" + evt.EventType + "'" : "[EventType]") + @"
                               ,[EventStatus] = " + (evt.EventStatus != "" ? "'" + evt.EventStatus + "'" : "[EventStatus]") + @"
                               ,[EventDate] = " + (evt.EventDate != "" ? "'" + evt.EventDate + "'" : "[EventDate]") + @"
                               ,[EventTime] = " + (evt.EventTime != "" ? "'" + evt.EventTime + "'" : "[EventTime]") + @"
                               ,[EventAddress] = " + (evt.EventAddress != "" ? "'" + evt.EventAddress + "'" : "[EventAddress]") + @"
                               ,[EventDetails] = " + (evt.EventDetails != "" ? "'" + evt.EventDetails + "'" : "[EventDetails]") + @"
-                         WHERE [EventDes] = '" + eventname + "' ";
+                         WHERE [EventName] = '" + eventname + "' ";
         return command;
     }
 
@@ -1308,15 +1309,16 @@ public class DBservices
         String command = @"INSERT INTO USERSEVENTS([Event]
                             ,[User])
                                VALUES
-                        ( (Select Event From [Events] Where EventDes = '" + eventname + @"' )   
+                        ( (Select Event From [Events] Where EventName = '" + eventname + @"' )   
                        ,(Select [User] From [Users] Where UserDes = '" + username + @"') )";
 
         return command;
     }
-    private String BuildDelteUserEventCommand(string username)
+    private String BuildDelteUserEventCommand(string username, string eventname)
     {
         StringBuilder sb = new StringBuilder();
-        String command = @"  DELETE FROM [UsersEvents] Where [USER] in ( Select [User] From Users Where UserDes = '" + username + @"' );";
+        String command = @"  DELETE FROM [UsersEvents] Where [USER] = ( Select [User] From Users Where UserDes = '" + username + @"' )
+                                                       AND [Event] = (Select [Event] From [Events] Where EventName = '"+eventname+"' );";
         return command;
     }
 

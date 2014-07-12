@@ -11,23 +11,16 @@ using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Text;
 using System.Web;
-<<<<<<< HEAD
-=======
-using iTextSharp.text;
-using iTextSharp.text.pdf;
->>>>>>> origin/master
 using System.IO;
-using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-<<<<<<< HEAD
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
-=======
 
 
->>>>>>> origin/master
+
+
 
 namespace BikeChallengeApp.Controllers
 {
@@ -110,11 +103,10 @@ namespace BikeChallengeApp.Controllers
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
-<<<<<<< HEAD
+
      }
-=======
+
 
 
     }
->>>>>>> origin/master
-}
+
