@@ -348,7 +348,7 @@ public class DBservices
                             AND  U.[User]=ug.[User]
                             AND ug.[Group]=g.[Group]
                             AND g.Organization=o.Organization
-                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy,'" + data2 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm,'" + data2 + @"')
                             Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
                             having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @") 
                             BEGIN
@@ -365,7 +365,7 @@ public class DBservices
                             END
                             ELSE
                             BEGIN
-                                SELECT 'No Rider At This Category' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                SELECT '" + data3 + @"' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
                                 From Users Where [User]=0;
                             END "; // ReadFromDataBaseUserName
                     break;
@@ -523,6 +523,17 @@ public class DBservices
                 }
                 dd.Tables[0].AcceptChanges();
                 dt.ImportRow(dd.Tables[0].Rows[0]);
+                // Organization And Group Shuffle
+                selectStr = ShuffleOrg(data2);
+                da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+                DataSet dor = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                da.Fill(dor);
+                dt.ImportRow(dor.Tables[0].Rows[0]);
+                selectStr = ShuffleGrp(data2);
+                da = new SqlDataAdapter(selectStr, con); // create the data adapter  
+                DataSet dgr = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                da.Fill(dgr);
+                dt.ImportRow(dgr.Tables[0].Rows[0]);
 
             }
             /**************END OF******* Handle the Rank of the User / Group / Organization *******END OF**************/
@@ -561,6 +572,7 @@ public class DBservices
         else if (typeOfObject.Contains("Group")) _class = "Group";
         else if (typeOfObject.Contains("Rides")) _class = "Rides";
         else if (typeOfObject.Contains("Event")) _class = "Event";
+        else if (typeOfObject.Contains("Competition")) _class = "Competition";
 
         SqlConnection con;
         SqlCommand cmd;
@@ -609,6 +621,11 @@ public class DBservices
                 foreach (Event obj in s)
                     cStr = BuildInsertEventsCommand(obj);      // helper method to build the insert string
                 break;
+            case "Competition":
+                foreach (Competition obj in s)
+                    cStr = BuildInsertCompetitionCommand(obj);      // helper method to build the insert string
+                break;
+                
         }
         cmd = CreateCommand(cStr, con);             // create the command
         try
@@ -808,7 +825,7 @@ public class DBservices
                             AND  U.[User]=ug.[User]
                             AND ug.[Group]=g.[Group]
                             AND g.Organization=o.Organization
-                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, getdate()) AND DATEPART(mm, R.RideDate) like DATEPART(mm,getdate())
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy,'" + data2 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm,'" + data2 + @"')
                             Group by [UserEmail],[UserDes],[UserFname],[UserLname],[UserAddress],[UserPhone],[BirthDate],[BicycleType],[ImagePath],[Gender], g.GroupDes,o.OrganizationDes,O.OrganiztionImage
                             having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) > " + data1 + @") 
                             BEGIN
@@ -825,9 +842,45 @@ public class DBservices
                             END
                             ELSE
                             BEGIN
-                                SELECT 'No Rider At This Category' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                SELECT '" + data3 + @"' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
                                 From Users Where [User]=0;
                             END ";
+
+        return selectstr;
+    }
+    private String ShuffleOrg(string data1)
+    {
+        // Fill the datatable (in the dataset), using the Select command 
+
+        String selectstr = @"SELECT TOP 1 'Winning Organization' AS Category, 'Winning Organization' AS UserEmail, 'Winning Organization' AS UserDes,'Winning Organization' AS UserFname,'Winning Organization' AS UserLname,'Winning Organization' AS UserAddress,'Winning Organization' AS UserPhone,'" + data1 + @"' AS BirthDate,'Winning Organization' AS BicycleType,'Winning Organization' AS ImagePath,'Winning Organization' AS Gender, 'Winning Organization' AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+                            FROM Groups G, Organizations O, Users U, Rides R
+                            Where G.[Group] <> 0
+                            AND G.Organization = O.Organization
+                            AND U.[User] in ( SELECT UG.[User]
+                                        FROM UsersGroups UG
+                                        WHERE G.[Group] = UG.[Group])
+                            AND R.[User] = U.[User] 
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data1 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data1 + @"')
+                            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), O.OrganizationName, O.OrganizationDes
+                            order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC ;";
+
+        return selectstr;
+    }
+    private String ShuffleGrp(string data1)
+    {
+        // Fill the datatable (in the dataset), using the Select command 
+
+        String selectstr = @"SELECT TOP 1 'Winning Group' AS Category, 'Winning Group' AS UserEmail, 'Winning Group' AS UserDes,'Winning Group' AS UserFname,'Winning Group' AS UserLname,'Winning Group' AS UserAddress,'Winning Group' AS UserPhone,'" + data1 + @"' AS BirthDate,'Winning Group' AS BicycleType,'Winning Group' AS ImagePath,'Winning Group' AS Gender, G.GroupName AS GroupDes,G.GroupDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+            FROM Groups G, Organizations O, Users U, Rides R
+            Where G.[Group] <> 0
+            AND G.Organization = O.Organization
+            AND U.[User] in ( SELECT UG.[User]
+                        FROM UsersGroups UG
+                        WHERE G.[Group] = UG.[Group])
+            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data1 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data1 + @"')
+            AND R.[User] = U.[User] 
+            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName
+            order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC ;";
 
         return selectstr;
     }
@@ -1241,6 +1294,24 @@ public class DBservices
         return command;
     }
 
+    private String BuildInsertCompetitionCommand(Competition cmpt)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"INSERT INTO [Competition]
+           ([CompetitionDate]
+           ,[OrgWin]
+           ,[GrpWin]
+           ,[PlatinumUser]
+           ,[GoldUser]
+           ,[SilverUser]
+           ,[BronzeUser])";
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", cmpt.CompetitionDate, cmpt.OrgWin, cmpt.GrpWin, cmpt.PlatinumUser, cmpt.GoldUser, cmpt.SilverUser, cmpt.BronzeUser);
+        
+        command = prefix + sb.ToString();
+        return command;
+    }
     private String BuildInsertEventsCommand(Event evt)
     {
         String command;
