@@ -310,7 +310,7 @@ public class DBservices
                             AND ue.[Event] = e.[Event]
                             AND e.City = c.City
                             AND ue.[Event] = UE2.[Event]
-                            group by e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails] "; // Read From Data Base Organization Ranking
+                            group by  e.EventName,e.EventDes, convert(varchar(10), e.EventDate, 120), e.EventType, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails] "; // Read From Data Base Organization Ranking
                     break;
                 case 21:
 
