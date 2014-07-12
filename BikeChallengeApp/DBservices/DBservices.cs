@@ -319,7 +319,7 @@ public class DBservices
                             Where e.[Event] <> 0
                             AND e.City = c.City
                             AND e.[event] = ue.[event]
-                            group by e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails]"; // Read From Data Base Organization Ranking
+                            group by e.EventName, e.EventDes, convert(varchar(10), e.EventDate, 120) , e.EventType, e.EventStatus, C.CityName, e.[EventTime], e.[EventAddress], e.[EventDetails]"; // Read From Data Base Organization Ranking
                     break;
                 case 22:
 
