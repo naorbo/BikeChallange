@@ -1,0 +1,35 @@
+The Event LOG file
+00:19:49 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+00:22:04 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+00:25:29 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+00:29:28 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+01:04:08 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+01:07:32 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+01:07:44 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+01:08:39 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+01:09:17 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+01:09:27 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+01:09:40 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.

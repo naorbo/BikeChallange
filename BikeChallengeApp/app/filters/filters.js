@@ -114,3 +114,22 @@ app.filter('groupsOrgFilter', [function () {
             return orgs;
     }
 }])
+
+
+
+// Organiztion Management Filters
+
+app.filter('orgCityFilter', [function () {
+    return function (organizations, city) {
+        var filteredOrganizations = [];
+        if (city != undefined) {
+            angular.forEach(organizations, function (org) {
+                if (org.CityName == city)
+                    filteredOrganizations.push(org);
+            })
+            return filteredOrganizations;
+        }
+        else
+            return organizations;
+    }
+}])
