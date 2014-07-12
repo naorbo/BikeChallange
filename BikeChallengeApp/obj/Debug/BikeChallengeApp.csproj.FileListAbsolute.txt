@@ -167,7 +167,6 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\WebGrease.dll
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Net.Http.Formatting.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.Cors.xml
-C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Newtonsoft.Json.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Helpers.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Http.WebHost.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Mvc.xml
@@ -195,3 +194,6 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Ht
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
+C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.dll
+C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.xml
+C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Newtonsoft.Json.xml
