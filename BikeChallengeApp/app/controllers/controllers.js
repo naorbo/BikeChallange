@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -14,6 +14,15 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 console.log(response);
                 $scope.sourceUsers = angular.fromJson(response);
                 $scope.users = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system users...");
+                 });
+        //Load Events 
+        dataFactory.getValues('event/GetEvents')
+            .success(function (response) {
+                console.log(response);
+                $scope.eventsHolder = angular.fromJson(response);
             })
                  .error(function (error) {
                      alert("Unable to fetch all system users...");
@@ -43,7 +52,6 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                     angular.forEach($scope.groupsHolder, function (group) {
                         angular.forEach($scope.organizationsHolder, function (organization) {
                             if (group.Organization == organization.Organization){
-                                group['orgDispalyname'] = organization.OrganizationDes;
                                 group['orgName'] = organization.OrganizationName;
                             }
                         })
@@ -155,6 +163,45 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 );
     }
 
+    
+
+    //Remove Organization
+    $scope.removeOrganization = function (organizationName) {
+        confirm("האם אתה בטוח שברצונך למחוק את הארגון ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                        // api/Organization?orgname=organizationanme
+                        dataFactory.deleteValues('Organization', 'orgname=' + organizationName)
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error') {
+                                    alert('לא ניתן למחוק ארגון המכיל קבוצות רשומות')
+                                }
+                                else {
+                                    console.log('Group deletion succeeded');
+                                    $scope.loadData();
+                                }
+
+                            })
+                            .error(function (response) {
+                                console.log("error deleting group");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
+
+
+
 
     // Replace the captain
     // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
@@ -196,10 +243,8 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
     }
 
 
+    
 
-    
-    
-    
 
     var genderOptions = [
         'זכר', 'נקבה'
@@ -218,7 +263,120 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
     ]
 
 
+
+    // Bike Challenge Events Management 
+
+    $scope.createNewEvent = function (size) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'newEventModalContent.html',
+            controller: ModalInstanceCtrl,
+            size: size,
+            resolve: {
+                filterOptions: function () {
+                    return $scope.filterOptions;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $scope.loadData();
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+
+    var ModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, filterOptions) {
+
+        $scope.filterOptions = filterOptions;
+        
+
+        $scope.save = function (newEvent) {
+            newEventJson = {
+                EventName: newEvent.name.$viewValue,
+                EventDate: newEvent.date.$viewValue,
+                EventTime: newEvent.time.$viewValue,
+                EventType: newEvent.type.$viewValue,
+                EventAddress: newEvent.address.$viewValue,
+                City: newEvent.city.$viewValue,
+                EventDetails: newEvent.description.$viewValue,
+                EventStatus: "Junk"
+            }
+
+
+            dataFactory.postValues('Event', newEventJson, false)
+             .success(function (response) {
+                 if (angular.fromJson(response) != "Error") {
+                     alert(" האירוע נוצר בהצלחה ! ");
+                     $modalInstance.close();
+                 
+                 }
+
+                 else {
+                     alert("שגיאה ביצירת אירוע חדש");
+                }
+             })
+
+             .error(function (error) {
+                 alert("שגיאה ביצירת אירוע חדש");
+             });
+
+            
+        };
+
+        $scope.cancel = function () {
+            $modalInstance.dismiss('cancel');
+        };
+    };
+
+    $scope.removeEvent = function (eventName) {
+        confirm("האם אתה בטוח שברצונך למחוק את האירוע ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                       
+                        // api/Event?eventname=
+                        dataFactory.deleteValues('Event', 'eventname=' + eventName)
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error') {
+                                    alert('שגיאה במחיקת אירוע')
+                                }
+                                else {
+                                    console.log('Event deletion succeeded');
+                                    $scope.loadData();
+                                }
+
+                            })
+                            .error(function (response) {
+                                console.log("error deleting event");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
     
+    // Display User List per event 
+    $scope.displayRegisteredUsers = function (eventName) {
+        // GET api/event/GetUsers?eventname
+        // get all of users from a specific event
+        dataFactory.getValues('event/GetUsers', true, 'eventname=' + eventName)
+            .success(function (values) {
+                console.log(values)
+                return angular.fromJson(values);
+                
+            })
+    }
+
 });
 
 

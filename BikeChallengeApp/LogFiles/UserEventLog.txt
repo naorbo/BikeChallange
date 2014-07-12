@@ -1,0 +1,4 @@
+The UserEvent LOG file
+01:42:47 : The Event האירוע was Deleted from the Event
+01:44:35 : The Event מסייומולדת was Deleted from the Event
+10:37:30 : The Event latin was Deleted from the Event

@@ -1,0 +1,2 @@
+The Organizations LOG file
+20:27:53 : The Organization undefined was Deleted from the Event

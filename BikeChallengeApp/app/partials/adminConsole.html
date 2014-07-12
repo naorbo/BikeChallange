@@ -86,7 +86,7 @@
                                     <select ng-model="group"
                                             class="pull-right"
                                             style="border:none"
-                                            ng-options="value.GroupDes group by value.orgDispalyname  for value in filterOptions[1].values"></select>
+                                            ng-options="value.GroupDes group by value.OrganizationDes  for value in filterOptions[1].values"></select>
                                     <span class="glyphicon glyphicon-filter pull-left"
                                           ng-class="{'cancelFilter' : group}"
                                           ng-click="group=undefined"></span>
@@ -252,9 +252,9 @@
                             </div>
 
 
-                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in groupsHolder |  orderBy:'orgDispalyname'">
-                                <div data-accordion-group data-is-open="statusGroup.open" >
-                                    <div  data-accordion-heading>
+                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in groupsHolder |  orderBy:'OrganizationDes'">
+                                <div data-accordion-group data-is-open="statusGroup.open">
+                                    <div data-accordion-heading>
                                         <span ng-click="undoDemote()">{{group.GroupDes}}</span>
                                         <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': statusGroup.open, 'glyphicon-chevron-right pull-left': !statusGroup.open}" ng-click="undoDemote()"></i>
                                     </div>
@@ -267,7 +267,7 @@
                                         </tr>
                                         <tr>
                                             <td>שם הארגון</td>
-                                            <td class="userAttribute">{{group.orgDispalyname}}</td>
+                                            <td class="userAttribute">{{group.OrganizationDes}}</td>
 
                                         </tr>
                                         <tr>
@@ -285,16 +285,15 @@
                                             <td>
                                                 <select ng-model="newCaptain"
                                                         class="pull-right"
-                                                        ng-options="newCaptain.UserDisplayName for newCaptain  in riderPerGroup"
-                                                         />
+                                                        ng-options="newCaptain.UserDisplayName for newCaptain  in riderPerGroup" />
                                                 &nbsp;<i class="glyphicon glyphicon-save"
                                                          ng-click="saveNewCaptain(group.Captain_UserName,newCaptain)"
                                                          title="עדכן"
                                                          style="color:green"></i>
                                                 &nbsp;<i class="glyphicon glyphicon-remove-circle"
-                                                           ng-click="undoDemote()"
-                                                           title="בטל"
-                                                           style="color:red"></i>
+                                                         ng-click="undoDemote()"
+                                                         title="בטל"
+                                                         style="color:red"></i>
                                             </td>
                                         </tr>
 
@@ -334,23 +333,79 @@
                                 <label><strong style="color:black">סינון תוצאות</strong></label>
                             </div>
                         </div>
-                        <div class="col-md-3 pull-right" style="margin-bottom:20px;">
-                            <label><strong>ארגון</strong></label>
+                        
+                        <div class="col-md-4 pull-right">
+                            <label>חיפוש ארגון</label>
                             <div class="form-control">
-                                <select ng-model="orgGrpMgmt"
-                                        class="pull-right"
-                                        ng-options="value for value in filterOptions[4].values"
-                                        style="border:none" />
-                                <span class="glyphicon glyphicon-filter pull-left"
-                                      ng-class="{'cancelFilter' : orgGrpMgmt}"
-                                      ng-click="orgGrpMgmt=undefined"></span>
+                                <input class="pull-right" ng-model="orgQuery" style="border:none" />
+                                <span class="glyphicon glyphicon-search pull-left"></span>
                             </div>
-                            <hr />
+
+                            <br />
                         </div>
+                            
+                            <div class="row">
+                                <div class="col-md-3 pull-right">
+                                    <label>עיר מגורים</label>
+                                    <div class="form-control">
+                                        <select ng-model="orgCity"
+                                                class="pull-right"
+                                                ng-options="value for value in filterOptions[0].values"
+                                                style="border:none" />
+                                        <span class="glyphicon glyphicon-filter pull-left"
+                                              ng-class="{'cancelFilter' : orgCity}"
+                                              ng-click="orgCity=undefined"></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                                <hr />
+
+                        <div data-accordion class="col-md-10 pull-right">
+                            <div data-accordion-group ng-repeat="organization in organizationsHolder | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes'" data-is-open="status1.open">
+                                <div data-accordion-heading>
+                                    <span>{{organization.OrganizationDes}}</span>&nbsp;,&nbsp;<span>{{organization.CityName}}</span>
+                                    <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
+                                </div>
+
+                                <table class="table table-responsive table-condensed">
+                                    <tr>
+                                        <td>שם הארגון</td>
+                                        <td class="userAttribute">{{organization.OrganizationDes}}</td>
+                                        <td rowspan="12" align="center">
+                                            <img src="{{organization.OrganiztionImage}}" class="img-rounded img-responsive" style="max-height:200px;" />
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>עיר</td>
+                                        <td class="userAttribute">{{organization.CityName}}</td>
+
+                                    </tr>
+                                    <tr>
+                                        <td>סוג הארגון</td>
+                                        <td class="userAttribute">{{organization.OrganizationType}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td>מספר קבוצות רשומות</td>
+                                        <td class="userAttribute">{{organization.OrgGroupCount}}</td>
+                                    </tr>
 
 
 
-                    </div>
+                                </table>
+
+                                <button class="btn btn-default pull-left"
+                                        ng-click="removeOrganization(organization.OrganizationName)">
+                                    <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                    <span>מחיקת ארגון</span>
+                                </button>
+
+
+                            </div>
+                            </div>
+                            </div>
+
+                    
 
                     <div ng-switch-when="4">
                         <fieldset>
@@ -369,11 +424,199 @@
                             <legend>משלוח הודעות</legend>
                         </fieldset>
                     </div>
+                    
+                    
+                    
                     <!-- BikeChallenge Events Management Interface-->
+                    
+                    <script type="text/ng-template" id="newEventModalContent.html">
+                        <div class="modal-header">
+                            <h3 class="modal-title">יצירת אירוע חדש</h3>
+                        </div>
+                        <div class="modal-body">
+                           
+                            <form name="newEvent" ng-submit="save(newEvent)">
+
+                                <div class="form-group">
+                                    <input name="name"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="eventName"
+                                           placeholder="שם האירוע"
+                                           data-tooltip="שם האירוע"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>תאריך</small></label>
+                                    <input name="date"
+                                           type="date"
+                                           class="form-control"
+                                           ng-model="date"
+                                           placeholder="תאריך"
+                                           data-tooltip="תאריך"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>שעה</small></label>
+                                    <input name="time"
+                                           type="time"
+                                           class="form-control"
+                                           ng-model="time"
+                                           placeholder="שעה"
+                                           data-tooltip="שעה"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <input name="type"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="type"
+                                           placeholder="סוג האירוע"
+                                           data-tooltip="סוג האירוע"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input name="address"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="address"
+                                           placeholder="כתובת"
+                                           data-tooltip="כתובת"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>עיר מגורים</small></label>
+                                    <select name="city"
+                                            id="citySelect"
+                                            class="form-control"
+                                            ng-model="city"
+                                            ng-options="value for value in filterOptions[0].values"
+                                            data-tooltip="עיר"
+                                            data-tooltip-trigger="focus"
+                                            data-tooltip-placement="right"
+                                            required></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea name="description"
+                                              rows="5"
+                                              class="form-control"
+                                              ng-model="description"
+                                              placeholder="תיאור האירוע"
+                                              data-tooltip="תיאור האירוע"
+                                              data-tooltip-trigger="focus"
+                                              data-tooltip-placement="right"
+                                              required></textarea>
+                                </div>
+                                <button type="submit" ng-disabled="newEvent.$invalid" class="btn btn-primary">שמור </button>
+                                <button class="btn btn-danger" ng-click="cancel()">ביטול</button>
+                            </form>
+                            
+                            
+                        </div>
+                        
+                            
+                            
+                            
+                            
+                        
+                    </script>
                     <div ng-switch-when="7">
                         <fieldset>
                             <legend>ניהול אירועים</legend>
                         </fieldset>
+                        
+                        <button class="btn btn-default pull-right"
+                                ng-click="createNewEvent()">
+                            <i class="glyphicon glyphicon-asterisk" style="color:green"></i>
+                            <span>יצירת אירוע חדש</span>
+                        </button>
+                        
+                        <br />
+                        <div class="row">
+                            <hr />
+                            <div data-accordion class="col-md-10 pull-right">
+                                <div data-accordion-group ng-repeat="event in eventsHolder | orderBy:'EventDate'" data-is-open="status1.open">
+                                    <div data-accordion-heading>
+                                        <span>{{event.EventDate | date:'dd-MM-yyyy'}}</span>&nbsp;,&nbsp;<span><strong>{{event.EventDes}}</strong></span>,&nbsp;<span>{{event.CityName}}</span>
+                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
+                                    </div>
+                                    
+                                    <table class="table table-responsive table-condensed">
+                                        <tr>
+                                            <td>שם האירוע</td>
+                                            <td class="userAttribute">{{event.EventDes}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>סוג האירוע</td>
+                                            <td class="userAttribute">{{event.EventType}}</td>
+                                        </tr>
+                                        
+                                        <tr>
+                                            <td>עיר</td>
+                                            <td class="userAttribute">{{event.CityName}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>כתובת</td>
+                                            <td class="userAttribute">{{event.EventAddress}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>תאריך</td>
+                                            <td class="userAttribute">{{event.EventDate | date:'dd-MM-yyyy'}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>שעה</td>
+                                            <td class="userAttribute">{{event.EventTime}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>תוכן האירוע</td>
+                                            <td class="userAttribute">{{event.EventDetails}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>מס' רוכבים רשומים</td>
+                                            <td class="userAttribute"><a ng-click="displayRegisteredUsers(event.EventDes)">{{event.NumOfRidersInEvent}}</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>סטטוס</td>
+                                            <td class="userAttribute">{{event.EventStatus}}</td>
+                                        </tr>
+
+
+
+                                    </table>
+
+                                    <button class="btn btn-default pull-left"
+                                            ng-click="removeEvent(event.EventDes)">
+                                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                        <span>מחיקת אירוע</span>
+                                    </button>
+
+
+                                </div>
+                            </div>
+
+                        </div>                    
+                        
+                    
+                    
                     </div>
 
                 </div>
@@ -404,7 +647,7 @@
                             </div>
 
                             <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=3">
+                            <div class="row scroll-down-text" ng-click="adminNav.switch=7">
                                 <strong class="pull-right">ניהול אירועים</strong>
                                 <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
                             </div>
