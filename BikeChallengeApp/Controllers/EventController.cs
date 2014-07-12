@@ -17,7 +17,7 @@ namespace BikeChallengeApp.Controllers
     public class EventController : ApiController
     {   
 
-        // GET api/event?username=[The name of the organization]
+        // GET api/event?username=[The name of the username]
         public DataTable Get(string username)
         {
             DBservices dbs = new DBservices();
@@ -35,7 +35,7 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
 
-        // GET api/event/GetUsers?eventname
+        // GET api/event/GetUsers?eventname=
         // get all of users from a specific event
         public DataTable GetUsers(string eventname)
         {
@@ -47,7 +47,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST api/Event
         // insert new event
-        // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":""}
+        // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
         public string updateDB([FromBody]Event evt)
         {
             DBservices dbs = new DBservices();
@@ -61,7 +61,7 @@ namespace BikeChallengeApp.Controllers
             }
             catch (Exception ex)
             {
-                string Response = ("Error updating the Group database " + ex.Message);
+                string Response = ("Error updating the Event database " + ex.Message);
                 lf.Main("Events", Response);
                 return "Error";
             }
@@ -143,7 +143,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // PUT api/Event?eventname=
-        // {"EventName":"", "City":"","EventType":"", "EventDate":"","EventStatus":""}
+        // {"City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
         public string Put(string eventname, [FromBody]Event evt)
         {
             int return_val = 0;

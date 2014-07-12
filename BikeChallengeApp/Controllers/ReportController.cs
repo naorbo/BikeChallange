@@ -23,14 +23,35 @@ namespace BikeChallengeApp.Controllers
 {
     public class ReportController : ApiController
     {
-
-        public async Task<HttpResponseMessage> YourAction(int f, [FromBody]Group grp)
+        // api/Report/?f=5
+        // {"GroupName":"1", "OrganizationName":"2"},{"GroupName":"2", "OrganizationName":"3"}
+        /*[System.Web.Http.HttpPost]
+        public ActionResult saveUserInfos(string data)
         {
-            var resolveRequest = await Request.Content.ReadAsStreamAsync();
+            try
+            {
+                var userInfoList = JsonConvert.DeserializeObject<IEnumerable<Group>>(data);
+                userInfoList.ToString();
+                //Save these data to Your DB 
+
+                return Json("Success");
+            }
+            catch (JsonReaderException e)
+            {
+
+                return Json(e.Message);
+            }
+        } 
+        public Task<HttpResponseMessage> YourAction(int f, [FromBody]string grp)
+        {
+            var resolveRequest = Request.Content.ReadAsStringAsync();
+            
+            string s = new StreamReader(HttpContext.Current.Request.InputStream).ReadToEnd();
             List<Group> model = new List<Group>();
-             resolveRequest.Seek(0, SeekOrigin.Begin);
-            string jsonString = new StreamReader(resolveRequest).ReadToEnd();
-            if (jsonString != null)
+
+           // resolveRequest.Seek(0, SeekOrigin.Begin);
+            //string jsonString = new StreamReader(resolveRequest).ReadToEnd();
+            if ("" != null)
             {
                 JavaScriptSerializer serializer = new JavaScriptSerializer();
                 model = (List<Group>)Newtonsoft.Json.JsonConvert.DeserializeObject(Request.Content.ToString(), typeof(List<Group>));
@@ -38,7 +59,7 @@ namespace BikeChallengeApp.Controllers
             //Your operations..
             List<Object> mlist = new List<Object>();
             mlist.Add(grp);
-            /*
+            
              * string str = "LOGO";
             Document document = new Document();
             PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
@@ -75,8 +96,8 @@ namespace BikeChallengeApp.Controllers
             document.Add(P);
             //document.Add(P2);
             document.Close();
-             */
+            
             return null;
-        }
+        } */
     }
 }

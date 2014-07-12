@@ -1,0 +1,4 @@
+The Events LOG file
+12:55:02 : Conversion failed when converting date and/or time from character string.
+12:58:50 : Conversion failed when converting date and/or time from character string.
+12:59:16 : Conversion failed when converting date and/or time from character string.

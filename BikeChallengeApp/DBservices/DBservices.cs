@@ -127,12 +127,16 @@ public class DBservices
                     break;
                 case 7:
                     if (data1 == "Organizations")
-                        selectStr = @"SELECT O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, COUNT(G.[group]) OrgGroupCount
-                                    FROM Organizations O, Cities C, Groups G 
-                                    Where O.Organization <> 0 
-                                    and o.City = C.city 
-                                    and o.Organization = G.Organization
-                                    Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName";
+                        selectStr = @"SELECT O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, COUNT(G.[group]) OrgGroupCount, ( SELECT Count(UG.[User])
+                                        FROM UsersGroups UG, Groups G1
+                                        WHERE G1.[Group] = UG.[Group]
+                                        AND G1.Organization = O.Organization
+                                         ) As OrgHeadCount
+                                        FROM Organizations O, Cities C, Groups G
+                                        Where O.Organization <> 0 
+                                        and o.City = C.city 
+                                        and o.Organization = G.Organization
+                                        Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, O.Organization";
                     else if(data1 == "Groups")
                         {
                             selectStr = @"SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName, COUNT(U2.[user]) GroupHeadCount
@@ -319,7 +323,7 @@ public class DBservices
                     break;
                 case 22:
 
-                    selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, , e.[EventTime], e.[EventAddress], e.[EventDetails], C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+                    selectStr = @"  Select e.EventDes, convert(varchar(10), e.EventDate, 120) As EventDate, e.EventType, e.[EventTime], e.[EventAddress], e.[EventDetails], C.CityName AS EventCity, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, CU.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
                             From UsersEvents ue, [Events] e,  Users U, Cities C, Cities CU, Groups g, Organizations o, usersgroups ug
                             Where e.[Event] <> 0
                             AND e.EventDes = '" + data1 + @"'
@@ -1226,10 +1230,12 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"UPDATE [Events]
                            SET [City] = " + (evt.City != "" ? " (select city from Cities where CityName = '" + evt.City + "' )" : "[City]") + @"
-                              ,[EventDes] = " + (evt.EventDes != "" ? "'" + evt.EventDes + "'" : "[EventDes]") + @"
                               ,[EventType] = " + (evt.EventType != "" ? "'" + evt.EventType + "'" : "[EventType]") + @"
                               ,[EventStatus] = " + (evt.EventStatus != "" ? "'" + evt.EventStatus + "'" : "[EventStatus]") + @"
                               ,[EventDate] = " + (evt.EventDate != "" ? "'" + evt.EventDate + "'" : "[EventDate]") + @"
+                              ,[EventTime] = " + (evt.EventTime != "" ? "'" + evt.EventTime + "'" : "[EventTime]") + @"
+                              ,[EventAddress] = " + (evt.EventAddress != "" ? "'" + evt.EventAddress + "'" : "[EventAddress]") + @"
+                              ,[EventDetails] = " + (evt.EventDetails != "" ? "'" + evt.EventDetails + "'" : "[EventDetails]") + @"
                          WHERE [EventDes] = '" + eventname + "' ";
         return command;
     }
@@ -1252,7 +1258,7 @@ public class DBservices
         String command2 = @"INSERT INTO USERSEVENTS([Event]
                             ,[User])
                                VALUES
-                        ( (Select Event From [Events] Where EventDes = '" + evt.EventName + @"' )   
+                        ( (Select Event From [Events] Where EventName = '" + evt.EventName + @"' )   
                        ,0) ";
         command = prefix + sb.ToString() + command2;
         return command;
