@@ -361,10 +361,10 @@
                                         <td>{{user.OrganizationDes}}</td>
                                         <td>{{user.User_Points}}</td>
                                         <td >
-                                            <i ng-class="{'fa fa-star': (user.User_Points >= 50)}"  ></i>
-                                            <i ng-class="{'fa fa-star': (user.User_Points >= 150)}"></i>
-                                            <i ng-class="{'fa fa-star': (user.User_Points >= 500)}"></i>
-                                            <i ng-class="{'fa fa-star': (user.User_Points >= 1500)}"></i>
+                                            <i ng-if="(user.User_Points >= 50 && user.User_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
+                                            <i ng-if="(user.User_Points >= 150 && user.User_Points < 500)" class="fa fa-star" style="color: #A8A8A8" title="כסף"></i>
+                                            <i ng-if="(user.User_Points >= 500 && user.User_Points < 1500)" class="fa fa-star" style="color: #C98910" title="זהב"></i>
+                                            <i ng-if="(user.User_Points >= 1500)" class="fa fa-rocket" style="color: #C98910" title="פלטינה"></i>
                                         </td>
                                     </tr>
                                 </table>
@@ -395,10 +395,10 @@
                                         
                                         <td>{{group.Group_Points}}</td>
                                         <td>
-                                            <i ng-class="{'fa fa-star': (group.Group_Points >= 50)}"></i>
-                                            <i ng-class="{'fa fa-star': (group.Group_Points >= 150)}"></i>
-                                            <i ng-class="{'fa fa-star': (group.Group_Points >= 500)}"></i>
-                                            <i ng-class="{'fa fa-star': (group.Group_Points >= 1500)}"></i>
+                                            <i ng-if="(group.Group_Points >= 50 && group.Group_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
+                                            <i ng-if="(group.Group_Points >= 150 && group.Group_Points < 500)" class="fa fa-star" style="color: #A8A8A8" title="כסף"></i>
+                                            <i ng-if="(group.Group_Points >= 500 && group.Group_Points < 1500)" class="fa fa-star" style="color: #C98910" title="זהב"></i>
+                                            <i ng-if="(group.Group_Points >= 1500)" class="fa fa-rocket" style="color: #C98910" title="פלטינה"></i>
                                         </td>
                                     </tr>
                                 </table>
@@ -428,10 +428,10 @@
                                         
                                         <td>{{org.Organization_Points}}</td>
                                         <td>
-                                            <i ng-class="{'fa fa-star': (org.Organization_Points >= 50)}"></i>
-                                            <i ng-class="{'fa fa-star': (org.Organization_Points >= 150)}"></i>
-                                            <i ng-class="{'fa fa-star': (org.Organization_Points >= 500)}"></i>
-                                            <i ng-class="{'fa fa-star': (org.Organization_Points >= 1500)}"></i>
+                                            <i ng-if="(org.Organization_Points >= 50 && org.Organization_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
+                                            <i ng-if="(org.Organization_Points >= 150 && org.Organization_Points < 500)" class="fa fa-star" style="color: #A8A8A8" title="כסף"></i>
+                                            <i ng-if="(org.Organization_Points >= 500 && org.Organization_Points < 1500)" class="fa fa-star" style="color: #C98910" title="זהב"></i>
+                                            <i ng-if="(org.Organization_Points >= 1500)" class="fa fa-rocket" style="color: #C98910" title="פלטינה"></i>
                                         </td>
                                     </tr>
                                 </table>
