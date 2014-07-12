@@ -394,7 +394,7 @@ app.directive('chartPersonal', function () {
                 
                 if (chartType == "bars") {
                     var rawData = [];
-                    var header = ['חודש', 'קמ מצטבר', "רכיבות"]
+                    var header = ['חודש', 'ק"מ מצטבר', "רכיבות"]
                     rawData.push(header);
                     var i = 0;
                     angular.forEach($scope.userStats.personal, function (month) {
@@ -406,11 +406,12 @@ app.directive('chartPersonal', function () {
                     var data = google.visualization.arrayToDataTable(rawData);
                     var options = {
                         height: 300,
-                        hAxis: { title: 'חודש', titleTextStyle: { color: 'black' } },
+                        colors: ['blue', 'orange'],
                         legend: { position: 'bottom' },
+                        bar: { groupWidth: "95%" },
                         backgroundColor: 'none'
                     };
-                    var chart = new google.visualization.ColumnChart($elm[0]);
+                    var chart = new google.visualization.BarChart($elm[0]);
                     
                     chart.draw(data, options);
                 }
@@ -441,20 +442,24 @@ app.directive('chartPersonal', function () {
                     var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", -1));
                     $scope.getStats(entity, "kmRides", -1);
                     var options = {
+                        max:10000,
                         width: 400, height: 240,
-                        redFrom: 90, redTo: 100,
-                        yellowFrom: 75, yellowTo: 90,
-                        minorTicks: 5
+                        redFrom: 0, redTo: 750,
+                        yellowFrom: 750, yellowTo: 6000,
+                        greenFrom: 6000, greenTo: 10000,
+                        minorTicks: 0
                     };
                 }
                 if ($scope.statSelector == 0) {
                     var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", 0, $scope.calMonth, $scope.calYear));
                     $scope.getStats(entity, "kmRides", 0, $scope.calMonth, $scope.calYear);
                     var options = {
+                        max: 10000,
                         width: 400, height: 240,
-                        redFrom: 90, redTo: 100,
-                        yellowFrom: 75, yellowTo: 90,
-                        minorTicks: 5
+                        redFrom: 0, redTo: 750,
+                        yellowFrom: 750, yellowTo: 6000,
+                        greenFrom: 6000, greenTo: 10000,
+                        minorTicks: 0
                     };
                 }
                 // Instantiate and draw our chart, passing in some options.

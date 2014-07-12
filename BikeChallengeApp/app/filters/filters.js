@@ -159,7 +159,7 @@ app.filter('eventsRegisteredFilter', [function () {
          {
             var noMatch = true;
             angular.forEach(userEvents, function (userEvent) {
-                if (userEvent.EventDes == sysEvent.EventDes) {
+                if (userEvent.EventName == sysEvent.EventName) {
                     noMatch = false;
                 }
             })

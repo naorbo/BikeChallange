@@ -389,6 +389,10 @@
                                         <td>מספר קבוצות רשומות</td>
                                         <td class="userAttribute">{{organization.OrgGroupCount}}</td>
                                     </tr>
+                                    <tr>
+                                        <td>מספר רוכבים רשומים</td>
+                                        <td class="userAttribute">{{organization.OrgHeadCount}}</td>
+                                    </tr>
 
 
 
@@ -604,7 +608,7 @@
                                     </table>
 
                                     <button class="btn btn-default pull-left"
-                                            ng-click="removeEvent(event.EventDes)">
+                                            ng-click="removeEvent(event.EventName)">
                                         <i class="glyphicon glyphicon-remove" style="color:red"></i>
                                         <span>מחיקת אירוע</span>
                                     </button>

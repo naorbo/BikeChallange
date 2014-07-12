@@ -2,3 +2,8 @@ The UserEvent LOG file
 01:42:47 : The Event האירוע was Deleted from the Event
 01:44:35 : The Event מסייומולדת was Deleted from the Event
 10:37:30 : The Event latin was Deleted from the Event
+22:29:27 : The Event אירועים was Deleted from the Event
+22:31:17 : The Event 10-07-14-10-11-05 was Deleted from the Event
+22:31:36 : The Event 04-07-14-10-11-05 was Deleted from the Event
+22:31:43 : The Event 09-07-13-10-11-05 was Deleted from the Event
+22:31:46 : The Event 09-07-12-03-11-05 was Deleted from the Event
