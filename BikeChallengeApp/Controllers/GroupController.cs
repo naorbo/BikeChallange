@@ -15,9 +15,17 @@ using System.Web;
 //using iTextSharp.text.pdf;
 using System.IO;
 using Newtonsoft.Json;
+<<<<<<< HEAD
+using System.Threading.Tasks;
+using System.Web.Mvc;
+using System.Web.Script.Serialization;
+
+
+=======
 //using System.Net.Http;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
+>>>>>>> 5afb3187a2d9b9daa208ff61fc5ac0d745908182
 
 namespace BikeChallengeApp.Controllers
 {
@@ -100,7 +108,10 @@ namespace BikeChallengeApp.Controllers
             if (return_val == 0) { return "Error"; }
             return "Success";
         }
+        
 
+<<<<<<< HEAD
+=======
         //public void PDF(int f)
         //{
         //    string str = HttpContext.Current.ToString();
@@ -127,5 +138,6 @@ namespace BikeChallengeApp.Controllers
 
             return null;
         }*/
+>>>>>>> 5afb3187a2d9b9daa208ff61fc5ac0d745908182
     }
 }
