@@ -209,14 +209,96 @@
                             </div>
 
                         <div ng-switch-when="2">
-                            <div class="row scroll-down-text" ng-click="">
+                            <div class="row scroll-down-text" ng-click="flipShowFutureEventsFlag()">
                                 <strong class="pull-right">ארועים עתידיים</strong>
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                             </div>
+                            <br />
+                            <div ng-if="showFutureEventsFlag">
+
+                                <table class="table table-responsive table-hover table-bordered"
+                                       ng-repeat="event in systemEvents | eventsDateFilter | eventsRegisteredFilter:userEvents"
+                                       style="table-layout: fixed;">
+                                    <thead>
+                                        <tr class="active" style="text-align:center">
+                                            <td colspan="2">
+                                                <strong>{{event.EventDes}}</strong>
+                                            </td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>תאריך</td>
+                                            <td><strong>{{event.EventDate | date:"dd-MM-yyyy"}}, {{event.EventTime}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>כתובת</td>
+                                            <td><strong>{{event.EventAddress}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>תיאור האירוע</td>
+                                            <td><strong>{{event.EventDetails}}</strong></td>
+                                        </tr>
+                                        <tr>
+
+                                            <td colspan="2">
+                                                <button class="btn btn-default pull-left"
+                                                        ng-click="registerEvent(event)">
+                                                    <i class="glyphicon glyphicon-asterisk" style="color:green"></i>
+                                                    <span>הרשמה לאירוע</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                            </div>
+                            
                             <hr />
-                            <div class="row scroll-down-text" ng-click="">
+                            <div class="row scroll-down-text" ng-click="flipShowUserEventsFlag()">
                                 <strong class="pull-right">אירועים אליהם נרשמתי</strong>
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <br />
+                            <div ng-if="showUserEventsFlag">
+
+                                <table class="table table-responsive table-hover table-bordered"
+                                       ng-repeat="event in userEvents | eventsDateFilter"
+                                       style="table-layout: fixed;">
+                                    <thead>
+                                        <tr class="active" style="text-align:center">
+                                            <td colspan="2">
+                                                <strong>{{event.EventDes}}</strong>
+                                            </td>
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        <tr>
+                                            <td>תאריך</td>
+                                            <td><strong>{{event.EventDate | date:"dd-MM-yyyy"}}, {{event.EventTime}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>כתובת</td>
+                                            <td><strong>{{event.EventAddress}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td>תיאור האירוע</td>
+                                            <td><strong>{{event.EventDetails}}</strong></td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="2">
+                                                <button class="btn btn-default pull-left"
+                                                        ng-click="cancleEventRegistration(event)">
+                                                    <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                                    <span>ביטול הרשמה</span>
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
                             </div>
                             <hr />
                             <div class="row scroll-down-text" style="padding-bottom:700px"></div>
@@ -237,7 +319,21 @@
                                 <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
                             </div>
                             <div ng-if="showMyRanksFlag">
-
+                                <br />
+                                <ul class="list-group " >
+                                    <li class="list-group-item active">
+                                        המיקום שלי ביחס לכלל משתתפי התחרות
+                                        <span class="badge pull-left">{{relativeRanks.UserRanking}}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        דירוג הקבוצה שלי ביחס לכלל הקבוצות המשתתפות בתחרות
+                                        <span class="badge pull-left">{{relativeRanks.GroupRanking}}</span>
+                                    </li>
+                                    <li class="list-group-item">
+                                        דירוג הארגון שלי ביחס לכלל הארגונים המשתתפים בתחרות
+                                        <span class="badge pull-left">{{relativeRanks.OrganizationRanking}}</span>
+                                    </li>
+                                </ul>
                             </div>
                             <hr />
                             <div class="row scroll-down-text" ng-click="flipShowRidersRanksFlag()">
@@ -380,7 +476,7 @@
                                 <br />
                                 <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
                                     <tr style="font-size:40px">
-                                        <td>₪{{userKmRides.money}}</td>
+                                        <td>{{userKmRides.money | currency: '₪' }}</td>
                                         <td>{{userKmRides.fuel}}</td>
                                     </tr>
                                     <tfoot>
@@ -390,7 +486,17 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-
+                                <br/>
+                                <table class="table-bordered table-responsive" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
+                                    <tr style="background-color:#EBEBEB; font-size:20px"><td><strong>גרף התקדמות אישית</strong></td></tr>
+                                    <tr>
+                                        <td>
+                                            <div data-google-chart data-chart-personal data-chart-type="bars" data-entity="personal"></div>
+                                        </td>
+                                    </tr>
+                                </table>
+                                
+                            
                             </div>
 
                             <hr />
@@ -428,7 +534,7 @@
                                 <br/>
                                 <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
                                     <tr style="font-size:40px">
-                                        <td>{{groupKmRides.money}}</td>
+                                        <td>{{groupKmRides.money | currency: '₪'}}</td>
                                         <td>{{groupKmRides.fuel}}</td>
                                     </tr>
                                     <tfoot>
@@ -488,7 +594,7 @@
                                 <br />
                                 <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
                                     <tr style="font-size:40px">
-                                        <td>{{organizationKmRides.money}}</td>
+                                        <td>{{organizationKmRides.money | currency: '₪'}}</td>
                                         <td>{{organizationKmRides.fuel}}</td>
                                     </tr>
                                     <tfoot>
@@ -522,5 +628,6 @@
             </div>
         </div>
     </div>
+
 </body>
 </html>

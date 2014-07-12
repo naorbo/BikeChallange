@@ -392,6 +392,30 @@ app.directive('chartPersonal', function () {
             // State Selector var stand for period of time requested flag ( -1 = no period , 0 = spefcific month)
             $scope.$watch(function () { return $scope.statSelector }, function () {
                 
+                if (chartType == "bars") {
+                    var rawData = [];
+                    var header = ['חודש', 'קמ מצטבר', "רכיבות"]
+                    rawData.push(header);
+                    var i = 0;
+                    angular.forEach($scope.userStats.personal, function (month) {
+                        i++;
+                        monthStringed = month.Month.toString().concat('-').concat(month.Year.toString());
+                        var monthSum = [monthStringed, month.User_KM, month.Num_of_Rides];
+                        rawData.push(monthSum);
+                    })
+                    var data = google.visualization.arrayToDataTable(rawData);
+                    var options = {
+                        height: 300,
+                        hAxis: { title: 'חודש', titleTextStyle: { color: 'black' } },
+                        legend: { position: 'bottom' },
+                        backgroundColor: 'none'
+                    };
+                    var chart = new google.visualization.ColumnChart($elm[0]);
+                    
+                    chart.draw(data, options);
+                }
+
+
                 if (chartType == "pie") {
                     if ($scope.statSelector == -1) {
                         var data = google.visualization.arrayToDataTable($scope.getRanks(entity, -1));

@@ -133,3 +133,41 @@ app.filter('orgCityFilter', [function () {
             return organizations;
     }
 }])
+
+
+//Event Date Filter (return only future events)
+
+app.filter('eventsDateFilter', (function ($filter) {
+    return function (events) {
+        var filteredEvents = [];
+        var tempDate = new Date;
+        var tempDayStringed = $filter('date')(tempDate, "yyyy-MM-dd");
+            angular.forEach(events, function (event) {
+                if (event.EventDate > tempDayStringed)
+                    filteredEvents.push(event);
+            })
+            return filteredEvents;
+        
+    }
+}))
+
+// Return the events the user haven't registered to yet
+app.filter('eventsRegisteredFilter', [function () {
+    return function (events, userEvents) {
+        var filteredEvents = [];
+        angular.forEach(events, function (sysEvent)
+         {
+            var noMatch = true;
+            angular.forEach(userEvents, function (userEvent) {
+                if (userEvent.EventDes == sysEvent.EventDes) {
+                    noMatch = false;
+                }
+            })
+            if (noMatch) {
+                filteredEvents.push(sysEvent);
+            }
+        })
+        return filteredEvents;
+    }
+}])
+

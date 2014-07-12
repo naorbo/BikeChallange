@@ -2,34 +2,73 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <title></title>
+
+    <style>
+
+        .form-control {
+            padding-right: 30px;
+        }
+
+            .form-control + .glyphicon {
+                position: absolute;
+                right: 0;
+                padding: 8px 27px;
+            }
+
+           
+        
+        #logInForm {
+            position: absolute;
+            top: 30%;
+            left: 45%;
+            width: 400px;
+            height: 400px;
+        }
+
+       
+        
+    </style>
 </head>
 <body>
     <div class="container">
 
-        <div class="input-group input-group-lg col-md-4" style="padding-top:20px">
+        <div id="logInForm" class="col-md-4">
             <form ng-submit="signIn()" name="loginDetails" novalidate>
-                <fieldset>
-                    <legend>התחברות</legend>
-                </fieldset>
+                <label class="col-md-offset-2" style="font-size:15px; color:black"><strong>כבר רוכבים לעבודה?</strong></label>
+                <div class="row">
+                    <div class="col-xs-9">
+                        <input class="form-control"
+                               type="text"
+                               placeholder="שם משתמש"
+                               ng-model="loginDetails.userName"
+                               required />
+                        <span class="glyphicon glyphicon-user"></span>
+                    </div>
+                    <div class="col-xs-9">
+                        <input class="form-control"
+                               type="password"
+                               ng-model="loginDetails.password"
+                               placeholder="סיסמא"
+                               required />
+                        <span class="glyphicon glyphicon-lock"></span>
 
-                <input type="text" class="form-control" ng-model="loginDetails.userName" placeholder="שם משתמש" required /><br />
-                <br />
-                <input type="password" class="form-control" ng-model="loginDetails.password" placeholder="סיסמא " required /><br />
-
-                <br />
-
-
-                <button type="submit" class="btn btn-primary" ng-disabled="loginDetails.$invalid">התחבר</button>
-
-                <div ng-if="failFlag" style="color:red">
-                    <p class="glyphicon glyphicon-remove"></p> {{failMSG}}
+                    </div>
                 </div>
 
+                <br />
+                <div class="row">
+                    <div class="pull-left">
+                        <button type="submit" class="btn btn-primary" ng-disabled="loginDetails.$invalid">התחבר</button>
+                        <div ng-if="failFlag" style="color:red">
+                            <p class="glyphicon glyphicon-remove"></p> {{failMSG}}
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <br />
 
-
+        
 
 
 

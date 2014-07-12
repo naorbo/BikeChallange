@@ -1482,6 +1482,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                      console.log("error");
                  });
 
+   
 
     dataFactory.getValues('Ranking', true, "gender=&order=Points&date=" + concatDate)
                  .success(function (values) {
@@ -1528,9 +1529,8 @@ app.controller('myTeamController', function ($rootScope, $scope, dataFactory, au
 // ####################################################################################################################################################### // 
 
 
-app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('dashboardController', function ($rootScope, $scope, $filter, dataFactory, AUTH_EVENTS, serverBaseUrl) {
     console.log("Inside dashboard View");
-      
     
     $scope.refreshCal = false;
 
@@ -1705,7 +1705,33 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                          console.log("error");
                      });
         
+        dataFactory.getValues('Ranking', true, 'username=' + $scope.currentUser + '&date=' + concatDate)
+                .success(function (values) {
+                    $scope.relativeRanks = angular.fromJson(values[0]);
+                })
 
+                .error(function (error) {
+                    console.log("error");
+                });
+
+        //get Events data 
+
+        dataFactory.getValues('event/GetEvents')
+            .success(function (response) {
+                console.log(response);
+                $scope.systemEvents = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system events...");
+                 });
+        // GET api/event?username=[The name of the organization]
+        dataFactory.getValues('event', true, 'username=' + $scope.currentUser)
+                .success(function (values) {
+                    $scope.userEvents = angular.fromJson(values);
+                })
+                .error(function (error) {
+                    console.log("error");
+                });
 
     }
     
@@ -1849,7 +1875,11 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.flipShowGroupsRanksFlag = function () { $scope.showGroupsRanksFlag = !$scope.showGroupsRanksFlag };
     $scope.showOrganizationsRanksFlag = false;
     $scope.flipShowOrganizationsRanksFlag = function () { $scope.showOrganizationsRanksFlag = !$scope.showOrganizationsRanksFlag };
-
+    $scope.showFutureEventsFlag = false;
+    $scope.flipShowFutureEventsFlag = function () { $scope.showFutureEventsFlag = !$scope.showFutureEventsFlag };
+    $scope.showUserEventsFlag = false;
+    $scope.flipShowUserEventsFlag = function () { $scope.showUserEventsFlag = !$scope.showUserEventsFlag };
+    
     // Add a new Route 
     $scope.addNewRoute = function (newRoute) {
         var route = {
@@ -1907,6 +1937,18 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     // Get user stats - type (calCo2/kmRides ) , period (-1 = since registrating , 0 = specific month) ,  (month, year) 
     $scope.statSelector = -1;
     
+    $scope.progressStats = function () {
+
+        var kmSummed = 0;
+        var ridesSummed = 0;
+        var fuelSummed = 0;
+        var moneySummed = 0;
+        angular.forEach(rawStats, function (monthStat) {
+            if (entity == "personal") {
+                kmSummed = kmSummed + monthStat.User_KM;
+                ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+            }
+        })}
 
     $scope.getStats = function (entity, type, period, month, year){ 
 
@@ -2287,9 +2329,48 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
 
 
+
+    // Register to an Event 
+    // POST insert rider into an event 
+    // api/Event?eventname=&username=
+    $scope.registerEvent = function (event) {
+        
+        dataFactory.postValues('Event', event , true, 'eventname=' + event.EventDes + '&username=' + $scope.currentUser)
+                     .success(function (response) {
+                         if (angular.fromJson(response) != "Error") {
+                             alert("ההרשמה הושלמה בהצלחה!");
+                             $scope.getHistory();
+                             $scope.flipShowFutureEventsFlag();
+                             $scope.flipShowUserEventsFlag();
+                         }
+                         else {
+                             alert("שגיאה במהלך ההרשמה לאירוע");
+                         }
+                     })
+                     .error(function (error) {
+                         alert("שגיאה במהלך ההרשמה לאירוע");
+                     });
+    }
+    // api/Event?usernme=
+    $scope.cancleEventRegistration = function (event) {
+        dataFactory.deleteValues('Event', 'username=' + $scope.currentUser + '&eventname=' + event.EventDes)
+                           .success(function (response) {
+                               alert('ביטול ההרשמה הסתיים בהצלחה!')
+                               $scope.getHistory();
+                           })
+                           .error(function (response) {
+                               alert('שגיאה בביטול ההרשמה')
+                           });
+    }
+
+
+
     // Controller init 
     $scope.init = function () {       
     }
+
+
+
 
 });
 
