@@ -197,3 +197,4 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.dl
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\itextsharp.xml
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\Newtonsoft.Json.xml
 C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.xml

@@ -379,6 +379,19 @@ public class DBservices
                             AND U.City = C.City
                             AND O.City = CO.City "; // ReadFromDataBaseUserName
                     break;
+                
+                case 26:
+                    selectStr = @"  SELECT [Competition]
+                                  ,[CompetitionDate]
+                                  ,[OrgWin]
+                                  ,[GrpWin]
+                                  ,[PlatinumUser]
+                                  ,[GoldUser]
+                                  ,[SilverUser]
+                                  ,[BronzeUser]
+                              FROM [Competition]
+                              Where [CompetitionDate] like '%"+data1+"' "; // ReadFromDataBaseUserName
+                    break;
                 /**/
 
             }
