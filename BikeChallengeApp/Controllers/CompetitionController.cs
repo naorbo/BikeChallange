@@ -16,11 +16,12 @@ namespace BikeChallengeApp.Controllers
 {
     public class CompetitionController : ApiController
     {
-        // GET api/Competition
-        public DataTable Get()
+        // GET api/Competition?date=07-2014 [leave empty to retrieve all records]
+        public DataTable Get(string date)
         {
             DBservices dbs = new DBservices();
-            dbs = dbs.ReadFromDataBase(21);
+            date = (date != null ? date : "");
+            dbs = dbs.ReadFromDataBase(21, date);
             return dbs.dt;
         }
 

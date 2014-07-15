@@ -18,7 +18,7 @@ using System.Web;
 namespace BikeChallengeApp.Controller
 {
 
-    //[Authorize]
+   // [Authorize]
     //[RoutePrefix("api/Organization")]
     public class OrganizationController : ApiController
     {

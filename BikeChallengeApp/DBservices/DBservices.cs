@@ -80,7 +80,7 @@ public class DBservices
 
                     break;
                 case 2:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity, U.Designer
                                 FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND U.Id = anu.Id
@@ -378,6 +378,19 @@ public class DBservices
                             AND UG.[Group] = G.[Group]
                             AND U.City = C.City
                             AND O.City = CO.City "; // ReadFromDataBaseUserName
+                    break;
+                
+                case 26:
+                    selectStr = @"  SELECT [Competition]
+                                  ,[CompetitionDate]
+                                  ,[OrgWin]
+                                  ,[GrpWin]
+                                  ,[PlatinumUser]
+                                  ,[GoldUser]
+                                  ,[SilverUser]
+                                  ,[BronzeUser]
+                              FROM [Competition]
+                              Where [CompetitionDate] like '%"+data1+"' "; // ReadFromDataBaseUserName
                     break;
                 /**/
 

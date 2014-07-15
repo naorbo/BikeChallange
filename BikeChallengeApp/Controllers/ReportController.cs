@@ -23,6 +23,16 @@ namespace BikeChallengeApp.Controllers
 {
     public class ReportController : ApiController
     {
+       /* // api/Report
+        // {"FirstRow":"1","SecondRow":"2","ThirdRow":"3"}
+
+        public ActionResult Update(IList<MyViewModel> model)
+            {
+                IList<Group> ctm = new JavaScriptSerializer().Deserialize<IList<Group>>(json);
+                string g = ctm[0].GroupDes;
+                return null;
+            }
+        
         // api/Report/
         // {"GroupName":"1", "OrganizationName":"1"},{"GroupName":"2", "OrganizationName":"2"}
 
@@ -82,6 +92,6 @@ namespace BikeChallengeApp.Controllers
             document.Close();
             
             return "";
-        }
+        }*/
     }
 }
