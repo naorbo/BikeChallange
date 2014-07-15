@@ -45,7 +45,7 @@ namespace BikeChallengeApp.Controllers
             dbs = dbs.ReadFromDataBase(25, "Users", "[User]");
             return dbs.dt;
         }
-
+       
         // POST - Insert new Rider into the DB 
         //{"RiderEmail":"Moshe@Moshe.COM", "RiderFname":"Moshe" , "RiderLname":"Moshe", "Gender": "M", "RiderAddress":"יצMoshe 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester4", "Captain":1, "Organization":"orgname", "Group":"groupname"}
         public string updateDB([FromBody]Rider rdr)

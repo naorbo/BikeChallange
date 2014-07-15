@@ -13,12 +13,6 @@ using System.Text;
 using System.Web;
 using System.IO;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
-
-
 
 
 
@@ -26,8 +20,6 @@ namespace BikeChallengeApp.Controllers
 {
     public class GroupController : ApiController
     {
-
-
 
         // GET api/Group?orgname=[The name of the organization] - Not case sensative
         public DataTable Get(string orgname)

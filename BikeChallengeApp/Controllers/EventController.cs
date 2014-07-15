@@ -15,8 +15,8 @@ using System.Web;
 namespace BikeChallengeApp.Controllers
 {
     public class EventController : ApiController
-    {   
-
+    {
+       
         // GET api/event?username=[The name of the username]
         public DataTable Get(string username)
         {

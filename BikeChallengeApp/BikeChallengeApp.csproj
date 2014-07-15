@@ -229,6 +229,7 @@
     <Compile Include="Models\LogFiles.cs" />
     <Compile Include="Models\Group.cs" />
     <Compile Include="Models\Organization.cs" />
+    <Compile Include="Models\Report.cs" />
     <Compile Include="Models\Rider.cs" />
     <Compile Include="Models\Rides.cs" />
     <Compile Include="Models\Routes.cs" />

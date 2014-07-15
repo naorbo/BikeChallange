@@ -13,7 +13,7 @@ namespace BikeChallengeApp.Models
             get { return userName; }
             set { userName = value; }
         }
-
+          
         string routeName;
         public string RouteName
         {
