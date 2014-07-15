@@ -432,14 +432,14 @@
                     
                     
                     <!-- BikeChallenge Events Management Interface-->
-                    
+                    <!-- Modal windows templates-->
                     <script type="text/ng-template" id="newEventModalContent.html">
                         <div class="modal-header">
                             <h3 class="modal-title">יצירת אירוע חדש</h3>
                         </div>
                         <div class="modal-body">
                            
-                            <form name="newEvent" ng-submit="save(newEvent)">
+                            <form name="newEvent" ng-submit="save(newEvent)" novalidate>
 
                                 <div class="form-group">
                                     <input name="name"
@@ -541,6 +541,164 @@
                             
                         
                     </script>
+                   
+                    <script type="text/ng-template" id="editEventModalContent.html">
+                        <div class="modal-header">
+                            <h3 class="modal-title">עריכת אירוע</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <form name="newEvent" ng-submit="saveChanges(newEvent)" novalidate>
+
+                                <div class="form-group">
+                                    <input name="name"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="targetEvent.EventDes"
+                                           placeholder="שם האירוע"
+                                           data-tooltip="שם האירוע"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>תאריך</small></label>
+                                    <input name="date"
+                                           type="date"
+                                           class="form-control"
+                                           ng-model="targetEvent.EventDate"
+                                           placeholder="תאריך"
+                                           data-tooltip="תאריך"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>שעה</small></label>
+                                    <input name="time"
+                                           type="time"
+                                           class="form-control"
+                                           ng-model="targetEvent.EventTime"
+                                           placeholder="שעה"
+                                           data-tooltip="שעה"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <input name="type"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="targetEvent.EventType"
+                                           placeholder="סוג האירוע"
+                                           data-tooltip="סוג האירוע"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+
+                                <div class="form-group">
+                                    <input name="address"
+                                           type="text"
+                                           class="form-control"
+                                           ng-model="targetEvent.EventAddress"
+                                           placeholder="כתובת"
+                                           data-tooltip="כתובת"
+                                           data-tooltip-trigger="focus"
+                                           data-tooltip-placement="right"
+                                           required />
+                                </div>
+
+                                <div class="form-group">
+                                    <label><small>עיר מגורים</small></label>
+                                    <select name="city"
+                                            id="citySelect"
+                                            class="form-control"
+                                            ng-model="targetEvent.CityName"
+                                            ng-options="value for value in filterOptions[0].values"
+                                            data-tooltip="עיר"
+                                            data-tooltip-trigger="focus"
+                                            data-tooltip-placement="right"
+                                            required></select>
+                                </div>
+
+                                <div class="form-group">
+                                    <textarea name="description"
+                                              rows="5"
+                                              class="form-control"
+                                              ng-model="targetEvent.EventDetails"
+                                              placeholder="תיאור האירוע"
+                                              data-tooltip="תיאור האירוע"
+                                              data-tooltip-trigger="focus"
+                                              data-tooltip-placement="right"
+                                              required></textarea>
+                                </div>
+                                <button type="submit" ng-disabled="newEvent.$invalid" class="btn btn-primary">עדכן</button>
+                                <button class="btn btn-danger" ng-click="cancel()">ביטול</button>
+                            </form>
+
+
+                        </div>
+
+
+
+
+
+
+                    </script>
+                    
+                    <script type="text/ng-template" id="registeredUserModalContent.html">
+                        <div class="modal-header">
+                            <h3 class="modal-title">משתמשים רשומים לאירוע</h3>
+                        </div>
+                        <div class="modal-body">
+
+                            <table class="table table-bordered table-hover"> 
+                                <thead>
+                                    <tr class="active">
+                                        <td>שם</td>
+                                        <td>עיר</td>
+                                        <td>קבוצה</td>
+                                        <td>ארגון</td>
+                                        <td>טלפון</td>
+                                        <td>כתובת דואר אלקטרוני</td>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="user in userPool | orderBy:'UserLname'">
+                                        <td>{{user.UserDisplayName}}</td>
+                                        <td>{{user.RiderCity}}</td>
+                                        <td>{{user.GroupDes}}</td>
+                                        <td>{{user.OrganizationDes}}</td>
+                                        <td  
+                                            style="direction: ltr;">{{user.UserPhone | phonePattrenFilter}}</td>
+                                        <td>{{user.UserEmail}}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <hr />
+                            <table class="table">
+                                <tr class="active">
+                                    <td>מספר רוכבים כולל</td>
+                                    <td><strong>{{userPool.length}}</strong> </td>
+                                </tr>
+                            </table>
+
+                        </div>
+                        <div class="modal-footer">
+                            <button class="btn btn-default pull-left"
+                                    ng-click="">
+                                <i class="glyphicon glyphicon-file" style="color:green"></i>
+                                <span>יצא רשימה לקובץ</span>
+                            </button>
+                        </div>
+
+                    </script>
+                    
                     <div ng-switch-when="7">
                         <fieldset>
                             <legend>ניהול אירועים</legend>
@@ -596,12 +754,12 @@
                                         </tr>
                                         <tr>
                                             <td>מס' רוכבים רשומים</td>
-                                            <td class="userAttribute"><a ng-click="displayRegisteredUsers(event.EventDes)">{{event.NumOfRidersInEvent}}</a></td>
+                                            <td class="userAttribute"><a ng-click="displayUsersPerEvent(event.EventName)">{{event.NumOfRidersInEvent}}</a></td>
                                         </tr>
-                                        <tr>
+                                        <!--<tr>
                                             <td>סטטוס</td>
                                             <td class="userAttribute">{{event.EventStatus}}</td>
-                                        </tr>
+                                        </tr>-->
 
 
 
@@ -611,6 +769,11 @@
                                             ng-click="removeEvent(event.EventName)">
                                         <i class="glyphicon glyphicon-remove" style="color:red"></i>
                                         <span>מחיקת אירוע</span>
+                                    </button>
+                                    <button class="btn btn-default pull-left"
+                                            ng-click="editEvent(event)">
+                                        <i class="glyphicon glyphicon-pencil" style="color:black"></i>
+                                        <span>עריכת אירוע</span>
                                     </button>
 
 

@@ -13,22 +13,20 @@ using System.Text;
 using System.Web;
 using System.IO;
 using System.Threading.Tasks;
-using System.Web.Mvc;
-using System.Web.Script.Serialization;
-using System.Net.Http.Formatting;
-using System.Net.Http.Headers;
 
 
 
 
 
-namespace BikeChallengeApp.Controllers
+
+namespace BikeChallengeApp.Controller
 {
+   
     public class GroupController : ApiController
     {
 
 
-
+        
         // GET api/Group?orgname=[The name of the organization] - Not case sensative
         public DataTable Get(string orgname)
         {
@@ -39,6 +37,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+        // [Authorize(Users = "almazak")]
         public DataTable GetGroup(string grpname, string orgname)
         {
             DBservices dbs = new DBservices();

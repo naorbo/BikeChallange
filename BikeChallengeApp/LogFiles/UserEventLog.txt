@@ -7,3 +7,14 @@ The UserEvent LOG file
 22:31:36 : The Event 04-07-14-10-11-05 was Deleted from the Event
 22:31:43 : The Event 09-07-13-10-11-05 was Deleted from the Event
 22:31:46 : The Event 09-07-12-03-11-05 was Deleted from the Event
+23:17:54 : The Rider almazak was Deleted from the Event
+23:18:57 : The Rider almazak was Deleted from the Event
+23:19:05 : The Rider almazak was Deleted from the Event
+23:19:11 : The Rider almazak was Deleted from the Event
+23:19:13 : The Rider almazak was Deleted from the Event
+23:21:16 : The Event 03-07-14-10-11-05 was Deleted from the Event
+23:21:23 : The Event 09-07-11-10-11-05 was Deleted from the Event
+23:21:28 : The Event 05-07-14-10-11-05 was Deleted from the Event
+23:48:33 : The Event 02-07-14-10-11-05 was Deleted from the Event
+23:50:23 : The Event 12-07-14-11-50-06 was Deleted from the Event
+23:57:39 : The Event 12-07-14-11-49-36 was Deleted from the Event

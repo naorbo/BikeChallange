@@ -2,23 +2,6 @@
 
 
 // ###############################################################
-// ng-repeat spacer
-// ###############################################################
-
-//app.directive('spacer', [function () {
-
-//    return function (scope, element) {
-//        if (!scope.$last) {
-//            element.after('88888');
-//        }
-//    }
-
-//}])
-
-
-
-
-// ###############################################################
 // iCheck Directive - manipulating the radio/checkbox to square UI    
 // ###############################################################
 
@@ -183,6 +166,49 @@ app.directive('emailValidate', function (dataFactory) {
                     })
                      .error(function (error) {
                          console.log("Unable to fetch email existance");
+                     }
+                        );
+                }
+            }
+        )
+        }
+    };
+    return viewValue;
+});
+
+// #############################
+// Organization existance directive 
+// #############################
+
+// GET api/OrganizationExists?orgname=
+app.directive('organizationValidate', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.push(function (viewValue) {
+               // $ctrl.$setValidity('organizationValidate', true);
+                if ($ctrl.$valid) {
+                    $ctrl.$setValidity('checkingOrganization', false);
+                    console.log("Got the Direc");
+
+
+                    dataFactory.getValues("OrganizationExists", 1, "orgname=" + $scope.newOrg)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("organization is available");
+                            $ctrl.$setValidity('unique', true);
+                            $ctrl.$setValidity('checkingOrganization', true);
+                        }
+
+                        else {
+                            console.log("organization is NA");
+                            $ctrl.$setValidity('unique', false);
+                            $ctrl.$setValidity('checkingOrganization', false);
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch organization existance");
                      }
                         );
                 }

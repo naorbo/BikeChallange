@@ -290,45 +290,128 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
     var ModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, filterOptions) {
 
         $scope.filterOptions = filterOptions;
-        
+        $scope.cancelTrigger = false;
 
         $scope.save = function (newEvent) {
-            newEventJson = {
-                EventName: newEvent.name.$viewValue,
-                EventDate: newEvent.date.$viewValue,
-                EventTime: newEvent.time.$viewValue,
-                EventType: newEvent.type.$viewValue,
-                EventAddress: newEvent.address.$viewValue,
-                City: newEvent.city.$viewValue,
-                EventDetails: newEvent.description.$viewValue,
-                EventStatus: "Junk"
-            }
-
-
-            dataFactory.postValues('Event', newEventJson, false)
-             .success(function (response) {
-                 if (angular.fromJson(response) != "Error") {
-                     alert(" האירוע נוצר בהצלחה ! ");
-                     $modalInstance.close();
-                 
-                 }
-
-                 else {
-                     alert("שגיאה ביצירת אירוע חדש");
+            if (!$scope.cancelTrigger) {
+                newEventJson = {
+                    EventName: newEvent.name.$viewValue,
+                    EventDate: newEvent.date.$viewValue,
+                    EventTime: newEvent.time.$viewValue,
+                    EventType: newEvent.type.$viewValue,
+                    EventAddress: newEvent.address.$viewValue,
+                    City: newEvent.city.$viewValue,
+                    EventDetails: newEvent.description.$viewValue,
+                    EventStatus: "Junk"
                 }
-             })
 
-             .error(function (error) {
-                 alert("שגיאה ביצירת אירוע חדש");
-             });
 
-            
+                dataFactory.postValues('Event', newEventJson, false)
+                 .success(function (response) {
+                     if (angular.fromJson(response) != "Error") {
+                         alert(" האירוע נוצר בהצלחה ! ");
+                         $modalInstance.close();
+
+                     }
+
+                     else {
+                         alert("שגיאה ביצירת אירוע חדש");
+                     }
+                 })
+
+                 .error(function (error) {
+                     alert("שגיאה ביצירת אירוע חדש");
+                 });
+
+            }
         };
 
         $scope.cancel = function () {
-            $modalInstance.dismiss('cancel');
+            $scope.cancelTrigger = true;
+            $modalInstance.close();
         };
     };
+
+
+    //Edit BC Event
+    $scope.targetEvent = {};
+    $scope.editEvent = function (eEvent) {
+        $scope.targetEvent = eEvent;
+        var modalInstance = $modal.open({
+            templateUrl: 'editEventModalContent.html',
+            controller: editModalInstanceCtrl,
+            
+            resolve: {
+                filterOptions: function () {
+                    return $scope.filterOptions},
+                targetEvent: function () {
+                    return $scope.targetEvent;
+                }}
+            
+        });
+
+        modalInstance.result.then(function () {
+            $scope.loadData();
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+
+    var editModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, filterOptions, targetEvent) {
+
+        $scope.filterOptions = filterOptions;
+        $scope.targetEvent = targetEvent;
+        $scope.cancelTrigger = false;
+
+        $scope.cancel = function () {
+            $scope.cancelTrigger = true;
+            $modalInstance.dismiss('cancel');
+
+
+        };
+
+       
+
+        $scope.saveChanges = function (newEvent) {
+            if (!$scope.cancelTrigger) {
+                newEventJson = {
+                    EventName: newEvent.name.$viewValue,
+                    EventDate: newEvent.date.$viewValue,
+                    EventTime: newEvent.time.$viewValue,
+                    EventType: newEvent.type.$viewValue,
+                    EventAddress: newEvent.address.$viewValue,
+                    City: newEvent.city.$viewValue,
+                    EventDetails: newEvent.description.$viewValue,
+                    EventStatus: "Junk"
+                }
+
+
+                dataFactory.updateValues('Event', newEventJson, true, 'eventname=' + targetEvent.EventName)
+                 .success(function (response) {
+                     if (angular.fromJson(response) != "Error") {
+                         alert(" האירוע עודכן בהצלחה !");
+                         $modalInstance.close();
+
+                     }
+
+                     else {
+                         alert("שגיאה בעדכון אירוע ");
+                     }
+                 })
+
+                 .error(function (error) {
+                     alert("שגיאה בעדכון אירוע");
+                 });
+
+
+            };
+
+        }
+    };
+
+
+
 
     $scope.removeEvent = function (eventName) {
         confirm("האם אתה בטוח שברצונך למחוק את האירוע ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
@@ -367,15 +450,56 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
     
     // Display User List per event 
     $scope.displayRegisteredUsers = function (eventName) {
+        
+    }
+
+    // User list per Event Modal windows
+    $scope.displayUsersPerEvent = function (eventName) {
+        
         // GET api/event/GetUsers?eventname
         // get all of users from a specific event
         dataFactory.getValues('event/GetUsers', true, 'eventname=' + eventName)
             .success(function (values) {
                 console.log(values)
-                return angular.fromJson(values);
-                
+                $scope.userPool = angular.fromJson(values);
+
+                var modalInstance = $modal.open({
+                    templateUrl: 'registeredUserModalContent.html',
+                    controller: userPoolModalInstanceCtrl,
+                    size: 'lg',
+                    resolve: {
+                        userPool: function () {
+                            return $scope.userPool;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $scope.loadData();
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
             })
-    }
+
+       
+
+        
+
+        var userPoolModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, userPool) {
+
+            $scope.userPool = userPool;
+            $scope.cancelTrigger = false;
+
+            $scope.cancel = function () {
+                $scope.cancelTrigger = true;
+                $modalInstance.close();
+            };
+        };
+    };
+
+
+    
+
 
 });
 
@@ -386,12 +510,16 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
 
 app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
-
-    dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
-                    .success(function (values) {
-                        $scope.personalInfoHolder = values[0];
-                        $scope.personalInfoHolder.ImagePath = $scope.personalInfoHolder.ImagePath.substr(1);
-                    });
+    $scope.orgName = '';
+    $scope.testModel = {
+        name: 'a',
+        city: 'b'
+    }
+    $scope.newOrg = {
+        OrganizationType: '',
+        OrganizationCity: '',
+        OrganizationName: ''
+    };
 
 
 });
@@ -971,6 +1099,10 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
     
     //userRegistration - register the new user with BC DB 
+
+    
+
+
 
     $scope.userRegistration = function (personalDetails) {
         
@@ -2333,9 +2465,9 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
     // Register to an Event 
     // POST insert rider into an event 
     // api/Event?eventname=&username=
-    $scope.registerEvent = function (event) {
+    $scope.registerEvent = function (userEvent) {
         
-        dataFactory.postValues('Event', event , true, 'eventname=' + event.EventDes + '&username=' + $scope.currentUser)
+        dataFactory.postValues('Event', userEvent , true, 'eventname=' + userEvent.EventName + '&username=' + $scope.currentUser)
                      .success(function (response) {
                          if (angular.fromJson(response) != "Error") {
                              alert("ההרשמה הושלמה בהצלחה!");
@@ -2352,8 +2484,8 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
                      });
     }
     // api/Event?usernme=
-    $scope.cancleEventRegistration = function (event) {
-        dataFactory.deleteValues('Event', 'username=' + $scope.currentUser + '&eventname=' + event.EventDes)
+    $scope.cancleEventRegistration = function (userEvent) {
+        dataFactory.deleteValues('Event', 'username=' + $scope.currentUser + '&eventname=' + userEvent.EventName)
                            .success(function (response) {
                                alert('ביטול ההרשמה הסתיים בהצלחה!')
                                $scope.getHistory();

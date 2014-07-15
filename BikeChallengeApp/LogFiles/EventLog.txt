@@ -3,3 +3,11 @@ The Event LOG file
 The statement has been terminated.
 12:37:20 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
 The statement has been terminated.
+00:34:20 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
+00:50:17 : Violation of UNIQUE KEY constraint 'UQ__Events__59D2B726603D47BB'. Cannot insert duplicate key in object 'dbo.Events'.
+Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.
+The statement has been terminated.
