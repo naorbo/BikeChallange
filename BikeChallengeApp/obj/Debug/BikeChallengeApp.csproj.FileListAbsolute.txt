@@ -197,3 +197,4 @@ C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\bin\System.Web.Ht
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.csprojResolveAssemblyReference.cache
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.dll
 C:\Users\Merav\Documents\GitHub\BikeChallange\BikeChallengeApp\obj\Debug\BikeChallengeApp.pdb
+C:\Users\Naor\Documents\Visual Studio 2012\WebSites\BikeChallange\BikeChallengeApp\bin\itextsharp.xml

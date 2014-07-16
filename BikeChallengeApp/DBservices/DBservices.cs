@@ -67,23 +67,26 @@ public class DBservices
             switch (select)
             {
                 case 1:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
-                                Where U.[User] <> 0
-                                AND U.Id = anu.Id  
-                                AND G.[Organization] = O.[Organization]
-                                AND UG.[User] = U.[User]
-                                AND UG.[Group] = G.[Group]
-                                AND U.City = C.City
-                                AND G.GroupDes = '" + data1 + @"'
-                                AND O.OrganizationDes = '" + data2 + "';"; //GET RIDER PER GRUOP
+                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS User_Points
+                                    FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C,[Rides] R
+                                    Where U.[User] <> 0
+                                    AND U.Id = anu.Id  
+                                    AND G.[Organization] = O.[Organization]
+                                    AND UG.[User] = U.[User]
+                                    AND UG.[Group] = G.[Group]
+                                    AND U.City = C.City
+                                    AND G.GroupDes = '" + data1 + @"'
+                                    AND O.OrganizationDes = '" + data2 + @"'
+                                    AND R.[USER] = U.[User]
+                                    AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+                                    group by anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone,U.BirthDate, U.BicycleType, C.CityName, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname"; //GET RIDER PER GRUOP
 
                     break;
                 case 2:
                     if (data1 != "bcadministrator")
                     {
                         selectStr =
-                        @" SELECT U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity, U.Designer
+                        @" SELECT U.UserDes AS UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity, U.Designer
                                 FROM UsersGroups UG, Users U, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
                                 AND G.Organization = O.Organization                            
@@ -97,7 +100,7 @@ public class DBservices
                     else
                     {
                         selectStr =
-                        @" SELECT U.[User],U.UserEmail, U.UserDes, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.Designer
+                        @" SELECT U.UserDes AS UserName,U.UserEmail, U.UserDes, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.Designer
                         FROM Users U
                         Where U.UserDes = 'bcadministrator';" ;
                     }
@@ -410,8 +413,18 @@ public class DBservices
             DataTable dt = ds.Tables[0]; // Fill the datatable (in the dataset), using the Select command
 
             /******************************* Select Querry of all of the data in the DB ********************/
+            if (select == 1)
+            {
+                
+                selectStr3 = BuildGroupPointsCommand(data1, data2);
 
-            if (select == 18)
+                SqlDataAdapter dj = new SqlDataAdapter(selectStr3, con); // create the data adapter  
+                DataSet dx = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                dj.Fill(dx);
+                DataTable dt1 = dx.Tables[0];
+                dt.Merge(dt1);
+            }
+            else if (select == 18)
             {
                 SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
                 SqlDataAdapter dc = new SqlDataAdapter(selectStr2, con);
@@ -445,7 +458,7 @@ public class DBservices
 
             /******************************* Handle the Rank of the User / Group / Organization ********************/
 
-            if (select == 19)
+            else if (select == 19)
             {
                 data4 = data2;
                
@@ -500,7 +513,7 @@ public class DBservices
             //*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
 
             //********************************** Shuffle the winner **********************************/
-            if (select == 24)
+            else if (select == 24)
             {
                 int Upper = dt.Rows.Count;
                 int Lower = 0;
@@ -757,6 +770,39 @@ public class DBservices
     #endregion
 
     #region Group/ Organization Rank AND Shuffle Method
+
+    private String BuildGroupPointsCommand(string data1, string data2)
+    {
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname, U.ImagePath, U.Gender, U.Captain, U.UserAddress, U.UserPhone, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName, 0.0 AS User_Points
+                        FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
+                        Where U.[User] <> 0
+                        AND U.Id = anu.Id  
+                        AND G.[Organization] = O.[Organization]
+                        AND UG.[User] = U.[User]
+                        AND UG.[Group] = G.[Group]
+                        AND U.City = C.City
+                        AND G.GroupDes = '" + data1 + @"'
+                        AND O.OrganizationDes = '" + data2 + @"'
+                        AND U.[User] not in (
+					                        SELECT U.[user]
+					                        FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, [Rides] R
+					                        Where U.[User] <> 0
+					                        AND U.Id = anu.Id  
+					                        AND G.[Organization] = O.[Organization]
+					                        AND UG.[User] = U.[User]
+					                        AND UG.[Group] = G.[Group]
+					                        AND G.GroupDes = '" + data1 + @"'
+					                        AND O.OrganizationDes = '" + data2 + @"'
+					                        AND R.[USER] = U.[User]
+					                        AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, GETDATE()) AND DATEPART(mm, R.RideDate) like DATEPART(mm, GETDATE())
+					                        group by U.[user]
+					                        );";
+        /**/
+        return command;
+    }
     private String BuildUserrankCommand(string data1, string data4)
     {
 
