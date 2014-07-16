@@ -208,6 +208,7 @@
     <Compile Include="Controllers\ReportController.cs" />
     <Compile Include="Controllers\RidesController.cs" />
     <Compile Include="Controllers\RoutesController.cs" />
+    <Compile Include="Controllers\MailManController.cs" />
     <Compile Include="Controllers\ShuffleController.cs" />
     <Compile Include="Controllers\StatController.cs" />
     <Compile Include="Controllers\UserImageController.cs" />
@@ -216,7 +217,6 @@
     <Compile Include="Controllers\RiderController.cs" />
     <Compile Include="Controllers\UserNameExistsController.cs" />
     <Compile Include="DBservices\DBservices.cs" />
-    <Compile Include="DBservices\MailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -225,6 +225,7 @@
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BikeChallengeAppContext.cs" />
     <Compile Include="Models\Cities.cs" />
+    <Compile Include="Models\MailModel.cs" />
     <Compile Include="Models\Competition.cs" />
     <Compile Include="Models\Event.cs" />
     <Compile Include="Models\LogFiles.cs" />
