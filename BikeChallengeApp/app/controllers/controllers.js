@@ -1425,11 +1425,15 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
 
                         console.log("Fetch user info for " + $scope.currentUser);
                         console.log($scope.personalInfoHolder);
-
-                        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                        if ($scope.personalInfoHolder.Designer) {
+                            $location.url("adminConsole");
+                        }
+                        else
+                        {
+                            dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                             .success(function (values) {
                                 $scope.userGroup = values[0];
-                                
+
                                 dataFactory.getValues('Organization', true, "orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                                     .success(function (values) {
                                         $scope.userOrg = values[0];
@@ -1446,7 +1450,9 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
                             })
                     .error(function (value) {
                         console.log("error");
-                    });       
+                    });
+                        }
+                          
                     } )});
 
     $scope.$on('auth-login-failed', function () { console.log("Login Failed") });

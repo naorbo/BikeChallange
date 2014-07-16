@@ -36,15 +36,15 @@
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!currentUser"><a href="#contactUs">צרו קשר</a></li>
-                    <!--<li ng-if="!currentUser"><a href="#about">אודות</a></li>-->
                     <li ng-if="!currentUser"><a href="#sponsers">נותני חסות</a></li>
                     <li ng-if="!currentUser"><a href="#bikeChallenge">התחרות</a></li>
                     <li ng-if="!currentUser"><a href="#userRegistration">רישום</a> </li>
                     <li ng-if="!currentUser"><a href="#login">התחברות</a></li>
 
                     <!-- Logged User Nav-Bar Items-->
-                    <li ng-if="currentUser"><a href="#myTeam">הקבוצה שלי</a></li>
-                    <li ng-if="currentUser"><a href="#dashboard">רכיבות</a></li>
+                    <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#myTeam">הקבוצה שלי</a></li>
+                    <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#dashboard">רכיבות</a></li>
+                    <li ng-if="currentUser && (personalInfoHolder.Designer)"><a href="#adminConsole">ניהול המערכת</a></li>
                     
                 </ul>
                 
@@ -52,9 +52,9 @@
                     <li class="dropdown">
                         <a class="dropdown-toggle" data-toggle="dropdown"><i class="fa fa-user"></i>&nbsp;<span>{{ currentUser }}</span><b class="caret"></b></a>
                         <ul class="dropdown-menu">
-                            <li ng-if="currentUser"><a href="#userProfile"><i class="fa fa-info"></i>&nbsp;&nbsp;<span>פרופיל אישי</span></a></li>
+                            <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#userProfile"><i class="fa fa-info"></i>&nbsp;&nbsp;<span>פרופיל אישי</span></a></li>
                             <li class="divider"></li>
-                            <li ng-if="currentUser"><a href="#updateProfile"><i class="fa fa-edit"></i>&nbsp;&nbsp;<span>עדכון פרטים</span></a></li>
+                            <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#updateProfile"><i class="fa fa-edit"></i>&nbsp;&nbsp;<span>עדכון פרטים</span></a></li>
                             <li class="divider"></li>
                             <li><a ng-if="currentUser" ng-click="signOut()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;<span>התנתק</span></a></li>
 

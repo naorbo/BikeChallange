@@ -6,7 +6,6 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
     service.loginToken = {};
     var currentSession = {};
 
-    //var serverBaseUrl = 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/'
     service.getAccessToken = function () {
         return loginToken.access_token;
     };

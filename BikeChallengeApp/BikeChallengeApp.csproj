@@ -216,6 +216,7 @@
     <Compile Include="Controllers\RiderController.cs" />
     <Compile Include="Controllers\UserNameExistsController.cs" />
     <Compile Include="DBservices\DBservices.cs" />
+    <Compile Include="DBservices\MailController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -667,6 +668,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="ProfileImages\Organizations\" />
+    <Folder Include="Views\Mail\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
