@@ -89,6 +89,11 @@ app.config(['$routeProvider',
             templateUrl: 'app/partials/adminConsole.html',
             controller: 'adminConsoleController'
         }).
+
+        when('/changePassword', {
+            templateUrl: 'app/partials/changePassword.html',
+            controller: 'changePasswordController'
+        }).
         otherwise({
             redirectTo: '/home'
         });

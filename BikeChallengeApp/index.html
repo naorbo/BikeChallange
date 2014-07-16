@@ -56,6 +56,8 @@
                             <li class="divider"></li>
                             <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#updateProfile"><i class="fa fa-edit"></i>&nbsp;&nbsp;<span>עדכון פרטים</span></a></li>
                             <li class="divider"></li>
+                            <li><a ng-if="currentUser" href="#changePassword"><i class="fa fa-lock"></i>&nbsp;&nbsp;<span>שינוי סיסמא</span></a></li>
+                            <li class="divider"></li>
                             <li><a ng-if="currentUser" ng-click="signOut()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;<span>התנתק</span></a></li>
 
                         </ul>

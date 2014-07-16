@@ -245,6 +245,7 @@
     <Content Include="app\filters\filters.js" />
     <Content Include="app\partials\adminConsole.html" />
     <Content Include="app\partials\bikeChallenge.html" />
+    <Content Include="app\partials\changePassword.html" />
     <Content Include="app\partials\contactUs.html" />
     <Content Include="app\partials\dashboard.html" />
     <Content Include="app\partials\myTeam.html" />
