@@ -71,8 +71,8 @@ namespace BikeChallengeApp.Controllers
            // grpname = grpname.Replace("'", "''");
             //grpname = grpname.Replace("'", "''");
             //orgname = orgname.Replace("'", "''");
-            dbs = dbs.ReadFromDataBase(19, username, date); 
-            return dbs.dt1;
+            dbs = dbs.ReadFromDataBase(19, username, date);
+            return (dbs.dt1 != null ? dbs.dt1 : dbs.dt);
 
         }
     }

@@ -80,16 +80,27 @@ public class DBservices
 
                     break;
                 case 2:
-                    selectStr = @" SELECT anu.UserName, U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity, U.Designer
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
+                    if (data1 != "bcadministrator")
+                    {
+                        selectStr =
+                        @" SELECT U.UserEmail, U.UserDes, U.UserFname, U.UserLname,U.UserAddress, U.UserPhone, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.BicycleType, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, CO.CityName As OrgCity, U.Designer
+                                FROM UsersGroups UG, Users U, Groups G, Organizations O, Cities C, Cities CO
                                 Where U.[User] <> 0
-                                AND U.Id = anu.Id
                                 AND G.Organization = O.Organization                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
                                 AND U.City = C.City
                                 AND O.City = CO.City
-                                AND anu.UserName = '" + data1 + "';"; //GET RIDER from USERNAME
+                                AND U.UserDes = '" + data1 + "';";
+                        //GET RIDER from USERNAME
+                    }
+                    else
+                    {
+                        selectStr =
+                        @" SELECT U.[User],U.UserEmail, U.UserDes, U.ImagePath, U.Gender, U.Captain, convert(varchar(10), U.BirthDate, 120) As BirthDate, U.Designer
+                        FROM Users U
+                        Where U.UserDes = 'bcadministrator';" ;
+                    }
                     break;
                 case 3:
                     selectStr = @"SELECT [GroupName],[GroupDes]
@@ -290,15 +301,13 @@ public class DBservices
                 case 19:
                     // Works - count the num of rows above the user // ,  1 AS Organization_Points,  1 AS Group_Points,
                     selectStr = @"SELECT G.GroupDes, O.OrganizationDes
-                                FROM UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C, Cities CO
+                                FROM UsersGroups UG, Users U, Groups G, Organizations O
                                 Where U.[User] <> 0
-                                AND U.Id = anu.Id
                                 AND G.Organization = O.Organization                            
                                 AND UG.[User] = U.[User]
                                 AND UG.[Group] = G.[Group]
-                                AND U.City = C.City
-                                AND O.City = CO.City
-                                AND anu.UserName = '" + data1 + "';";// Read From Data Base Organization Ranking
+                                AND U.UserDes = '"+data1+@"'
+                                group by G.GroupDes, O.OrganizationDes;";// Read From Data Base Organization Ranking
                     break;
 
                 case 20:
@@ -439,16 +448,20 @@ public class DBservices
             if (select == 19)
             {
                 data4 = data2;
+               
                 data2 = dt.Rows[0].ItemArray[0].ToString();
                 data3 = dt.Rows[0].ItemArray[1].ToString();
+
                 selectStr3 = BuildUserrankCommand(data1, data4);
+
                 SqlDataAdapter dj = new SqlDataAdapter(selectStr3, con); // create the data adapter  
                 DataSet dx = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
                 dj.Fill(dx);
 
 
                 DataTable dt1 = dx.Tables[0];
-                int UserRanking = dt1.Rows.Count + 1;
+                string userpoint = ( dt1.Rows.Count != 0 ? dt1.Rows[0].ItemArray[0].ToString() : "0" );
+                int UserRanking = (Convert.ToDouble(userpoint) > 0 ? dt1.Rows.Count : 0);
                 selectStr1 = BuildGrouprankCommand(data2, data3, data4);
                 selectStr2 = BuildOrganizationrankCommand(data3, data4);
 
@@ -460,10 +473,19 @@ public class DBservices
                 db.Fill(dsb);
                 dc.Fill(dsc);
 
+                string groupoints = (dsb.Tables[0].Rows.Count != 0 ? dsb.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
+                int GroupRanking = (Convert.ToDouble(groupoints) > 0 ? dsb.Tables[0].Rows.Count : 0);
+
+                string orgpoints = (dsc.Tables[0].Rows.Count != 0 ? dsc.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
+                int OrgRanking = (Convert.ToDouble(orgpoints) > 0 ? dsc.Tables[0].Rows.Count : 0);
+                
                 DataRow newRow = dt1.NewRow();
                 newRow["UserRanking"] = UserRanking;
-                newRow["GroupRanking"] = dsb.Tables[0].Rows.Count + 1;
-                newRow["OrganizationRanking"] = dsc.Tables[0].Rows.Count + 1;
+                newRow["UserPoints"] = userpoint;
+                newRow["GroupRanking"] = GroupRanking;
+                newRow["GroupPoints"] = groupoints;
+                newRow["OrganizationRanking"] = OrgRanking;
+                newRow["OrganizationPoints"] = orgpoints;
                 foreach (DataRow dr in dt1.Rows)
                 {
                     dr.Delete();
@@ -473,6 +495,7 @@ public class DBservices
                 dbS.db = db;
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
+                
             }
             //*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
 
@@ -739,26 +762,26 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String command = @"Select  1 AS UserRanking, 1 AS GroupRanking,   1 AS OrganizationRanking
+        String command = @"Select  Sum( R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS UserRanking,'x' AS UserPoints, 'x' AS GroupRanking, 'x' AS GroupPoints,  'x' AS OrganizationRanking, 'x' AS OrganizationPoints
                         From Rides R
-                        Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"')
-                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+                        Where  DATEPART(yyyy, R.RideDate) like DATEPART(yyyy,  '" + data4 + @"')
+                        AND DATEPART(mm, R.RideDate) like DATEPART(mm,  '" + data4 + @"')
                         group by DATEPART(yyyy, R.RideDate),DATEPART(mm, R.RideDate),[User]
-                        having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+                        having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >=
                         (  
                         SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
                         FROM Users U, Rides R
                         Where U.[User] in ( SELECT UG.[User]
                                     FROM UsersGroups UG, Users U2
                                     WHERE U2.[User] = UG.[User]
-                                    AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"')
-			                        AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
-			                        AND U2.UserDes = '" + data1 + @"'
-			                        )
+                                    AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy,  '" + data4 + @"')
+                                    AND DATEPART(mm, R.RideDate) like DATEPART(mm,  '" + data4 + @"')
+                                    AND U2.UserDes = '" + data1 + @"'
+                                    )
                         AND R.[User] = U.[User] 
-
                         )
-                        order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC";
+                        order by Sum( R.[RideLength]) + 20 * COUNT(distinct R.RideDate) ASC";
+        /**/
         return command;
     }
     /**/
@@ -767,7 +790,7 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String command = @"SELECT 1 AS GroupRanking, G.GroupDes, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points
+        String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS GroupRanking, G.GroupDes
                                 FROM Groups G, Users U, Rides R
                                 Where G.[Group] <> 0
                                 AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
@@ -776,7 +799,7 @@ public class DBservices
                                             FROM UsersGroups UG
                                             WHERE G.[Group] = UG.[Group])
                                 group by G.GroupDes
-                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >=
 			                                (
 			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
 			                                FROM Groups G, Organizations O, Users U, Rides R
@@ -791,7 +814,7 @@ public class DBservices
 			                                AND R.[User] = U.[User] 
 			                                group by G.GroupName )
 		  
-                                order by Sum(distinct R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC;";
+                                order by Sum( R.[RideLength]) + 20 * COUNT(distinct R.RideDate) ASC;";
         return command;
     }
 
@@ -800,7 +823,7 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String command = @"SELECT 1 AS OrganizationRanking, O.OrganizationDes,  Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points
+        String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS OrganizationRanking, O.OrganizationDes,  'x' AS Organization_Points
                                 FROM Groups G, Organizations O, Users U, Rides R
                                 Where G.[Group] <> 0
                                 AND G.Organization = O.Organization
@@ -810,7 +833,7 @@ public class DBservices
                                 AND R.[User] = U.[User] 
                                 AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
                                 group by O.OrganizationDes
-                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >
+                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >=
 			                                (
 			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
 			                                FROM Groups G, Organizations O, Users U, Rides R
@@ -823,7 +846,7 @@ public class DBservices
 			                                AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
 			                                AND R.[User] = U.[User] 
 			                                group by O.OrganizationName )
-                                order by Organization_Points DESC ;";
+                                order by Organization_Points ASC ;";
 
         return command;
     }
