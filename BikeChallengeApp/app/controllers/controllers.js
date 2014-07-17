@@ -610,6 +610,9 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
     }
 
     //Update flags for each attribute
+
+    
+
     $scope.updateFlags = {
         BicycleType: false,
         BirthDate: false,
@@ -622,7 +625,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
         UserFname: false,
         UserLname: false,
         UserPhone: false,
-        ImagePath: false
+        ImagePath: false,
     }
     //flip update flag for each attribute 
     $scope.flipFlag = function (flag) {
@@ -997,6 +1000,41 @@ app.controller('bikeChallengeController', function ($scope) {
         isFirstDisabled: false
     };
 });
+
+
+// ####################################################################################################################################################### // 
+// #########################################                changePasswordController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
+
+app.controller('changePasswordController', function ($scope,$location, dataFactory) {
+   
+
+    $scope.changeUserPassword = function (passwordRequest) {
+
+        var passwordPackage = {
+            oldPassword: passwordRequest.cPassword.$viewValue,
+            newPassword: passwordRequest.nPassword.$viewValue,
+            confirmPassword: passwordRequest.confirmNewPassword.$viewValue
+        }
+
+        dataFactory.postValues('account/ChangePassword', passwordPackage, false)
+                     .success(function (values) {
+                         alert("שינוי הסיסמא הסתיים בהצלחה!");
+                         $location.url("/userProfile");
+                     })
+                     .error(function (error) {
+                         alert("סיסמא נוכחית אינה נכונה, בדוק/בדקי את הפרטים ונסה/י שוב");
+                     });
+        
+
+    }
+
+
+});
+
+
 
 // ####################################################################################################################################################### // 
 // #########################################                aboutController               ################################################################ // 

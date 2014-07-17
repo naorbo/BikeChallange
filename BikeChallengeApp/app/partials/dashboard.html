@@ -322,18 +322,22 @@
                                 <br />
                                 <ul class="list-group " >
                                     <li class="list-group-item active">
-                                        המיקום שלי ביחס לכלל משתתפי התחרות
-                                        <span class="badge pull-left">{{relativeRanks.UserRanking}}</span>
+                                        המיקום שלי
+                                        <span class="badge pull-left" title="ניקוד">{{relativeRanks.UserPoints | number:0}}</span>
+                                        <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.UserRanking | number:0}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        דירוג הקבוצה שלי ביחס לכלל הקבוצות המשתתפות בתחרות
-                                        <span class="badge pull-left">{{relativeRanks.GroupRanking}}</span>
+                                        דירוג הקבוצה שלי 
+                                        <span class="badge pull-left" title="ניקוד">{{relativeRanks.GroupPoints | number:0 }}</span>
+                                        <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.GroupRanking | number:0}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        דירוג הארגון שלי ביחס לכלל הארגונים המשתתפים בתחרות
-                                        <span class="badge pull-left">{{relativeRanks.OrganizationRanking}}</span>
+                                        דירוג הארגון שלי 
+                                        <span class="badge pull-left" title="ניקוד">{{relativeRanks.OrganizationPoints | number:0}}</span>
+                                        <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.OrganizationRanking | number:0}}</span>
                                     </li>
                                 </ul>
+                                <span><i class="glyphicon glyphicon-asterisk" style="color:green">&nbsp;</i>הדירוג הינו יחסי לכלל חברי המערכת</span>
                             </div>
                             <hr />
                             <div class="row scroll-down-text" ng-click="flipShowRidersRanksFlag()">

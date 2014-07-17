@@ -24,7 +24,7 @@
 <body ng-app="bChallenge" ng-controller="mainController" >
     <div class="nav navbar-inverse navbar-fixed-top">
         <div >
-            <a href="#" class="navbar-brand" title="12072014-2">Bike Challenge</a>
+            <a href="#" class="navbar-brand" title="17072014-0">Bike Challenge</a>
             <!-- Nav Bar Responsive Icon Stack-->
             <button class="navbar-toggle" data-toggle="collapse" data-target=".navHeaderCollapse">
                 <span class="icon-bar"></span>
@@ -55,6 +55,8 @@
                             <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#userProfile"><i class="fa fa-info"></i>&nbsp;&nbsp;<span>פרופיל אישי</span></a></li>
                             <li class="divider"></li>
                             <li ng-if="currentUser && !(personalInfoHolder.Designer)"><a href="#updateProfile"><i class="fa fa-edit"></i>&nbsp;&nbsp;<span>עדכון פרטים</span></a></li>
+                            <li class="divider"></li>
+                            <li><a ng-if="currentUser" href="#changePassword"><i class="fa fa-lock"></i>&nbsp;&nbsp;<span>שינוי סיסמא</span></a></li>
                             <li class="divider"></li>
                             <li><a ng-if="currentUser" ng-click="signOut()"><i class="fa fa-sign-out"></i>&nbsp;&nbsp;<span>התנתק</span></a></li>
 

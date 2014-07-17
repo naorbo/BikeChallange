@@ -16,7 +16,6 @@ using Microsoft.Owin.Security.OAuth;
 using BikeChallengeApp.Models;
 using BikeChallengeApp.Providers;
 using BikeChallengeApp.Results;
-using System.Net;
 using System.Net.Mail;
 
 namespace BikeChallengeApp.Controllers
@@ -109,6 +108,7 @@ namespace BikeChallengeApp.Controllers
         [Route("ChangePassword")]
         public async Task<IHttpActionResult> ChangePassword(ChangePasswordBindingModel model)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
@@ -123,24 +123,7 @@ namespace BikeChallengeApp.Controllers
                 return errorResult;
             }
 
-            // Mail Test 
-
-            MailMessage mail = new MailMessage();
-            mail.From = new MailAddress("shlomi.avihou@gmail.com");
-            mail.To.Add("shlomiavihou@gmail.com");
-            mail.Subject = "This is a test";
-            mail.Body = "Test content";
-
-            SmtpClient smtp = new SmtpClient();
-            smtp.Send(mail);
-
-
-
-
-            // Mail Test 
-
-
-
+            
 
             return Ok();
         }

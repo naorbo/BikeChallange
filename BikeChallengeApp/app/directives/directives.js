@@ -57,6 +57,23 @@ app.directive('validPasswordC', function () {
     }
 });
 
+// #############################
+// Password match validator for ChangePassword
+// #############################
+app.directive('updateValidPasswordC', function () {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.unshift(function (viewValue) {
+                console.log('inside dir');                
+                var noMatch = viewValue != $scope.changePassword.nPassword.$viewValue;
+                $ctrl.$setValidity('noMatch', !noMatch);
+            });
+        }
+    }
+});
+
+
 
 // #############################
 // File upload directive 
