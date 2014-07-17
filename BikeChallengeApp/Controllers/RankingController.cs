@@ -50,8 +50,8 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // GET Ranking per Organization
-        //orgname=[If you want to get the ranking within the org]/ gender=[if you want to get the ranking according to gender]
-        // api/Ranking?gender=[M/נקבה not mendatory if not = "")]&order=[Points/Days/Kilometers]
+
+        // api/Ranking?gender=[M/נקבה not mendatory if not = "")]&order=[Points/Days/Kilometers]]&date=07-07-2014
         public DataTable GetOrganizationRank(string gender, string order, string date)
         {
             DBservices dbs = new DBservices();
@@ -68,11 +68,8 @@ namespace BikeChallengeApp.Controllers
             DBservices dbs = new DBservices();
             username = (username != null ? username : "");
             date = (date != null ? date : "");
-           // grpname = grpname.Replace("'", "''");
-            //grpname = grpname.Replace("'", "''");
-            //orgname = orgname.Replace("'", "''");
             dbs = dbs.ReadFromDataBase(19, username, date);
-            return (dbs.dt1 != null ? dbs.dt1 : dbs.dt);
+            return  dbs.dt1 ;
 
         }
     }

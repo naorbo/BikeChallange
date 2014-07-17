@@ -62,8 +62,8 @@ public class DBservices
         try
         {
             con = dbS.connect("DefaultConnection"); // open the connection to the database/
-            String selectStr, selectStr1, selectStr2, selectStr3;
-            selectStr = selectStr1 = selectStr2 = selectStr3 = "";
+            String selectStr, selectStr1, selectStr2, selectStr3, selectStr4, selectStr5, selectStr6;
+            selectStr = selectStr1 = selectStr2 = selectStr3 = selectStr4 = selectStr5 = selectStr6 = "";
             switch (select)
             {
                 case 1:
@@ -464,34 +464,53 @@ public class DBservices
                
                 data2 = dt.Rows[0].ItemArray[0].ToString();
                 data3 = dt.Rows[0].ItemArray[1].ToString();
+                
+                selectStr1 = BuildUserrankCommand(data1, data4);
+                selectStr2 = BuildGrouprankCommand(data2, data3, data4);
+                selectStr3 = BuildOrganizationrankCommand(data3, data4);
+               
 
-                selectStr3 = BuildUserrankCommand(data1, data4);
+                SqlDataAdapter dj = new SqlDataAdapter(selectStr1, con); // create the data adapter 
+                SqlDataAdapter db = new SqlDataAdapter(selectStr2, con);
+                SqlDataAdapter dc = new SqlDataAdapter(selectStr3, con);
 
-                SqlDataAdapter dj = new SqlDataAdapter(selectStr3, con); // create the data adapter  
                 DataSet dx = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
-                dj.Fill(dx);
-
-
-                DataTable dt1 = dx.Tables[0];
-                string userpoint = ( dt1.Rows.Count != 0 ? dt1.Rows[0].ItemArray[0].ToString() : "0" );
-                int UserRanking = (Convert.ToDouble(userpoint) > 0 ? dt1.Rows.Count : 0);
-                selectStr1 = BuildGrouprankCommand(data2, data3, data4);
-                selectStr2 = BuildOrganizationrankCommand(data3, data4);
-
-                SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
-                SqlDataAdapter dc = new SqlDataAdapter(selectStr2, con);
-
                 DataSet dsb = new DataSet();
                 DataSet dsc = new DataSet();
+
+                dj.Fill(dx);
                 db.Fill(dsb);
                 dc.Fill(dsc);
+               
+                DataTable dt1 = dx.Tables[0];
+
+                selectStr4 = CountNumUsersCommand(data4);
+                selectStr5 = CountNumGroupCommand(data4);
+                selectStr6 = CountNumOrgCommand(data4);
+
+                SqlDataAdapter dba = new SqlDataAdapter(selectStr4, con);
+                SqlDataAdapter dxa = new SqlDataAdapter(selectStr5, con);
+                SqlDataAdapter dca = new SqlDataAdapter(selectStr6, con);
+
+                DataSet dsba = new DataSet();
+                DataSet dsca = new DataSet();
+                DataSet dsfa = new DataSet();
+
+                dba.Fill(dsba);
+                dxa.Fill(dsca);
+                dca.Fill(dsfa);
+
+                string userpoint = (dt1.Rows.Count != 0 ? dt1.Rows[0].ItemArray[0].ToString() : "0");
+                int UserRanking = (Convert.ToDouble(userpoint) > 0 ? dt1.Rows.Count : dsba.Tables[0].Rows.Count + 1);
 
                 string groupoints = (dsb.Tables[0].Rows.Count != 0 ? dsb.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
-                int GroupRanking = (Convert.ToDouble(groupoints) > 0 ? dsb.Tables[0].Rows.Count : 0);
+                int GroupRanking = (Convert.ToDouble(groupoints) > 0 ? dsb.Tables[0].Rows.Count : dsca.Tables[0].Rows.Count + 1);
 
                 string orgpoints = (dsc.Tables[0].Rows.Count != 0 ? dsc.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
-                int OrgRanking = (Convert.ToDouble(orgpoints) > 0 ? dsc.Tables[0].Rows.Count : 0);
+                int OrgRanking = (Convert.ToDouble(orgpoints) > 0 ? dsc.Tables[0].Rows.Count : dsfa.Tables[0].Rows.Count + 1);
                 
+
+
                 DataRow newRow = dt1.NewRow();
                 newRow["UserRanking"] = UserRanking;
                 newRow["UserPoints"] = userpoint;
@@ -608,6 +627,8 @@ public class DBservices
             }
         }
     }
+
+    
     #endregion
 
     #region Insert New Record
@@ -770,7 +791,60 @@ public class DBservices
     #endregion
 
     #region Group/ Organization Rank AND Shuffle Method
-
+     private String CountNumUsersCommand(string data4)
+     {
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"SELECT  Count(*)
+                            FROM [Rides] R, Users U, Groups G, Organizations O
+                            Where U.[User]<> 0
+                            AND U.Organization = O.Organization
+                            AND O.Organization = G.Organization
+                            AND R.[USER] = U.[User]
+                            AND U.[User] in ( SELECT UG.[User]
+                                        FROM UsersGroups UG
+                                        WHERE G.[Group] = UG.[Group])
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy,'" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+                            Group by  U.[User],DATEPART(yyyy, R.RideDate) , DATEPART(mm, R.RideDate)";
+        /**/
+        return command;
+     }
+     
+         private String CountNumGroupCommand(string data4)
+     {
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"SELECT  Count(*)
+                        FROM Groups G, Organizations O, Users U, Rides R
+                        Where G.[Group] <> 0
+                        AND G.Organization = O.Organization
+                        AND R.[User] = U.[User] 
+                        AND U.[User] in ( SELECT UG.[User]
+                                    FROM UsersGroups UG
+                                    WHERE G.[Group] = UG.[Group])
+                        AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+                        group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName";
+        /**/
+        return command;
+     }
+      
+          private String CountNumOrgCommand(string data4)
+     {
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"SELECT Count(*)
+                            FROM Groups G, Organizations O, Users U, Rides R
+                            Where G.[Group] <> 0
+                            AND G.Organization = O.Organization
+                            AND U.[User] in ( SELECT UG.[User]
+                                        FROM UsersGroups UG
+                                        WHERE G.[Group] = UG.[Group])
+                            AND R.[User] = U.[User] 
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
+                            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), O.OrganizationName";
+        /**/
+        return command;
+     }
     private String BuildGroupPointsCommand(string data1, string data2)
     {
 
