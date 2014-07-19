@@ -8,27 +8,27 @@ namespace BikeChallengeApp.Models
     
     public class Report
     {
-        string firstRow;
-        public string FirstRow
+        string firstCol;
+        public string FirstCol
         {
-            get { return firstRow; }
-            set { firstRow = value; }
+            get { return firstCol; }
+            set { firstCol = value; }
+        }
+        
+        string secondCol;
+        public string SecondCol
+        {
+            get { return secondCol; }
+            set { secondCol = value; }
         }
 
-        string secondRow;
-        public string SecondRow
+        string thirdCol;
+        public string ThirdCol
         {
-            get { return secondRow; }
-            set { secondRow = value; }
+            get { return thirdCol; }
+            set { thirdCol = value; }
         }
-
-        string thirdRow;
-        public string ThirdRow
-        {
-            get { return thirdRow; }
-            set { thirdRow = value; }
-        }
-
+        
         public Report()
         {
             

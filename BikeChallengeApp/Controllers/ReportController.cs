@@ -23,41 +23,19 @@ namespace BikeChallengeApp.Controllers
 {
     public class ReportController : ApiController
     {
-       /* // api/Report
-        // {"FirstRow":"1","SecondRow":"2","ThirdRow":"3"}
-
-        public ActionResult Update(IList<MyViewModel> model)
-            {
-                IList<Group> ctm = new JavaScriptSerializer().Deserialize<IList<Group>>(json);
-                string g = ctm[0].GroupDes;
-                return null;
-            }
-        
-        // api/Report/
-        // {"GroupName":"1", "OrganizationName":"1"},{"GroupName":"2", "OrganizationName":"2"}
-
-        public string myAction([FromBody]List<Group> grp)
+        // api/Report/?ColNum=3&type=Groups
+        // [{"FirstCol":"A1","SecondCol":"A2","ThirdCol":"A3"},{"FirstCol":"B1","SecondCol":"B2","ThirdCol":"B3"}]
+        public HttpResponseMessage Post(int ColNum, string type, List<Report> mlist )
         {
-            var resolveRequest = Request.Content.ReadAsStringAsync();
             
-            string s = new StreamReader(HttpContext.Current.Request.InputStream).ReadToEnd();
-            List<Group> model = new List<Group>();
-
-           // resolveRequest.Seek(0, SeekOrigin.Begin);
-            //string jsonString = new StreamReader(resolveRequest).ReadToEnd();
-            if ("" != null)
-            {
-                JavaScriptSerializer serializer = new JavaScriptSerializer();
-                model = (List<Group>)Newtonsoft.Json.JsonConvert.DeserializeObject(Request.Content.ToString(), typeof(List<Group>));
-            }
-            //Your operations..
-            List<Object> mlist = new List<Object>();
-            mlist.Add(grp);
-            
-            string str = "LOGO";
+            string location ="~\\Reports\\"+type+"\\";
+            string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm")+".pdf";
+            var root = HttpContext.Current.Server.MapPath(location);
+            Directory.CreateDirectory(root);
             Document document = new Document();
-            PdfWriter.GetInstance(document, new FileStream(@"C:\Temp\test.pdf", FileMode.Create));
-            PdfPTable table = new PdfPTable(3);
+            PdfWriter.GetInstance(document, new FileStream(root + filename, FileMode.Create));
+            PdfPTable table = new PdfPTable(ColNum);
+            iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(root + "Logo.jpg");
             table.TotalWidth = 400f;
             //fix the absolute width of the table
             table.LockedWidth = true;
@@ -70,28 +48,27 @@ namespace BikeChallengeApp.Controllers
             table.SpacingBefore = 20f;
             table.SpacingAfter = 30f;
 
-            PdfPCell cell = new PdfPCell(new Phrase("Groups"));
-            cell.Colspan = 3;
+            PdfPCell cell = new PdfPCell(new Phrase(type));
+            cell.Colspan = ColNum;
             cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
             table.AddCell(cell);
-            //table.AddCell(grp.GroupDes);
-            //table.AddCell(grp.OrganizationName);
-            //table.AddCell(grp.GroupName);
-            table.AddCell("Col 1 Row 2");
-            table.AddCell("Col 2 Row 2");
-            table.AddCell("Col 3 Row 2");
+            foreach (Report r in mlist)
+            {
 
+                table.AddCell(r.FirstCol);
+                table.AddCell(r.SecondCol);
+                table.AddCell(r.ThirdCol);
+            }
+            
             document.Open();
+            document.Add(logo);
             document.Add(table);
 
-            Paragraph P = new Paragraph(str, FontFactory.GetFont("Arial", 10));
-
-            //Paragraph P2 = new Paragraph(val.ToString(), FontFactory.GetFont("Arial", 10));
-            document.Add(P);
-            //document.Add(P2);
-            document.Close();
             
-            return "";
-        }*/
+            
+            document.Close();
+            return Request.CreateResponse(HttpStatusCode.OK, root + filename);
+            
+        }
     }
 }
