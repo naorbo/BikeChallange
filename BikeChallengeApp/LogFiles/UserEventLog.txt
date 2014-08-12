@@ -18,3 +18,4 @@ The UserEvent LOG file
 23:48:33 : The Event 02-07-14-10-11-05 was Deleted from the Event
 23:50:23 : The Event 12-07-14-11-50-06 was Deleted from the Event
 23:57:39 : The Event 12-07-14-11-49-36 was Deleted from the Event
+21:34:43 : The Rider messi10 was Deleted from the Event

@@ -175,11 +175,27 @@ public class DBservices
                     break;
                 /**/
                 case 8:
-                    selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength], R.[RideSource], R.[RideDestination]
+                    if (data1 != "")
+                    {
+                        selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength], R.[RideSource], R.[RideDestination]
                           FROM [Rides] R, Users U, AspNetUsers anu
                           WHERE R.[User] = U.[User]
                           AND   U.Id = anu.Id
-                          AND   anu.UserName = '" + data1 + "' ;"; //ReadFromDataBase ,
+                          AND   anu.UserName like '" + data1 + "%' ;"; //ReadFromDataBase
+                    }
+                    else
+                    {
+                        selectStr = @"SELECT  R.[RideName], R.[RideType], convert(varchar(10), R.[RideDate], 120) As RideDate, R.[RideLength], R.[RideSource], R.[RideDestination],anu.UserName, C.CityName As RiderCity, G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, U.UserFname +' '+ U.UserLname As UserDisplayName
+                                        FROM [Rides] R, UsersGroups UG, Users U, AspNetUsers anu, Groups G, Organizations O, Cities C
+                                        WHERE U.[User] <> 0
+                                        AND   R.[User] = U.[User]
+                                        AND   U.Id = anu.Id
+                                        AND   anu.UserName like '%' 
+                                        AND   G.[Organization] = O.[Organization]
+                                        AND   UG.[User] = U.[User]
+                                        AND   UG.[Group] = G.[Group]
+                                        AND   u.City = c.City;";
+                    }
 
                     break;
                 case 9:
@@ -1277,9 +1293,14 @@ public class DBservices
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
         String prefix = "INSERT INTO Groups( GroupName, Organization, GroupDes ) ";
-        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationDes = '{1}' ) ,'{2}')", grp.GroupName, grp.OrganizationName, grp.GroupDes);
+        sb.AppendFormat("Values('{0}', (select Organization from Organizations where OrganizationDes = '{1}' ) ,'{2}') ", grp.GroupName, grp.OrganizationName, grp.GroupDes);
+        String command2 = @" INSERT INTO dbo.UsersGroups([Group]
+                            ,[User])
+                               VALUES
+                        ( (Select [Group] From [Groups] Where GroupName = '" + grp.GroupName + @"' )   
+                       ,0) ";
         command = prefix + sb.ToString();
-        return command;
+        return command + command2;
     }
     #endregion
 

@@ -199,6 +199,7 @@
     <Compile Include="Controllers\CaptainController.cs" />
     <Compile Include="Controllers\CitiesController.cs" />
     <Compile Include="Controllers\CompetitionController.cs" />
+    <Compile Include="Controllers\ExcelController.cs" />
     <Compile Include="Controllers\ExportDataController.cs" />
     <Compile Include="Controllers\DataController.cs" />
     <Compile Include="Controllers\EventController.cs" />
