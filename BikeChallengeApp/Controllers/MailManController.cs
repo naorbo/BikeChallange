@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
@@ -6,6 +7,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
@@ -25,15 +27,17 @@ namespace BikeChallengeApp.Controllers
     
     public class MailManController : ApiController
     {
-        
-        /* POST @ api/MailMan 
+
+        /* POST @ api/MailMan - Is used to send contact message from users in the webapp.  
          
          
-         Input -  JSON Body - {
-                    "To": Multiple records devided by comma (') ,
-                    "Subject": Subject Of the mail,
-                    "Body" : Mail's content
-           }
+        {
+            "Name": Contact Name ,
+            "Email": Conatct Mail Address,
+            "Subject": Subject ,
+            "Body": Content,
+
+        }
          
          Output - "Success" / "Failure"  
         
@@ -41,7 +45,7 @@ namespace BikeChallengeApp.Controllers
          
          */
 
-        
+
 
         [HttpPost]
         public string SendMailer([FromBody]MailModel _objModelMail)
@@ -49,15 +53,18 @@ namespace BikeChallengeApp.Controllers
             if (ModelState.IsValid)
             {
                 MailMessage mail = new MailMessage();
-
-                string[] MultipleAddresses = _objModelMail.To.Split(',');
-                foreach (string EmailAddress in MultipleAddresses)
-                {
-                    mail.To.Add(EmailAddress);
-                }
+                StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Models/mailTemplates/contactTemplate.html"));
+                string readFile = reader.ReadToEnd();
+                string StrContent = readFile;
+                StrContent = StrContent.Replace("[ContactName]", _objModelMail.Name);
+                StrContent = StrContent.Replace("[ContactMail]", _objModelMail.Email);
+                StrContent = StrContent.Replace("[ContactContent]", _objModelMail.Body);
+                mail.IsBodyHtml = true;
+                mail.To.Add("bchallengeisrael@gmail.com");
+                _objModelMail.Subject = "רוכבים לעבודה, פנייה ממשתמש - " + _objModelMail.Subject;
                 mail.Subject = _objModelMail.Subject;
-                string Body = _objModelMail.Body;
-                mail.Body = Body;
+                //string Body = _objModelMail.Body;
+                mail.Body = StrContent.ToString();
                 mail.IsBodyHtml = true;
                 SmtpClient smtp = new SmtpClient();
                 smtp.Send(mail);
@@ -72,6 +79,7 @@ namespace BikeChallengeApp.Controllers
 
     }
 }
+
 
 
 

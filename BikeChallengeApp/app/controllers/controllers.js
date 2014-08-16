@@ -72,11 +72,15 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
                      alert("Unable to fetch all orgs...");
                  });
 
-
+        //Load Rides
+        dataFactory.getValues('Rides', true, "username=")
+            .success(function (values) {
+                $scope.allRidesHolder = angular.fromJson(values);
+            })
     }
 
     $scope.loadData();
-
+    
     
 
     // Accordion vars 
@@ -498,7 +502,8 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
     };
 
 
-    
+    // Admin Reports  
+    $scope.sortVar = "UserDisplayName";
 
 
 });
@@ -528,8 +533,29 @@ app.controller('workController', function ($rootScope, $scope, $http, $timeout, 
 // ####################################################################################################################################################### // 
 
 
-app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('contactUsController', function ($rootScope, $scope, $location, $http,dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
+    $scope.contactRequest = function (contactForm) {
+        
+        var contactInfo = {};
+        contactInfo = {
+            "Name": contactForm.name.$viewValue,
+            "Email": contactForm.address.$viewValue,
+            "Subject": contactForm.subject.$viewValue,
+            "Body": contactForm.content.$viewValue,
+        }
+
+        dataFactory.postValues('MailMan', contactInfo, false)
+             .success(function (response) {
+                 console.log("Contact success");
+                 alert("ההודעה נשלחה בהצלחה");
+                 $location.url("/home");
+             })
+             .error(function (error) {
+                 alert("שגיאה");
+             });
+
+    }
 
 
 });

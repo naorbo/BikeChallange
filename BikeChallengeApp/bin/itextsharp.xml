@@ -2172,6 +2172,10 @@
             Construct a BaseColor by setting the combined value.
             @param argb
         </member>
+        <member name="M:iTextSharp.text.BaseColor.#ctor(System.Drawing.Color)">
+            Construct a BaseColor by System.Drawing.Color.
+            @param color
+        </member>
         <member name="M:iTextSharp.text.BaseColor.Brighter">
             Make this BaseColor brighter. Factor used is 0.7.
             @return the new BaseColor
@@ -8288,6 +8292,12 @@
             @param image image to add
             @param transform transform to apply to the template prior to adding it.
         </member>
+        <member name="M:iTextSharp.text.pdf.PdfContentByte.AddImage(iTextSharp.text.Image,System.Drawing.Drawing2D.Matrix)">
+            adds an image with the given matrix.
+            @param image image to add
+            @param transform transform to apply to the template prior to adding it.
+            @since 5.0.1
+        </member>
         <member name="M:iTextSharp.text.pdf.PdfContentByte.AddImage(iTextSharp.text.Image,System.Single,System.Single,System.Single,System.Single,System.Single,System.Single,System.Boolean)">
             Adds an <CODE>Image</CODE> to the page. The positioning of the <CODE>Image</CODE>
             is done with the transformation matrix. To position an <CODE>image</CODE> at (x,y)
@@ -8409,6 +8419,7 @@
              @param       y           operand 3,2 in the matrix
         </member>
         <!-- Badly formed XML comment ignored for member "M:iTextSharp.text.pdf.PdfContentByte.SetTextMatrix(iTextSharp.awt.geom.AffineTransform)" -->
+        <!-- Badly formed XML comment ignored for member "M:iTextSharp.text.pdf.PdfContentByte.SetTextMatrix(System.Drawing.Drawing2D.Matrix)" -->
         <member name="M:iTextSharp.text.pdf.PdfContentByte.SetTextMatrix(System.Single,System.Single)">
              Changes the text matrix. The first four parameters are {1,0,0,1}.
              <P>
@@ -8492,6 +8503,11 @@
         <member name="M:iTextSharp.text.pdf.PdfContentByte.ConcatCTM(iTextSharp.awt.geom.AffineTransform)">
             Concatenate a matrix to the current transformation matrix.
             @param transform added to the Current Transformation Matrix
+        </member>
+        <member name="M:iTextSharp.text.pdf.PdfContentByte.ConcatCTM(System.Drawing.Drawing2D.Matrix)">
+            Concatenate a matrix to the current transformation matrix.
+            @param transform added to the Current Transformation Matrix
+            @since 5.0.1
         </member>
         <!-- Badly formed XML comment ignored for member "M:iTextSharp.text.pdf.PdfContentByte.BezierArc(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)" -->
         <member name="M:iTextSharp.text.pdf.PdfContentByte.Arc(System.Single,System.Single,System.Single,System.Single,System.Single,System.Single)">
@@ -8601,6 +8617,19 @@
             @param transform transform to apply to the template prior to adding it.
             @param tagContent <code>true</code> - template content will be tagged(all that will be added after), <code>false</code> - only a Do operator will be tagged.
                               taken into account only if <code>isTagged()</code> - <code>true</code>.
+        </member>
+        <member name="M:iTextSharp.text.pdf.PdfContentByte.AddTemplate(iTextSharp.text.pdf.PdfTemplate,System.Drawing.Drawing2D.Matrix,System.Boolean)">
+            adds a template with the given matrix.
+            @param template template to add
+            @param transform transform to apply to the template prior to adding it.
+            @param tagContent <code>true</code> - template content will be tagged(all that will be added after), <code>false</code> - only a Do operator will be tagged.
+                              taken into account only if <code>isTagged()</code> - <code>true</code>.
+        </member>
+        <member name="M:iTextSharp.text.pdf.PdfContentByte.AddTemplate(iTextSharp.text.pdf.PdfTemplate,System.Drawing.Drawing2D.Matrix)">
+            adds a template with the given matrix.
+            @param template template to add
+            @param transform transform to apply to the template prior to adding it.
+            @since 5.0.1
         </member>
         <member name="M:iTextSharp.text.pdf.PdfContentByte.AddTemplate(iTextSharp.text.pdf.PdfTemplate,System.Single,System.Single)">
              Adds a template to this content.
@@ -19505,6 +19534,37 @@
             </summary>
             <param name="img">a byte array</param>
             <returns>an object of type Gif, Jpeg or Png</returns>
+        </member>
+        <member name="M:iTextSharp.text.Image.GetInstance(System.Drawing.Image,iTextSharp.text.BaseColor,System.Boolean)">
+            <summary>
+            Gets an instance of an Image from a System.Drwaing.Image.
+            </summary>
+            <param name="image">the System.Drawing.Image to convert</param>
+            <param name="color">
+            if different from null the transparency
+            pixels are replaced by this color
+            </param>
+            <param name="forceBW">if true the image is treated as black and white</param>
+            <returns>an object of type ImgRaw</returns>
+        </member>
+        <member name="M:iTextSharp.text.Image.GetInstance(System.Drawing.Image,System.Drawing.Imaging.ImageFormat)">
+            <summary>
+            Converts a .NET image to a Native(PNG, JPG, GIF, WMF) image
+            </summary>
+            <param name="image"></param>
+            <param name="?"></param>
+            <returns></returns>
+        </member>
+        <member name="M:iTextSharp.text.Image.GetInstance(System.Drawing.Image,iTextSharp.text.BaseColor)">
+            <summary>
+            Gets an instance of an Image from a System.Drawing.Image.
+            </summary>
+            <param name="image">the System.Drawing.Image to convert</param>
+            <param name="color">
+            if different from null the transparency
+            pixels are replaced by this color
+            </param>
+            <returns>an object of type ImgRaw</returns>
         </member>
         <member name="M:iTextSharp.text.Image.GetInstance(System.String)">
             <summary>
@@ -53539,6 +53599,13 @@
             before calling this method is required.
             @return the barcode <CODE>Image</CODE>
             @throws BadElementException on error
+        </member>
+        <member name="M:iTextSharp.text.pdf.BarcodeDatamatrix.CreateDrawingImage(System.Drawing.Color,System.Drawing.Color)">
+            Creates a <CODE>java.awt.Image</CODE>. A successful call to the method <CODE>generate()</CODE>
+            before calling this method is required.
+            @param foreground the color of the bars
+            @param background the color of the background
+            @return the image
         </member>
         <member name="P:iTextSharp.text.pdf.BarcodeDatamatrix.BitImage">
             Gets the generated image. The image is represented as a stream of bytes, each byte representing

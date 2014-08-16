@@ -26,7 +26,7 @@
             }
         
     </style>
-
+    
 </head>
 
 
@@ -421,6 +421,72 @@
                         <fieldset>
                             <legend>הפקת דוחות</legend>
                         </fieldset>
+
+                        <div class="row">
+                            <div class="col-md-4 pull-right" style="font-weight:bolder">
+                                <label><strong style="color:black">סינון תוצאות</strong></label>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                           <div class="col-md-3 pull-right">
+                                <label><strong>ארגון</strong></label>
+                                <div class="form-control">
+                                    <select ng-model="org"
+                                            class="pull-right"
+                                            ng-options="value for value in filterOptions[4].values"
+                                            style="border:none" />
+                                    <span class="glyphicon glyphicon-filter pull-left"
+                                          ng-class="{'cancelFilter' : org}"
+                                          ng-click="org=undefined"></span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-4 pull-right">
+                                <label><strong>קבוצה</strong></label>
+                                <div class="form-control">
+                                    <select ng-model="group"
+                                            class="pull-right"
+                                            style="border:none"
+                                            ng-options="value.GroupDes group by value.OrganizationDes  for value in filterOptions[1].values"></select>
+                                    <span class="glyphicon glyphicon-filter pull-left"
+                                          ng-class="{'cancelFilter' : group}"
+                                          ng-click="group=undefined"></span>
+                                </div>
+                            </div>
+                            
+                            
+                            
+                        </div>
+
+                        
+
+                        <br />
+                        <table class="table table-responsive table-hover ">
+                            <thead >
+                                <tr>
+                                    <td></td>
+                                    <td><a ng-click="sortVar = 'UserDisplayName'">שם משתמש</a></td>
+                                    <td><a ng-click="sortVar = 'GroupDes'">קבוצה</a></td>
+                                    <td><a ng-click="sortVar = 'OrganizationDes'">ארגון</a></td>
+                                    <td><a ng-click="sortVar = 'RideLength'">אורך רכיבה</a></td>
+                                    <td><a ng-click="sortVar = 'RideDate'">תאריך</a></td>
+                                </tr>
+                            </thead>
+
+                            <tbody ng-repeat="ride in allRidesHolder | orgFilter:org | groupFilter:group| orderBy:sortVar">
+                                <tr>
+                                    <td>{{$index+1}}</td>
+                                    <td>{{ride.UserDisplayName}}</td>
+                                    <td>{{ride.GroupDes}}</td>
+                                    <td>{{ride.OrganizationDes}}</td>
+                                    <td>{{ride.RideLength}}</td>
+                                    <td>{{ride.RideDate | date:'dd-MM-yyyy'}}</td>
+                                </tr>
+                            </tbody>
+
+                        </table>
+
                     </div>
 
                     <div ng-switch-when="6">

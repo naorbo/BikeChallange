@@ -12,7 +12,7 @@
                 </legend>
             </fieldset>
 
-            <form name="contactUsForm">
+            <form name="contactUsForm" ng-submit="contactRequest(contactUsForm)">
                 <div class="form-group">
                     <input name="name"
                            type="text"
@@ -30,26 +30,32 @@
                            class="form-control"
                            ng-model="name"
                            placeholder="כתובת דואר אלקטרוני"
-                           data-tooltip="דואר אלקטרוני" 
+                           data-tooltip="דואר אלקטרוני"
                            data-tooltip-trigger="focus"
                            data-tooltip-placement="right" />
                 </div>
-                
+
                 <div class="form-group">
-                <input name="subject"
-                    type="text"
-                    class="form-control"
-                    ng-model="subject"
-                    placeholder="נושא"
-                    data-tooltip="נושא"
-                    data-tooltip-trigger="focus"
-                    data-tooltip-placement="right" />
+                    <input name="subject"
+                           type="text"
+                           class="form-control"
+                           ng-model="subject"
+                           placeholder="נושא"
+                           data-tooltip="נושא"
+                           data-tooltip-trigger="focus"
+                           data-tooltip-placement="right" />
 
                 </div>
 
                 <div class="form-group">
-                    <textarea class="text" data-tooltip="תוכן" name="Text1" cols="90" rows="5" ng-model="fillbox" placeholder="תוכן הפנייה"></textarea>
-                  
+                    <textarea class="text"
+                              data-tooltip="תוכן"
+                              name="content"
+                              cols="90"
+                              rows="5"
+                              ng-model="content"
+                              placeholder="תוכן הפנייה"></textarea>
+
                 </div>
                 <button type="submit" class="btn btn-primary" ng-disabled="contactUsForm.$invalid">שלח!</button>
             </form>

@@ -21,7 +21,7 @@ namespace BikeChallengeApp.Controllers
         {
             DBservices dbs = new DBservices();
             date = (date != null ? date : "");
-            dbs = dbs.ReadFromDataBase(21, date);
+            dbs = dbs.ReadFromDataBase(26, date);
             return dbs.dt;
         }
 

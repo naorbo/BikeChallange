@@ -420,6 +420,8 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
 });
 
 
+
+
 // Google Charts 
 // Dashbord gauger charts - for COs / KM 
 
@@ -615,3 +617,5 @@ app.directive('chartPersonal', function () {
 
 
 //bkup
+
+
