@@ -1060,7 +1060,36 @@ app.controller('changePasswordController', function ($scope,$location, dataFacto
 
 });
 
+// ####################################################################################################################################################### // 
+// #########################################                forgotPasswordController               ################################################################ // 
+// ####################################################################################################################################################### // 
 
+
+
+app.controller('forgotPasswordController', function ($scope, $location, dataFactory) {
+
+    $scope.pleaseWait = false;
+    $scope.forgotPassword = function (passwordRequest) {
+
+        var resetPackage = {
+            EmailAddress: passwordRequest.emailAddress.$viewValue
+        }
+        $scope.pleaseWait = true;
+        dataFactory.postValues('account/ForgotPassword', resetPackage, false)
+                     .success(function (values) {
+                         alert("איפוס הססמא הסתיים בהצלחה , פרטי החיבור החדשים שלך נשלחו באמצעות דואר אלקטרוני");
+                         $scope.pleaseWait = false;
+                         $location.url("/home");
+                     })
+                     .error(function (error) {
+                         alert("שגיאה באיפוס הסיסמא");
+                     });
+
+
+    }
+
+
+});
 
 // ####################################################################################################################################################### // 
 // #########################################                aboutController               ################################################################ // 

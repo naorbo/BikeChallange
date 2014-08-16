@@ -72,10 +72,10 @@ app.config(['$routeProvider',
             controller: 'contactUsController'
         }).
 
-          //Used for testing 
-        when('/work', {
-            templateUrl: 'app/partials/work.html',
-            controller: 'workController'
+         
+        when('/forgotPassword', {
+            templateUrl: 'app/partials/forgotPassword.html',
+            controller: 'forgotPasswordController'
         }).
 
         

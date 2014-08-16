@@ -193,6 +193,45 @@ app.directive('emailValidate', function (dataFactory) {
     return viewValue;
 });
 
+
+// #############################
+// User email existance directive - Password recovery
+// #############################
+
+
+app.directive('emailValidateForgot', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.push(function (viewValue) {
+                if (!$ctrl.$error.email) {
+                    console.log("Got the Direc");
+                    dataFactory.getValues("UserNameExists", 1, "email=" + $scope.iForgotPassword.emailAddress.$viewValue)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS"') {
+                            console.log("email is available");
+                            $ctrl.$setValidity('unique', false);
+                        }
+
+                        else {
+                            console.log("email is NA");
+                            $ctrl.$setValidity('unique', true);
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch email existance");
+                     }
+                        );
+                }
+            }
+        )
+        }
+    };
+    return viewValue;
+});
+
+
 // #############################
 // Organization existance directive 
 // #############################
