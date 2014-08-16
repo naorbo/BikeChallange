@@ -409,16 +409,25 @@ public class DBservices
                     break;
                 
                 case 26:
-                    selectStr = @"  SELECT [Competition]
-                                  ,[CompetitionDate]
-                                  ,[OrgWin]
-                                  ,[GrpWin]
-                                  ,[PlatinumUser]
-                                  ,[GoldUser]
-                                  ,[SilverUser]
-                                  ,[BronzeUser]
-                              FROM [Competition]
-                              Where [CompetitionDate] like '%"+data1+"' "; // ReadFromDataBaseUserName
+                    selectStr = @"  SELECT [CompetitionDate]
+                                          ,[OrgWin], O.OrganizationType OrgWin_Type , O.OrganiztionImage OrgWin_Image, OC.CityName OrgWin_City
+                                          ,[GrpWin], Og.OrganizationDes GrpWin_Org, Cg.cityname GrpWin_Org_City, og.OrganiztionImage GrpWin_Org_Img
+                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, convert(varchar(10), Pusers.BirthDate, 120) As PlatinumBirthDate, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization --, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
+                                          ,[GoldUser], Gusers.ImagePath GoldImg, convert(varchar(10), Gusers.BirthDate, 120) As GoldBirthDate, Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization
+                                          ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization
+                                          ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization
+                                        FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
+                                        Where [CompetitionDate] like '%" +data1+@"' 
+                                        AND o.OrganizationDes = OrgWin
+                                        And O.City = oc.city
+                                        AND g.GroupDes = GrpWin
+                                        And g.Organization = og.Organization
+                                        And og.City = Cg.City
+                                        And Pusers.UserDes = PlatinumUser
+                                        And Gusers.UserDes = [GoldUser]
+                                        And Susers.UserDes = [SilverUser]
+                                        And Busers.UserDes = [BronzeUser] ";
+                               // ReadFromDataBaseUserName
                     break;
 
                 // Added for fetch user's ASP FW username by its registered mail address
@@ -1216,7 +1225,14 @@ public class DBservices
         String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
                             begin
                             INSERT INTO [UsersGroups]([Group],[User]) Values( @Group_val, @User_val )
+                            UPDATE [Users]
+                            SET 
+                                [GroupDes] = (Select g.GroupDes From Groups g, UsersGroups ug Where ug.[User] = Users.[User] And ug.[Group] = g.[group] )
+                                ,[OrganizationDes] = (Select OrganizationDes From Organizations Where Organization = Users.Organization)
+                                ,[CityName] = (Select CityName From Cities Where City = Users.City)
+                            Where [Users].[User] = @User_val 
                             end";
+
         command = prefix1 + prefix;
         return command;
     }
@@ -1260,7 +1276,13 @@ public class DBservices
                               ,[Organization] = " + (rdr.Organization != null && rdr.Group != null ? "(select [Organization] from Organizations where OrganizationDES = '" + rdr.Organization + "' AND Exists ( Select G.Organization From Groups G Where G.[GroupName] = '" + rdr.Group + @"' AND G.Organization = Organization  ))" : "[Organization]") + @"
                              WHERE UserDes = '" + username + @"';";
         sb2 = @" Update [UsersGroups] Set [Group] = " + (rdr.Group != null ? "( Select [Group] From Groups Where GroupName = '" + rdr.Group + "' )" : "[Group]") + @"  
-                        Where [User] = ( Select [User] From [Users] Where UserDes = '" + username + "');";
+                        Where [User] = ( Select [User] From [Users] Where UserDes = '" + username + @"');
+                        UPDATE [Users]
+                            SET 
+                                [GroupDes] = (Select g.GroupDes From Groups g, UsersGroups ug Where ug.[User] = Users.[User] And ug.[Group] = g.[group] )
+                                ,[OrganizationDes] = (Select OrganizationDes From Organizations Where Organization = Users.Organization)
+                                ,[CityName] = (Select CityName From Cities Where City = Users.City)
+                            Where UserDes = '" + username + @"' ";
         command = prefix + sb + sb2;
         return command;
     }
@@ -1478,24 +1500,8 @@ public class DBservices
         return command;
     }
 
-    private String BuildInsertCompetitionCommand(Competition cmpt)
-    {
-        String command;
-        StringBuilder sb = new StringBuilder();
-        // use a string builder to create the dynamic string
-        String prefix = @"INSERT INTO [Competition]
-           ([CompetitionDate]
-           ,[OrgWin]
-           ,[GrpWin]
-           ,[PlatinumUser]
-           ,[GoldUser]
-           ,[SilverUser]
-           ,[BronzeUser])";
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", cmpt.CompetitionDate, cmpt.OrgWin, cmpt.GrpWin, cmpt.PlatinumUser, cmpt.GoldUser, cmpt.SilverUser, cmpt.BronzeUser);
-        
-        command = prefix + sb.ToString();
-        return command;
-    }
+
+    
     private String BuildInsertEventsCommand(Event evt)
     {
         String command;
@@ -1603,4 +1609,73 @@ public class DBservices
     }
     #endregion
 
+    #region Competition
+    private String BuildInsertCompetitionCommand(Competition cmpt)
+    {
+        String command;
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String prefix = @"INSERT INTO [Competition]
+           ([CompetitionDate]
+           ,[OrgWin]
+           ,[GrpWin]
+           ,[PlatinumUser]
+           ,[GoldUser]
+           ,[SilverUser]
+           ,[BronzeUser])";
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", cmpt.CompetitionDate, cmpt.OrgWin, cmpt.GrpWin, cmpt.PlatinumUser, cmpt.GoldUser, cmpt.SilverUser, cmpt.BronzeUser);
+
+        command = prefix + sb.ToString();
+        return command;
+    }
+    public int updateCompetitionInDatabase(Competition cmpt, string CompetitionDate)
+    {
+        SqlConnection con;
+        SqlCommand cmd;
+
+        try
+        {
+            con = connect("DefaultConnection"); // create the connection
+        }
+        catch (Exception ex)
+        {
+            // write to log
+            lf.Main("Competition", ex.Message);
+            return 0;
+        }
+        String cStr = BulidCompetitionInDatabase(cmpt, CompetitionDate);
+        cmd = CreateCommand(cStr, con);             // create the command
+       try
+       {
+            int numEffected = cmd.ExecuteNonQuery(); // execute the command 
+
+            return numEffected;
+       }
+        finally
+        {
+            if (con != null)
+            {
+                // close the db connection
+                con.Close();
+            }
+        }
+    }
+    private String BulidCompetitionInDatabase(Competition cmpt, string CompetitionDate)
+    {
+
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"UPDATE [igroup1_prod].[dbo].[Competition]
+                           SET [OrgWin] = " + (cmpt.OrgWin != "" ? "'" + cmpt.OrgWin + "'" : "[OrgWin]") + @"
+                              ,[GrpWin] = " + (cmpt.GrpWin != "" ? "'" + cmpt.GrpWin + "'" : "[GrpWin]") + @"
+                              ,[PlatinumUser] = " + (cmpt.PlatinumUser != "" ? "'" + cmpt.PlatinumUser + "'" : "[PlatinumUser]") + @"
+                              ,[GoldUser] = " + (cmpt.GoldUser != "" ? "'" + cmpt.GoldUser + "'" : "[GoldUser]") + @"
+                              ,[SilverUser] = " + (cmpt.SilverUser != "" ? "'" + cmpt.SilverUser + "'" : "[SilverUser]") + @"
+                              ,[BronzeUser] = " + (cmpt.BronzeUser != "" ? "'" + cmpt.BronzeUser + "'" : "[BronzeUser]") + @"
+                         WHERE [CompetitionDate] = '" + CompetitionDate + "' ";
+
+        return command;
+    }
+
+       #endregion
 }

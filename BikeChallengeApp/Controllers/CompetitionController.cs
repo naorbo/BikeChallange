@@ -48,5 +48,27 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
+        // PUT api/Competition?CompetitionDate=
+        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        public string Put(string CompetitionDate, [FromBody]Competition cmpt)
+        {
+            DBservices dbs = new DBservices();
+            int return_val = 0;
+            LogFiles lf = new LogFiles();
+            List<Object> mlist = new List<Object>();
+            mlist.Add(cmpt);
+            try
+            {
+                return_val = dbs.updateCompetitionInDatabase(cmpt, CompetitionDate);
+            }
+            catch (Exception ex)
+            {
+                string Response = ("Error updating the Competition database " + ex.Message);
+                lf.Main("Competition", Response);
+                return "Error";
+            }
+            if (return_val == 0) { return "Error"; }
+            return "Success";
+        }
     }
 }
