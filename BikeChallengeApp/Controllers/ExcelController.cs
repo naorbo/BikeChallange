@@ -19,46 +19,91 @@ using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
 
+
 namespace BikeChallengeApp.Controllers
 {
     public class ExcelController : ApiController
     {
-        /*
-        private void GenerateExcel(DataTable dataToExcel, string excelSheetName)
+       /* public ActionResult HttpResponseMessage(string type, [FromBody]DataTable mlist)
         {
-            string fileName = "ByteOfCode";
-            string currentDirectorypath = Environment.CurrentDirectory;
-            string finalFileNameWithPath = string.Empty;
+            GridView gv = new GridView();
+            gv.DataSource = mlist.Rows[0].ItemArray[0];
+            gv.DataBind();
+            Response.ClearContent();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=Marklist.xls");
+            Response.ContentType = "application/ms-excel";
+            Response.Charset = "";
+            StringWriter sw = new StringWriter();
+            HtmlTextWriter htw = new HtmlTextWriter(sw);
+            gv.RenderControl(htw);
+            Response.Output.Write(sw.ToString());
+            Response.Flush();
+            Response.End();
 
-            fileName = string.Format("{0}_{1}", fileName, DateTime.Now.ToString("dd-MM-yyyy"));
-            finalFileNameWithPath = string.Format("{0}\\{1}.xlsx", currentDirectorypath, fileName);
-
-            //Delete existing file with same file name.
-            if (File.Exists(finalFileNameWithPath))
-                File.Delete(finalFileNameWithPath);
-
-            var newFile = new FileInfo(finalFileNameWithPath);
-
-            //Step 1 : Create object of ExcelPackage class and pass file path to constructor.
-            using (var package = new ExcelPackage(newFile))
-            {
-                //Step 2 : Add a new worksheet to ExcelPackage object and give a suitable name
-                ExcelWorksheet worksheet = package.Workbook.Worksheets.Add(excelSheetName);
-
-                //Step 3 : Start loading datatable form A1 cell of worksheet.
-                worksheet.Cells["A1"].LoadFromDataTable(dataToExcel, true, TableStyles.None);
-
-                //Step 4 : (Optional) Set the file properties like title, author and subject
-                package.Workbook.Properties.Title = @"This code is part of tutorials available at http://bytesofcode.hubpages.com";
-                package.Workbook.Properties.Author = "Bytes Of Code";
-                package.Workbook.Properties.Subject = @"Register here for more http://hubpages.com/_bytes/user/new/";
-
-                //Step 5 : Save all changes to ExcelPackage object which will create Excel 2007 file.
-                package.Save();
-
-              
-            }
+            return RedirectToAction("StudentDetails");
         }
-         * */
+
+         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
+        {
+            try
+            {
+                int ColNum = mlist.Columns.Count;
+                string location = "~\\Reports\\" + type + "\\";
+                string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
+                var root = HttpContext.Current.Server.MapPath(location);
+
+                Directory.CreateDirectory(root);
+                Document document = new Document();
+                
+                PdfWriter.GetInstance(document, new FileStream(root + filename, FileMode.Create));
+                PdfPTable table = new PdfPTable(ColNum);
+                iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(root + "Logo.jpg");
+
+                table.WidthPercentage = 90;
+                //fix the absolute width of the table
+                table.LockedWidth = true;
+
+                //relative col widths in proportions - 1/3 and 2/3
+                float[] widths = new float[] { 10, 10, 10, 10, 20, 10, 10, 10, 10, };
+                table.SetWidths(widths);
+                table.HorizontalAlignment = 1;
+                //leave a gap before and after the table
+                table.SpacingBefore = 10f;
+                table.SpacingAfter = 10f;
+
+                PdfPCell cell = new PdfPCell(new Phrase(type));
+                cell.Colspan = ColNum;
+                cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
+                table.AddCell(cell);
+
+
+                foreach (DataColumn c in mlist.Columns)
+                {
+                    table.AddCell(c.ColumnName.ToString());
+                }
+
+                foreach (DataRow r in mlist.Rows)
+                {
+                    int i = 0;
+                    foreach (DataColumn c in mlist.Columns)
+                    {
+                        table.AddCell(r.ItemArray[i].ToString());
+                        i++;
+                    }
+                }
+
+                document.Open();
+                document.Add(logo);
+                document.Add(table);
+
+
+
+                document.Close();
+                return Request.CreateResponse(HttpStatusCode.OK, root + filename);
+
+            }
+            catch { return Request.CreateResponse(HttpStatusCode.InternalServerError, "Catch"); }
+        }*/
     }
 }
