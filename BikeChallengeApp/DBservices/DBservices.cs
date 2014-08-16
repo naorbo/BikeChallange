@@ -420,6 +420,13 @@ public class DBservices
                               FROM [Competition]
                               Where [CompetitionDate] like '%"+data1+"' "; // ReadFromDataBaseUserName
                     break;
+
+                // Added for fetch user's ASP FW username by its registered mail address
+                case 27:
+                    selectStr = @"  SELECT Users.Id, dbo.Users.UserDes, dbo.Users.UserFname 
+                                    FROM [Users], [AspNetUsers]
+                                    WHERE (dbo.AspNetUsers.Id = dbo.Users.Id ) and (dbo.Users.UserEmail = '" + data1 + "')";
+                    break;
                 /**/
 
             }

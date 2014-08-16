@@ -6,6 +6,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Threading.Tasks;
 using System.Web;
+using System.Web.UI;
 using System.Web.Http;
 using System.Web.Http.ModelBinding;
 using Microsoft.AspNet.Identity;
@@ -17,6 +18,7 @@ using BikeChallengeApp.Models;
 using BikeChallengeApp.Providers;
 using BikeChallengeApp.Results;
 using System.Net.Mail;
+using System.IO;
 
 namespace BikeChallengeApp.Controllers
 {
@@ -146,6 +148,60 @@ namespace BikeChallengeApp.Controllers
             }
 
             return Ok();
+        }
+
+
+        //GET api/Account/ForgotPassword
+        [AllowAnonymous]
+        public async Task<IHttpActionResult> ForgotPassword(ForgotPasswordModel model)
+        {
+              
+            if (ModelState.IsValid)
+            {
+                
+                // Fetch userID by email
+                DBservices dbs = new DBservices();
+                dbs = dbs.ReadFromDataBase(27, model.EmailAddress);
+                string userId = dbs.dt.Rows[0].ItemArray[0].ToString();
+                string userName = dbs.dt.Rows[0].ItemArray[1].ToString();
+                string userFname = dbs.dt.Rows[0].ItemArray[2].ToString();
+                
+                // Generate an 8th digit long password
+                var chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+                var stringChars = new char[8];
+                var random = new Random();
+                for (int i = 0; i < stringChars.Length; i++)
+                {
+                    stringChars[i] = chars[random.Next(chars.Length)];
+                }
+                var randomPassword = new String(stringChars);
+                UserManager<IdentityUser> UserManager = new UserManager<IdentityUser>(new UserStore<IdentityUser>());
+                IdentityResult resultRem = await UserManager.RemovePasswordAsync(userId);
+                IdentityResult resultAdd = await UserManager.AddPasswordAsync(userId, randomPassword);
+
+                //Send a notification to the user
+
+                MailMessage mail = new MailMessage();
+                StreamReader reader = new StreamReader(HttpContext.Current.Server.MapPath("~/Models/mailTemplates/forgotPasswordTemplate.html"));
+                string readFile = reader.ReadToEnd();
+                string StrContent = readFile;
+                
+                StrContent = StrContent.Replace("[FirstName]", userFname);
+                StrContent = StrContent.Replace("[UserName]", userName);
+                StrContent = StrContent.Replace("[Password]", randomPassword);
+                
+                mail.IsBodyHtml = true;
+                mail.To.Add(model.EmailAddress);
+                mail.Subject = "רוכבים לעבודה, איפוס סיסמא";                
+                mail.Body = StrContent.ToString();
+                mail.IsBodyHtml = true;
+                SmtpClient smtp = new SmtpClient();
+                smtp.Send(mail);
+
+            }
+
+            return Ok();
+
         }
 
         // POST api/Account/AddExternalLogin
