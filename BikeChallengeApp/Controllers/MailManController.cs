@@ -47,7 +47,7 @@ namespace BikeChallengeApp.Controllers
 
 
 
-        [HttpPost]
+        
         public string SendMailer([FromBody]MailModel _objModelMail)
         {
             if (ModelState.IsValid)
@@ -76,7 +76,8 @@ namespace BikeChallengeApp.Controllers
             }
         }
 
-
+        
+        
     }
 }
 

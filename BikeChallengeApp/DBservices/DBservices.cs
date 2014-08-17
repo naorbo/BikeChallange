@@ -436,6 +436,14 @@ public class DBservices
                                     FROM [Users], [AspNetUsers]
                                     WHERE (dbo.AspNetUsers.Id = dbo.Users.Id ) and (dbo.Users.UserEmail = '" + data1 + "')";
                     break;
+                
+                //  Retrieves all registered email addresses in the BC DB (mail dist. system)
+                case 28:
+                    selectStr = @"  SELECT Users.UserEmail, dbo.Users.UserFname
+                                    FROM Users
+                                    WHERE UserEmail != ''";
+                    break;
+                
                 /**/
 
             }

@@ -2,12 +2,29 @@
 /* ***** Sticky footer styles ***
 *********************************/
 
-@import url(http://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
+
+@font-face {
+    font-family: OpenSans;
+    src: url(/Content/Fonts/opensanshebrew-regular-webfont.woff)
+}
+
+@font-face {
+    font-family: OpenSans;
+    src: url(/Content/Fonts/opensanshebrew-bold-webfont.woff);
+    font-weight: bold;
+}
+
+/*@font-face {
+    font-family: OpenSans;
+    src: url(/Content/Fonts/opensanshebrew-extrabold-webfont.woff);
+    font-weight: bolder;
+}*/
 
 html,
 body {
   height: 100%;
-  font-family: 'Open Sans Hebrew', serif;
+  font-family: OpenSans;
+  /*font-family: 'Open Sans Hebrew', serif;*/
   background-image:url(../sources/images/brushed_@2x.png); background-repeat:repeat
   /* The html and body elements cannot have any padding or margin. */
 }

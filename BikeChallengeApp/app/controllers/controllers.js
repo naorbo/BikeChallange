@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -504,7 +504,43 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
     // Admin Reports  
     $scope.sortVar = "UserDisplayName";
+    
+    // Exporting data
 
+    $scope.export2Excel = function (filteredData) {
+
+        var data2Export = angular.toJson(filteredData);
+        
+
+    };
+
+    $scope.export2PDF = function (filteredData) {
+
+        var data2Export = angular.toJson(filteredData);
+        
+
+    }
+
+    // Broadcast a message
+
+    $scope.publish = function (contactForm) {
+
+        var contactInfo = {};
+        contactInfo = {
+            "Subject": contactForm.subject.$viewValue,
+            "Body": contactForm.content.$viewValue,
+        }
+
+        dataFactory.postValues('PostMessage', contactInfo, false)
+             .success(function (response) {
+                 alert("ההודעה נשלחה בהצלחה");
+                 $location.url("/adminConsole");
+             })
+             .error(function (error) {
+                 alert("שגיאה");
+             });
+
+    }
 
 });
 

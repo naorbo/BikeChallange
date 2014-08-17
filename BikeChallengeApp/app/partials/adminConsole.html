@@ -119,8 +119,25 @@
                                     <br />
                                 </div>
                                 
+                                
+
                                 <div data-accordion class="col-md-10 pull-right">
-                                    <div data-accordion-group ng-repeat="user in users | cityFilter:city | genderFilter:gender | orgFilter:org | groupFilter:group | filter:query | orderBy:'UserLname'" data-is-open="status1.open">
+                                    <div class="row">
+                                        <div class="col-md-4 pull-left" style="margin-bottom:10px">
+                                            <i class="fa fa-file-excel-o fa-2x pull-left"
+                                               style="color:green;"
+                                               title="יצוא לקובץ EXCEL"
+                                               ng-click="export2Excel(filteredUsers)"></i>
+
+                                            <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                               style="color:red;"
+                                               title="יצוא לקובץ PDF"
+                                               ng-click="export2PDF(filteredUsers)"></i>
+                                        </div>
+                                    </div>
+                                    
+                                    <div data-accordion-group ng-repeat="user in filteredUsers = ( users | cityFilter:city | genderFilter:gender | orgFilter:org | groupFilter:group | filter:query | orderBy:'UserLname')" data-is-open="status1.open">
+                                        
                                         <div data-accordion-heading>
                                             <span>{{user.UserLname}}</span>&nbsp;<span>{{user.UserFname}}</span>
                                             <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
@@ -252,7 +269,7 @@
                             </div>
 
 
-                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in groupsHolder |  orderBy:'OrganizationDes'">
+                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in filteredGroups = ( groupsHolder |  orderBy:'OrganizationDes')">
                                 <div data-accordion-group data-is-open="statusGroup.open">
                                     <div data-accordion-heading>
                                         <span ng-click="undoDemote()">{{group.GroupDes}}</span>
@@ -362,7 +379,23 @@
                                 <hr />
 
                         <div data-accordion class="col-md-10 pull-right">
-                            <div data-accordion-group ng-repeat="organization in organizationsHolder | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes'" data-is-open="status1.open">
+                            <div class="row" style="margin-bottom:10px">
+                                <div class="col-md-4 pull-left">
+                                    <i class="fa fa-file-excel-o fa-2x pull-left"
+                                       style="color:green;"
+                                       title="יצוא לקובץ EXCEL"
+                                       ng-click="export2Excel(filteredOrgs)"></i>
+
+                                    <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                       style="color:red;"
+                                       title="יצוא לקובץ PDF"
+                                       ng-click="export2PDF(filteredOrgs)"></i>
+                                    <br />
+                                </div>
+                                <br />
+                            </div>
+                            <div data-accordion-group ng-repeat="organization in filteredOrgs = ( organizationsHolder | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes')" data-is-open="status1.open">
+                                 
                                 <div data-accordion-heading>
                                     <span>{{organization.OrganizationDes}}</span>&nbsp;,&nbsp;<span>{{organization.CityName}}</span>
                                     <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
@@ -455,6 +488,19 @@
                                 </div>
                             </div>
                             
+                           
+                                <div class="col-md-4 pull-left" style="margin-bottom:10px">
+                                    <i class="fa fa-file-excel-o fa-2x pull-left"
+                                       style="color:green;"
+                                       title="יצוא לקובץ EXCEL"
+                                       ng-click="export2Excel(filteredRides)"></i>
+
+                                    <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                       style="color:red;"
+                                       title="יצוא לקובץ PDF"
+                                       ng-click="export2PDF(filteredRides)"></i>
+                                </div>
+                            
                             
                             
                         </div>
@@ -474,7 +520,7 @@
                                 </tr>
                             </thead>
 
-                            <tbody ng-repeat="ride in allRidesHolder | orgFilter:org | groupFilter:group| orderBy:sortVar">
+                            <tbody ng-repeat="ride in filteredRides = (allRidesHolder | orgFilter:org | groupFilter:group| orderBy:sortVar)">
                                 <tr>
                                     <td>{{$index+1}}</td>
                                     <td>{{ride.UserDisplayName}}</td>
@@ -493,6 +539,36 @@
                         <fieldset>
                             <legend>משלוח הודעות</legend>
                         </fieldset>
+
+                        <p>משלוח הודעה באמצעות דואר אלקטרוני לכלל המשתמשים הרשומים באתר</p>
+
+                        <form name="sendMail" ng-submit="publish(sendMail)">
+                           
+                            <div class="form-group">
+                                <input name="subject"
+                                       type="text"
+                                       class="form-control"
+                                       ng-model="subject"
+                                       placeholder="נושא"
+                                       data-tooltip="נושא"
+                                       data-tooltip-trigger="focus"
+                                       data-tooltip-placement="right" />
+
+                            </div>
+
+                            <div class="form-group">
+                                <textarea class="form-control"
+                                          data-tooltip="תוכן"
+                                          name="content"
+                                          cols="90"
+                                          rows="5"
+                                          ng-model="content"
+                                          placeholder="תוכן ההודעה"></textarea>
+
+                            </div>
+                            <button type="submit" class="btn btn-primary" ng-disabled="sendMail.$invalid">שלח!</button>
+                        </form>
+
                     </div>
                     
                     
@@ -780,7 +856,20 @@
                         <div class="row">
                             <hr />
                             <div data-accordion class="col-md-10 pull-right">
-                                <div data-accordion-group ng-repeat="event in eventsHolder | orderBy:'EventDate'" data-is-open="status1.open">
+                                <div class="row">
+                                    <div class="col-md-4 pull-left" style="margin-bottom:10px">
+                                        <i class="fa fa-file-excel-o fa-2x pull-left"
+                                           style="color:green;"
+                                           title="יצוא לקובץ EXCEL"
+                                           ng-click="export2Excel(filteredEvents)"></i>
+
+                                        <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                           style="color:red;"
+                                           title="יצוא לקובץ PDF"
+                                           ng-click="export2PDF(filteredEvents)"></i>
+                                    </div>
+                                </div>
+                                <div data-accordion-group ng-repeat="event in filteredEvents = ( eventsHolder | orderBy:'EventDate')" data-is-open="status1.open">
                                     <div data-accordion-heading>
                                         <span>{{event.EventDate | date:'dd-MM-yyyy'}}</span>&nbsp;,&nbsp;<span><strong>{{event.EventDes}}</strong></span>,&nbsp;<span>{{event.CityName}}</span>
                                         <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
