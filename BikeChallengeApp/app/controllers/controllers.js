@@ -546,21 +546,30 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
 
 // ####################################################################################################################################################### // 
-// #########################################                workController               ################################################################ // 
+// #########################################                pastChallengesController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
 
-app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
-    $scope.orgName = '';
-    $scope.testModel = {
-        name: 'a',
-        city: 'b'
-    }
-    $scope.newOrg = {
-        OrganizationType: '',
-        OrganizationCity: '',
-        OrganizationName: ''
+app.controller('pastChallengesController', function ($rootScope, $scope, $modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+    
+    // Accordion vars 
+    $scope.oneAtATime = true;
+
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
     };
+
+    // Load Data
+    $scope.getChallenges = function () {
+        dataFactory.getValues('Competition', true, 'date=')
+            .success(function (values) {
+                console.log(values)
+                $scope.challengesHolder = angular.fromJson(values);
+                }); 
+    }
+
+    $scope.getChallenges();
 
 
 });
@@ -1126,15 +1135,6 @@ app.controller('forgotPasswordController', function ($scope, $location, dataFact
 
 
 });
-
-// ####################################################################################################################################################### // 
-// #########################################                aboutController               ################################################################ // 
-// ####################################################################################################################################################### // 
-
-app.controller('aboutController', function ($scope) {
-
-});
-
 
 // ####################################################################################################################################################### // 
 // #########################################                homeController               ################################################################ // 

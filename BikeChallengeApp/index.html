@@ -11,7 +11,6 @@
     <link href="skins/square/blue.css" rel="stylesheet" />
     <link href="Content/appStyles.css" rel="stylesheet" />
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-    <!--<link href="//netdna.bootstrapcdn.com/font-awesome/3.1.1/css/font-awesome.css" rel="stylesheet">-->
     
     <style>
     </style>
@@ -44,6 +43,7 @@
             <div class="collapse navbar-collapse navHeaderCollapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li ng-if="!currentUser"><a href="#contactUs">צרו קשר</a></li>
+                    <li ng-if="!currentUser"><a href="#pastChallenges">תחרויות עבר</a></li>
                     <li ng-if="!currentUser"><a href="#sponsers">נותני חסות</a></li>
                     <li ng-if="!currentUser"><a href="#bikeChallenge">התחרות</a></li>
                     <li ng-if="!currentUser"><a href="#userRegistration">רישום</a> </li>
@@ -104,6 +104,7 @@
                    <ul class=" list-inline list-group pull-left   " style="padding-top: 10px;" >
                        <!--<li ng-if="currentUser"><a class="footer-link" href="#about">אודות&nbsp;</a></li>--> 
                        <li ng-if="currentUser"><a class="footer-link" href="#sponsers">נותני חסות&nbsp;</a></li> 
+                       <li ng-if="currentUser"><a class="footer-link" href="#pastChallenges">תחרויות עבר&nbsp;</a></li> 
                        <li ng-if="currentUser"><a class="footer-link" href="#bikeChallenge">התחרות&nbsp;</a></li>
                        <li ng-if="currentUser"><a class="footer-link" href="#contactUs">צרו קשר&nbsp;</a></li>
                    </ul>

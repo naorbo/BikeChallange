@@ -1,0 +1,148 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title></title>
+</head>
+<body>
+    <div class="container">
+        <div class="col-md-8 pull-right" style="padding-top:30px">
+            <fieldset>
+                <legend>
+                    <span>תחרויות עבר</span>
+                </legend>
+            </fieldset>
+            <div data-accordion>
+
+
+                <div data-accordion-group ng-repeat="challenge in challengesHolder |  orderBy:'CompetitionDate':!reverse" data-is-open="status1.open">
+
+                    <div data-accordion-heading>
+                        <span>בייק צ'אלנג לחודש - {{challenge.CompetitionDate}}</span>
+                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': !status1.open, 'glyphicon-chevron-right pull-left': status1.open}"></i>
+                    </div>
+
+
+                    <table class="table table-responsive table-condensed">
+                        <thead>
+                            <tr>
+                                <td><strong>הארגון המנצח</strong></td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>{{challenge.OrgWin}}&nbsp;,&nbsp;{{challenge.OrgWin_City}}</td>
+                            <td rowspan="2"><img src="{{OrgWin_Image}}" /></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                        </tr>
+                    </table>
+                    <table class="table table-responsive table-condensed">
+                        <thead>
+                            <tr>
+                                <td><strong>הקבוצה המנצחת</strong></td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td>{{challenge.GrpWin}}&nbsp;&nbsp;,{{challenge.GrpWin_Org}}</td>
+                        </tr>
+                    </table>
+                    <table class="table table-responsive table-condensed">
+                        <thead>
+                            <tr>
+                                <td><strong>הרוכבים המנצחים</strong></td>
+                            </tr>
+                        </thead>
+                        <tr>
+                            <td colspan="3" align="center"><span class="badge alert-info"> #1 קטגורית פלטינום  </span></td>
+                        </tr>
+                        <tr>
+                            <td>שם הרוכב</td>
+                            <td>{{challenge.PlatinumUser}}</td>
+                            <td><img src="{{Challenge.PlatinumImg}}" class="img-circle img-responsive" /></td>
+                        </tr>
+                        <tr>
+                            <td>קבוצה</td>
+                            <td>{{challenge.PlatinumGroup}}&nbsp;{{challenge.PlatinumOrg}}</td>
+                        </tr>
+                        <tr>
+                            <td>עיר</td>
+                            <td>{{challenge.PlatinumCity}}</td>
+                        </tr>
+                        <tr>
+                            <td>סוג אופניים</td>
+                            <td>{{challenge.PlatinumBicycleType}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center"><span class="badge alert-success"> #2 קטגורית זהב  </span></td>
+                        </tr>
+                        <tr>
+                            <td>שם הרוכב</td>
+                            <td>{{challenge.GoldUser}}</td>
+                            <td><img src="{{Challenge.GoldImg}}" class="img-circle img-responsive" /></td>
+                        </tr>
+                        <tr>
+                            <td>קבוצה</td>
+                            <td>{{challenge.GoldGroup}}&nbsp;{{challenge.GoldOrg}}</td>
+                        </tr>
+                        <tr>
+                            <td>עיר</td>
+                            <td>{{challenge.GoldCity}}</td>
+                        </tr>
+                        <tr>
+                            <td>סוג אופניים</td>
+                            <td>{{challenge.GoldBicycleType}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center"><span class="badge alert-warning"> #3 קטגורית כסף  </span></td>
+                        </tr>
+                        <tr>
+                            <td>שם הרוכב</td>
+                            <td>{{challenge.SilverUser}}</td>
+                            <td><img src="{{Challenge.SilverImg}}" class="img-circle img-responsive" /></td>
+                        </tr>
+                        <tr>
+                            <td>קבוצה</td>
+                            <td>{{challenge.SilverGroup}}&nbsp;{{challenge.SilverOrg}}</td>
+                        </tr>
+                        <tr>
+                            <td>עיר</td>
+                            <td>{{challenge.SilverCity}}</td>
+                        </tr>
+                        <tr>
+                            <td>סוג אופניים</td>
+                            <td>{{challenge.SilverBicycleType}}</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" align="center"><span class="badge alert-danger"> #4 קטגורית ארד  </span></td>
+                        </tr>
+                        <tr>
+                            <td>שם הרוכב</td>
+                            <td>{{challenge.BronzeUser}}</td>
+                            <td><img src="{{Challenge.BronzeImg}}" class="img-circle img-responsive" /></td>
+                        </tr>
+                        <tr>
+                            <td>קבוצה</td>
+                            <td>{{challenge.BronzeGroup}}&nbsp;{{challenge.BronzeOrg}}</td>
+                        </tr>
+                        <tr>
+                            <td>עיר</td>
+                            <td>{{challenge.BronzeCity}}</td>
+                        </tr>
+                        <tr>
+                            <td>סוג אופניים</td>
+                            <td>{{challenge.BronzeBicycleType}}</td>
+                        </tr>
+                    </table>
+
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
+
+
+

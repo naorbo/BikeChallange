@@ -26,11 +26,7 @@ app.config(['$routeProvider',
             templateUrl: 'app/partials/userRegistration.html',
             controller: 'signUpController'
         }).
-        //when('/about', {
-        //    templateUrl: 'app/partials/about.html',
-        //    controller: 'aboutController'
-        //}).
-
+        
         when('/home', {
             templateUrl: 'app/partials/home.html',
             controller: 'homeController'
@@ -90,10 +86,16 @@ app.config(['$routeProvider',
             controller: 'adminConsoleController'
         }).
 
+        when('/pastChallenges', {
+            templateUrl: 'app/partials/pastChallenges.html',
+            controller: 'pastChallengesController'
+        }).
+
         when('/changePassword', {
             templateUrl: 'app/partials/changePassword.html',
             controller: 'changePasswordController'
         }).
+
         otherwise({
             redirectTo: '/home'
         });
