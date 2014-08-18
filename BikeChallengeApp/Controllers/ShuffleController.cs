@@ -16,7 +16,8 @@ namespace BikeChallengeApp.Controllers
 {
     public class ShuffleController : ApiController
     {
-        // GET api/Shuffle?date=
+        
+        // GET api/Shuffle?date=07-07-2014
         public DataTable Get(string date)
         {
             DBservices dbs = new DBservices();
