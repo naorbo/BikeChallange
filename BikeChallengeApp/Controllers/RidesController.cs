@@ -19,6 +19,7 @@ namespace BikeChallengeApp.Controllers
         // POST - Insert new Ride into the DB 
         // api/Rides
         //{"UserName":"tester1", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
+        [Authorize]
         public string updateDB([FromBody]Rides rds)
         {
             LogFiles lf = new LogFiles();
@@ -43,6 +44,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST - Insert new Ride From an exiting Route 
         // api/Rides?username=tester1&routename=[Existing Route Name]&ridedate=01-01-1985&roundtrip=True/False
+        [Authorize]
         public string updateDB(string username, string routename, string ridedate, string roundtrip)
         {
             LogFiles lf = new LogFiles();
@@ -69,6 +71,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET RIDE per USERNAME
         // api/Rides?username=[The username of the rider] - Not case sensative
+        [Authorize]
         public DataTable GetUser(string username)
         {
             DBservices dbs = new DBservices();
@@ -79,6 +82,7 @@ namespace BikeChallengeApp.Controllers
         }
         // DELETE 
         // api/Rides?username=[UserName]&ridename=[RideName]
+        [Authorize]
         public string Delete(string username, string ridename)
         {
             int return_val = 0;

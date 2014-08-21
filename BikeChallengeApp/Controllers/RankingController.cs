@@ -21,6 +21,7 @@ namespace BikeChallengeApp.Controllers
         // grpname=[If you want to get the ranking within the group if not = ""] /orgname=[If you want to get the ranking within the group/org if not = ""]/ gender=[if you want to get the ranking according to gender if not = ""]
         // api/Ranking?grpname=[]&orgname=[]&gender=[F/M not mendatory]&order=[Points/Days/Kilometers]
         // i.e : api/Ranking?grpname=&orgname=&gender=&order=&date=06-01-2014
+        [Authorize]
         public DataTable GetUserRank(string grpname, string orgname, string gender, string order, string date)
         {
             DBservices dbs = new DBservices();
@@ -38,6 +39,7 @@ namespace BikeChallengeApp.Controllers
         //orgname=[If you want to get the ranking within the org if not = "all"]/ gender=[if you want to get the ranking according to gender if not = ""]
         // api/Ranking?orgname=[]&gender=[M/F not mendatory]&order=[Points/Days/Kilometers]
         // i.e : api/Ranking?orgname=&gender=&order=&date=
+        [Authorize]
         public DataTable GetGroupRank(string orgname, string gender, string order, string date)
         {
             DBservices dbs = new DBservices();
@@ -52,6 +54,7 @@ namespace BikeChallengeApp.Controllers
         // GET Ranking per Organization
 
         // api/Ranking?gender=[M/נקבה not mendatory if not = "")]&order=[Points/Days/Kilometers]]&date=07-07-2014
+        [Authorize]
         public DataTable GetOrganizationRank(string gender, string order, string date)
         {
             DBservices dbs = new DBservices();
@@ -63,6 +66,7 @@ namespace BikeChallengeApp.Controllers
         }
         // GET Self Ranking
         // api/Ranking?username=messi10&date=06-01-2014
+        [Authorize]
         public DataTable GetRank(string username, string date) 
         {
             DBservices dbs = new DBservices();

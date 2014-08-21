@@ -14,6 +14,7 @@ namespace BikeChallengeApp.Controllers
     public class OrganizationImageController : ApiController
     {
         [HttpPost] // api/OrganizationImage?OrgName=[orgname]
+        [Authorize]
         public async Task<HttpResponseMessage> Upload(string OrgName)
         {
             if (!Request.Content.IsMimeMultipartContent())

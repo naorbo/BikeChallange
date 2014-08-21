@@ -19,6 +19,7 @@ namespace BikeChallengeApp.Controllers
 
         // Put api/captain?cap_usr=""&new_cap_usr=""
         // cap_usr-"The user name of old captain", new_cap_usr-"The user name of new captain"
+        [Authorize]
         public string Put(string cap_usr, string new_cap_usr)
         {
             int return_val = 0;
@@ -42,6 +43,7 @@ namespace BikeChallengeApp.Controllers
         // POST - Insert new Ride into the DB 
         // api/Captain
         //{"UserName":"name of the user you want to insert a ride", "RideType":"" , "RideLength":10, "RideSource":"A" ,"RideDate":"01-01-2014" "RideDestination":"B" }
+        [Authorize]
         public string updateDB([FromBody]Rides rds)
         {
             LogFiles lf = new LogFiles();

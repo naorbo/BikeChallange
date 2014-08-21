@@ -17,6 +17,7 @@ namespace BikeChallengeApp.Controllers
     {
         // GET api/Data/
         // Return the Total Users/Groups/Organizations/Rides/Routes/KM/CO2/Calories/Days Riden/  
+        [AllowAnonymous]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();

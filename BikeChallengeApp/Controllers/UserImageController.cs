@@ -14,6 +14,7 @@ namespace BikeChallengeApp.Controllers
     public class UserImageController : ApiController
     {
         [HttpPost] // api/UserImage?UserName=[username]
+        [Authorize]
         public async Task<HttpResponseMessage> Upload(string UserName)
         {
             if (!Request.Content.IsMimeMultipartContent())

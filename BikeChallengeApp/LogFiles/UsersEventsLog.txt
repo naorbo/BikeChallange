@@ -3,3 +3,5 @@ The UsersEvents LOG file
 The statement has been terminated.
 23:16:06 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
 The statement has been terminated.
+18:57:23 : Violation of UNIQUE KEY constraint 'uc_UsersInEvents'. Cannot insert duplicate key in object 'dbo.UsersEvents'.
+The statement has been terminated.

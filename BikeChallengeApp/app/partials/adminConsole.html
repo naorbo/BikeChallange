@@ -448,6 +448,54 @@
                         <fieldset>
                             <legend>סיכום תחרות</legend>
                         </fieldset>
+
+                    <p><i class="glyphicon glyphicon-asterisk" style="color:green"></i>התחרויות המוצגות הינן תחרויות פתוחות, יש להגריל מנצחים ולשמור את השינויים על מנת לפרסם את תוצאות ההגרלה לכלל המשתתפים</p>
+                        <table class="table table-condensed"
+                               ng-repeat="challenge in openChallengesHolder">
+
+                            <thead>
+                                <tr>
+                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong> חודש התחרות</strong></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong>{{challenge.CompetitionDate}}</strong></td>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ארגון מנצח</td>
+                                    <td>{{challenge.OrgWin}}</td>
+                                </tr>
+                                <tr>
+                                    <td>קבוצה מנצחת</td>
+                                    <td>{{challenge.GrpWin}}</td>
+                                </tr>
+                                <tr>
+                                    <td>רוכב מנצח (קטגוריית פלטיניום)</td>
+                                    <td>{{challenge.PlatinumUser}}</td>
+                                </tr>
+                                <tr>
+                                    <td>רוכב מנצח (קטגוריית זהב)</td>
+                                    <td>{{challenge.GoldUser}}</td>
+                                </tr>
+                                <tr>
+                                    <td>רוכב מנצח (קטגוריית כסף)</td>
+                                    <td>{{challenge.SilverUser}}</td>
+                                </tr>
+                                <tr>
+                                    <td>רוכב מנצח (קטגוריית ארד)</td>
+                                    <td>{{challenge.BronzeUser}}</td>
+                                </tr>
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <td colspan="2">
+                                        <button class="btn btn-success" ng-click="shuffle(challenge.CompetitionDate,challenge.$$hashKey)">הגרל מנצחים</button>
+                                        <button class="btn btn-primary  pull-left" ng-click="saveChallenge(challenge.CompetitionDate,challenge.$$hashKey)">שמור נתונים</button>
+                                    </td>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
 
                     <div ng-switch-when="5">

@@ -77,6 +77,15 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
             .success(function (values) {
                 $scope.allRidesHolder = angular.fromJson(values);
             })
+
+        // Load Open Challenges
+            dataFactory.getValues('Competition', false)
+                .success(function (values) {
+                    console.log(values)
+                    $scope.openChallengesHolder = angular.fromJson(values);
+            });
+        
+
     }
 
     $scope.loadData();
@@ -542,6 +551,113 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
     }
 
+    // End a Challenge
+
+    $scope.shuffle = function (date, hash) {
+        var activeChallenge = "01-"
+        activeChallenge = activeChallenge.concat(date);
+
+        // Get active month index
+        var activeMonthIndx = null;
+        for (var i = 0; i < $scope.openChallengesHolder.length; i++) {
+            if ($scope.openChallengesHolder[i].$$hashKey == hash) {
+                activeMonthIndx = i;
+                break;
+            }
+        }
+
+        dataFactory.getValues('shuffle', true, "date=" + activeChallenge)
+                .success(function (values) {
+                    console.log(values)
+                    $scope.hallOfFame = angular.fromJson(values);
+                    angular.forEach($scope.hallOfFame, function (category) {
+
+                        if (category.Category == "Winning Organization") {
+                            $scope.openChallengesHolder[activeMonthIndx].OrgWin = category.OrganizationDes;
+                            // Set flag to indicate a shuffle was created 
+                            $scope.openChallengesHolder[activeMonthIndx].ShuffleFlag = true;
+                        }
+
+                        else if (category.Category == "Winning Group") {
+                            $scope.openChallengesHolder[activeMonthIndx].GrpWin = category.GroupDes;
+                        }
+
+                        else if (category.Category == "BronzeWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].BronzeUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].BronzeUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "SilverWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].SilverUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].SilverUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "GoldWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].GoldUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].GoldUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "PlatinaWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].PlatinumUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].PlatinumUserName = category.UserDes;
+                        }
+                    })
+                });
+
+       
+    }
+
+    $scope.saveChallenge = function (date,hash) {
+
+        var activeChallenge = "01-"
+        activeChallenge = activeChallenge.concat(date);
+
+        // Get active month index
+        var activeMonthIndx = null;
+        for (var i = 0; i < $scope.openChallengesHolder.length; i++) {
+            if ($scope.openChallengesHolder[i].$$hashKey == hash) {
+                activeMonthIndx = i;
+                break;
+            }
+        }
+
+        if ($scope.openChallengesHolder[activeMonthIndx].ShuffleFlag == undefined) {
+            alert("טרם הוגרלו מנצחים");
+            return;
+        }
+
+        // PUT api/Competition?CompetitionDate=
+        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        var winningEntities = {
+
+            OrgWin: $scope.openChallengesHolder[activeMonthIndx].OrgWin,
+            GrpWin: $scope.openChallengesHolder[activeMonthIndx].GrpWin,
+            PlatinumUser: $scope.openChallengesHolder[activeMonthIndx].PlatinumUserName,
+            GoldUser:$scope.openChallengesHolder[activeMonthIndx].GoldUserName,
+            SilverUser:$scope.openChallengesHolder[activeMonthIndx].SilverUserName,
+            BronzeUser:$scope.openChallengesHolder[activeMonthIndx].BronzeUserName
+        }
+
+
+        dataFactory.updateValues('Competition', winningEntities, true, 'CompetitionDate=' + date)
+        .success(function (values) {
+            if (angular.fromJson(values) == "Error")
+            { alert("שגיאה בסגירת תחרות!"); }
+            else
+            {
+                alert("עדכון הושלם בהצלחה!");
+                $scope.loadData;
+            }
+        })
+
+        console.log(winningEntities);
+    }
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
+
 });
 
 
@@ -570,6 +686,11 @@ app.controller('pastChallengesController', function ($rootScope, $scope, $modal,
     }
 
     $scope.getChallenges();
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 
 
 });
@@ -1046,7 +1167,11 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
         $scope.personalDetails.org = $scope.orgSelection;
         console.log($scope.personalDetails.org);
     }
-
+    
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
    
 
 });
@@ -1102,7 +1227,10 @@ app.controller('changePasswordController', function ($scope,$location, dataFacto
 
     }
 
-
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 });
 
 // ####################################################################################################################################################### // 
@@ -1132,7 +1260,10 @@ app.controller('forgotPasswordController', function ($scope, $location, dataFact
 
 
     }
-
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 
 });
 
@@ -1180,7 +1311,7 @@ app.controller('homeController', function ($rootScope, $scope, authFactory, AUTH
             });
         }
         
-   
+        
 });
 
 // ####################################################################################################################################################### // 
@@ -1229,9 +1360,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     
     //userRegistration - register the new user with BC DB 
 
-    
-
-
+  
 
     $scope.userRegistration = function (personalDetails) {
         
@@ -1763,8 +1892,8 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 
 
     $scope.$on('event:auth-loginRequired', function () {
-        alert("You are not Authorized to view this page ... Please sign in");
-        $location.url("/login")
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
     });
 
     
@@ -1789,6 +1918,11 @@ app.controller('myTeamController', function ($rootScope, $scope, dataFactory, au
                 .error(function (value) {
                     console.log("error");
                 });
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 });
 
 // ####################################################################################################################################################### // 
@@ -2576,7 +2710,7 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
                                 $scope.addNewRRideFlag = false;
                                 $scope.getHistory();
                                 console.log(response);
-                                $("#" + newRide.date).addClass("cal-highlight");
+                                $("#" + newRide.ridedate).addClass("cal-highlight");
                             })
                                     .error(function (response) {
                                         console.log("error");
@@ -2636,6 +2770,10 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
     $scope.init = function () {       
     }
 
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 
 
 
