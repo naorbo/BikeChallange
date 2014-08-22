@@ -19,3 +19,7 @@ The UserEvent LOG file
 23:50:23 : The Event 12-07-14-11-50-06 was Deleted from the Event
 23:57:39 : The Event 12-07-14-11-49-36 was Deleted from the Event
 21:34:43 : The Rider messi10 was Deleted from the Event
+18:59:41 : The Rider almazak was Deleted from the Event
+18:59:44 : The Rider almazak was Deleted from the Event
+19:02:54 : The Rider almazak was Deleted from the Event
+19:03:04 : The Rider almazak was Deleted from the Event

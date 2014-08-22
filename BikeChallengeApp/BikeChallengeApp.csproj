@@ -252,13 +252,13 @@
     <Content Include="app\partials\dashboard.html" />
     <Content Include="app\partials\forgotPassword.html" />
     <Content Include="app\partials\myTeam.html" />
+    <Content Include="app\partials\pastChallenges.html" />
     <Content Include="app\partials\sponsers.html" />
     <Content Include="app\partials\updateProfile.html" />
     <Content Include="app\partials\work.html" />
     <Content Include="Content\all.css" />
     <Content Include="app\controllers\controllers.js" />
     <Content Include="app\directives\directives.js" />
-    <Content Include="app\partials\about.html" />
     <Content Include="app\partials\home.html" />
     <Content Include="app\partials\logIn.html" />
     <Content Include="app\partials\userProfile.html" />

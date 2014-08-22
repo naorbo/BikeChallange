@@ -18,6 +18,7 @@ namespace BikeChallengeApp.Controllers
     {
         // GET RIDER PER GRUOP
         // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+        [Authorize]
         public DataTable Get(string grpname, string orgname)
         {
             DBservices dbs = new DBservices();
@@ -29,6 +30,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET RIDER from USERNAME
         // api/Rider?username=[The username of the rider] - Not case sensative
+        [Authorize]
         public DataTable GetUser(string username)
         {
             DBservices dbs = new DBservices();
@@ -39,6 +41,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET ALL RIDERS
         // api/Rider
+        [Authorize]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();
@@ -48,6 +51,7 @@ namespace BikeChallengeApp.Controllers
        
         // POST - Insert new Rider into the DB 
         //{"RiderEmail":"Moshe@Moshe.COM", "RiderFname":"Moshe" , "RiderLname":"Moshe", "Gender": "M", "RiderAddress":"יצMoshe 29" ,  "City":"חיפה", "RiderPhone":"0508878900",  "BicycleType": "חשמליות" , "ImagePath":"pic location" , "BirthDate":"01-01-1985", "UserName":"tester4", "Captain":1, "Organization":"orgname", "Group":"groupname"}
+        [Authorize]
         public string updateDB([FromBody]Rider rdr)
         {
             int return_val = 0;
@@ -69,6 +73,7 @@ namespace BikeChallengeApp.Controllers
 
         // DELETE 
         // api/Rider?username=[UserName]
+        [Authorize(Users = "bcadministrator")]
         public string Delete(string username)
         {
             int return_val = 0;
@@ -94,6 +99,7 @@ namespace BikeChallengeApp.Controllers
 
         // PUT api/Rider?username=[UserName you want to update]
         //{"RiderEmail":"Rider@updated.Email", "RiderFname":"עודכן" , "RiderLname":"עודכן", "RiderAddress":"Updated val" ,  "City":"רעננה", "RiderPhone":"888888",  "BicycleType": "הרים" , "ImagePath":"Updated val" , "BirthDate":"04-04-2004", "Organization":"ebay", "Group":"secondGroup"}
+        [Authorize]
         public string Put(string username, [FromBody]Rider rdr)
         {
             int return_val = 0;

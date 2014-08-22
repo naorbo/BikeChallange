@@ -19,6 +19,7 @@ namespace BikeChallengeApp.Controllers
         
         // GET Stat per USERNAME
         // api/Stat?username=[The username of the rider]
+        [Authorize]
         public DataTable GetUser( string username)
         {
             DBservices dbs = new DBservices();
@@ -28,6 +29,7 @@ namespace BikeChallengeApp.Controllers
         }
         // GET Stat per Group
         // api/Stat?grpname=[The name of the group]&orgname=[The name of the organizations]&gender=[זכר/נקבה not mendatory]
+        [Authorize]
         public DataTable GetGroup(string grpname, string orgname, string gender="")
         {
             DBservices dbs = new DBservices();
@@ -38,6 +40,7 @@ namespace BikeChallengeApp.Controllers
         }
         // GET Stat per Organization
         // api/Stat?orgname=[The name of the group]&gender=[M/נקבה not mendatory]
+        [Authorize]
         public DataTable GetOrganization(string orgname, string gender="")
         {
             DBservices dbs = new DBservices();
@@ -47,6 +50,7 @@ namespace BikeChallengeApp.Controllers
         }
         // GET Stat for all users
         // api/Stat?gender=[M/F not mendatory]
+        [Authorize]
         public DataTable GetUsers(string gender = "")
         {
             DBservices dbs = new DBservices();

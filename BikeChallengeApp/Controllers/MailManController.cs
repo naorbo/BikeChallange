@@ -47,7 +47,7 @@ namespace BikeChallengeApp.Controllers
 
 
 
-        
+        [AllowAnonymous]
         public string SendMailer([FromBody]MailModel _objModelMail)
         {
             if (ModelState.IsValid)

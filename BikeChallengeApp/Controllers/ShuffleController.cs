@@ -18,6 +18,7 @@ namespace BikeChallengeApp.Controllers
     {
         
         // GET api/Shuffle?date=07-07-2014
+        [Authorize(Users = "bcadministrator")]
         public DataTable Get(string date)
         {
             DBservices dbs = new DBservices();

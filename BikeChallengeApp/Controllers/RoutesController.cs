@@ -19,6 +19,7 @@ namespace BikeChallengeApp.Controllers
         // POST - Insert new Route into the DB 
         // api/Routes
         //{"UserName":"tester1", "RouteType":"מסלול 1", "RouteLength":10, "Comments":"מסלול מהעבודה לבית של האישה", "RouteSource":"בית של הפילגש", "RouteDestination":"עבודה בנתניה"}
+        [Authorize]
         public string updateDB([FromBody]Routes rut)
         {
             DBservices dbs = new DBservices();
@@ -42,6 +43,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET Route per USERNAME
         // api/Routes?username=[The username of the rider] - Not case sensative
+        [Authorize]
         public DataTable GetUser(string username)
         {
             DBservices dbs = new DBservices();
@@ -52,6 +54,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET ALL Routes
         // api/Routes
+        [Authorize]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();
@@ -61,6 +64,7 @@ namespace BikeChallengeApp.Controllers
 
         // DELETE 
         // api/Routes?username=[UserName]&routename=[RouteName]
+        [Authorize]
         public string Delete(string username, string routename)
         {
             DBservices dbs = new DBservices();

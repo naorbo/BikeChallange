@@ -17,6 +17,7 @@ namespace BikeChallengeApp.Controllers
     public class CitiesController : ApiController
     {
         // GET api/Cities/
+        [AllowAnonymous]
         public DataTable GetAll()
         {
             Cities ct = new Cities();

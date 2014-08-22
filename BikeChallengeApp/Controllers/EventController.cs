@@ -18,6 +18,7 @@ namespace BikeChallengeApp.Controllers
     {
        
         // GET api/event?username=[The name of the username]
+        [Authorize]
         public DataTable Get(string username)
         {
             DBservices dbs = new DBservices();
@@ -28,6 +29,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET api/event/GetEvents
         // get all of the events
+        [AllowAnonymous]
         public DataTable GetEvents()
         {
             DBservices dbs = new DBservices();
@@ -37,6 +39,7 @@ namespace BikeChallengeApp.Controllers
 
         // GET api/event/GetUsers?eventname=
         // get all of users from a specific event
+        [Authorize]
         public DataTable GetUsers(string eventname)
         {
             DBservices dbs = new DBservices();
@@ -48,6 +51,7 @@ namespace BikeChallengeApp.Controllers
         // POST api/Event
         // insert new event
         // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
+        [Authorize(Users = "bcadministrator")]
         public string updateDB([FromBody]Event evt)
         {
             DBservices dbs = new DBservices();
@@ -71,6 +75,7 @@ namespace BikeChallengeApp.Controllers
 
         // POST insert rider into an event 
         // api/Event?eventname=&username=
+        [Authorize]
         public string RiderInEvent(string eventname, string username)
         {
             int return_val = 0;
@@ -94,6 +99,7 @@ namespace BikeChallengeApp.Controllers
 
         // DELETE User From Event 
         // api/Event?usernme=""&eventname=""
+        [Authorize]
         public string Delete(string username, string eventname)
         {
             int return_val = 0;
@@ -120,6 +126,7 @@ namespace BikeChallengeApp.Controllers
 
         // DELETE Event 
         // api/Event?eventname=
+        [Authorize(Users = "bcadministrator")]
         public string DeleteEvent(string eventname)
         {
             int return_val = 0;
@@ -145,6 +152,7 @@ namespace BikeChallengeApp.Controllers
 
         // PUT api/Event?eventname=
         // {"EventName":"", "City":"","EventType":"", "EventDate":"", "EventStatus":"", "EventTime":"", "EventAddress":"","EventDetails":""}
+        [Authorize(Users = "bcadministrator")]
         public string Put(string eventname, [FromBody]Event evt)
         {
             int return_val = 0;

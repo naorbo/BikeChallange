@@ -10,6 +10,7 @@ namespace BikeChallengeApp.Controllers
     public class OrganizationExistsController : ApiController
     {
         // GET api/OrganizationExists?orgname=
+        [Authorize]
         public string GetEmail(string orgname)
         {
             DBservices dbs = new DBservices();

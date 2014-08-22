@@ -1,0 +1,3 @@
+The Competition LOG file
+00:58:46 : Error updating the Competition database String or binary data would be truncated.
+The statement has been terminated.

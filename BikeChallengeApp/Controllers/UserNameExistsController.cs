@@ -10,6 +10,7 @@ namespace BikeChallengeApp.Controllers
     public class UserNameExistsController : ApiController
     {
         // GET api/UserNameExists?username=<tester9>
+        [AllowAnonymous]
         public string Get(string username)
         {
             DBservices dbs = new DBservices();
@@ -21,6 +22,7 @@ namespace BikeChallengeApp.Controllers
                 return "NOT EXISTS";
         }
         // GET api/UserNameExists?email=user@user.com
+        [AllowAnonymous]
         public string GetEmail(string email)
         {
             DBservices dbs = new DBservices();
