@@ -412,12 +412,12 @@ public class DBservices
                     selectStr = @"  SELECT [CompetitionDate]
                                           ,[OrgWin], O.OrganizationType OrgWin_Type , O.OrganiztionImage OrgWin_Image, OC.CityName OrgWin_City
                                           ,[GrpWin], Og.OrganizationDes GrpWin_Org, Cg.cityname GrpWin_Org_City, og.OrganiztionImage GrpWin_Org_Img
-                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, convert(varchar(10), Pusers.BirthDate, 120) As PlatinumBirthDate, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization --, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
-                                          ,[GoldUser], Gusers.ImagePath GoldImg, convert(varchar(10), Gusers.BirthDate, 120) As GoldBirthDate, Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization
-                                          ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization
-                                          ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization
+                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, convert(varchar(10), Pusers.BirthDate, 120) As PlatinumBirthDate, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization , Pusers.UserFname +' '+ Pusers.UserLname As PlatinumUserDisplayName--, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
+                                          ,[GoldUser], Gusers.ImagePath GoldImg, convert(varchar(10), Gusers.BirthDate, 120) As GoldBirthDate, Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization, Gusers.UserFname +' '+ Gusers.UserLname As GoldUserDisplayName
+                                          ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization, Susers.UserFname +' '+ Susers.UserLname As SilverUserDisplayName
+                                          ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization, Busers.UserFname +' '+ Busers.UserLname As BronzeOUserDisplayName
                                         FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
-                                        Where [CompetitionDate] like '%" +data1+@"'
+                                        Where [CompetitionDate] like '%" + data1+@"'
                                         And OrgWin <> ''
                                         And Orgwin <> ' ' 
                                         AND o.OrganizationDes = OrgWin
@@ -449,12 +449,13 @@ public class DBservices
                     selectStr = @"  SELECT [CompetitionDate]
                                           ,[OrgWin], O.OrganizationType OrgWin_Type , O.OrganiztionImage OrgWin_Image, OC.CityName OrgWin_City
                                           ,[GrpWin], Og.OrganizationDes GrpWin_Org, Cg.cityname GrpWin_Org_City, og.OrganiztionImage GrpWin_Org_Img
-                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization --, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
-                                          ,[GoldUser], Gusers.ImagePath GoldImg,  Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization
-                                          ,[SilverUser], Susers.ImagePath SilverImg, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization
-                                          ,[BronzeUser], Busers.ImagePath BronzeImg, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization
+                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization , Pusers.UserFname +' '+ Pusers.UserLname As PlatinumUserDisplayName
+                                          ,[GoldUser], Gusers.ImagePath GoldImg,  Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization, Gusers.UserFname +' '+ Gusers.UserLname As GoldUserDisplayName
+                                          ,[SilverUser], Susers.ImagePath SilverImg, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization, Susers.UserFname +' '+ Susers.UserLname As SilverUserDisplayName
+                                          ,[BronzeUser], Busers.ImagePath BronzeImg, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization, Busers.UserFname +' '+ Busers.UserLname As BronzeOUserDisplayName
                                         FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
                                         Where OrgWin = ''
+                                        And CompetitionDate <> ( SELECT CONVERT(char(7), GetDate(),126) )
                                         AND o.OrganizationDes = OrgWin
                                         And O.City = oc.city
                                         AND g.GroupDes = GrpWin

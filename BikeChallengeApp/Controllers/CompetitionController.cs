@@ -16,7 +16,7 @@ namespace BikeChallengeApp.Controllers
 {
     public class CompetitionController : ApiController
     {
-        // GET api/Competition?date=07-2014 [leave empty to retrieve all records]
+        // GET api/Competition?date=2014-07 [leave empty to retrieve all records]
         [AllowAnonymous]
         public DataTable GetSealedComptetion(string date)
         {
@@ -34,7 +34,7 @@ namespace BikeChallengeApp.Controllers
             return dbs.dt;
         }
         // POST api/Competition // Debug Use
-       // {"CompetitionDate":"07-2014","OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+       // {"CompetitionDate":"2014-07","OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         [Authorize(Users = "bcadministrator")]
         public string Post([FromBody]Competition cmpt)
         {
@@ -57,13 +57,9 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        // PUT api/Competition?CompetitionDate=
-<<<<<<< HEAD
+        // PUT api/Competition?CompetitionDate=07-2014
         // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
-=======
-        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         [Authorize(Users = "bcadministrator")]
->>>>>>> origin/master
         public string Put(string CompetitionDate, [FromBody]Competition cmpt)
         {
             DBservices dbs = new DBservices();
