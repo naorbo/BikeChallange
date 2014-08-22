@@ -31,7 +31,7 @@ namespace BikeChallengeApp.Controllers
             dbs = dbs.ReadFromDataBase(29);
             return dbs.dt;
         }
-        // POST api/Competition
+        // POST api/Competition // Debug Use
        // {"CompetitionDate":"07-2014","OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         public string Post([FromBody]Competition cmpt)
         {
@@ -55,7 +55,7 @@ namespace BikeChallengeApp.Controllers
         }
 
         // PUT api/Competition?CompetitionDate=
-        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         public string Put(string CompetitionDate, [FromBody]Competition cmpt)
         {
             DBservices dbs = new DBservices();

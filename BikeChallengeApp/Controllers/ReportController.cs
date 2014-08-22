@@ -30,7 +30,7 @@ namespace BikeChallengeApp.Controllers
         {
             try
             {
-                int ColNum = mlist.Columns.Count;
+                int ColNum = 12;
                 string location = "~\\Reports\\" + type + "\\";
                 string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
                 var root = HttpContext.Current.Server.MapPath(location);
@@ -41,17 +41,17 @@ namespace BikeChallengeApp.Controllers
                 PdfPTable table = new PdfPTable(ColNum);
                 iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(root + "Logo.jpg");
 
-                table.WidthPercentage = 90;
+                table.WidthPercentage = 100;
                 //fix the absolute width of the table
-                table.LockedWidth = true;
+                table.LockedWidth = false;
 
                 //relative col widths in proportions - 1/3 and 2/3
-                float[] widths = new float[] { 10, 10, 10, 10, 20, 10, 10, 10, 10, };
+                float[] widths = new float[] { 6f, 6f, 9f, 9f, 9f, 9f, 7f, 9f, 9f, 9f, 9f, 9f};
                 table.SetWidths(widths);
                 table.HorizontalAlignment = 1;
                 //leave a gap before and after the table
-                table.SpacingBefore = 10f;
-                table.SpacingAfter = 10f;
+                table.SpacingBefore = 0f;
+                table.SpacingAfter = 0f;
 
                 PdfPCell cell = new PdfPCell(new Phrase(type));
                 cell.Colspan = ColNum;
@@ -61,17 +61,28 @@ namespace BikeChallengeApp.Controllers
 
                 foreach (DataColumn c in mlist.Columns)
                 {
-                    table.AddCell(c.ColumnName.ToString());
+                    if ((c.ColumnName == "BicycleType") || (c.ColumnName == "ImagePath") || (c.ColumnName == "Captain") || (c.ColumnName == "GroupName") || (c.ColumnName == "OrganiztionImage") || (c.ColumnName == "OrganizationName") || (c.ColumnName == "OrgCity"))
+                    { continue; }
+                    else
+                        table.AddCell(c.ColumnName);
                 }
 
+                int j = 1;
                 foreach (DataRow r in mlist.Rows)
                 {
                     int i = 0;
+                    //table.AddCell(j.ToString());
                     foreach (DataColumn c in mlist.Columns)
                     {
-                        table.AddCell(r.ItemArray[i].ToString());
-                        i++;
+                        if ((c.ColumnName == "BicycleType") || (c.ColumnName == "ImagePath") || (c.ColumnName == "Captain") || (c.ColumnName == "GroupName") || (c.ColumnName == "OrganiztionImage") || (c.ColumnName == "OrganizationName") || (c.ColumnName == "OrgCity"))
+                        { i++; }
+                        else
+                        {
+                            table.AddCell(r.ItemArray[i].ToString());
+                            i++;
+                        }
                     }
+                    j++;
                 }
 
                 document.Open();
