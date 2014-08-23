@@ -59,9 +59,15 @@ namespace BikeChallengeApp.Controllers
 
         // PUT api/Competition?CompetitionDate=07-2014
         // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
-        [Authorize(Users = "bcadministrator")]
+        //[Authorize(Users = "bcadministrator")]
         public string Put(string CompetitionDate, [FromBody]Competition cmpt)
         {
+            string userName = string.Empty;
+            if (System.Web.HttpContext.Current != null && System.Web.HttpContext.Current.User.Identity.IsAuthenticated)
+            {
+                if (User.Identity.IsAuthenticated)
+                    userName = User.Identity.Name;              
+            }
             DBservices dbs = new DBservices();
             int return_val = 0;
             LogFiles lf = new LogFiles();
@@ -69,7 +75,7 @@ namespace BikeChallengeApp.Controllers
             mlist.Add(cmpt);
             try
             {
-                return_val = dbs.updateCompetitionInDatabase(cmpt, CompetitionDate);
+               // return_val = dbs.updateCompetitionInDatabase(cmpt, CompetitionDate);
             }
             catch (Exception ex)
             {

@@ -108,7 +108,7 @@ public class DBservices
                 case 3:
                     selectStr = @"SELECT [GroupName],[GroupDes]
                                 FROM [Groups] G, Organizations O
-                                WHERE [GROUP] <> 0 
+                                WHERE [group] <> 77 
                                 AND G.[Organization] = O.[Organization]
                                 AND O.OrganizationDes = '" + data1 + @"';"; // Group From ORG
                     break;
@@ -116,7 +116,7 @@ public class DBservices
 
                     selectStr = @" SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName
                                 FROM Groups G, Organizations O, AspNetUsers anu, Users U, Cities C
-                                Where G.[Group] <> 0
+                                Where G.[group] <> 77
                                 AND G.GroupDes = '" + data1 + @"'
                                 AND G.Organization = O.Organization
                                 AND O.OrganizationDes = '" + data2 + @"'
@@ -141,21 +141,21 @@ public class DBservices
                     break;
                 case 7:
                     if (data1 == "Organizations")
-                        selectStr = @"SELECT O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, COUNT(G.[group]) OrgGroupCount, ( SELECT Count(UG.[User])
-                                        FROM UsersGroups UG, Groups G1
-                                        WHERE G1.[Group] = UG.[Group]
-                                        AND G1.Organization = O.Organization
-                                         ) As OrgHeadCount
-                                        FROM Organizations O, Cities C, Groups G
-                                        Where O.Organization <> 0 
-                                        and o.City = C.city 
-                                        and o.Organization = G.Organization
-                                        Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, O.Organization";
+                        selectStr = @"SELECT O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, ( Select COUNT(gg.[group]) From Groups gg Where gg.Organization = O.Organization ) OrgGroupCount, ( SELECT Count(UG.[User])-1
+																																																						FROM UsersGroups UG, Groups G1
+																																																						WHERE G1.[Group] = UG.[Group]
+																																																						AND G1.Organization = O.Organization
+																																																						 ) As OrgHeadCount
+                                FROM Organizations O, Cities C
+                                Where O.Organization <> 0 
+                                and o.City = C.city 
+                                Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, O.Organization
+                                ";
                     else if(data1 == "Groups")
                         {
-                            selectStr = @"SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName, COUNT(U2.[user]) GroupHeadCount
+                            selectStr = @"SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName, COUNT(U2.[user])-1 GroupHeadCount
                                         FROM Groups G, Organizations O, AspNetUsers anu, Users U,Users U2, Cities C
-                                        Where G.[Group] <> 0
+                                        Where G.[Group] <> 77
                                         AND G.GroupDes like '%'
                                         AND G.Organization = O.Organization
                                         AND O.OrganizationDes like '%'
@@ -216,7 +216,7 @@ public class DBservices
                 case 11:
                     selectStr = @"SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories
                         FROM Groups G, Organizations O, Users U, Rides R
-                        Where G.[Group] <> 0
+                        Where G.[group] <> 77
                         AND G.GroupDes = '" + data1 + @"'
                         AND G.Organization = O.Organization
                         AND O.OrganizationDes = '" + data2 + @"'
@@ -230,7 +230,7 @@ public class DBservices
                 case 12:
                     selectStr = @"SELECT DATEPART(mm, R.RideDate) AS [Month], DATEPART(yyyy, R.RideDate) AS [Year], Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories
                         FROM Groups G, Organizations O, Users U, Rides R
-                        Where G.[Group] <> 0
+                        Where G.[group] <> 77
                         AND G.Organization = O.Organization
                         AND O.OrganizationDes = '" + data1 + @"'
                         AND U.[User] in ( SELECT UG.[User]
@@ -262,7 +262,7 @@ public class DBservices
                             AND R.[USER] = U.[User]
                             AND U.Id = anu.Id
                             AND U.Gender like '" + data3 + @"%'
-                            AND G.[Group] <> 0
+                            AND G.[group] <> 77
                             AND G.GroupDes like '" + data1 + @"%'
                             AND G.Organization = O.Organization
                             AND O.OrganizationDes like '" + data2 + @"%'
@@ -279,7 +279,7 @@ public class DBservices
                     data3 = (data3 == "Days" ? "Num_Of_Days_Riden" : (data3 == "Kilometers" ? "Group_KM" : "Group_Points"));
                     selectStr = @"SELECT " + (data4 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories, C.CityName
                             FROM Groups G, Organizations O, Users U, Rides R, Cities C
-                            Where G.[Group] <> 0
+                            Where G.[group] <> 77
                             AND G.Organization = O.Organization
                             AND O.OrganizationDes like '" + data1 + @"%'
                             AND O.City = C.City
@@ -296,7 +296,7 @@ public class DBservices
                     data2 = (data2 == "Days" ? "Num_Of_Days_Riden" : (data2 == "Kilometers" ? "Organization_KM" : "Organization_Points"));
                     selectStr = @" SELECT " + (data3 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories, C.CityName
                             FROM Groups G, Organizations O, Users U, Rides R, Cities C
-                            Where G.[Group] <> 0
+                            Where G.[group] <> 77
                             AND G.Organization = O.Organization
                             AND O.City = C.City
                             AND U.[User] in ( SELECT UG.[User]
@@ -879,7 +879,7 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"SELECT  Count(*)
                         FROM Groups G, Organizations O, Users U, Rides R
-                        Where G.[Group] <> 0
+                        Where G.[group] <> 77
                         AND G.Organization = O.Organization
                         AND R.[User] = U.[User] 
                         AND U.[User] in ( SELECT UG.[User]
@@ -897,7 +897,7 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"SELECT Count(*)
                             FROM Groups G, Organizations O, Users U, Rides R
-                            Where G.[Group] <> 0
+                            Where G.[group] <> 77
                             AND G.Organization = O.Organization
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
@@ -975,7 +975,7 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS GroupRanking, G.GroupDes
                                 FROM Groups G, Users U, Rides R
-                                Where G.[Group] <> 0
+                                Where G.[group] <> 77
                                 AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
                                 AND R.[User] = U.[User] 
                                 AND U.[User] in ( SELECT UG.[User]
@@ -986,7 +986,7 @@ public class DBservices
 			                                (
 			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
 			                                FROM Groups G, Organizations O, Users U, Rides R
-			                                Where G.[Group] <> 0
+			                                Where G.[group] <> 77
 			                                AND G.Organization = O.Organization
 			                                AND O.OrganizationDes like '" + data3 + @"%'
 			                                AND G.GroupDes like '" + data2 + @"%'
@@ -1008,7 +1008,7 @@ public class DBservices
         // use a string builder to create the dynamic string
         String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS OrganizationRanking, O.OrganizationDes,  'x' AS Organization_Points
                                 FROM Groups G, Organizations O, Users U, Rides R
-                                Where G.[Group] <> 0
+                                Where G.[group] <> 77
                                 AND G.Organization = O.Organization
                                 AND U.[User] in ( SELECT UG.[User]
                                             FROM UsersGroups UG
@@ -1020,7 +1020,7 @@ public class DBservices
 			                                (
 			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
 			                                FROM Groups G, Organizations O, Users U, Rides R
-			                                Where G.[Group] <> 0
+			                                Where G.[group] <> 77
 			                                AND G.Organization = O.Organization
 			                                AND O.OrganizationDes like '" + data3 + @"%'
 			                                AND U.[User] in ( SELECT UG.[User]
@@ -1073,7 +1073,7 @@ public class DBservices
 
         String selectstr = @"SELECT TOP 1 'Winning Organization' AS Category, '' AS UserEmail, '' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data1 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, '' AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
                             FROM Groups G, Organizations O, Users U, Rides R
-                            Where G.[Group] <> 0
+                            Where G.[group] <> 77
                             AND G.Organization = O.Organization
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
@@ -1091,7 +1091,7 @@ public class DBservices
 
         String selectstr = @"SELECT TOP 1 'Winning Group' AS Category, '' AS UserEmail, '' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data1 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, G.GroupName AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
             FROM Groups G, Organizations O, Users U, Rides R
-            Where G.[Group] <> 0
+            Where G.[group] <> 77
             AND G.Organization = O.Organization
             AND U.[User] in ( SELECT UG.[User]
                         FROM UsersGroups UG
@@ -1150,7 +1150,7 @@ public class DBservices
                                 Where UserDes = '" + username + @"'
                                 AND not exists (SELECT 'x'
                                                 FROM Groups G, Organizations O, Users U
-                                                Where G.[Group] <> 0
+                                                Where G.[group] <> 77
                                                 AND G.Groupname = '" + rdr.Group + @"'
                                                 AND G.Organization = O.Organization
                                                 AND O.OrganizationName = '" + rdr.Organization + @"'
@@ -1255,7 +1255,15 @@ public class DBservices
                           Set @User_val = ( Select [User] From Users Where UserDes = '" + rdr.Username + @"' ) ;";
         String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
                             begin
-                            INSERT INTO [UsersGroups]([Group],[User]) Values( @Group_val, @User_val )
+                            if exists ( select 'x' from [UsersGroups] Where [GROUP] = @Group_val And [USER] = 0 )
+                            begin
+                            UPDATE [UsersGroups]
+                               SET [User] = @User_val
+                             WHERE [Group] = @Group_val
+                             And [User] = 0
+                            end
+                            else
+	                            INSERT INTO [UsersGroups]([Group],[User]) Values( @Group_val, @User_val )
                             UPDATE [Users]
                             SET 
                                 [GroupDes] = (Select g.GroupDes From Groups g, UsersGroups ug Where ug.[User] = Users.[User] And ug.[Group] = g.[group] )
