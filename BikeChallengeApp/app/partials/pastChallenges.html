@@ -22,7 +22,7 @@
                     </div>
 
 
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-responsive table-striped ">
                         <thead>
                             <tr>
                                 <td><strong>הארגון המנצח</strong></td>
@@ -30,13 +30,10 @@
                         </thead>
                         <tr>
                             <td>{{challenge.OrgWin}}&nbsp;,&nbsp;{{challenge.OrgWin_City}}</td>
-                            <td rowspan="2"><img src="{{OrgWin_Image}}" /></td>
-                        </tr>
-                        <tr>
-                            <td></td>
+                            <td rowspan="2"><img class="img-rounded img-responsive pull-left" src="{{challenge.OrgWin_Image}}" style="max-width:200px" /></td>
                         </tr>
                     </table>
-                    <table class="table table-responsive table-condensed">
+                    <table class="table table-responsive table-striped">
                         <thead>
                             <tr>
                                 <td><strong>הקבוצה המנצחת</strong></td>
@@ -58,7 +55,7 @@
                         <tr>
                             <td>שם הרוכב</td>
                             <td>{{challenge.PlatinumUser}}</td>
-                            <td><img src="{{Challenge.PlatinumImg}}" class="img-circle img-responsive" /></td>
+                            <td rowspan="4" style=""><img src="{{challenge.PlatinumImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;"/></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
@@ -78,7 +75,7 @@
                         <tr>
                             <td>שם הרוכב</td>
                             <td>{{challenge.GoldUser}}</td>
-                            <td><img src="{{Challenge.GoldImg}}" class="img-circle img-responsive" /></td>
+                            <td rowspan="4"><img src="{{challenge.GoldImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
@@ -98,7 +95,7 @@
                         <tr>
                             <td>שם הרוכב</td>
                             <td>{{challenge.SilverUser}}</td>
-                            <td><img src="{{Challenge.SilverImg}}" class="img-circle img-responsive" /></td>
+                            <td rowspan="4"><img src="{{challenge.SilverImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
@@ -118,7 +115,7 @@
                         <tr>
                             <td>שם הרוכב</td>
                             <td>{{challenge.BronzeUser}}</td>
-                            <td><img src="{{Challenge.BronzeImg}}" class="img-circle img-responsive" /></td>
+                            <td rowspan="4"><img src="{{challenge.BronzeImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>

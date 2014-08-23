@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm, session) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -653,6 +653,86 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
         console.log(winningEntities);
     }
 
+    
+    // Upload image handling for Org profile 
+
+    // api/OrganizationImage?OrgName=[orgname]
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelectOrg = function ($files,newOrg) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + newOrg, // webapi url
+                    method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.OrgImagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
+
+    // Create a new organization 
+    //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
+
+    $scope.createNewOrg = function (newOrganization) {
+        if ($scope.OrgImagePath == undefined) {
+            $scope.OrgImagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
+        }
+        orgObject = {
+            Organizationname: newOrganization.OrganizationName.$viewValue,
+            OrganizationCity: newOrganization.city.$viewValue,
+            OrganizationImage: $scope.OrgImagePath,
+            OrganizationType: newOrganization.OrganizationType.$viewValue
+        }
+        dataFactory.postValues('Organization', orgObject, false)
+                            .success(function (response) {
+                                alert("  הארגון  " + orgObject.Organizationname + "  נוצר בהצלחה ! ");
+                                $scope.loadData();
+                                $scope.adminNav.switch = 3;
+                            })
+                            .error(function (error) {
+                                
+                                alert("שגיאה ביצירת ארגון חדש");
+                            });
+    }
+
+    $scope.createNewGroup = function (newGroup) {
+        
+        groupObject = {
+            GroupName: newGroup.GroupName.$viewValue,
+            OrganizationName: newGroup.organizationName.$viewValue,
+        }
+        // {"GroupName":"groupName", "OrganizationName":""}
+        dataFactory.postValues('Group', groupObject, false)
+                            .success(function (response) {
+                                alert("  הקבוצה  " + groupObject.GroupName + "  נוצרה בהצלחה ! ");
+                                $scope.loadData();
+                                $scope.adminNav.switch = 2;
+                            })
+                            .error(function (error) {
+                                alert("שגיאה ביצירת ארגון חדש");
+                            });
+    }
+
     $scope.$on('event:auth-loginRequired', function () {
         alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
         $location.url("/home")
@@ -959,31 +1039,51 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
     $scope.regNewOrg = function (newOrgObj) {
 
         if (newOrgObj.imagePath == undefined) {
-            newOrgObj.imagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg";
+            newOrgObj.imagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
         }
 
         var newOrg = {
             OrganizationName: newOrgObj.OrganizationName,
             OrganizationCity: newOrgObj.OrganizationCity.CityName,
-            //OrganizationDes: newOrgObj.OrganizationDes,
             OrganizationType: newOrgObj.OrganizationType,
             OrganizationImage: newOrgObj.imagePath
-
         };
 
-        dataFactory.postValues('Organization', newOrg, false)
-             .success(function (response) {
-                 console.log(response);
-                 $scope.newOrgFlag = true;
-                 alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
-                 // Closing Modal window 
-                 $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
-                 $('#myNewOrgModal').modal('hide');
-             })
-             .error(function (error) {
-                 $scope.status = 'Unable to load Orgs data: ' + error.message;
-                 alert("שגיאה ביצירת ארגון חדש");
-             });
+        dataFactory.getValues("OrganizationExists", 1, "orgname=" + newOrg.OrganizationName)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("organization is available");
+
+                            dataFactory.postValues('Organization', newOrg, false)
+                            .success(function (response) {
+                                console.log(response);
+                                $scope.newOrgFlag = true;
+                                alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
+                                // Closing Modal window 
+                                $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
+                                $('#myNewOrgModal').modal('hide');
+                            })
+                            .error(function (error) {
+                                $scope.status = 'Unable to load Orgs data: ' + error.message;
+                                alert("שגיאה ביצירת ארגון חדש");
+                            });
+                        }
+
+                        else {
+                            console.log("organization is NA");
+                            alert("שם הארגון קיים, אנא בחר שם יחודי או הצטרף לארגון קיים")
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch organization existance");
+                     }
+                        );
+
+
+
+
+       
     }
 
     $scope.newOrgFlag = false;
@@ -1044,6 +1144,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
                 $scope.upload[index] = $upload.upload({
                     url: serverBaseUrl +  "/api/UserImage?UserName=" + $scope.personalInfoHolder.UserName, // webapi url
                     method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
                 }).progress(function (evt) {
@@ -1109,6 +1210,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
                 $scope.upload[index] = $upload.upload({
                     url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
                     method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
                 }).progress(function (evt) {
@@ -1342,7 +1444,7 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 
 
 
-app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
 
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
@@ -1462,31 +1564,47 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     $scope.regNewOrg = function (newOrgObj) {
         
         if (newOrgObj.imagePath == undefined) {
-            newOrgObj.imagePath = "\ProfileImages\Users\defaultUser\defaultUserImage.jpg";
+            newOrgObj.imagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
         }
         
         var newOrg = {
             OrganizationName: newOrgObj.OrganizationName,
             OrganizationCity: newOrgObj.OrganizationCity.CityName,
-            //OrganizationDes: newOrgObj.OrganizationDes,
             OrganizationType: newOrgObj.OrganizationType,
             OrganizationImage: newOrgObj.imagePath
             
         };
    
-        dataFactory.postValues('Organization',newOrg,false)
-             .success(function (response) {
-                 console.log(response);
-                 $scope.newOrgFlag = true;
-                 alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
-                 // Closing Modal window 
-                 $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
-                 $('#myNewOrgModal').modal('hide');
-             })
-             .error(function (error) {
-                 $scope.status = 'Unable to load Orgs data: ' + error.message;
-                 alert("שגיאה ביצירת ארגון חדש");
-             });
+        dataFactory.getValues("OrganizationExists", 1, "orgname=" + newOrg.OrganizationName)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("organization is available");
+
+                            dataFactory.postValues('Organization', newOrg, false)
+                            .success(function (response) {
+                                console.log(response);
+                                $scope.newOrgFlag = true;
+                                alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
+                                // Closing Modal window 
+                                $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
+                                $('#myNewOrgModal').modal('hide');
+                            })
+                            .error(function (error) {
+                                $scope.status = 'Unable to load Orgs data: ' + error.message;
+                                alert("שגיאה ביצירת ארגון חדש");
+                            });
+                        }
+
+                        else {
+                            console.log("organization is NA");
+                            alert("שם הארגון קיים, אנא בחר שם יחודי או הצטרף לארגון קיים")
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch organization existance");
+                     }
+                        );
     }
 
     $scope.newOrgFlag = false;
@@ -1548,6 +1666,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
                 $scope.upload[index] = $upload.upload({
                     url: serverBaseUrl + "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
                     method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
                 }).progress(function (evt) {
@@ -1584,6 +1703,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
                 $scope.upload[index] = $upload.upload({
                     url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
                     method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
                     data: { fileUploadObj: $scope.fileUploadObj },
                     file: $file
                 }).progress(function (evt) {
@@ -1608,9 +1728,6 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
     //Get City list
 
-   
-
-
     $scope.loadCities = function () {
         console.log('trying to get teams');
         dataFactory.getValues('Cities', false, 0)
@@ -1619,34 +1736,30 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             })
     }
 
-    
-
-
-    
-    
-
-
 
    
     // Event Handlers
 
     $scope.$on('reg-success-ef', function () {
         $scope.showDetails = true;
+        authFactory.login($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue).then(function () {
+            console.log("Initial Login");
+        })
         // Add here disable main form of registration 
 
     })
 
     $scope.$on('reg-success', function () {
         //login and redirection to userpage after successfull registration
-        authFactory.login($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue).then(function () {
+       // authFactory.login($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue).then(function () {
             $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
-            console.log("Event BC - user logged ");
+         //   console.log("Event BC - user logged ");
         }, function () {
             $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
             console.log("Event BC - bad login ");
             $scope.failFlag = true;
         })
-    })
+    
 
     $scope.$on('update-org'), function () {
         $scope.personalDetails.org = $scope.orgSelection;
@@ -1748,7 +1861,7 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
 
 //User Profile - Get Data 
 
-app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory, serverBaseUrl) {
+app.controller('userProfileController', function ($rootScope, $location, $scope, $timeout, $http, dataFactory, session, serverBaseUrl) {
     
     console.log($scope.currentUser);
     $scope.userGroupInfo = $rootScope.userGroup;

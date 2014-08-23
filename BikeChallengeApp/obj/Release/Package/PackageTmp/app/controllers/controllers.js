@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -14,6 +14,15 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 console.log(response);
                 $scope.sourceUsers = angular.fromJson(response);
                 $scope.users = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system users...");
+                 });
+        //Load Events 
+        dataFactory.getValues('event/GetEvents')
+            .success(function (response) {
+                console.log(response);
+                $scope.eventsHolder = angular.fromJson(response);
             })
                  .error(function (error) {
                      alert("Unable to fetch all system users...");
@@ -29,6 +38,9 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                 $scope.filterOptions[0].values = tmp;
                 
             })
+
+        // Load groups & orgs
+
         dataFactory.getValues('Organization')
          .success(function (response) {
              console.log(response);
@@ -40,7 +52,6 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                     angular.forEach($scope.groupsHolder, function (group) {
                         angular.forEach($scope.organizationsHolder, function (organization) {
                             if (group.Organization == organization.Organization){
-                                group['orgDispalyname'] = organization.OrganizationDes;
                                 group['orgName'] = organization.OrganizationName;
                             }
                         })
@@ -52,7 +63,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                     })
                     $scope.filterOptions[4].values = tmp;
                     
-        })
+                })
                 .error(function (error) {
                     alert("Unable to fetch all groups...");
                 });
@@ -61,11 +72,24 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                      alert("Unable to fetch all orgs...");
                  });
 
+        //Load Rides
+        dataFactory.getValues('Rides', true, "username=")
+            .success(function (values) {
+                $scope.allRidesHolder = angular.fromJson(values);
+            })
+
+        // Load Open Challenges
+            dataFactory.getValues('Competition', false)
+                .success(function (values) {
+                    console.log(values)
+                    $scope.openChallengesHolder = angular.fromJson(values);
+            });
+        
 
     }
 
     $scope.loadData();
-
+    
     
 
     // Accordion vars 
@@ -93,10 +117,10 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
                             .success(function (response) {
                                 console.log('User deletion succeeded');
                                 $scope.loadData();
-                       })
+                            })
                             .error(function (response) {
-                           console.log("error deleting user");
-                       });
+                                console.log("error deleting user");
+                            });
 
 
 
@@ -112,6 +136,128 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
 
 
     }
+
+
+    
+    //Remove Group
+    $scope.removeGroup = function (groupName, organizationName) {
+        confirm("האם אתה בטוח שברצונך למחוק את הקבוצה ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                        // api/Group?grpname=groupname&orgname=organizationanme
+                        dataFactory.deleteValues('Group', 'grpname=' + groupName + '&orgname=' + organizationName )
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error')
+                                {
+                                    alert('לא ניתן למחוק קבוצה המכילה משתמשים פעילים')
+                                }
+                                else
+                                {
+                                    console.log('Group deletion succeeded');
+                                    $scope.loadData();
+                                }
+                                
+                            })
+                            .error(function (response) {
+                                console.log("error deleting group");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
+
+    
+
+    //Remove Organization
+    $scope.removeOrganization = function (organizationName) {
+        confirm("האם אתה בטוח שברצונך למחוק את הארגון ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                        // api/Organization?orgname=organizationanme
+                        dataFactory.deleteValues('Organization', 'orgname=' + organizationName)
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error') {
+                                    alert('לא ניתן למחוק ארגון המכיל קבוצות רשומות')
+                                }
+                                else {
+                                    console.log('Group deletion succeeded');
+                                    $scope.loadData();
+                                }
+
+                            })
+                            .error(function (response) {
+                                console.log("error deleting group");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
+
+
+
+
+    // Replace the captain
+    // api/Rider?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
+    $scope.replaceCaptainFlag = false;
+    $scope.demoteCaptain = function (groupName, orgName) {
+        $scope.riderPerGroup = []; 
+        dataFactory.getValues('Rider', true, 'grpname=' + groupName + '&orgname=' + orgName)
+            .success(function (values) {
+                $scope.riderPerGroup = angular.fromJson(values);
+                $scope.replaceCaptainFlag = true;
+            })
+                
+    }
+    
+    // Put api/captain?cap_usr=""&new_cap_usr=""
+    // cap_usr-"The user name of old captain", new_cap_usr-"The user name of new captain"
+    $scope.saveNewCaptain = function (oldCaptain, newCaptain) {
+        dataFactory.updateValues('captain', newCaptain, true, 'cap_usr=' + oldCaptain + '&new_cap_usr=' + newCaptain.UserName)
+            .success(function (values) {
+                if (angular.fromJson(values) == "Error")
+                { alert("עדכון נכשל!"); }
+                else
+                {
+                    alert("עדכון הושלם בהצלחה!");
+                    $scope.loadData();
+                    $scope.replaceCaptainFlag = false;
+                }
+            })
+                .error(function (error) {
+                    alert("עדכון נכשל!");
+                });
+    }
+            
+        
+    //Undo Captain demote
+
+    $scope.undoDemote = function () {
+        $scope.replaceCaptainFlag = false;
+    }
+
+
+    
+
 
     var genderOptions = [
         'זכר', 'נקבה'
@@ -130,22 +276,421 @@ app.controller('adminConsoleController', function ($rootScope, $scope, $http, $t
     ]
 
 
+
+    // Bike Challenge Events Management 
+
+    $scope.createNewEvent = function (size) {
+
+        var modalInstance = $modal.open({
+            templateUrl: 'newEventModalContent.html',
+            controller: ModalInstanceCtrl,
+            size: size,
+            resolve: {
+                filterOptions: function () {
+                    return $scope.filterOptions;
+                }
+            }
+        });
+
+        modalInstance.result.then(function () {
+            $scope.loadData();
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+
+    var ModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, filterOptions) {
+
+        $scope.filterOptions = filterOptions;
+        $scope.cancelTrigger = false;
+
+        $scope.save = function (newEvent) {
+            if (!$scope.cancelTrigger) {
+                newEventJson = {
+                    EventName: newEvent.name.$viewValue,
+                    EventDate: newEvent.date.$viewValue,
+                    EventTime: newEvent.time.$viewValue,
+                    EventType: newEvent.type.$viewValue,
+                    EventAddress: newEvent.address.$viewValue,
+                    City: newEvent.city.$viewValue,
+                    EventDetails: newEvent.description.$viewValue,
+                    EventStatus: "Junk"
+                }
+
+
+                dataFactory.postValues('Event', newEventJson, false)
+                 .success(function (response) {
+                     if (angular.fromJson(response) != "Error") {
+                         alert(" האירוע נוצר בהצלחה ! ");
+                         $modalInstance.close();
+
+                     }
+
+                     else {
+                         alert("שגיאה ביצירת אירוע חדש");
+                     }
+                 })
+
+                 .error(function (error) {
+                     alert("שגיאה ביצירת אירוע חדש");
+                 });
+
+            }
+        };
+
+        $scope.cancel = function () {
+            $scope.cancelTrigger = true;
+            $modalInstance.close();
+        };
+    };
+
+
+    //Edit BC Event
+    $scope.targetEvent = {};
+    $scope.editEvent = function (eEvent) {
+        $scope.targetEvent = eEvent;
+        var modalInstance = $modal.open({
+            templateUrl: 'editEventModalContent.html',
+            controller: editModalInstanceCtrl,
+            
+            resolve: {
+                filterOptions: function () {
+                    return $scope.filterOptions},
+                targetEvent: function () {
+                    return $scope.targetEvent;
+                }}
+            
+        });
+
+        modalInstance.result.then(function () {
+            $scope.loadData();
+        }, function () {
+            console.log('Modal dismissed at: ' + new Date());
+        });
+    };
+
+
+    var editModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, filterOptions, targetEvent) {
+
+        $scope.filterOptions = filterOptions;
+        $scope.targetEvent = targetEvent;
+        $scope.cancelTrigger = false;
+
+        $scope.cancel = function () {
+            $scope.cancelTrigger = true;
+            $modalInstance.dismiss('cancel');
+
+
+        };
+
+       
+
+        $scope.saveChanges = function (newEvent) {
+            if (!$scope.cancelTrigger) {
+                newEventJson = {
+                    EventName: newEvent.name.$viewValue,
+                    EventDate: newEvent.date.$viewValue,
+                    EventTime: newEvent.time.$viewValue,
+                    EventType: newEvent.type.$viewValue,
+                    EventAddress: newEvent.address.$viewValue,
+                    City: newEvent.city.$viewValue,
+                    EventDetails: newEvent.description.$viewValue,
+                    EventStatus: "Junk"
+                }
+
+
+                dataFactory.updateValues('Event', newEventJson, true, 'eventname=' + targetEvent.EventName)
+                 .success(function (response) {
+                     if (angular.fromJson(response) != "Error") {
+                         alert(" האירוע עודכן בהצלחה !");
+                         $modalInstance.close();
+
+                     }
+
+                     else {
+                         alert("שגיאה בעדכון אירוע ");
+                     }
+                 })
+
+                 .error(function (error) {
+                     alert("שגיאה בעדכון אירוע");
+                 });
+
+
+            };
+
+        }
+    };
+
+
+
+
+    $scope.removeEvent = function (eventName) {
+        confirm("האם אתה בטוח שברצונך למחוק את האירוע ממאגר הנתונים ? (פעולה זו אינה הפיכה)").then(
+                    function (response) {
+
+                        console.log("Confirm accomplished with", response);
+
+                       
+                        // api/Event?eventname=
+                        dataFactory.deleteValues('Event', 'eventname=' + eventName)
+                            .success(function (response) {
+                                if (angular.fromJson(response) == 'Error') {
+                                    alert('שגיאה במחיקת אירוע')
+                                }
+                                else {
+                                    console.log('Event deletion succeeded');
+                                    $scope.loadData();
+                                }
+
+                            })
+                            .error(function (response) {
+                                console.log("error deleting event");
+                            });
+
+
+
+
+                    },
+                    function () {
+
+                        console.log("Confirm failed :(");
+
+                    }
+                );
+    }
     
+    // Display User List per event 
+    $scope.displayRegisteredUsers = function (eventName) {
+        
+    }
+
+    // User list per Event Modal windows
+    $scope.displayUsersPerEvent = function (eventName) {
+        
+        // GET api/event/GetUsers?eventname
+        // get all of users from a specific event
+        dataFactory.getValues('event/GetUsers', true, 'eventname=' + eventName)
+            .success(function (values) {
+                console.log(values)
+                $scope.userPool = angular.fromJson(values);
+
+                var modalInstance = $modal.open({
+                    templateUrl: 'registeredUserModalContent.html',
+                    controller: userPoolModalInstanceCtrl,
+                    size: 'lg',
+                    resolve: {
+                        userPool: function () {
+                            return $scope.userPool;
+                        }
+                    }
+                });
+
+                modalInstance.result.then(function () {
+                    $scope.loadData();
+                }, function () {
+                    console.log('Modal dismissed at: ' + new Date());
+                });
+            })
+
+       
+
+        
+
+        var userPoolModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, userPool) {
+
+            $scope.userPool = userPool;
+            $scope.cancelTrigger = false;
+
+            $scope.cancel = function () {
+                $scope.cancelTrigger = true;
+                $modalInstance.close();
+            };
+        };
+    };
+
+
+    // Admin Reports  
+    $scope.sortVar = "UserDisplayName";
+    
+    // Exporting data
+
+    $scope.export2Excel = function (filteredData) {
+
+        var data2Export = angular.toJson(filteredData);
+        
+
+    };
+
+    $scope.export2PDF = function (filteredData) {
+
+        var data2Export = angular.toJson(filteredData);
+        
+
+    }
+
+    // Broadcast a message
+
+    $scope.publish = function (contactForm) {
+
+        var contactInfo = {};
+        contactInfo = {
+            "Subject": contactForm.subject.$viewValue,
+            "Body": contactForm.content.$viewValue,
+        }
+
+        dataFactory.postValues('PostMessage', contactInfo, false)
+             .success(function (response) {
+                 alert("ההודעה נשלחה בהצלחה");
+                 $location.url("/adminConsole");
+             })
+             .error(function (error) {
+                 alert("שגיאה");
+             });
+
+    }
+
+    // End a Challenge
+
+    $scope.shuffle = function (date, hash) {
+        var activeChallenge = "01-"
+        activeChallenge = activeChallenge.concat(date);
+
+        // Get active month index
+        var activeMonthIndx = null;
+        for (var i = 0; i < $scope.openChallengesHolder.length; i++) {
+            if ($scope.openChallengesHolder[i].$$hashKey == hash) {
+                activeMonthIndx = i;
+                break;
+            }
+        }
+
+        dataFactory.getValues('shuffle', true, "date=" + activeChallenge)
+                .success(function (values) {
+                    console.log(values)
+                    $scope.hallOfFame = angular.fromJson(values);
+                    angular.forEach($scope.hallOfFame, function (category) {
+
+                        if (category.Category == "Winning Organization") {
+                            $scope.openChallengesHolder[activeMonthIndx].OrgWin = category.OrganizationDes;
+                            // Set flag to indicate a shuffle was created 
+                            $scope.openChallengesHolder[activeMonthIndx].ShuffleFlag = true;
+                        }
+
+                        else if (category.Category == "Winning Group") {
+                            $scope.openChallengesHolder[activeMonthIndx].GrpWin = category.GroupDes;
+                        }
+
+                        else if (category.Category == "BronzeWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].BronzeUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].BronzeUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "SilverWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].SilverUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].SilverUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "GoldWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].GoldUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].GoldUserName = category.UserDes;
+                        }
+
+                        else if (category.Category == "PlatinaWinner") {
+                            $scope.openChallengesHolder[activeMonthIndx].PlatinumUser = category.UserFname.concat(" ").concat(category.UserLname);
+                            $scope.openChallengesHolder[activeMonthIndx].PlatinumUserName = category.UserDes;
+                        }
+                    })
+                });
+
+       
+    }
+
+    $scope.saveChallenge = function (date,hash) {
+
+        var activeChallenge = "01-"
+        activeChallenge = activeChallenge.concat(date);
+
+        // Get active month index
+        var activeMonthIndx = null;
+        for (var i = 0; i < $scope.openChallengesHolder.length; i++) {
+            if ($scope.openChallengesHolder[i].$$hashKey == hash) {
+                activeMonthIndx = i;
+                break;
+            }
+        }
+
+        if ($scope.openChallengesHolder[activeMonthIndx].ShuffleFlag == undefined) {
+            alert("טרם הוגרלו מנצחים");
+            return;
+        }
+
+        // PUT api/Competition?CompetitionDate=
+        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        var winningEntities = {
+
+            OrgWin: $scope.openChallengesHolder[activeMonthIndx].OrgWin,
+            GrpWin: $scope.openChallengesHolder[activeMonthIndx].GrpWin,
+            PlatinumUser: $scope.openChallengesHolder[activeMonthIndx].PlatinumUserName,
+            GoldUser:$scope.openChallengesHolder[activeMonthIndx].GoldUserName,
+            SilverUser:$scope.openChallengesHolder[activeMonthIndx].SilverUserName,
+            BronzeUser:$scope.openChallengesHolder[activeMonthIndx].BronzeUserName
+        }
+
+
+        dataFactory.updateValues('Competition', winningEntities, true, 'CompetitionDate=' + date)
+        .success(function (values) {
+            if (angular.fromJson(values) == "Error")
+            { alert("שגיאה בסגירת תחרות!"); }
+            else
+            {
+                alert("עדכון הושלם בהצלחה!");
+                $scope.loadData;
+            }
+        })
+
+        console.log(winningEntities);
+    }
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
+
 });
 
 
 // ####################################################################################################################################################### // 
-// #########################################                workController               ################################################################ // 
+// #########################################                pastChallengesController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
 
-app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('pastChallengesController', function ($rootScope, $scope, $modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm) {
+    
+    // Accordion vars 
+    $scope.oneAtATime = true;
 
-    dataFactory.getValues('Rider', true, "username=" + $scope.currentUser)
-                    .success(function (values) {
-                        $scope.personalInfoHolder = values[0];
-                        $scope.personalInfoHolder.ImagePath = $scope.personalInfoHolder.ImagePath.substr(1);
-                    });
+    $scope.status = {
+        isFirstOpen: true,
+        isFirstDisabled: false
+    };
+
+    // Load Data
+    $scope.getChallenges = function () {
+        dataFactory.getValues('Competition', true, 'date=')
+            .success(function (values) {
+                console.log(values)
+                $scope.challengesHolder = angular.fromJson(values);
+                }); 
+    }
+
+    $scope.getChallenges();
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 
 
 });
@@ -154,8 +699,29 @@ app.controller('workController', function ($rootScope, $scope, $http, $timeout, 
 // ####################################################################################################################################################### // 
 
 
-app.controller('contactUsController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('contactUsController', function ($rootScope, $scope, $location, $http,dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
+    $scope.contactRequest = function (contactForm) {
+        
+        var contactInfo = {};
+        contactInfo = {
+            "Name": contactForm.name.$viewValue,
+            "Email": contactForm.address.$viewValue,
+            "Subject": contactForm.subject.$viewValue,
+            "Body": contactForm.content.$viewValue,
+        }
+
+        dataFactory.postValues('MailMan', contactInfo, false)
+             .success(function (response) {
+                 console.log("Contact success");
+                 alert("ההודעה נשלחה בהצלחה");
+                 $location.url("/home");
+             })
+             .error(function (error) {
+                 alert("שגיאה");
+             });
+
+    }
 
 
 });
@@ -236,6 +802,9 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
     }
 
     //Update flags for each attribute
+
+    
+
     $scope.updateFlags = {
         BicycleType: false,
         BirthDate: false,
@@ -248,7 +817,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
         UserFname: false,
         UserLname: false,
         UserPhone: false,
-        ImagePath: false
+        ImagePath: false,
     }
     //flip update flag for each attribute 
     $scope.flipFlag = function (flag) {
@@ -598,7 +1167,11 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
         $scope.personalDetails.org = $scope.orgSelection;
         console.log($scope.personalDetails.org);
     }
-
+    
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
    
 
 });
@@ -624,14 +1197,75 @@ app.controller('bikeChallengeController', function ($scope) {
     };
 });
 
+
 // ####################################################################################################################################################### // 
-// #########################################                aboutController               ################################################################ // 
+// #########################################                changePasswordController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('aboutController', function ($scope) {
 
+
+app.controller('changePasswordController', function ($scope,$location, dataFactory) {
+   
+
+    $scope.changeUserPassword = function (passwordRequest) {
+
+        var passwordPackage = {
+            oldPassword: passwordRequest.cPassword.$viewValue,
+            newPassword: passwordRequest.nPassword.$viewValue,
+            confirmPassword: passwordRequest.confirmNewPassword.$viewValue
+        }
+
+        dataFactory.postValues('account/ChangePassword', passwordPackage, false)
+                     .success(function (values) {
+                         alert("שינוי הסיסמא הסתיים בהצלחה!");
+                         $location.url("/userProfile");
+                     })
+                     .error(function (error) {
+                         alert("סיסמא נוכחית אינה נכונה, בדוק/בדקי את הפרטים ונסה/י שוב");
+                     });
+        
+
+    }
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 });
 
+// ####################################################################################################################################################### // 
+// #########################################                forgotPasswordController               ################################################################ // 
+// ####################################################################################################################################################### // 
+
+
+
+app.controller('forgotPasswordController', function ($scope, $location, dataFactory) {
+
+    $scope.pleaseWait = false;
+    $scope.forgotPassword = function (passwordRequest) {
+
+        var resetPackage = {
+            EmailAddress: passwordRequest.emailAddress.$viewValue
+        }
+        $scope.pleaseWait = true;
+        dataFactory.postValues('account/ForgotPassword', resetPackage, false)
+                     .success(function (values) {
+                         alert("איפוס הססמא הסתיים בהצלחה , פרטי החיבור החדשים שלך נשלחו באמצעות דואר אלקטרוני");
+                         $scope.pleaseWait = false;
+                         $location.url("/home");
+                     })
+                     .error(function (error) {
+                         alert("שגיאה באיפוס הסיסמא");
+                     });
+
+
+    }
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
+
+});
 
 // ####################################################################################################################################################### // 
 // #########################################                homeController               ################################################################ // 
@@ -677,7 +1311,7 @@ app.controller('homeController', function ($rootScope, $scope, authFactory, AUTH
             });
         }
         
-   
+        
 });
 
 // ####################################################################################################################################################### // 
@@ -725,6 +1359,8 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
 
     
     //userRegistration - register the new user with BC DB 
+
+  
 
     $scope.userRegistration = function (personalDetails) {
         
@@ -1047,11 +1683,15 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
 
                         console.log("Fetch user info for " + $scope.currentUser);
                         console.log($scope.personalInfoHolder);
-
-                        dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
+                        if ($scope.personalInfoHolder.Designer) {
+                            $location.url("adminConsole");
+                        }
+                        else
+                        {
+                            dataFactory.getValues('Group', true, "grpname=" + $rootScope.userPersonalInfo.GroupName + "&orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                             .success(function (values) {
                                 $scope.userGroup = values[0];
-                                
+
                                 dataFactory.getValues('Organization', true, "orgname=" + $rootScope.userPersonalInfo.OrganizationName)
                                     .success(function (values) {
                                         $scope.userOrg = values[0];
@@ -1068,7 +1708,9 @@ app.controller('mainController', function ($rootScope, $location, $scope, authFa
                             })
                     .error(function (value) {
                         console.log("error");
-                    });       
+                    });
+                        }
+                          
                     } )});
 
     $scope.$on('auth-login-failed', function () { console.log("Login Failed") });
@@ -1236,6 +1878,7 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
                      console.log("error");
                  });
 
+   
 
     dataFactory.getValues('Ranking', true, "gender=&order=Points&date=" + concatDate)
                  .success(function (values) {
@@ -1249,8 +1892,8 @@ app.controller('userProfileController', function ($rootScope, $location, $scope,
 
 
     $scope.$on('event:auth-loginRequired', function () {
-        alert("You are not Authorized to view this page ... Please sign in");
-        $location.url("/login")
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
     });
 
     
@@ -1275,6 +1918,11 @@ app.controller('myTeamController', function ($rootScope, $scope, dataFactory, au
                 .error(function (value) {
                     console.log("error");
                 });
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
 });
 
 // ####################################################################################################################################################### // 
@@ -1282,9 +1930,8 @@ app.controller('myTeamController', function ($rootScope, $scope, dataFactory, au
 // ####################################################################################################################################################### // 
 
 
-app.controller('dashboardController', function ($rootScope, $scope, dataFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('dashboardController', function ($rootScope, $scope, $filter, dataFactory, AUTH_EVENTS, serverBaseUrl) {
     console.log("Inside dashboard View");
-      
     
     $scope.refreshCal = false;
 
@@ -1459,7 +2106,33 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                          console.log("error");
                      });
         
+        dataFactory.getValues('Ranking', true, 'username=' + $scope.currentUser + '&date=' + concatDate)
+                .success(function (values) {
+                    $scope.relativeRanks = angular.fromJson(values[0]);
+                })
 
+                .error(function (error) {
+                    console.log("error");
+                });
+
+        //get Events data 
+
+        dataFactory.getValues('event/GetEvents')
+            .success(function (response) {
+                console.log(response);
+                $scope.systemEvents = angular.fromJson(response);
+            })
+                 .error(function (error) {
+                     alert("Unable to fetch all system events...");
+                 });
+        // GET api/event?username=[The name of the organization]
+        dataFactory.getValues('event', true, 'username=' + $scope.currentUser)
+                .success(function (values) {
+                    $scope.userEvents = angular.fromJson(values);
+                })
+                .error(function (error) {
+                    console.log("error");
+                });
 
     }
     
@@ -1603,7 +2276,11 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     $scope.flipShowGroupsRanksFlag = function () { $scope.showGroupsRanksFlag = !$scope.showGroupsRanksFlag };
     $scope.showOrganizationsRanksFlag = false;
     $scope.flipShowOrganizationsRanksFlag = function () { $scope.showOrganizationsRanksFlag = !$scope.showOrganizationsRanksFlag };
-
+    $scope.showFutureEventsFlag = false;
+    $scope.flipShowFutureEventsFlag = function () { $scope.showFutureEventsFlag = !$scope.showFutureEventsFlag };
+    $scope.showUserEventsFlag = false;
+    $scope.flipShowUserEventsFlag = function () { $scope.showUserEventsFlag = !$scope.showUserEventsFlag };
+    
     // Add a new Route 
     $scope.addNewRoute = function (newRoute) {
         var route = {
@@ -1661,6 +2338,18 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
     // Get user stats - type (calCo2/kmRides ) , period (-1 = since registrating , 0 = specific month) ,  (month, year) 
     $scope.statSelector = -1;
     
+    $scope.progressStats = function () {
+
+        var kmSummed = 0;
+        var ridesSummed = 0;
+        var fuelSummed = 0;
+        var moneySummed = 0;
+        angular.forEach(rawStats, function (monthStat) {
+            if (entity == "personal") {
+                kmSummed = kmSummed + monthStat.User_KM;
+                ridesSummed = ridesSummed + monthStat.Num_of_Rides;
+            }
+        })}
 
     $scope.getStats = function (entity, type, period, month, year){ 
 
@@ -2021,7 +2710,7 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
                                 $scope.addNewRRideFlag = false;
                                 $scope.getHistory();
                                 console.log(response);
-                                $("#" + newRide.date).addClass("cal-highlight");
+                                $("#" + newRide.ridedate).addClass("cal-highlight");
                             })
                                     .error(function (response) {
                                         console.log("error");
@@ -2041,9 +2730,52 @@ app.controller('dashboardController', function ($rootScope, $scope, dataFactory,
 
 
 
+
+    // Register to an Event 
+    // POST insert rider into an event 
+    // api/Event?eventname=&username=
+    $scope.registerEvent = function (userEvent) {
+        
+        dataFactory.postValues('Event', userEvent , true, 'eventname=' + userEvent.EventName + '&username=' + $scope.currentUser)
+                     .success(function (response) {
+                         if (angular.fromJson(response) != "Error") {
+                             alert("ההרשמה הושלמה בהצלחה!");
+                             $scope.getHistory();
+                             $scope.flipShowFutureEventsFlag();
+                             $scope.flipShowUserEventsFlag();
+                         }
+                         else {
+                             alert("שגיאה במהלך ההרשמה לאירוע");
+                         }
+                     })
+                     .error(function (error) {
+                         alert("שגיאה במהלך ההרשמה לאירוע");
+                     });
+    }
+    // api/Event?usernme=
+    $scope.cancleEventRegistration = function (userEvent) {
+        dataFactory.deleteValues('Event', 'username=' + $scope.currentUser + '&eventname=' + userEvent.EventName)
+                           .success(function (response) {
+                               alert('ביטול ההרשמה הסתיים בהצלחה!')
+                               $scope.getHistory();
+                           })
+                           .error(function (response) {
+                               alert('שגיאה בביטול ההרשמה')
+                           });
+    }
+
+
+
     // Controller init 
     $scope.init = function () {       
     }
+
+    $scope.$on('event:auth-loginRequired', function () {
+        alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
+        $location.url("/home")
+    });
+
+
 
 });
 

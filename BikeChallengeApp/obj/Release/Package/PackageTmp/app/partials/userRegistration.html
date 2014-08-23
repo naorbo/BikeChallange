@@ -23,10 +23,12 @@
                                ng-readonly="showDetails"
                                ng-minlength="6"
                                ng-maxlength="20"
+                               
                                data-username-validate
                                required>
                         <p ng-show="regDetails.userName.$error.minlength" class="help-block">שם המשתמש קצר משישה תווים</p>
                         <p ng-show="regDetails.userName.$error.shorti" class="help-block">שם המשתמש קצר משישה תווים</p>
+                        <p ng-show="regDetails.userName.$error.exp" class="help-block">שם המשתמש צריך להכיל תווים באנגלית ומספרים בלבד</p>
                         <p ng-show="regDetails.userName.$error.unique" class="help-block">שם המשתמש המבוקש תפוס</p>
                     </div>
                     <!-- Password -->
@@ -317,10 +319,12 @@
                         <div class="modal-body row">
                             <br />
 
-                            <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
+                            <input type="text"  class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
                             <label><strong>עיר</strong></label>
                             <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
                             <br />
+                            
+                            
                             <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />-->
                             <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')" required />
                             <br />

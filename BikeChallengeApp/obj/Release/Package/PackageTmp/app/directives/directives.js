@@ -57,6 +57,23 @@ app.directive('validPasswordC', function () {
     }
 });
 
+// #############################
+// Password match validator for ChangePassword
+// #############################
+app.directive('updateValidPasswordC', function () {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.unshift(function (viewValue) {
+                console.log('inside dir');                
+                var noMatch = viewValue != $scope.changePassword.nPassword.$viewValue;
+                $ctrl.$setValidity('noMatch', !noMatch);
+            });
+        }
+    }
+});
+
+
 
 // #############################
 // File upload directive 
@@ -92,9 +109,16 @@ app.directive('usernameValidate', function (dataFactory) {
                 console.log("Got the Direc");
                 var shortUserName = true;
                 var Unique = true;
-               // if ($scope.regDetails.userName.$viewValue == undefined) { }
-                //else{
-                    if ($scope.regDetails.userName.$viewValue.length > 5) {
+             
+             
+                if (!(/^[A-Za-z0-9]*$/.test($scope.regDetails.userName.$viewValue))) {
+                    $ctrl.$setValidity('exp', false);
+                }
+                else
+                {
+                    $ctrl.$setValidity('exp', true);
+                }
+                if ($scope.regDetails.userName.$viewValue.length > 5) {
                         $ctrl.$setValidity('shorti', shortUserName);
                         dataFactory.getValues("UserNameExists", 1, "username=" + $scope.regDetails.userName.$viewValue)
                         .success(function (response) {
@@ -159,6 +183,88 @@ app.directive('emailValidate', function (dataFactory) {
                     })
                      .error(function (error) {
                          console.log("Unable to fetch email existance");
+                     }
+                        );
+                }
+            }
+        )
+        }
+    };
+    return viewValue;
+});
+
+
+// #############################
+// User email existance directive - Password recovery
+// #############################
+
+
+app.directive('emailValidateForgot', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.push(function (viewValue) {
+                if (!$ctrl.$error.email) {
+                    console.log("Got the Direc");
+                    dataFactory.getValues("UserNameExists", 1, "email=" + $scope.iForgotPassword.emailAddress.$viewValue)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS"') {
+                            console.log("email is available");
+                            $ctrl.$setValidity('unique', false);
+                        }
+
+                        else {
+                            console.log("email is NA");
+                            $ctrl.$setValidity('unique', true);
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch email existance");
+                     }
+                        );
+                }
+            }
+        )
+        }
+    };
+    return viewValue;
+});
+
+
+// #############################
+// Organization existance directive 
+// #############################
+
+// GET api/OrganizationExists?orgname=
+app.directive('organizationValidate', function (dataFactory) {
+    return {
+        require: 'ngModel',
+        link: function ($scope, $element, $attrs, $ctrl) {
+            $ctrl.$parsers.push(function (viewValue) {
+               // $ctrl.$setValidity('organizationValidate', true);
+                if ($ctrl.$valid) {
+                    $ctrl.$setValidity('checkingOrganization', false);
+                    console.log("Got the Direc");
+
+
+                    dataFactory.getValues("OrganizationExists", 1, "orgname=" + $scope.newOrg)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("organization is available");
+                            $ctrl.$setValidity('unique', true);
+                            $ctrl.$setValidity('checkingOrganization', true);
+                        }
+
+                        else {
+                            console.log("organization is NA");
+                            $ctrl.$setValidity('unique', false);
+                            $ctrl.$setValidity('checkingOrganization', false);
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch organization existance");
                      }
                         );
                 }
@@ -353,6 +459,8 @@ app.directive('closePopovers', function ($document, $rootScope, $timeout) {
 });
 
 
+
+
 // Google Charts 
 // Dashbord gauger charts - for COs / KM 
 
@@ -368,6 +476,31 @@ app.directive('chartPersonal', function () {
             // State Selector var stand for period of time requested flag ( -1 = no period , 0 = spefcific month)
             $scope.$watch(function () { return $scope.statSelector }, function () {
                 
+                if (chartType == "bars") {
+                    var rawData = [];
+                    var header = ['חודש', 'ק"מ מצטבר', "רכיבות"]
+                    rawData.push(header);
+                    var i = 0;
+                    angular.forEach($scope.userStats.personal, function (month) {
+                        i++;
+                        monthStringed = month.Month.toString().concat('-').concat(month.Year.toString());
+                        var monthSum = [monthStringed, month.User_KM, month.Num_of_Rides];
+                        rawData.push(monthSum);
+                    })
+                    var data = google.visualization.arrayToDataTable(rawData);
+                    var options = {
+                        height: 300,
+                        colors: ['blue', 'orange'],
+                        legend: { position: 'bottom' },
+                        bar: { groupWidth: "95%" },
+                        backgroundColor: 'none'
+                    };
+                    var chart = new google.visualization.BarChart($elm[0]);
+                    
+                    chart.draw(data, options);
+                }
+
+
                 if (chartType == "pie") {
                     if ($scope.statSelector == -1) {
                         var data = google.visualization.arrayToDataTable($scope.getRanks(entity, -1));
@@ -393,20 +526,24 @@ app.directive('chartPersonal', function () {
                     var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", -1));
                     $scope.getStats(entity, "kmRides", -1);
                     var options = {
+                        max:10000,
                         width: 400, height: 240,
-                        redFrom: 90, redTo: 100,
-                        yellowFrom: 75, yellowTo: 90,
-                        minorTicks: 5
+                        redFrom: 0, redTo: 750,
+                        yellowFrom: 750, yellowTo: 6000,
+                        greenFrom: 6000, greenTo: 10000,
+                        minorTicks: 0
                     };
                 }
                 if ($scope.statSelector == 0) {
                     var data = google.visualization.arrayToDataTable($scope.getStats(entity, "calCo2", 0, $scope.calMonth, $scope.calYear));
                     $scope.getStats(entity, "kmRides", 0, $scope.calMonth, $scope.calYear);
                     var options = {
+                        max: 10000,
                         width: 400, height: 240,
-                        redFrom: 90, redTo: 100,
-                        yellowFrom: 75, yellowTo: 90,
-                        minorTicks: 5
+                        redFrom: 0, redTo: 750,
+                        yellowFrom: 750, yellowTo: 6000,
+                        greenFrom: 6000, greenTo: 10000,
+                        minorTicks: 0
                     };
                 }
                 // Instantiate and draw our chart, passing in some options.
@@ -519,3 +656,5 @@ app.directive('chartPersonal', function () {
 
 
 //bkup
+
+

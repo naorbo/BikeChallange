@@ -31,27 +31,27 @@
                         <table class="table col-md-6">
                             <tr>
                                 <td>כתובת דואר אלקטרוני</td>
-                                <td>{{personalInfoHolder.UserEmail}}</td>
+                                <td><strong>{{personalInfoHolder.UserEmail}}</strong></td>
                             </tr>
                             <tr>
                                 <td>כתובת</td>
-                                <td>{{personalInfoHolder.UserAddress}}</td>
+                                <td><strong>{{personalInfoHolder.UserAddress}}</strong></td>
                             </tr>
                             <tr>
                                 <td>עיר</td>
-                                <td>{{personalInfoHolder.RiderCity}}</td>
+                                <td><strong>{{personalInfoHolder.RiderCity}}</strong></td>
                             </tr>
                             <tr>
                                 <td>תאריך לידה</td>
-                                <td>{{personalInfoHolder.BirthDate}}</td>
+                                <td><strong>{{personalInfoHolder.BirthDate | date:"dd-MM-yyyy"}}</strong></td>
                             </tr>
                             <tr>
                                 <td>מספר טלפון</td>
-                                <td>{{personalInfoHolder.UserPhone}}</td>
+                                <td style="direction:ltr"><strong class="pull-right">{{personalInfoHolder.UserPhone | phonePattrenFilter}}</strong></td>
                             </tr>
                             <tr>
                                 <td>סוג אופניים</td>
-                                <td>{{personalInfoHolder.BicycleType}}</td>
+                                <td><strong>{{personalInfoHolder.BicycleType}}</strong></td>
                             </tr>
                         </table>
                     </div>
@@ -66,20 +66,20 @@
                         <table class="table col-md-6">
                             <tr>
                                 <td>שם הארגון</td>
-                                <td>{{personalInfoHolder.OrganizationDes}}</td>
+                                <td><strong>{{personalInfoHolder.OrganizationDes}}</strong></td>
 
                             </tr>
                             <tr>
                                 <td>עיר</td>
-                                <td>{{personalInfoHolder.OrgCity}}</td>
+                                <td><strong>{{personalInfoHolder.OrgCity}}</strong></td>
                             </tr>
                             <tr>
                                 <td>שם הקבוצה</td>
-                                <td>{{personalInfoHolder.GroupDes}}</td>
+                                <td><strong>{{personalInfoHolder.GroupDes}}</strong></td>
                             </tr>
                             <tr>
                                 <td>קפטן</td>
-                                <td>{{userGroup.DisplayName}}</td>
+                                <td><strong>{{userGroup.DisplayName}}</strong></td>
                             </tr>
 
                         </table>

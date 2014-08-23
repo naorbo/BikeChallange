@@ -288,6 +288,7 @@
     <Content Include="Models\mailTemplates\adminMessage.html" />
     <Content Include="Models\mailTemplates\forgotPasswordTemplate.html" />
     <Content Include="Models\mailTemplates\contactTemplate.html" />
+    <Content Include="ProfileImages\Organizations\defaultOrg\defaultOrgImage.jpg" />
     <Content Include="ProfileImages\Users\defaultUser\defaultUserImage.jpg" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
@@ -706,7 +707,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="ProfileImages\Organizations\" />
     <Folder Include="Views\Mail\" />
   </ItemGroup>
   <ItemGroup>

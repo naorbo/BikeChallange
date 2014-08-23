@@ -5,20 +5,15 @@
 
 @font-face {
     font-family: OpenSans;
-    src: url(/Content/Fonts/opensanshebrew-regular-webfont.woff)
+    src: url(../Content/Fonts/opensanshebrew-regular-webfont.woff)
 }
 
 @font-face {
     font-family: OpenSans;
-    src: url(/Content/Fonts/opensanshebrew-bold-webfont.woff);
+    src: url(../Content/Fonts/opensanshebrew-bold-webfont.woff);
     font-weight: bold;
 }
 
-/*@font-face {
-    font-family: OpenSans;
-    src: url(/Content/Fonts/opensanshebrew-extrabold-webfont.woff);
-    font-weight: bolder;
-}*/
 
 html,
 body {
