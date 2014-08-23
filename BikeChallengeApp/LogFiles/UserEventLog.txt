@@ -23,3 +23,7 @@ The UserEvent LOG file
 18:59:44 : The Rider almazak was Deleted from the Event
 19:02:54 : The Rider almazak was Deleted from the Event
 19:03:04 : The Rider almazak was Deleted from the Event
+18:35:35 : The Rider almazak was Deleted from the Event
+18:35:49 : A connection was successfully established with the server, but then an error occurred during the pre-login handshake. (provider: SSL Provider, error: 0 - The wait operation timed out.)
+18:35:49 : The Rider almazak was Deleted from the Event
+18:44:25 : The Event 12-07-14-11-48-24 was Deleted from the Event

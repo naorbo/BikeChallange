@@ -461,10 +461,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
                 );
     }
     
-    // Display User List per event 
-    $scope.displayRegisteredUsers = function (eventName) {
-        
-    }
+    
 
     // User list per Event Modal windows
     $scope.displayUsersPerEvent = function (eventName) {
@@ -551,11 +548,11 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
     }
 
-    // End a Challenge
+    // Close Challenge
 
     $scope.shuffle = function (date, hash) {
-        var activeChallenge = "01-"
-        activeChallenge = activeChallenge.concat(date);
+        
+        var activeChallenge = date.concat("-01");
 
         // Get active month index
         var activeMonthIndx = null;
@@ -580,6 +577,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
                         else if (category.Category == "Winning Group") {
                             $scope.openChallengesHolder[activeMonthIndx].GrpWin = category.GroupDes;
+                            $scope.openChallengesHolder[activeMonthIndx].GrpWinOrgName = category.OrganizationDes;
                         }
 
                         else if (category.Category == "BronzeWinner") {
@@ -626,12 +624,13 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
             return;
         }
 
-        // PUT api/Competition?CompetitionDate=
-        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        // PUT api/Competition?CompetitionDate=07-2014
+        // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         var winningEntities = {
 
             OrgWin: $scope.openChallengesHolder[activeMonthIndx].OrgWin,
             GrpWin: $scope.openChallengesHolder[activeMonthIndx].GrpWin,
+            GrpOrgWin: $scope.openChallengesHolder[activeMonthIndx].GrpWinOrgName,
             PlatinumUser: $scope.openChallengesHolder[activeMonthIndx].PlatinumUserName,
             GoldUser:$scope.openChallengesHolder[activeMonthIndx].GoldUserName,
             SilverUser:$scope.openChallengesHolder[activeMonthIndx].SilverUserName,
@@ -646,7 +645,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
             else
             {
                 alert("עדכון הושלם בהצלחה!");
-                $scope.loadData;
+                $scope.loadData();
             }
         })
 

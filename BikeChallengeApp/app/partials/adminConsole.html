@@ -458,33 +458,33 @@
                                     <td colspan="2" style="background-color:#EBEBEB" align="center"><strong> חודש התחרות</strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong>{{challenge.CompetitionDate}}</strong></td>
+                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong>{{challenge.CompetitionDate | displayHebrewDate}}</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>ארגון מנצח</td>
-                                    <td>{{challenge.OrgWin}}</td>
+                                    <td><strong>{{challenge.OrgWin | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>קבוצה מנצחת</td>
-                                    <td>{{challenge.GrpWin}}</td>
+                                    <td><strong>{{challenge.GrpWin | displayNull}} , {{challenge.GrpWinOrgName}}</strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית פלטיניום)</td>
-                                    <td>{{challenge.PlatinumUser}}</td>
+                                    <td><strong>{{challenge.PlatinumUser | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית זהב)</td>
-                                    <td>{{challenge.GoldUser}}</td>
+                                    <td><strong>{{challenge.GoldUser | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית כסף)</td>
-                                    <td>{{challenge.SilverUser}}</td>
+                                    <td><strong>{{challenge.SilverUser | displayNull}}</strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית ארד)</td>
-                                    <td>{{challenge.BronzeUser}}</td>
+                                    <td><strong>{{challenge.BronzeUser | displayNull}}</strong> </td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -1082,7 +1082,7 @@
                                        required />
                             </div>
                             <div class="form-group">
-                                <label><small>שם הארגון</small></label>
+                                <label><strong>שם הארגון</strong></label>
                                 <select name="organizationName"
                                         id="orgSelect"
                                         class="form-control"

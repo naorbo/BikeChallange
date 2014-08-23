@@ -17,7 +17,7 @@
                 <div data-accordion-group ng-repeat="challenge in challengesHolder |  orderBy:'CompetitionDate':!reverse" data-is-open="status1.open">
 
                     <div data-accordion-heading>
-                        <span>בייק צ'אלנג לחודש - {{challenge.CompetitionDate}}</span>
+                        <span>בייק צ'אלנג לחודש - {{challenge.CompetitionDate  | displayHebrewDate}}</span>
                         <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': !status1.open, 'glyphicon-chevron-right pull-left': status1.open}"></i>
                     </div>
 
@@ -29,7 +29,7 @@
                             </tr>
                         </thead>
                         <tr>
-                            <td>{{challenge.OrgWin}}&nbsp;,&nbsp;{{challenge.OrgWin_City}}</td>
+                            <td>{{challenge.OrgWin | displayNull}}&nbsp;,&nbsp;{{challenge.OrgWin_City}}</td>
                             <td rowspan="2"><img class="img-rounded img-responsive pull-left" src="{{challenge.OrgWin_Image}}" style="max-width:200px" /></td>
                         </tr>
                     </table>
@@ -40,7 +40,7 @@
                             </tr>
                         </thead>
                         <tr>
-                            <td>{{challenge.GrpWin}}&nbsp;&nbsp;,{{challenge.GrpWin_Org}}</td>
+                            <td>{{challenge.GrpWin | displayNull}}&nbsp;&nbsp;,{{challenge.GrpWin_Org}}</td>
                         </tr>
                     </table>
                     <table class="table table-responsive table-condensed">
@@ -54,80 +54,80 @@
                         </tr>
                         <tr>
                             <td>שם הרוכב</td>
-                            <td>{{challenge.PlatinumUser}}</td>
+                            <td><strong>{{challenge.PlatinumUserDisplayName | displayNull}}</strong></td>
                             <td rowspan="4" style=""><img src="{{challenge.PlatinumImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;"/></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
-                            <td>{{challenge.PlatinumGroup}}&nbsp;{{challenge.PlatinumOrg}}</td>
+                            <td><strong>{{challenge.PlatinumGroup}}&nbsp;{{challenge.PlatinumOrg}}</strong></td>
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td>{{challenge.PlatinumCity}}</td>
+                            <td><strong>{{challenge.PlatinumCity}}</strong></td>
                         </tr>
                         <tr>
                             <td>סוג אופניים</td>
-                            <td>{{challenge.PlatinumBicycleType}}</td>
+                            <td><strong>{{challenge.PlatinumBicycleType}}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="3" align="center"><span class="badge alert-warning"> #2 קטגורית זהב  </span></td>
                         </tr>
                         <tr>
                             <td>שם הרוכב</td>
-                            <td>{{challenge.GoldUser}}</td>
+                            <td><strong>{{challenge.GoldUserDisplayName | displayNull}}</strong></td>
                             <td rowspan="4"><img src="{{challenge.GoldImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
-                            <td>{{challenge.GoldGroup}}&nbsp;{{challenge.GoldOrg}}</td>
+                            <td><strong>{{challenge.GoldGroup}}&nbsp;{{challenge.GoldOrg}}</strong></td>
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td>{{challenge.GoldCity}}</td>
+                            <td><strong>{{challenge.GoldCity}}</strong></td>
                         </tr>
                         <tr>
                             <td>סוג אופניים</td>
-                            <td>{{challenge.GoldBicycleType}}</td>
+                            <td><strong>{{challenge.GoldBicycleType}}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="3" align="center"><span class="badge" > #3 קטגורית כסף  </span></td>
                         </tr>
                         <tr>
                             <td>שם הרוכב</td>
-                            <td>{{challenge.SilverUser}}</td>
+                            <td><strong>{{challenge.SilverUserDisplayName | displayNull}}</strong></td>
                             <td rowspan="4"><img src="{{challenge.SilverImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
-                            <td>{{challenge.SilverGroup}}&nbsp;{{challenge.SilverOrg}}</td>
+                            <td><strong>{{challenge.SilverGroup}}&nbsp;{{challenge.SilverOrg}}</strong></td>
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td>{{challenge.SilverCity}}</td>
+                            <td><strong>{{challenge.SilverCity}}</strong></td>
                         </tr>
                         <tr>
                             <td>סוג אופניים</td>
-                            <td>{{challenge.SilverBicycleType}}</td>
+                            <td><strong>{{challenge.SilverBicycleType}}</strong></td>
                         </tr>
                         <tr>
                             <td colspan="3" align="center"><span class="badge alert-danger"> #4 קטגורית ארד  </span></td>
                         </tr>
                         <tr>
                             <td>שם הרוכב</td>
-                            <td>{{challenge.BronzeUser}}</td>
+                            <td><strong>{{challenge.BronzeOUserDisplayName | displayNull}}</strong></td>
                             <td rowspan="4"><img src="{{challenge.BronzeImg}}" class="img-rounded pull-left" style="width: 200px;max-height:200px;" /></td>
                         </tr>
                         <tr>
                             <td>קבוצה</td>
-                            <td>{{challenge.BronzeGroup}}&nbsp;{{challenge.BronzeOrg}}</td>
+                            <td><strong>{{challenge.BronzeGroup}}&nbsp;{{challenge.BronzeOrg}}</strong></td>
                         </tr>
                         <tr>
                             <td>עיר</td>
-                            <td>{{challenge.BronzeCity}}</td>
+                            <td><strong>{{challenge.BronzeCity}}</strong></td>
                         </tr>
                         <tr>
                             <td>סוג אופניים</td>
-                            <td>{{challenge.BronzeBicycleType}}</td>
+                            <td><strong>{{challenge.BronzeBicycleType}}</strong></td>
                         </tr>
                     </table>
 
