@@ -125,7 +125,8 @@ public class DBservices
                                 AND U.Captain = 1
                                 AND U.[User] in ( SELECT UG.[User]
 												FROM UsersGroups UG
-												WHERE G.[Group] = UG.[Group]) ;";//ReadFromDataBaseforGroup
+												WHERE G.[Group] = UG.[Group]
+                                                AND UG.[User] <> 0 ) ;";//ReadFromDataBaseforGroup
                     break;
                 case 5:
                     selectStr = @" SELECT 'Exists'
@@ -164,10 +165,12 @@ public class DBservices
                                         AND U.Captain = 1
                                         AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group] )
+                                        WHERE G.[Group] = UG.[Group]
+                                        AND UG.[user] <> 0 )
                                         AND U2.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group] )
+                                        WHERE G.[Group] = UG.[Group]
+                                        AND UG.[user] <> 0 )
                                         group by G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName , anu.UserName , U.UserFname ,U.UserLname";
                         }
                     else 
@@ -222,7 +225,8 @@ public class DBservices
                         AND O.OrganizationDes = '" + data2 + @"'
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
-			                        WHERE G.[Group] = UG.[Group])
+			                        WHERE G.[Group] = UG.[Group]
+                                    AND UG.[user] <> 0)
                         AND R.[User] = U.[User] 
                         AND U.Gender like '" + data3 + @"%'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
@@ -235,7 +239,8 @@ public class DBservices
                         AND O.OrganizationDes = '" + data1 + @"'
                         AND U.[User] in ( SELECT UG.[User]
 			                        FROM UsersGroups UG
-			                        WHERE G.[Group] = UG.[Group])
+			                        WHERE G.[Group] = UG.[Group]
+                                    AND UG.[user] <> 0)
                         AND R.[User] = U.[User] 
                         AND U.Gender like '" + data2 + @"%'
                         group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate);"; //ReadFromDataBase 
@@ -285,7 +290,8 @@ public class DBservices
                             AND O.City = C.City
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group])
+                                        WHERE G.[Group] = UG.[Group]
+                                        AND UG.[user] <> 0)
                             " + (data4 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')" : "") + @"
                             AND R.[User] = U.[User] 
                             AND U.Gender like '" + data2 + @"%'
@@ -301,7 +307,8 @@ public class DBservices
                             AND O.City = C.City
                             AND U.[User] in ( SELECT UG.[User]
                                         FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group])
+                                        WHERE G.[Group] = UG.[Group]
+                                        AND UG.[user] <> 0)
                             AND R.[User] = U.[User] 
                             AND U.Gender like '" + data1 + @"%'
                             " + (data3 != "" ? " AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data3 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data3 + @"')" : "") + @"
@@ -361,6 +368,7 @@ public class DBservices
                             AND U.City = cu.city
                             AND U.[User] = ug.[user]
                             AND ug.[Group] = g.[group]
+                            AND ug.[User] <> 0
                             AND g.[Organization] = o.[Organization] ;"; // Read From Data Base Organization Ranking
                     break;
                 case 23:
