@@ -75,7 +75,7 @@ namespace BikeChallengeApp.Controllers
             mlist.Add(cmpt);
             try
             {
-               // return_val = dbs.updateCompetitionInDatabase(cmpt, CompetitionDate);
+                return_val = dbs.updateCompetitionInDatabase(cmpt, CompetitionDate);
             }
             catch (Exception ex)
             {

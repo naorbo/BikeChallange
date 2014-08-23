@@ -417,13 +417,14 @@ public class DBservices
                                           ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization, Susers.UserFname +' '+ Susers.UserLname As SilverUserDisplayName
                                           ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization, Busers.UserFname +' '+ Busers.UserLname As BronzeOUserDisplayName
                                         FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
-                                        Where [CompetitionDate] like '%" + data1+@"'
+                                        Where [CompetitionDate] like '%" + data1+ @"'
                                         And OrgWin <> ''
                                         And Orgwin <> ' ' 
                                         AND o.OrganizationDes = OrgWin
                                         And O.City = oc.city
                                         AND g.GroupDes = GrpWin
                                         And g.Organization = og.Organization
+                                        And og.OrganizationDes = GrpOrgWin
                                         And og.City = Cg.City
                                         And Pusers.UserDes = PlatinumUser
                                         And Gusers.UserDes = [GoldUser]
@@ -460,6 +461,7 @@ public class DBservices
                                         And O.City = oc.city
                                         AND g.GroupDes = GrpWin
                                         And g.Organization = og.Organization
+                                        And og.OrganizationDes = GrpOrgWin
                                         And og.City = Cg.City
                                         And Pusers.UserDes = PlatinumUser
                                         And Gusers.UserDes = [GoldUser]
