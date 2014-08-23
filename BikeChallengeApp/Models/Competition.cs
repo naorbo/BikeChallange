@@ -28,6 +28,13 @@ namespace BikeChallengeApp.Models
             set { grpWin = value; }
         }
 
+        string grpOrgWin;
+        public string GrpOrgWin
+        {
+            get { return grpOrgWin; }
+            set { grpOrgWin = value; }
+        }
+
         string bronzeUser;
         public string BronzeUser
         {
@@ -56,6 +63,7 @@ namespace BikeChallengeApp.Models
             set {  platinumUser = value;}
         }
 
+        
          public Competition()
         {
             

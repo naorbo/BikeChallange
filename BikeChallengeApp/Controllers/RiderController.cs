@@ -67,7 +67,7 @@ namespace BikeChallengeApp.Controllers
                 lf.Main("Users", Response);
                 return "Error";
             }
-            if (return_val != 2) { return "Error"; }
+            if (return_val != 3) { return "Error"; }
             return "Success";
         }
 

@@ -16,7 +16,7 @@ namespace BikeChallengeApp.Controllers
 {
     public class CompetitionController : ApiController
     {
-        // GET api/Competition?date=07-2014 [leave empty to retrieve all records]
+        // GET api/Competition?date=2014-07 [leave empty to retrieve all records]
         [AllowAnonymous]
         public DataTable GetSealedComptetion(string date)
         {
@@ -33,8 +33,8 @@ namespace BikeChallengeApp.Controllers
             dbs = dbs.ReadFromDataBase(29);
             return dbs.dt;
         }
-        // POST api/Competition
-       // {"CompetitionDate":"07-2014","OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        // POST api/Competition // Debug Use
+       // {"CompetitionDate":"2014-07","OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         [Authorize(Users = "bcadministrator")]
         public string Post([FromBody]Competition cmpt)
         {
@@ -57,8 +57,8 @@ namespace BikeChallengeApp.Controllers
             return "Success";
         }
 
-        // PUT api/Competition?CompetitionDate=
-        // {"OrgWin":"","GrpWin":"","PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
+        // PUT api/Competition?CompetitionDate=07-2014
+        // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
         [Authorize(Users = "bcadministrator")]
         public string Put(string CompetitionDate, [FromBody]Competition cmpt)
         {

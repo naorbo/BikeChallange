@@ -393,7 +393,7 @@ public class DBservices
                             END
                             ELSE
                             BEGIN
-                                SELECT '" + data3 + @"' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                SELECT '" + data3 + @"' AS Category, '' AS UserEmail,'' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data2 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, '' AS GroupDes,'' AS OrganizationDes,'' AS OrganiztionImage, 0 AS RiderPoints
                                 From Users Where [User]=0;
                             END "; // ReadFromDataBaseUserName
                     break;
@@ -412,12 +412,12 @@ public class DBservices
                     selectStr = @"  SELECT [CompetitionDate]
                                           ,[OrgWin], O.OrganizationType OrgWin_Type , O.OrganiztionImage OrgWin_Image, OC.CityName OrgWin_City
                                           ,[GrpWin], Og.OrganizationDes GrpWin_Org, Cg.cityname GrpWin_Org_City, og.OrganiztionImage GrpWin_Org_Img
-                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, convert(varchar(10), Pusers.BirthDate, 120) As PlatinumBirthDate, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization --, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
-                                          ,[GoldUser], Gusers.ImagePath GoldImg, convert(varchar(10), Gusers.BirthDate, 120) As GoldBirthDate, Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization
-                                          ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization
-                                          ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization
+                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, convert(varchar(10), Pusers.BirthDate, 120) As PlatinumBirthDate, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization , Pusers.UserFname +' '+ Pusers.UserLname As PlatinumUserDisplayName--, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
+                                          ,[GoldUser], Gusers.ImagePath GoldImg, convert(varchar(10), Gusers.BirthDate, 120) As GoldBirthDate, Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization, Gusers.UserFname +' '+ Gusers.UserLname As GoldUserDisplayName
+                                          ,[SilverUser], Susers.ImagePath SilverImg, convert(varchar(10), Susers.BirthDate, 120) As SilverBirthDate, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization, Susers.UserFname +' '+ Susers.UserLname As SilverUserDisplayName
+                                          ,[BronzeUser], Busers.ImagePath BronzeImg, convert(varchar(10), Busers.BirthDate, 120) As BronzeBirthDate, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization, Busers.UserFname +' '+ Busers.UserLname As BronzeOUserDisplayName
                                         FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
-                                        Where [CompetitionDate] like '%" +data1+@"'
+                                        Where [CompetitionDate] like '%" + data1+@"'
                                         And OrgWin <> ''
                                         And Orgwin <> ' ' 
                                         AND o.OrganizationDes = OrgWin
@@ -449,12 +449,13 @@ public class DBservices
                     selectStr = @"  SELECT [CompetitionDate]
                                           ,[OrgWin], O.OrganizationType OrgWin_Type , O.OrganiztionImage OrgWin_Image, OC.CityName OrgWin_City
                                           ,[GrpWin], Og.OrganizationDes GrpWin_Org, Cg.cityname GrpWin_Org_City, og.OrganiztionImage GrpWin_Org_Img
-                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization --, C.CityName As RiderCity, G.GroupDes, O.OrganizationDes, O.OrganiztionImage, Pusers.UserFname +' '+ Pusers.UserLname As UserDisplayName
-                                          ,[GoldUser], Gusers.ImagePath GoldImg,  Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization
-                                          ,[SilverUser], Susers.ImagePath SilverImg, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization
-                                          ,[BronzeUser], Busers.ImagePath BronzeImg, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization
+                                          ,[PlatinumUser], Pusers.ImagePath PlatinumImg, Pusers.BicycleType PlatinumBicycleType, Pusers.CityName PlatinumCity, Pusers.Groupdes PlatinumGroup, Pusers.OrganizationDes PlatinumOrganization , Pusers.UserFname +' '+ Pusers.UserLname As PlatinumUserDisplayName
+                                          ,[GoldUser], Gusers.ImagePath GoldImg,  Gusers.BicycleType GoldBicycleType, Gusers.CityName GoldCity, Gusers.Groupdes GoldGroup, Gusers.OrganizationDes GoldOrganization, Gusers.UserFname +' '+ Gusers.UserLname As GoldUserDisplayName
+                                          ,[SilverUser], Susers.ImagePath SilverImg, Susers.BicycleType SilverBicycleType, Susers.CityName SilverCity, Susers.Groupdes SilverGroup, Susers.OrganizationDes SilverOrganization, Susers.UserFname +' '+ Susers.UserLname As SilverUserDisplayName
+                                          ,[BronzeUser], Busers.ImagePath BronzeImg, Busers.BicycleType BronzeBicycleType, Busers.CityName BronzeCity, Busers.Groupdes BronzeGroup, Busers.OrganizationDes BronzeOrganization, Busers.UserFname +' '+ Busers.UserLname As BronzeOUserDisplayName
                                         FROM [Competition], Users Pusers, Users Gusers, Users Susers, Users Busers, Groups g, Organizations o, Organizations og, Cities OC, Cities CG
                                         Where OrgWin = ''
+                                        And CompetitionDate <> ( SELECT CONVERT(char(7), GetDate(),126) )
                                         AND o.OrganizationDes = OrgWin
                                         And O.City = oc.city
                                         AND g.GroupDes = GrpWin
@@ -1060,7 +1061,7 @@ public class DBservices
                             END
                             ELSE
                             BEGIN
-                                SELECT '" + data3 + @"' AS Category, 'No Rider At This Category' AS UserEmail,'No Rider At This Category' AS UserDes,'No Rider At This Category' AS UserFname,'No Rider At This Category' AS UserLname,'No Rider At This Category' AS UserAddress,'No Rider At This Category' AS UserPhone,'" + data2 + @"' AS BirthDate,'No Rider At This Category' AS BicycleType,'No Rider At This Category' AS ImagePath,'No Rider At This Category' AS Gender, 'No Rider At This Category' AS GroupDes,'No Rider At This Category' AS OrganizationDes,'No Rider At This Category' AS OrganiztionImage, 0 AS RiderPoints
+                                SELECT '" + data3 + @"' AS Category, '' AS UserEmail,'' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data2 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, '' AS GroupDes,'' AS OrganizationDes,'' AS OrganiztionImage, 0 AS RiderPoints
                                 From Users Where [User]=0;
                             END ";
 
@@ -1070,7 +1071,7 @@ public class DBservices
     {
         // Fill the datatable (in the dataset), using the Select command 
 
-        String selectstr = @"SELECT TOP 1 'Winning Organization' AS Category, 'Winning Organization' AS UserEmail, 'Winning Organization' AS UserDes,'Winning Organization' AS UserFname,'Winning Organization' AS UserLname,'Winning Organization' AS UserAddress,'Winning Organization' AS UserPhone,'" + data1 + @"' AS BirthDate,'Winning Organization' AS BicycleType,'Winning Organization' AS ImagePath,'Winning Organization' AS Gender, 'Winning Organization' AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+        String selectstr = @"SELECT TOP 1 'Winning Organization' AS Category, '' AS UserEmail, '' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data1 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, '' AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
                             FROM Groups G, Organizations O, Users U, Rides R
                             Where G.[Group] <> 0
                             AND G.Organization = O.Organization
@@ -1088,7 +1089,7 @@ public class DBservices
     {
         // Fill the datatable (in the dataset), using the Select command 
 
-        String selectstr = @"SELECT TOP 1 'Winning Group' AS Category, 'Winning Group' AS UserEmail, 'Winning Group' AS UserDes,'Winning Group' AS UserFname,'Winning Group' AS UserLname,'Winning Group' AS UserAddress,'Winning Group' AS UserPhone,'" + data1 + @"' AS BirthDate,'Winning Group' AS BicycleType,'Winning Group' AS ImagePath,'Winning Group' AS Gender, G.GroupName AS GroupDes,G.GroupDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
+        String selectstr = @"SELECT TOP 1 'Winning Group' AS Category, '' AS UserEmail, '' AS UserDes,'' AS UserFname,'' AS UserLname,'' AS UserAddress,'' AS UserPhone,'" + data1 + @"' AS BirthDate,'' AS BicycleType,'' AS ImagePath,'' AS Gender, G.GroupName AS GroupDes,O.OrganizationDes AS OrganizationDes, O.OrganizationName AS OrganiztionImage, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS RiderPoints
             FROM Groups G, Organizations O, Users U, Rides R
             Where G.[Group] <> 0
             AND G.Organization = O.Organization
@@ -1097,7 +1098,7 @@ public class DBservices
                         WHERE G.[Group] = UG.[Group])
             AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data1 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data1 + @"')
             AND R.[User] = U.[User] 
-            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName
+            group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName,O.OrganizationDes
             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) DESC ;";
 
         return selectstr;
@@ -1652,8 +1653,9 @@ public class DBservices
            ,[PlatinumUser]
            ,[GoldUser]
            ,[SilverUser]
-           ,[BronzeUser])";
-        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", cmpt.CompetitionDate, cmpt.OrgWin, cmpt.GrpWin, cmpt.PlatinumUser, cmpt.GoldUser, cmpt.SilverUser, cmpt.BronzeUser);
+           ,[BronzeUser]
+           ,[GrpOrgWin])";
+        sb.AppendFormat("Values('{0}','{1}','{2}','{3}','{4}','{5}','{6}')", cmpt.CompetitionDate, cmpt.OrgWin, cmpt.GrpWin, cmpt.PlatinumUser, cmpt.GoldUser, cmpt.SilverUser, cmpt.BronzeUser, cmpt.GrpOrgWin);
 
         command = prefix + sb.ToString();
         return command;
@@ -1698,6 +1700,7 @@ public class DBservices
         String command = @"UPDATE [igroup1_prod].[dbo].[Competition]
                            SET [OrgWin] = " + (cmpt.OrgWin != "" ? "'" + cmpt.OrgWin + "'" : "[OrgWin]") + @"
                               ,[GrpWin] = " + (cmpt.GrpWin != "" ? "'" + cmpt.GrpWin + "'" : "[GrpWin]") + @"
+                              ,[GrpOrgWin] = " + (cmpt.GrpOrgWin != "" ? "'" + cmpt.GrpOrgWin + "'" : "[GrpOrgWin]") + @"
                               ,[PlatinumUser] = " + (cmpt.PlatinumUser != "" ? "'" + cmpt.PlatinumUser + "'" : "[PlatinumUser]") + @"
                               ,[GoldUser] = " + (cmpt.GoldUser != "" ? "'" + cmpt.GoldUser + "'" : "[GoldUser]") + @"
                               ,[SilverUser] = " + (cmpt.SilverUser != "" ? "'" + cmpt.SilverUser + "'" : "[SilverUser]") + @"
