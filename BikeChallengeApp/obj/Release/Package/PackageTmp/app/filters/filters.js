@@ -171,3 +171,29 @@ app.filter('eventsRegisteredFilter', [function () {
     }
 }])
 
+// Past Challenges date tweak
+app.filter('displayHebrewDate', [function () {
+    return function (date) {
+        var monthsPool = ["ינואר","פברואר","מרץ","אפריל","מאי","יוני","יולי","אוגוסט","ספטמבר","אוקטובר","נובמבר","דצמבר"];
+            var year = date.substr(0, 4);
+            var month = date.substr(5, 2);
+            var hebrewMonth = monthsPool[parseInt(month) - 1]
+            hebrewMonth = hebrewMonth.concat(', ', year);
+
+        return hebrewMonth;
+    }
+}])
+
+// Close a BChallenge - case no winning entities 
+
+app.filter('displayNull', [function () {
+    return function (entity) {
+        if (entity == " ") {
+            nullMessage = "אין ישות העומדת בקריטריונים  לפרס בחודש זה";
+            return nullMessage;
+        }
+        else { return entity; }
+        
+    }
+}])
+

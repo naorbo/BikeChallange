@@ -8,7 +8,7 @@
     <div class="container">
         <!--<!-- FORM EF Registration -->
         <div class="row" style="padding-top:20px">
-            <div class="col-lg-4 pull-right" ng-class="{'grayedOut' : showDetails}">
+            <div class="col-lg-4 col-md-4 col-sm-4 pull-right" ng-class="{'grayedOut' : showDetails}">
                 <form name="regDetails" ng-submit="signUp()" novalidate>
                     <fieldset>
                         <legend>רישום משתמש חדש</legend>
@@ -23,7 +23,6 @@
                                ng-readonly="showDetails"
                                ng-minlength="6"
                                ng-maxlength="20"
-                               
                                data-username-validate
                                required>
                         <p ng-show="regDetails.userName.$error.minlength" class="help-block">שם המשתמש קצר משישה תווים</p>
@@ -58,6 +57,7 @@
                     </div>
                     <!-- SUBMIT BUTTON -->
                     <button type="submit" class="btn btn-primary" ng-disabled="regDetails.$invalid">הרשם</button>
+                    <p ng-show="pleaseWait">אנא המתן...<i class="fa fa-spinner fa-spin"></i></p>
                 </form>
 
 
@@ -71,7 +71,7 @@
 
             <!--<!-- FORM - BC Registration -->
 
-            <div class="col-lg-8" ng-if="showDetails">
+            <div class="col-lg-8 col-md-8 col-sm-8" ng-if="showDetails">
 
                 <!-- Details form is hidden till main registration is completed-->
 

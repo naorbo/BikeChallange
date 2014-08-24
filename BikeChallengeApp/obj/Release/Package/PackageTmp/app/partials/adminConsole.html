@@ -458,33 +458,33 @@
                                     <td colspan="2" style="background-color:#EBEBEB" align="center"><strong> חודש התחרות</strong></td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong>{{challenge.CompetitionDate}}</strong></td>
+                                    <td colspan="2" style="background-color:#EBEBEB" align="center"><strong>{{challenge.CompetitionDate | displayHebrewDate}}</strong></td>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
                                     <td>ארגון מנצח</td>
-                                    <td>{{challenge.OrgWin}}</td>
+                                    <td><strong>{{challenge.OrgWin | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>קבוצה מנצחת</td>
-                                    <td>{{challenge.GrpWin}}</td>
+                                    <td><strong>{{challenge.GrpWin | displayNull}} , {{challenge.GrpWinOrgName}}</strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית פלטיניום)</td>
-                                    <td>{{challenge.PlatinumUser}}</td>
+                                    <td><strong>{{challenge.PlatinumUser | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית זהב)</td>
-                                    <td>{{challenge.GoldUser}}</td>
+                                    <td><strong>{{challenge.GoldUser | displayNull}} </strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית כסף)</td>
-                                    <td>{{challenge.SilverUser}}</td>
+                                    <td><strong>{{challenge.SilverUser | displayNull}}</strong> </td>
                                 </tr>
                                 <tr>
                                     <td>רוכב מנצח (קטגוריית ארד)</td>
-                                    <td>{{challenge.BronzeUser}}</td>
+                                    <td><strong>{{challenge.BronzeUser | displayNull}}</strong> </td>
                                 </tr>
                             </tbody>
                             <tfoot>
@@ -988,6 +988,128 @@
                     
                     
                     </div>
+                    
+                    <div ng-switch-when="8">
+                        <fieldset>
+                            <legend>
+                                יצירת ארגון חדש
+                            </legend>
+                        </fieldset>
+                        
+                        <form name="newOrganization" ng-submit="createNewOrg(newOrganization)">
+                            <div class="form-group" ng-class="{ 'has-error' : newOrganization.OrganizationName.$invalid && newOrganization.OrganizationName.$dirty , 'has-success' : newOrganization.OrganizationName.$valid }">
+                                <label><strong>שם הארגון</strong></label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="OrganizationName"
+                                       ng-model="OrganizationName"
+                                       data-organization-validate
+                                       placeholder="שם הארגון"
+                                       data-tooltip="שם הארגון"
+                                       data-tooltip-trigger="focus"
+                                       data-tooltip-placement="right"
+                                       required />
+                                <p ng-show="newOrganization.OrganizationName.$error.unique" class="help-block">שם הארגון המבוקש תפוס</p>
+                            </div>
+                            <div class="form-group">
+                                <label><small>עיר מגורים</small></label>
+                                <select name="city"
+                                        id="citySelect"
+                                        class="form-control"
+                                        ng-model="city"
+                                        ng-options="value for value in filterOptions[0].values"
+                                        data-tooltip="עיר"
+                                        data-tooltip-trigger="focus"
+                                        data-tooltip-placement="right"
+                                        required></select>
+                            </div>
+                            <div class="form-group">
+                                <label><strong>סוג הארגון</strong></label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="OrganizationType"
+                                       ng-model="OrganizationType"
+                                       placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')"
+                                       data-tooltip="סוג הארגון"
+                                       data-tooltip-trigger="focus"
+                                       data-tooltip-placement="right"
+                                       required />
+                            </div>
+                            <div class="form-group"
+                                 ng-if="(newOrganization.OrganizationName.$valid)&&(newOrganization.OrganizationName.$dirty)">
+                                <label><strong>לוגו הארגון</strong></label>
+                                <input type="file"
+                                       class="form-control"
+                                       ng-file-select="onFileSelectOrg($files,newOrganization.OrganizationName.$viewValue)"
+                                       ng-model="newOrganization.imagePath"
+                                       placeholder="תמונה" /><br />
+                            </div>
+
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="adminNav.switch=3">
+                                ביטול
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary"
+                                    ng-disabled="newOrganization.$invalid">
+                                שמור
+                            </button>
+                        </form>
+                        
+                       
+                        
+                    </div>
+
+                    <div ng-switch-when="9">
+                        <fieldset>
+                            <legend>
+                                יצירת קבוצה חדש
+                            </legend>
+                        </fieldset>
+
+                        <form name="newGroup" ng-submit="createNewGroup(newGroup)">
+                            <div class="form-group">
+                                <label><strong>שם הקבוצה</strong></label>
+                                <input type="text"
+                                       class="form-control"
+                                       name="GroupName"
+                                       ng-model="GroupName"
+                                       placeholder="שם הקבוצה"
+                                       data-tooltip="שם הקבוצה"
+                                       data-tooltip-trigger="focus"
+                                       data-tooltip-placement="right"
+                                       required />
+                            </div>
+                            <div class="form-group">
+                                <label><strong>שם הארגון</strong></label>
+                                <select name="organizationName"
+                                        id="orgSelect"
+                                        class="form-control"
+                                        ng-model="organizationName"
+                                        ng-options="value for value in filterOptions[4].values"
+                                        data-tooltip="ארגון"
+                                        data-tooltip-trigger="focus"
+                                        data-tooltip-placement="right"
+                                        required></select>
+                            </div>
+                            
+
+                            <button type="button"
+                                    class="btn btn-default"
+                                    ng-click="adminNav.switch=2">
+                                ביטול
+                            </button>
+                            <button type="submit"
+                                    class="btn btn-primary"
+                                    ng-disabled="newGroup.$invalid">
+                                שמור
+                            </button>
+                        </form>
+
+
+
+                    </div>
 
                 </div>
             </div>
@@ -1009,11 +1131,21 @@
                                 <strong class="pull-right">ניהול קבוצות</strong>
                                 <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
                             </div>
+                            <div class="row scroll-down-text" ng-if="(adminNav.switch==2)||(adminNav.switch==9)">
+                                <br />
+                                <p class="pull-right"
+                                   ng-click="adminNav.switch=9">יצירת קבוצה חדשה</p>
+                            </div>
 
                             <hr />
                             <div class="row scroll-down-text" ng-click="adminNav.switch=3">
                                 <strong class="pull-right">ניהול ארגונים</strong>
                                 <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                            </div>
+                            <div class="row scroll-down-text" ng-if="(adminNav.switch==3)||(adminNav.switch==8)">
+                                <br />
+                                <p class="pull-right"
+                                   ng-click="adminNav.switch=8">יצירת ארגון חדש</p>
                             </div>
 
                             <hr />

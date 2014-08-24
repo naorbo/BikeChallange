@@ -242,25 +242,25 @@ app.directive('organizationValidate', function (dataFactory) {
         require: 'ngModel',
         link: function ($scope, $element, $attrs, $ctrl) {
             $ctrl.$parsers.push(function (viewValue) {
-               // $ctrl.$setValidity('organizationValidate', true);
-                if ($ctrl.$valid) {
-                    $ctrl.$setValidity('checkingOrganization', false);
-                    console.log("Got the Direc");
+               $ctrl.$setValidity('organizationValidate', true);
+               if ($ctrl.$valid) {
+                   $ctrl.$setValidity('unique', false);
+                   console.log("Got the Direc");
 
-
-                    dataFactory.getValues("OrganizationExists", 1, "orgname=" + $scope.newOrg)
+               }
+                    dataFactory.getValues("OrganizationExists", 1, "orgname=" + viewValue)
                     .success(function (response) {
                         console.log(response);
                         if (response == '"NOT EXISTS\"') {
                             console.log("organization is available");
                             $ctrl.$setValidity('unique', true);
-                            $ctrl.$setValidity('checkingOrganization', true);
+                            //$ctrl.$setValidity('checkingOrganization', true);
                         }
 
                         else {
                             console.log("organization is NA");
                             $ctrl.$setValidity('unique', false);
-                            $ctrl.$setValidity('checkingOrganization', false);
+                            //$ctrl.$setValidity('checkingOrganization', false);
                         }
                     })
                      .error(function (error) {
@@ -268,7 +268,7 @@ app.directive('organizationValidate', function (dataFactory) {
                      }
                         );
                 }
-            }
+            
         )
         }
     };

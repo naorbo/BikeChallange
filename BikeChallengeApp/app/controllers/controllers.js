@@ -1445,11 +1445,14 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 
 app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
 
+    $scope.pleaseWait = false;
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
         console.log("Trying to EF");
+        $scope.pleaseWait = true;
         authFactory.register($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue, $scope.regDetails.confirmPassword.$viewValue).then(function () {
             console.log("Signup successfull (EF), BCing success");
+            $scope.pleaseWait = false;
             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccessEF);
             $scope.loadCities();
         }, function () {
