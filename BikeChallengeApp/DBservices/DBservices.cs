@@ -142,15 +142,15 @@ public class DBservices
                     break;
                 case 7:
                     if (data1 == "Organizations")
-                        selectStr = @"SELECT O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, ( Select COUNT(gg.[group]) From Groups gg Where gg.Organization = O.Organization ) OrgGroupCount, ( SELECT Count(UG.[User])-1
+                        selectStr = @"SELECT O.OrganizationName, O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, ( Select COUNT(gg.[group]) From Groups gg Where gg.Organization = O.Organization ) OrgGroupCount, ( SELECT Count(UG.[User])-1
 																																																						FROM UsersGroups UG, Groups G1
 																																																						WHERE G1.[Group] = UG.[Group]
 																																																						AND G1.Organization = O.Organization
-																																																						 ) As OrgHeadCount
+																																																						 AND UG.[User] <> 0) As OrgHeadCount
                                 FROM Organizations O, Cities C
                                 Where O.Organization <> 0 
                                 and o.City = C.city 
-                                Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, O.Organization
+                                Group by O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, O.Organization,O.OrganizationName
                                 ";
                     else if(data1 == "Groups")
                         {
