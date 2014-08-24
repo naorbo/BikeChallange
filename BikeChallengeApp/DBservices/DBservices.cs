@@ -1261,7 +1261,7 @@ public class DBservices
                           Declare @User_val int;
                           Set @Group_val = 0;
                           Set @User_val = 0;
-                          Set @Group_val = ( Select [Group] From Groups Where GroupDes = '" + rdr.Group + @"');
+                          Set @Group_val = ( Select [Group] From Groups Where GroupName = '" + rdr.Group + @"');
                           Set @User_val = ( Select [User] From Users Where UserDes = '" + rdr.Username + @"' ) ;";
         String prefix = @"  if ( @Group_val <> 0 AND @User_val <> 0 )
                             begin
