@@ -537,7 +537,8 @@ public class DBservices
                
                 data2 = dt.Rows[0].ItemArray[0].ToString();
                 data3 = dt.Rows[0].ItemArray[1].ToString();
-                
+                data2 = data2.Replace("'", "''");
+                data3 = data3.Replace("'", "''");
                 selectStr1 = BuildUserrankCommand(data1, data4);
                 selectStr2 = BuildGrouprankCommand(data2, data3, data4);
                 selectStr3 = BuildOrganizationrankCommand(data3, data4);

@@ -66,7 +66,7 @@ namespace BikeChallengeApp.Controllers
         }
         // GET Self Ranking
         // api/Ranking?username=messi10&date=06-01-2014
-        [Authorize]
+       // [Authorize]
         public DataTable GetRank(string username, string date) 
         {
             DBservices dbs = new DBservices();
