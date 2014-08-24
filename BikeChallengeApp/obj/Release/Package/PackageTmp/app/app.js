@@ -115,8 +115,8 @@ app.constant('AUTH_EVENTS', {
     notAuthorized: 'auth-not-authorized'
 });
 
-app.value('serverBaseUrl', 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge');
-//app.value('serverBaseUrl', 'http://localhost:56634');
+//app.value('serverBaseUrl', 'http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge');
+app.value('serverBaseUrl', 'http://localhost:56634');
 
 
 

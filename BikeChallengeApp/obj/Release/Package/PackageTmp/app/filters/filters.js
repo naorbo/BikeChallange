@@ -135,6 +135,16 @@ app.filter('orgCityFilter', [function () {
 }])
 
 
+
+app.filter('headCountFilter', [function () {
+    return function (headCount) {
+        if (headCount == -1) {
+            return 0;
+        }
+        else { return headCount; }
+    }
+}])
+
 //Event Date Filter (return only future events)
 
 app.filter('eventsDateFilter', (function ($filter) {

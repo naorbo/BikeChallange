@@ -694,7 +694,7 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
     $scope.createNewOrg = function (newOrganization) {
         if ($scope.OrgImagePath == undefined) {
-            $scope.OrgImagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
+            $scope.OrgImagePath = "ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
         }
         orgObject = {
             Organizationname: newOrganization.OrganizationName.$viewValue,
@@ -810,7 +810,7 @@ app.controller('contactUsController', function ($rootScope, $scope, $location, $
 
 
 
-app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl) {
+app.controller('updateProfileController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, session, authFactory, AUTH_EVENTS, serverBaseUrl) {
 
     
 
@@ -1038,7 +1038,7 @@ app.controller('updateProfileController', function ($rootScope, $scope, $http, $
     $scope.regNewOrg = function (newOrgObj) {
 
         if (newOrgObj.imagePath == undefined) {
-            newOrgObj.imagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
+            newOrgObj.imagePath = "ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
         }
 
         var newOrg = {
@@ -1445,11 +1445,14 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 
 app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
 
+    $scope.pleaseWait = false;
     //SignUp function - register the user with the ASP.NET EF
     $scope.signUp = function () {
         console.log("Trying to EF");
+        $scope.pleaseWait = true;
         authFactory.register($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue, $scope.regDetails.confirmPassword.$viewValue).then(function () {
             console.log("Signup successfull (EF), BCing success");
+            $scope.pleaseWait = false;
             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccessEF);
             $scope.loadCities();
         }, function () {
@@ -1479,7 +1482,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
             userDetails.RiderPhone = personalDetails.phone.$viewValue;
             userDetails.BicycleType = personalDetails.bikeType.$viewValue;
             if (personalDetails.imagePath == undefined)
-            { userDetails.ImagePath = "\\ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
+            { userDetails.ImagePath = "ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
             else
             { userDetails.ImagePath = personalDetails.imagePath; }
             userDetails.BirthDate = personalDetails.bDay.$viewValue;
@@ -1563,7 +1566,7 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
     $scope.regNewOrg = function (newOrgObj) {
         
         if (newOrgObj.imagePath == undefined) {
-            newOrgObj.imagePath = "\\ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
+            newOrgObj.imagePath = "ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
         }
         
         var newOrg = {
@@ -2886,6 +2889,7 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
         alert("אינך מורשה לגשת לאיזור זה, אנא התחבר למערכת");
         $location.url("/home")
     });
+
 
 
 

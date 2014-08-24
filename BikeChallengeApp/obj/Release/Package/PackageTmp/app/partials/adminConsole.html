@@ -394,7 +394,7 @@
                                 </div>
                                 <br />
                             </div>
-                            <div data-accordion-group ng-repeat="organization in filteredOrgs = ( organizationsHolder | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes')" data-is-open="status1.open">
+                            <div data-accordion-group ng-repeat="organization in filteredOrgs = ( organizationsHolder  | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes')" data-is-open="status1.open">
                                  
                                 <div data-accordion-heading>
                                     <span>{{organization.OrganizationDes}}</span>&nbsp;,&nbsp;<span>{{organization.CityName}}</span>
@@ -424,7 +424,7 @@
                                     </tr>
                                     <tr>
                                         <td>מספר רוכבים רשומים</td>
-                                        <td class="userAttribute">{{organization.OrgHeadCount}}</td>
+                                        <td class="userAttribute">{{organization.OrgHeadCount| headCountFilter}}</td>
                                     </tr>
 
 
@@ -432,7 +432,7 @@
                                 </table>
 
                                 <button class="btn btn-default pull-left"
-                                        ng-click="removeOrganization(organization.OrganizationName)">
+                                        ng-click="removeOrganization(organization.OrganizationDes)">
                                     <i class="glyphicon glyphicon-remove" style="color:red"></i>
                                     <span>מחיקת ארגון</span>
                                 </button>

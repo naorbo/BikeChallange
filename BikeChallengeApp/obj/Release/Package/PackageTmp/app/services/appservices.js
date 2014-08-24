@@ -121,12 +121,6 @@ app.factory('authFactory', function ($rootScope, $http, $q, session, AUTH_EVENTS
 });
 
 
-/**
-    * $http interceptor.
-    * On 401 response (without 'ignoreAuthModule' option) stores the request
-    * and broadcasts 'event:angular-auth-loginRequired'.
-    */
-
 
 // Session handler (userId as username , id as AccessToken) 
 // ********************************************************* //
@@ -149,6 +143,12 @@ app.service('session', function () {
     };
     return this;
 });
+
+/**
+    * $http interceptor.
+    * On 401 response (without 'ignoreAuthModule' option) stores the request
+    * and broadcasts 'event:angular-auth-loginRequired'.
+    */
 
 
 

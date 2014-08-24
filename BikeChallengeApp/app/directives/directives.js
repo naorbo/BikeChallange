@@ -487,6 +487,11 @@ app.directive('chartPersonal', function () {
                         var monthSum = [monthStringed, month.User_KM, month.Num_of_Rides];
                         rawData.push(monthSum);
                     })
+                    if (rawData.length == 1) {
+                        var tempDate = new Date;
+                        tempVar = (tempDate.getMonth() + 1).toString().concat("-", tempDate.getFullYear().toString());
+                        rawData.push([tempVar, 0, 0]);
+                    }
                     var data = google.visualization.arrayToDataTable(rawData);
                     var options = {
                         height: 300,
