@@ -480,8 +480,11 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
                     resolve: {
                         userPool: function () {
                             return $scope.userPool;
-                        }
-                    }
+                        },
+                        eventName: function(){
+                            return eventName;
+                }        
+            }
                 });
 
                 modalInstance.result.then(function () {
@@ -491,15 +494,15 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
                 });
             })
 
-       
 
-        
-
-        var userPoolModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, userPool) {
+        var userPoolModalInstanceCtrl = function ($rootScope, $scope, $modalInstance, userPool,eventName) {
 
             $scope.userPool = userPool;
             $scope.cancelTrigger = false;
+            $scope.exportEventList = function (userPool) {
 
+                console.log(userPool,eventName);
+            }
             $scope.cancel = function () {
                 $scope.cancelTrigger = true;
                 $modalInstance.close();
@@ -507,6 +510,10 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
         };
     };
 
+
+    // Export registered users list to file (of event) 
+
+    
 
     // Admin Reports  
     $scope.sortVar = "UserDisplayName";

@@ -1,32 +1,34 @@
 ﻿<!DOCTYPE html>
+<html lang="he">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title></title>
 
     <style>
         .userAttribute {
-            font-weight:bold;
-        }
-        .cancelFilter {
-            color:red;
+            font-weight: bold;
         }
 
-        div > label {color:gray}
+        .cancelFilter {
+            color: red;
+        }
+
+        div > label {
+            color: gray;
+        }
 
         #orgBlock {
-            margin-bottom:20px;
-            border-radius:20px;
-            background-color:#e9e9e9;
+            margin-bottom: 20px;
+            border-radius: 20px;
+            background-color: #e9e9e9;
         }
 
             #orgBlock:hover {
                 background-color: #f5f5f5;
             }
-        
     </style>
-    
+
 </head>
 
 
@@ -37,9 +39,9 @@
 
 
                 <div ng-switch data-on="adminNav.switch" style="padding-top:50px">
-                    <!-- Users Management Interface--> 
+                    <!-- Users Management Interface-->
                     <div ng-switch-when="1">
-                       
+
 
                         <fieldset>
                             <legend>
@@ -51,7 +53,7 @@
                                 <label><strong style="color:black">סינון תוצאות</strong></label>
                             </div>
                         </div>
-                        
+
                         <div class="row">
                             <div class="col-md-3 pull-right">
 
@@ -104,131 +106,131 @@
                                           ng-class="{'cancelFilter' : gender}"
                                           ng-click="gender=undefined"></span>
                                 </div>
-                                
+
                             </div>
                         </div>
-                    <br/>
-                            <div class="row">
-                                <div class="col-md-4 pull-right">
-                                    <label><strong style="color:black">חיפוש משתמש</strong></label>
-                                    <div class="form-control">
-                                        <input class="pull-right" ng-model="query" style="border:none" />
-                                        <span class="glyphicon glyphicon-search pull-left"></span>
-                                    </div>
-                                    
-                                    <br />
-                                </div>
-                                
-                                
-
-                                <div data-accordion class="col-md-10 pull-right">
-                                    <div class="row">
-                                        <div class="col-md-4 pull-left" style="margin-bottom:10px">
-                                            <i class="fa fa-file-excel-o fa-2x pull-left"
-                                               style="color:green;"
-                                               title="יצוא לקובץ EXCEL"
-                                               ng-click="export2Excel(filteredUsers)"></i>
-
-                                            <i class="fa fa-file-pdf-o fa-2x pull-left"
-                                               style="color:red;"
-                                               title="יצוא לקובץ PDF"
-                                               ng-click="export2PDF(filteredUsers)"></i>
-                                        </div>
-                                    </div>
-                                    
-                                    <div data-accordion-group ng-repeat="user in filteredUsers = ( users | cityFilter:city | genderFilter:gender | orgFilter:org | groupFilter:group | filter:query | orderBy:'UserLname')" data-is-open="status1.open">
-                                        
-                                        <div data-accordion-heading>
-                                            <span>{{user.UserLname}}</span>&nbsp;<span>{{user.UserFname}}</span>
-                                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
-                                        </div>
-
-                                        <table class="table table-responsive table-condensed">
-                                            <tr>
-                                                <td>שם פרטי</td>
-                                                <td class="userAttribute">{{user.UserFname}}</td>
-                                                <td rowspan="12" align="center">
-                                                    <img src="{{user.ImagePath}}" class="img-rounded img-responsive" style="max-height:200px;" />
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>שם משפחה</td>
-                                                <td class="userAttribute">{{user.UserLname}}</td>
-
-                                            </tr>
-                                            <tr>
-                                                <td>מין</td>
-                                                <td class="userAttribute" ng-if="user.Gender=='M'">זכר</td>
-                                                <td class="userAttribute" ng-if="user.Gender!='M'">נקבה</td>
-                                            </tr>
-                                            <tr>
-                                                <td>כתובת מגורים</td>
-                                                <td class="userAttribute">{{user.UserAddress}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>עיר מגורים</td>
-                                                <td class="userAttribute">{{user.RiderCity}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>מספר טלפון</td>
-                                                <td class="userAttribute pull-right"
-                                                    style="direction: ltr;">
-                                                    {{user.UserPhone | phonePattrenFilter}}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>כתובת דואר אלקטרוני</td>
-                                                <td class="userAttribute">{{user.UserEmail}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>תאריך לידה</td>
-                                                <td class="userAttribute pull-right">
-                                                    {{user.BirthDate | datePattrenFilter}}
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>סוג אופניים</td>
-                                                <td class="userAttribute">{{user.BicycleType}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>ארגון</td>
-                                                <td class="userAttribute">{{user.OrganizationDes}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>קבוצה</td>
-                                                <td class="userAttribute">{{user.GroupDes}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td>תאריך רישום</td>
-                                                <td class="userAttribute">{{user.JoinDate| datePattrenFilter}}</td>
-                                            </tr>
-                                            <tr>
-                                                <td></td>
-                                                <td></td>
-                                                <td></td>
-                                            </tr>
-                                        </table>
-
-                                        <button class="btn btn-default pull-left"
-                                                ng-click="removeUser(user.UserDes)">
-                                            <i class="glyphicon glyphicon-remove" style="color:red"></i>
-                                            <span>מחיקת משתמש</span>
-                                        </button>
-
-
-                                    </div>
+                        <br />
+                        <div class="row">
+                            <div class="col-md-4 pull-right">
+                                <label><strong style="color:black">חיפוש משתמש</strong></label>
+                                <div class="form-control">
+                                    <input class="pull-right" ng-model="query" style="border:none" />
+                                    <span class="glyphicon glyphicon-search pull-left"></span>
                                 </div>
 
-                            </div>    
+                                <br />
                             </div>
-                                         
+
+
+
+                            <div data-accordion class="col-md-10 pull-right">
+                                <div class="row">
+                                    <div class="col-md-4 pull-left" style="margin-bottom:10px">
+                                        <i class="fa fa-file-excel-o fa-2x pull-left"
+                                           style="color:green;"
+                                           title="יצוא לקובץ EXCEL"
+                                           ng-click="export2Excel(filteredUsers)"></i>
+
+                                        <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                           style="color:red;"
+                                           title="יצוא לקובץ PDF"
+                                           ng-click="export2PDF(filteredUsers)"></i>
+                                    </div>
+                                </div>
+
+                                <div data-accordion-group ng-repeat="user in filteredUsers = ( users | cityFilter:city | genderFilter:gender | orgFilter:org | groupFilter:group | filter:query | orderBy:'UserLname')" data-is-open="status1.open">
+
+                                    <div data-accordion-heading>
+                                        <span>{{user.UserLname}}</span>&nbsp;<span>{{user.UserFname}}</span>
+                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
+                                    </div>
+
+                                    <table class="table table-responsive table-condensed">
+                                        <tr>
+                                            <td>שם פרטי</td>
+                                            <td class="userAttribute">{{user.UserFname}}</td>
+                                            <td rowspan="12" align="center">
+                                                <img src="{{user.ImagePath}}" class="img-rounded img-responsive" style="max-height:200px;" />
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>שם משפחה</td>
+                                            <td class="userAttribute">{{user.UserLname}}</td>
+
+                                        </tr>
+                                        <tr>
+                                            <td>מין</td>
+                                            <td class="userAttribute" ng-if="user.Gender=='M'">זכר</td>
+                                            <td class="userAttribute" ng-if="user.Gender!='M'">נקבה</td>
+                                        </tr>
+                                        <tr>
+                                            <td>כתובת מגורים</td>
+                                            <td class="userAttribute">{{user.UserAddress}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>עיר מגורים</td>
+                                            <td class="userAttribute">{{user.RiderCity}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>מספר טלפון</td>
+                                            <td class="userAttribute pull-right"
+                                                style="direction: ltr;">
+                                                {{user.UserPhone | phonePattrenFilter}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>כתובת דואר אלקטרוני</td>
+                                            <td class="userAttribute">{{user.UserEmail}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>תאריך לידה</td>
+                                            <td class="userAttribute pull-right">
+                                                {{user.BirthDate | datePattrenFilter}}
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>סוג אופניים</td>
+                                            <td class="userAttribute">{{user.BicycleType}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>ארגון</td>
+                                            <td class="userAttribute">{{user.OrganizationDes}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>קבוצה</td>
+                                            <td class="userAttribute">{{user.GroupDes}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>תאריך רישום</td>
+                                            <td class="userAttribute">{{user.JoinDate| datePattrenFilter}}</td>
+                                        </tr>
+                                        <tr>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    </table>
+
+                                    <button class="btn btn-default pull-left"
+                                            ng-click="removeUser(user.UserDes)">
+                                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                        <span>מחיקת משתמש</span>
+                                    </button>
+
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
                     <!-- Groups Management Interface-->
                     <div ng-switch-when="2">
-                        
+
                         <fieldset>
                             <legend>ניהול קבוצות</legend>
                         </fieldset>
-                        
+
                         <div class="row">
                             <div class="col-md-4 pull-right" style="font-weight:bolder">
                                 <label><strong style="color:black">סינון תוצאות</strong></label>
@@ -245,13 +247,13 @@
                                       ng-class="{'cancelFilter' : orgGrpMgmt}"
                                       ng-click="orgGrpMgmt=undefined"></span>
                             </div>
-                        <hr />
+                            <hr />
                         </div>
-                        
-                        
 
 
-                        <div id="orgBlock" class="col-md-10 pull-right" 
+
+
+                        <div id="orgBlock" class="col-md-10 pull-right"
                              ng-repeat="org in organizationsHolder | groupsOrgFilter:orgGrpMgmt |orderBy:'OrganizationDes'"
                              data-spacer
                              style="border:solid 1px;">
@@ -343,14 +345,14 @@
                         <fieldset>
                             <legend>ניהול ארגונים</legend>
                         </fieldset>
-                        
-                        
+
+
                         <div class="row">
                             <div class="col-md-4 pull-right" style="font-weight:bolder">
                                 <label><strong style="color:black">סינון תוצאות</strong></label>
                             </div>
                         </div>
-                        
+
                         <div class="col-md-4 pull-right">
                             <label>חיפוש ארגון</label>
                             <div class="form-control">
@@ -360,23 +362,23 @@
 
                             <br />
                         </div>
-                            
-                            <div class="row">
-                                <div class="col-md-3 pull-right">
-                                    <label>עיר מגורים</label>
-                                    <div class="form-control">
-                                        <select ng-model="orgCity"
-                                                class="pull-right"
-                                                ng-options="value for value in filterOptions[0].values"
-                                                style="border:none" />
-                                        <span class="glyphicon glyphicon-filter pull-left"
-                                              ng-class="{'cancelFilter' : orgCity}"
-                                              ng-click="orgCity=undefined"></span>
-                                    </div>
+
+                        <div class="row">
+                            <div class="col-md-3 pull-right">
+                                <label>עיר מגורים</label>
+                                <div class="form-control">
+                                    <select ng-model="orgCity"
+                                            class="pull-right"
+                                            ng-options="value for value in filterOptions[0].values"
+                                            style="border:none" />
+                                    <span class="glyphicon glyphicon-filter pull-left"
+                                          ng-class="{'cancelFilter' : orgCity}"
+                                          ng-click="orgCity=undefined"></span>
                                 </div>
                             </div>
+                        </div>
 
-                                <hr />
+                        <hr />
 
                         <div data-accordion class="col-md-10 pull-right">
                             <div class="row" style="margin-bottom:10px">
@@ -395,7 +397,7 @@
                                 <br />
                             </div>
                             <div data-accordion-group ng-repeat="organization in filteredOrgs = ( organizationsHolder  | orgCityFilter:orgCity | filter:orgQuery |  orderBy:'OrganizationDes')" data-is-open="status1.open">
-                                 
+
                                 <div data-accordion-heading>
                                     <span>{{organization.OrganizationDes}}</span>&nbsp;,&nbsp;<span>{{organization.CityName}}</span>
                                     <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
@@ -439,17 +441,17 @@
 
 
                             </div>
-                            </div>
-                            </div>
+                        </div>
+                    </div>
 
-                    
+
 
                     <div ng-switch-when="4">
                         <fieldset>
                             <legend>סיכום תחרות</legend>
                         </fieldset>
 
-                    <p><i class="glyphicon glyphicon-asterisk" style="color:green"></i>התחרויות המוצגות הינן תחרויות פתוחות, יש להגריל מנצחים ולשמור את השינויים על מנת לפרסם את תוצאות ההגרלה לכלל המשתתפים</p>
+                        <p><i class="glyphicon glyphicon-asterisk" style="color:green"></i>התחרויות המוצגות הינן תחרויות פתוחות, יש להגריל מנצחים ולשמור את השינויים על מנת לפרסם את תוצאות ההגרלה לכלל המשתתפים</p>
                         <table class="table table-condensed"
                                ng-repeat="challenge in openChallengesHolder">
 
@@ -510,7 +512,7 @@
                         </div>
 
                         <div class="row">
-                           <div class="col-md-3 pull-right">
+                            <div class="col-md-3 pull-right">
                                 <label><strong>ארגון</strong></label>
                                 <div class="form-control">
                                     <select ng-model="org"
@@ -535,29 +537,29 @@
                                           ng-click="group=undefined"></span>
                                 </div>
                             </div>
-                            
-                           
-                                <div class="col-md-4 pull-left" style="margin-bottom:10px">
-                                    <i class="fa fa-file-excel-o fa-2x pull-left"
-                                       style="color:green;"
-                                       title="יצוא לקובץ EXCEL"
-                                       ng-click="export2Excel(filteredRides)"></i>
 
-                                    <i class="fa fa-file-pdf-o fa-2x pull-left"
-                                       style="color:red;"
-                                       title="יצוא לקובץ PDF"
-                                       ng-click="export2PDF(filteredRides)"></i>
-                                </div>
-                            
-                            
-                            
+
+                            <div class="col-md-4 pull-left" style="margin-bottom:10px">
+                                <i class="fa fa-file-excel-o fa-2x pull-left"
+                                   style="color:green;"
+                                   title="יצוא לקובץ EXCEL"
+                                   ng-click="export2Excel(filteredRides)"></i>
+
+                                <i class="fa fa-file-pdf-o fa-2x pull-left"
+                                   style="color:red;"
+                                   title="יצוא לקובץ PDF"
+                                   ng-click="export2PDF(filteredRides)"></i>
+                            </div>
+
+
+
                         </div>
 
-                        
+
 
                         <br />
                         <table class="table table-responsive table-hover ">
-                            <thead >
+                            <thead>
                                 <tr>
                                     <td></td>
                                     <td><a ng-click="sortVar = 'UserDisplayName'">שם משתמש</a></td>
@@ -591,7 +593,7 @@
                         <p>משלוח הודעה באמצעות דואר אלקטרוני לכלל המשתמשים הרשומים באתר</p>
 
                         <form name="sendMail" ng-submit="publish(sendMail)">
-                           
+
                             <div class="form-group">
                                 <input name="subject"
                                        type="text"
@@ -618,9 +620,9 @@
                         </form>
 
                     </div>
-                    
-                    
-                    
+
+
+
                     <!-- BikeChallenge Events Management Interface-->
                     <!-- Modal windows templates-->
                     <script type="text/ng-template" id="newEventModalContent.html">
@@ -628,7 +630,7 @@
                             <h3 class="modal-title">יצירת אירוע חדש</h3>
                         </div>
                         <div class="modal-body">
-                           
+
                             <form name="newEvent" ng-submit="save(newEvent)" novalidate>
 
                                 <div class="form-group">
@@ -721,17 +723,17 @@
                                 <button type="submit" ng-disabled="newEvent.$invalid" class="btn btn-primary">שמור </button>
                                 <button class="btn btn-danger" ng-click="cancel()">ביטול</button>
                             </form>
-                            
-                            
+
+
                         </div>
-                        
-                            
-                            
-                            
-                            
-                        
+
+
+
+
+
+
                     </script>
-                   
+
                     <script type="text/ng-template" id="editEventModalContent.html">
                         <div class="modal-header">
                             <h3 class="modal-title">עריכת אירוע</h3>
@@ -840,14 +842,14 @@
 
 
                     </script>
-                    
+
                     <script type="text/ng-template" id="registeredUserModalContent.html">
                         <div class="modal-header">
                             <h3 class="modal-title">משתמשים רשומים לאירוע</h3>
                         </div>
                         <div class="modal-body">
 
-                            <table class="table table-bordered table-hover"> 
+                            <table class="table table-bordered table-hover">
                                 <thead>
                                     <tr class="active">
                                         <td>שם</td>
@@ -864,8 +866,9 @@
                                         <td>{{user.RiderCity}}</td>
                                         <td>{{user.GroupDes}}</td>
                                         <td>{{user.OrganizationDes}}</td>
-                                        <td  
-                                            style="direction: ltr;">{{user.UserPhone | phonePattrenFilter}}</td>
+                                        <td style="direction: ltr;">
+                                            {{user.UserPhone | phonePattrenFilter}}
+                                        </td>
                                         <td>{{user.UserEmail}}</td>
                                     </tr>
                                 </tbody>
@@ -888,18 +891,18 @@
                         </div>
 
                     </script>
-                    
+
                     <div ng-switch-when="7">
                         <fieldset>
                             <legend>ניהול אירועים</legend>
                         </fieldset>
-                        
+
                         <button class="btn btn-default pull-right"
                                 ng-click="createNewEvent()">
                             <i class="glyphicon glyphicon-asterisk" style="color:green"></i>
                             <span>יצירת אירוע חדש</span>
                         </button>
-                        
+
                         <br />
                         <div class="row">
                             <hr />
@@ -922,7 +925,7 @@
                                         <span>{{event.EventDate | date:'dd-MM-yyyy'}}</span>&nbsp;,&nbsp;<span><strong>{{event.EventDes}}</strong></span>,&nbsp;<span>{{event.CityName}}</span>
                                         <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': status1.open, 'glyphicon-chevron-right pull-left': !status1.open}"></i>
                                     </div>
-                                    
+
                                     <table class="table table-responsive table-condensed">
                                         <tr>
                                             <td>שם האירוע</td>
@@ -932,7 +935,7 @@
                                             <td>סוג האירוע</td>
                                             <td class="userAttribute">{{event.EventType}}</td>
                                         </tr>
-                                        
+
                                         <tr>
                                             <td>עיר</td>
                                             <td class="userAttribute">{{event.CityName}}</td>
@@ -983,19 +986,19 @@
                                 </div>
                             </div>
 
-                        </div>                    
-                        
-                    
-                    
+                        </div>
+
+
+
                     </div>
-                    
+
                     <div ng-switch-when="8">
                         <fieldset>
                             <legend>
                                 יצירת ארגון חדש
                             </legend>
                         </fieldset>
-                        
+
                         <form name="newOrganization" ng-submit="createNewOrg(newOrganization)">
                             <div class="form-group" ng-class="{ 'has-error' : newOrganization.OrganizationName.$invalid && newOrganization.OrganizationName.$dirty , 'has-success' : newOrganization.OrganizationName.$valid }">
                                 <label><strong>שם הארגון</strong></label>
@@ -1056,9 +1059,9 @@
                                 שמור
                             </button>
                         </form>
-                        
-                       
-                        
+
+
+
                     </div>
 
                     <div ng-switch-when="9">
@@ -1093,7 +1096,7 @@
                                         data-tooltip-placement="right"
                                         required></select>
                             </div>
-                            
+
 
                             <button type="button"
                                     class="btn btn-default"
@@ -1115,68 +1118,68 @@
             </div>
             <div class="row col-md-1"></div>
             <div class="row col-md-3" style="padding-top:20px">
-                      
-                        <div class="row col-md-12">
-                            
-                            
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=1">
-                                <strong class="pull-right">ניהול רוכבים</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
+
+                <div class="row col-md-12">
 
 
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=2">
-                                <strong class="pull-right">ניהול קבוצות</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-                            <div class="row scroll-down-text" ng-if="(adminNav.switch==2)||(adminNav.switch==9)">
-                                <br />
-                                <p class="pull-right"
-                                   ng-click="adminNav.switch=9">יצירת קבוצה חדשה</p>
-                            </div>
-
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=3">
-                                <strong class="pull-right">ניהול ארגונים</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-                            <div class="row scroll-down-text" ng-if="(adminNav.switch==3)||(adminNav.switch==8)">
-                                <br />
-                                <p class="pull-right"
-                                   ng-click="adminNav.switch=8">יצירת ארגון חדש</p>
-                            </div>
-
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=7">
-                                <strong class="pull-right">ניהול אירועים</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=4">
-                                <strong class="pull-right">סיכום תחרויות</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-
-
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=5">
-                                <strong class="pull-right">דוחות</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-
-
-                            <hr />
-                            <div class="row scroll-down-text" ng-click="adminNav.switch=6">
-                                <strong class="pull-right">משלוח הודעות</strong>
-                                <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
-                            </div>
-                            <hr />
-
-                        </div>
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=1">
+                        <strong class="pull-right">ניהול רוכבים</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
                     </div>
+
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=2">
+                        <strong class="pull-right">ניהול קבוצות</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+                    <div class="row scroll-down-text" ng-if="(adminNav.switch==2)||(adminNav.switch==9)">
+                        <br />
+                        <p class="pull-right"
+                           ng-click="adminNav.switch=9">יצירת קבוצה חדשה</p>
+                    </div>
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=3">
+                        <strong class="pull-right">ניהול ארגונים</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+                    <div class="row scroll-down-text" ng-if="(adminNav.switch==3)||(adminNav.switch==8)">
+                        <br />
+                        <p class="pull-right"
+                           ng-click="adminNav.switch=8">יצירת ארגון חדש</p>
+                    </div>
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=7">
+                        <strong class="pull-right">ניהול אירועים</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=4">
+                        <strong class="pull-right">סיכום תחרויות</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=5">
+                        <strong class="pull-right">דוחות</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+
+
+                    <hr />
+                    <div class="row scroll-down-text" ng-click="adminNav.switch=6">
+                        <strong class="pull-right">משלוח הודעות</strong>
+                        <div class="glyphicon glyphicon-chevron-left pull-left scroll-down"></div>
+                    </div>
+                    <hr />
+
+                </div>
+            </div>
         </div>
     </div>
 </body>
