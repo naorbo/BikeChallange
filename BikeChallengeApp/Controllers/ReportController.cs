@@ -25,13 +25,14 @@ namespace BikeChallengeApp.Controllers
 {
     public class ReportController : ApiController
     {
-        /*
-        [{"UserEmail":"Rider@updated. Email","UserDes":"betaTester","UserFname":"עודד","UserLname":"מנשה","UserAddress":"העצמאות 1","UserPhone":"888888","ImagePath":"ProfileImages\\Users\\betaTester\\ProfileImage07_6_2014.jpg","Gender":"M","Captain":false,"BirthDate":"2004-04-04","JoinDate":"2014-05-09","BicycleType":"הרים","RiderCity":"רעננה","GroupName":"פיתוח","GroupDes":"פיתוח","OrganizationName":"Microsoft","OrganizationDes":"Microsoft","OrganiztionImage":"ProfileImages\\Organizations\\Microsoft\\ProfileImage02_6_2014.png","OrgCity":"אבטליון"},
-        {"UserEmail":"carmela@harim.com","UserDes":"betaTester2","UserFname":"כרמלה","UserLname":"מנשה","UserAddress":"ההסתדרות 10","UserPhone":"054444666","ImagePath":"ProfileImages\\Users\\undefined\\ProfileImage09_5_2014.jpg","Gender":"M","Captain":false,"BirthDate":"1970-11-05","JoinDate":"2014-05-09","BicycleType":"הרים","RiderCity":"אבני חפץ","GroupName":"SecondGroup","GroupDes":"SecondGroup","OrganizationName":"EBAY","OrganizationDes":"EBAY","OrganiztionImage":"ProfileImages\\Organizations\\EBAY\\ProfileImage02_6_2014.png","OrgCity":"אבטליון"}] 
-         */
+        // The Data From:
+        // api/Rider -> Get ALL RIDERS
+
         // api/Report?type=Users
         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
         {
+        
+            LogFiles lf = new LogFiles();
             try
             {        
                 string[] hstr = { "Email", "שם משתמש", "שם פרטי", "שם משפחה", "ת.לידה", "ת.הצטרפות", "עיר", "קבוצה", "ארגון" };
@@ -61,6 +62,7 @@ namespace BikeChallengeApp.Controllers
 
                 table.DefaultCell.NoWrap = false;
                 table.HorizontalAlignment = 1;
+                htable.HorizontalAlignment = 1;
                 table.LockedWidth = false;
                 table.WidthPercentage = 110;
                 
@@ -72,8 +74,6 @@ namespace BikeChallengeApp.Controllers
                     htable.RunDirection = PdfWriter.RUN_DIRECTION_RTL;
                 }
                 //Title
-
-                table.HorizontalAlignment = 1;
                 PdfPCell head = new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח רוכבים ", fontB));
                 head.Border = Rectangle.NO_BORDER;
                 head.Colspan = ColNum;
@@ -156,7 +156,11 @@ namespace BikeChallengeApp.Controllers
                 return Request.CreateResponse(HttpStatusCode.OK, root + filename);
 
             }
-            catch { return Request.CreateResponse(HttpStatusCode.InternalServerError,"Catch"); }
+            catch(Exception ex)
+            {
+                lf.Main("Report", ex.Message);
+                return Request.CreateResponse(HttpStatusCode.InternalServerError,"Catch");
+            }
         }
     }
 }
