@@ -134,7 +134,7 @@
                                         <i class="fa fa-file-pdf-o fa-2x pull-left"
                                            style="color:red;"
                                            title="יצוא לקובץ PDF"
-                                           ng-click="export2PDF(filteredUsers)"></i>
+                                           ng-click="export2PDF(filteredUsers,'Users')"></i>
                                     </div>
                                 </div>
 
@@ -391,7 +391,7 @@
                                     <i class="fa fa-file-pdf-o fa-2x pull-left"
                                        style="color:red;"
                                        title="יצוא לקובץ PDF"
-                                       ng-click="export2PDF(filteredOrgs)"></i>
+                                       ng-click="export2PDF(filteredOrgs,'Organizations')"></i>
                                     <br />
                                 </div>
                                 <br />
@@ -548,7 +548,7 @@
                                 <i class="fa fa-file-pdf-o fa-2x pull-left"
                                    style="color:red;"
                                    title="יצוא לקובץ PDF"
-                                   ng-click="export2PDF(filteredRides)"></i>
+                                   ng-click="export2PDF(filteredRides,'Rides')"></i>
                             </div>
 
 
@@ -917,7 +917,7 @@
                                         <i class="fa fa-file-pdf-o fa-2x pull-left"
                                            style="color:red;"
                                            title="יצוא לקובץ PDF"
-                                           ng-click="export2PDF(filteredEvents)"></i>
+                                           ng-click="export2PDF(filteredEvents,'Events')"></i>
                                     </div>
                                 </div>
                                 <div data-accordion-group ng-repeat="event in filteredEvents = ( eventsHolder | orderBy:'EventDate')" data-is-open="status1.open">

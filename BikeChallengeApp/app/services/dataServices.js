@@ -58,6 +58,7 @@ app.factory('dataFactory', function ($rootScope, $http, session, serverBaseUrl) 
                 method: 'POST',
                 url: serverBaseUrl + '/api/' + urlPath + "?" + par,
                 headers: { 'Authorization': 'Bearer ' + session.id },
+                data: dataObj
             });
         }
 

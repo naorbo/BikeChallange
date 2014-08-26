@@ -527,10 +527,16 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
 
     };
 
-    $scope.export2PDF = function (filteredData) {
+    $scope.export2PDF = function (filteredData, type) {
 
-        var data2Export = angular.toJson(filteredData);
-        
+        var data2Export = angular.toJson(filteredData,true);
+        dataFactory.postValues('Report', data2Export, true,"type="+type)
+             .success(function (response) {
+                 console.log(response);
+             })
+             .error(function (error) {
+                 alert("שגיאה");
+             });
 
     }
 
