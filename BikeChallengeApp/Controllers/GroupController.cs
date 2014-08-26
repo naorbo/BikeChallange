@@ -46,7 +46,7 @@ namespace BikeChallengeApp.Controller
         }
 
         // GET api/Group
-        [Authorize]
+       // [Authorize]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();

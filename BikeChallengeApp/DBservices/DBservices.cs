@@ -154,24 +154,20 @@ public class DBservices
                                 ";
                     else if(data1 == "Groups")
                         {
-                            selectStr = @"SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName, COUNT(U2.[user])-1 GroupHeadCount
-                                        FROM Groups G, Organizations O, AspNetUsers anu, Users U,Users U2, Cities C
-                                        Where G.[Group] <> 77
-                                        AND G.GroupDes like '%'
-                                        AND G.Organization = O.Organization
-                                        AND O.OrganizationDes like '%'
-                                        AND O.City = C.City 
-                                        AND anu.Id = U.Id
-                                        AND U.Captain = 1
-                                        AND U.[User] in ( SELECT UG.[User]
-                                        FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group]
-                                        AND UG.[user] <> 0 )
-                                        AND U2.[User] in ( SELECT UG.[User]
-                                        FROM UsersGroups UG
-                                        WHERE G.[Group] = UG.[Group]
-                                        AND UG.[user] <> 0 )
-                                        group by G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName , anu.UserName , U.UserFname ,U.UserLname";
+                            selectStr = @"SELECT G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName As ORG_City, anu.UserName AS Captain_UserName, U.UserFname + ' ' + U.UserLname As DisplayName, COUNT(U2.[user]) GroupHeadCount
+                                            FROM Groups G, Organizations O, AspNetUsers anu, Users U,Users U2, Cities C
+                                            Where G.[Group] <> 77
+                                            AND G.Organization = O.Organization
+                                            AND O.City = C.City 
+                                            AND anu.Id = U.Id
+                                            AND U.Captain = 1
+                                            AND U.[User] in ( SELECT UG.[User]
+                                            FROM UsersGroups UG
+                                            WHERE G.[Group] = UG.[Group] )
+                                            AND U2.[User] in ( SELECT UG.[User]
+                                            FROM UsersGroups UG
+                                            WHERE G.[Group] = UG.[Group] )
+                                            group by G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, O.OrganiztionImage, C.CityName , anu.UserName , U.UserFname ,U.UserLname, U.[User]";
                         }
                     else 
                         selectStr = "SELECT * FROM " + data1 + " Where " + data2 + " <> 0"; //ReadFromDataBase 
@@ -497,6 +493,16 @@ public class DBservices
                 DataTable dt1 = dx.Tables[0];
                 dt.Merge(dt1);
             }
+            else if ( (select == 7) && ( data1 == "Groups" ) )
+            {
+                foreach (DataRow dr in dt.Rows)
+                {
+                    if (dr.ItemArray[6].ToString().Length < 2)
+                    {
+                        dr[8] = 0;
+                    }
+                }
+            }
             else if (select == 18)
             {
                 SqlDataAdapter db = new SqlDataAdapter(selectStr1, con);
@@ -534,7 +540,7 @@ public class DBservices
             else if (select == 19)
             {
                 data4 = data2;
-               
+
                 data2 = dt.Rows[0].ItemArray[0].ToString();
                 data3 = dt.Rows[0].ItemArray[1].ToString();
                 data2 = data2.Replace("'", "''");
@@ -542,7 +548,7 @@ public class DBservices
                 selectStr1 = BuildUserrankCommand(data1, data4);
                 selectStr2 = BuildGrouprankCommand(data2, data3, data4);
                 selectStr3 = BuildOrganizationrankCommand(data3, data4);
-               
+
 
                 SqlDataAdapter dj = new SqlDataAdapter(selectStr1, con); // create the data adapter 
                 SqlDataAdapter db = new SqlDataAdapter(selectStr2, con);
@@ -555,7 +561,7 @@ public class DBservices
                 dj.Fill(dx);
                 db.Fill(dsb);
                 dc.Fill(dsc);
-               
+
                 DataTable dt1 = dx.Tables[0];
 
                 selectStr4 = CountNumUsersCommand(data4);
@@ -582,7 +588,7 @@ public class DBservices
 
                 string orgpoints = (dsc.Tables[0].Rows.Count != 0 ? dsc.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
                 int OrgRanking = (Convert.ToDouble(orgpoints) > 0 ? dsc.Tables[0].Rows.Count : dsfa.Tables[0].Rows.Count + 1);
-                
+
 
 
                 DataRow newRow = dt1.NewRow();
@@ -601,7 +607,7 @@ public class DBservices
                 dbS.db = db;
                 dbS.dc = dc;
                 dbS.dt1 = dt1;
-                
+
             }
             //*****END OF******* Handle the Rank of the User / Group / Organization ****END OF********/
 
