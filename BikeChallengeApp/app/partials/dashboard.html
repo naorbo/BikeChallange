@@ -1,15 +1,15 @@
 ﻿<!DOCTYPE html>
+<html lang="he">
 
-
-<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title></title>
-   
-    <script type="text/ng-template" id="popoverTemplate.html" >
+
+    <script type="text/ng-template" id="popoverTemplate.html">
         <hr />
-        <div id="btnpress" class=" row scroll-down-text pull-right" style="width:100%" >
-            <strong class="pull-right" style="padding-right:1em" >רכיבות  <span style="padding-right: 14em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="alarmFromPop($event)"></span></strong>
-            
+        <div id="btnpress" class=" row scroll-down-text pull-right" style="width:100%">
+            <strong class="pull-right" style="padding-right:1em">רכיבות  <span style="padding-right: 14em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="alarmFromPop($event)"></span></strong>
+
         </div>
         <br />
         <div class="row">
@@ -27,7 +27,7 @@
             </table>
         </div>
         <hr />
-        <div class="row scroll-down-text pull-right" style="width:100%" >
+        <div class="row scroll-down-text pull-right" style="width:100%">
             <strong class="pull-right" style="padding-right:1em">דיווח רכיבה<span style="padding-right: 12em" class="glyphicon glyphicon-chevron-down scroll-down" ng-click="flipRideFlag()"></span></strong>
             <br />
         </div>
@@ -38,14 +38,14 @@
                 <label for="routeSelect" class="pull-right">בחר מסלול</label>
                 <br />
                 <select id="routeSelect" class=" btn btn-default btn-sm form-control dropdown-toggle" ng-model="selectedRoute.routeName" ng-options="r.RouteType for r in userRoutes" required> </select>
-                <br/>
+                <br />
                 <label for="rt">האם רכבת גם בדרך חזרה ?</label>
                 <input id="rt" type="checkbox" data-icheck ng-model="selectedRoute.roundTrip" value="true" />
                 <br />
-                <br/>
+                <br />
                 <button class="pull-right btn btn-primary" ng-click="submitRide(selectedRoute,$event)">עדכן</button>
             </div>
-            
+
         </div>
         <hr />
 
@@ -54,9 +54,9 @@
     <style>
         .popover-title {
             height: 40px;
-            background-color:#689df2;
-            color:white;
-            font-weight:bold;
+            background-color: #689df2;
+            color: white;
+            font-weight: bold;
         }
     </style>
 
@@ -119,75 +119,75 @@
 
                 <div class="row col-md-12">
 
-                    
+
                     <div ng-switch data-on="rightDash.switch" style="padding-top:50px">
                         <!-- Right Dash Switch Handling-->
                         <div ng-switch-when="1">
                             <hr />
-                            
-                                <div class="row scroll-down-text" ng-click="flipShowMyRoutesFlag()">
-                                    <strong class="pull-right">המסלולים שלי</strong>
-                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                                </div>
-                                <div id="viewUserRoutes" ng-if="showMyRoutesFlag">
-                                    <br />
-                                    <!-- View User's Routes-->
-                                    <table class="table table-hover">
 
-                                        <thead style="font-weight: bold;">
-                                            <tr>
-                                                <td>שם המסלול</td>
-                                                <td>תיאור</td>
-                                                <td>מקור</td>
-                                                <td>יעד</td>
-                                                <td>אורך</td>
-                                                <td></td>
-                                            </tr>
-                                        </thead>
-                                        <tr ng-repeat="route in userRoutes">
-                                            <td>{{route.RouteType}}</td> <!-- Route Name Replacement-->
-                                            <td>{{route.Comments}}</td>
-                                            <td>{{route.RouteSource}}</td>
-                                            <td>{{route.RouteDestination}}</td>
-                                            <td>{{route.RouteLength}}</td>
-                                            <td><button class="glyphicon glyphicon-remove" title="מחיקת המסלול" style="border:none; background:none; color:red" ng-click="deleteRoute(route)"></button></td>
+                            <div class="row scroll-down-text" ng-click="flipShowMyRoutesFlag()">
+                                <strong class="pull-right">המסלולים שלי</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <div id="viewUserRoutes" ng-if="showMyRoutesFlag">
+                                <br />
+                                <!-- View User's Routes-->
+                                <table class="table table-hover">
+
+                                    <thead style="font-weight: bold;">
+                                        <tr>
+                                            <td>שם המסלול</td>
+                                            <td>תיאור</td>
+                                            <td>מקור</td>
+                                            <td>יעד</td>
+                                            <td>אורך</td>
+                                            <td></td>
                                         </tr>
-                                    </table>
+                                    </thead>
+                                    <tr ng-repeat="route in userRoutes">
+                                        <td>{{route.RouteType}}</td> <!-- Route Name Replacement-->
+                                        <td>{{route.Comments}}</td>
+                                        <td>{{route.RouteSource}}</td>
+                                        <td>{{route.RouteDestination}}</td>
+                                        <td>{{route.RouteLength}}</td>
+                                        <td><button class="glyphicon glyphicon-remove" title="מחיקת המסלול" style="border:none; background:none; color:red" ng-click="deleteRoute(route)"></button></td>
+                                    </tr>
+                                </table>
 
-                                </div>
-                                <hr />
-                                <div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
-                                    <strong>הוספת מסלול חדש</strong>
-                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                                </div>
+                            </div>
+                            <hr />
+                            <div class="row scroll-down-text" ng-click="flipAddNewRouteFlag()">
+                                <strong>הוספת מסלול חדש</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
 
-                                <form ng-submit="addNewRoute(newRoute)" name="newRoute" ng-if="addNewRouteFlag" style="width:50%" novalidate>
-                                    <br />
-                                    <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
-                                    <input type="text" class="form-control" ng-model="newRoute.source" placeholder="מקור" required /><br />
-                                    <input type="text" class="form-control" ng-model="newRoute.destination" placeholder="יעד" required /><br />
-                                    <input type="number" class="form-control" ng-model="newRoute.lenght" placeholder="אורך המסלול" min="0" required /><br />
-                                    <input type="text" class="form-control" ng-model="newRoute.comments" placeholder="הערות" /><br />
-                                    <button type="submit" class="btn btn-success" ng-disabled="newRoute.$invalid">הוסף מסלול</button>
-                                </form>
+                            <form ng-submit="addNewRoute(newRoute)" name="newRoute" ng-if="addNewRouteFlag" style="width:50%" novalidate>
+                                <br />
+                                <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                                <input type="text" class="form-control" ng-model="newRoute.source" placeholder="מקור" required /><br />
+                                <input type="text" class="form-control" ng-model="newRoute.destination" placeholder="יעד" required /><br />
+                                <input type="number" class="form-control" ng-model="newRoute.lenght" placeholder="אורך המסלול" min="0" required /><br />
+                                <input type="text" class="form-control" ng-model="newRoute.comments" placeholder="הערות" /><br />
+                                <button type="submit" class="btn btn-success" ng-disabled="newRoute.$invalid">הוסף מסלול</button>
+                            </form>
 
-                                <hr />
+                            <hr />
 
-                                <div class="row scroll-down-text" ng-click="flipAddNewSRideFlag()">
-                                    <strong>דיווח נסיעה ספונטנית</strong>
-                                    <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
-                                </div>
-                                <form ng-submit="addNewSpontanicRide(newSRide)" name="newSRide" ng-if="addNewSRideFlag" style="width:50%" novalidate>
-                                    <br />
-                                    <input type="text" class="form-control" ng-model="newSRide.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
-                                    <input type="date" class="form-control" ng-model="newSRide.date" placeholder="תאריך" required /><br />
-                                    <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
-                                    <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
-                                    <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
-                                    <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות"  /><br />
-                                    <button type="submit" class="btn btn-success" ng-disabled="newSRide.$invalid">הוסף דיווח</button>
-                                </form>
-                                <hr />
+                            <div class="row scroll-down-text" ng-click="flipAddNewSRideFlag()">
+                                <strong>דיווח נסיעה ספונטנית</strong>
+                                <div class="glyphicon glyphicon-chevron-down pull-left scroll-down"></div>
+                            </div>
+                            <form ng-submit="addNewSpontanicRide(newSRide)" name="newSRide" ng-if="addNewSRideFlag" style="width:50%" novalidate>
+                                <br />
+                                <input type="text" class="form-control" ng-model="newSRide.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                                <input type="date" class="form-control" ng-model="newSRide.date" placeholder="תאריך" required /><br />
+                                <input type="text" class="form-control" ng-model="newSRide.source" placeholder="מקור" required /><br />
+                                <input type="text" class="form-control" ng-model="newSRide.destination" placeholder="יעד" required /><br />
+                                <input type="number" class="form-control" ng-model="newSRide.lenght" placeholder="אורך המסלול" min="0" required /><br />
+                                <input type="text" class="form-control" ng-model="newSRide.comments" placeholder="הערות" /><br />
+                                <button type="submit" class="btn btn-success" ng-disabled="newSRide.$invalid">הוסף דיווח</button>
+                            </form>
+                            <hr />
 
 
                             <div class="row scroll-down-text" ng-click="flipAddNewRRideFlag()">
@@ -205,8 +205,8 @@
                                 <button type="submit" class="btn btn-success" ng-disabled="newRRide.$invalid">הוסף דיווח</button>
                             </form>
                             <hr />
-                                <div class="row scroll-down-text" style="padding-bottom:700px"></div>
-                            </div>
+                            <div class="row scroll-down-text" style="padding-bottom:700px"></div>
+                        </div>
 
                         <div ng-switch-when="2">
                             <div class="row scroll-down-text" ng-click="flipShowFutureEventsFlag()">
@@ -254,7 +254,7 @@
                                 </table>
 
                             </div>
-                            
+
                             <hr />
                             <div class="row scroll-down-text" ng-click="flipShowUserEventsFlag()">
                                 <strong class="pull-right">אירועים אליהם נרשמתי</strong>
@@ -309,9 +309,9 @@
                             <fieldset>
                                 <legend>בייק צ'אלנג עבור חודש {{displayMonth}}</legend>
                             </fieldset>
-                            <br/>
+                            <br />
 
-                           
+
 
 
                             <div class="row scroll-down-text" ng-click="flipShowMyRanksFlag()">
@@ -320,19 +320,19 @@
                             </div>
                             <div ng-if="showMyRanksFlag">
                                 <br />
-                                <ul class="list-group " >
+                                <ul class="list-group ">
                                     <li class="list-group-item active">
                                         המיקום שלי
                                         <span class="badge pull-left" title="ניקוד">{{relativeRanks.UserPoints | number:0}}</span>
                                         <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.UserRanking | number:0}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        דירוג הקבוצה שלי 
+                                        דירוג הקבוצה שלי
                                         <span class="badge pull-left" title="ניקוד">{{relativeRanks.GroupPoints | number:0 }}</span>
                                         <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.GroupRanking | number:0}}</span>
                                     </li>
                                     <li class="list-group-item">
-                                        דירוג הארגון שלי 
+                                        דירוג הארגון שלי
                                         <span class="badge pull-left" title="ניקוד">{{relativeRanks.OrganizationPoints | number:0}}</span>
                                         <span class="badge alert-success pull-left" title="דירוג">#{{relativeRanks.OrganizationRanking | number:0}}</span>
                                     </li>
@@ -364,7 +364,7 @@
                                         <td>{{user.GroupDes}}</td>
                                         <td>{{user.OrganizationDes}}</td>
                                         <td>{{user.User_Points}}</td>
-                                        <td >
+                                        <td>
                                             <i ng-if="(user.User_Points >= 50 && user.User_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
                                             <i ng-if="(user.User_Points >= 150 && user.User_Points < 500)" class="fa fa-star" style="color: #A8A8A8" title="כסף"></i>
                                             <i ng-if="(user.User_Points >= 500 && user.User_Points < 1500)" class="fa fa-star" style="color: #C98910" title="זהב"></i>
@@ -386,7 +386,7 @@
                                             <td>#</td>
                                             <td>שם הקבוצה</td>
                                             <td>שם הארגון</td>
-                                            
+
                                             <td>ניקוד</td>
                                             <td title="דירוג BikeChallenge">BC</td>
 
@@ -396,7 +396,7 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{group.GroupDes}}</td>
                                         <td>{{group.OrganizationDes}}</td>
-                                        
+
                                         <td>{{group.Group_Points}}</td>
                                         <td>
                                             <i ng-if="(group.Group_Points >= 50 && group.Group_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
@@ -420,7 +420,7 @@
                                             <td>#</td>
                                             <td>שם הארגון</td>
                                             <td>עיר</td>
-                                            
+
                                             <td>ניקוד</td>
                                             <td title="דירוג BikeChallenge">BC</td>
                                         </tr>
@@ -429,7 +429,7 @@
                                         <td>{{$index + 1}}</td>
                                         <td>{{org.OrganizationDes}}</td>
                                         <td>{{org.CityName}}</td>
-                                        
+
                                         <td>{{org.Organization_Points}}</td>
                                         <td>
                                             <i ng-if="(org.Organization_Points >= 50 && org.Organization_Points < 150)" class="fa fa-star" style="color:#965A38" title="ארד"></i>
@@ -461,7 +461,7 @@
                                 </div>
                                 <br /><br />
                                 <div>
-                                    <div data-google-chart data-chart-personal data-chart-type="gauger" data-entity="personal"></div> 
+                                    <div data-google-chart data-chart-personal data-chart-type="gauger" data-entity="personal"></div>
                                 </div>
                                 <br />
 
@@ -490,7 +490,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <br/>
+                                <br />
                                 <table class="table-bordered table-responsive" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
                                     <tr style="background-color:#EBEBEB; font-size:20px"><td><strong>גרף התקדמות אישית</strong></td></tr>
                                     <tr>
@@ -499,8 +499,8 @@
                                         </td>
                                     </tr>
                                 </table>
-                                
-                            
+
+
                             </div>
 
                             <hr />
@@ -520,7 +520,7 @@
 
                                 <br /><br />
                                 <div data-google-chart data-chart-personal data-chart-type="gauger" data-entity="group"></div>
-                                
+
                                 <br />
 
                                 <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
@@ -535,7 +535,7 @@
                                         </tr>
                                     </tfoot>
                                 </table>
-                                <br/>
+                                <br />
                                 <table class="table-bordered" style="width: 100%; table-layout: fixed; text-align: center; font: normal 55px">
                                     <tr style="font-size:40px">
                                         <td>{{groupKmRides.money | currency: '₪'}}</td>

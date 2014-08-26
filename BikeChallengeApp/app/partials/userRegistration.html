@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="he">
+
 <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title></title>
 
 </head>
@@ -306,7 +308,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <!-- Organization Creator Modal Window  -->
             <div class="modal fade" id="myNewOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -319,12 +321,12 @@
                         <div class="modal-body row">
                             <br />
 
-                            <input type="text"  class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
+                            <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
                             <label><strong>עיר</strong></label>
                             <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
                             <br />
-                            
-                            
+
+
                             <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />-->
                             <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')" required />
                             <br />
