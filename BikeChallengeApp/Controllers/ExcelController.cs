@@ -18,12 +18,46 @@ using Newtonsoft.Json;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 using System.Web.Script.Serialization;
-
+using iTextSharp.text.html; 
+using iTextSharp.text.html.simpleparser;
+using System.Web.UI.HtmlControls;
 
 namespace BikeChallengeApp.Controllers
 {
     public class ExcelController : ApiController
     {
+        public void Post(HttpResponse Response, [FromBody]DataTable dt)
+        {
+
+            GridView grid = new GridView();
+            grid.DataSource = dt;
+
+            string filename = DateTime.Now.ToString("0:yyyyMMddhhmmss") + ".csv";
+            Response.Clear();
+            Response.Buffer = true;
+            Response.AddHeader("content-disposition", "attachment; filename=" + filename);
+            Response.Charset = "";
+            Response.ContentType = "application/text";
+            grid.AllowPaging = false;
+            StringBuilder sb = new StringBuilder();
+            for (int k = 0; k < grid.Columns.Count; k++)
+            {
+                sb.Append(grid.Columns[k].HeaderText + ',');
+            }
+            sb.Append("\r\n");
+            for (int i = 0; i < grid.Rows.Count; i++)
+            {
+                for (int k = 0; k < grid.Columns.Count; k++)
+                {
+                    sb.Append(grid.Rows[i].Cells[k].Text + ',');
+                }
+                sb.Append("\r\n");
+            }
+            Response.Output.Write(sb.ToString());
+            Response.Flush();
+            Response.End();
+        }
+
        /* public ActionResult HttpResponseMessage(string type, [FromBody]DataTable mlist)
         {
             GridView gv = new GridView();

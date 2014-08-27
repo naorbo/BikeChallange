@@ -62,8 +62,8 @@ public class DBservices
         try
         {
             con = dbS.connect("DefaultConnection"); // open the connection to the database/
-            String selectStr, selectStr1, selectStr2, selectStr3, selectStr4, selectStr5, selectStr6;
-            selectStr = selectStr1 = selectStr2 = selectStr3 = selectStr4 = selectStr5 = selectStr6 = "";
+            String selectStr, selectStr1, selectStr2, selectStr3, selectStr4, selectStr5, selectStr6, countdaysstr;
+            selectStr = selectStr1 = selectStr2 = selectStr3 = selectStr4 = selectStr5 = selectStr6 = countdaysstr = "";
             switch (select)
             {
                 case 1:
@@ -276,9 +276,10 @@ public class DBservices
                             Group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), anu.UserName, U.UserFname +' '+ U.UserLname, G.GroupDes, O.OrganizationDes, C.Cityname, C1.CityName 
                             Order By DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC, " + data4 + @" DESC ;"; // ReadFromDataBase User Ranking
                     break;
-                case 16:
+                case 16: // GroupRank
                     data3 = (data3 == "Days" ? "Num_Of_Days_Riden" : (data3 == "Kilometers" ? "Group_KM" : "Group_Points"));
-                    selectStr = @"SELECT " + (data4 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories, C.CityName
+                    
+                    selectStr = @" SELECT " + (data4 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Group_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Group_Points, Sum(R.[RideLength])*0.16 As Group_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Group_Calories, C.CityName
                             FROM Groups G, Organizations O, Users U, Rides R, Cities C
                             Where G.[group] <> 77
                             AND G.Organization = O.Organization
@@ -294,7 +295,7 @@ public class DBservices
                             group by DATEPART(yyyy, R.RideDate), DATEPART(mm, R.RideDate), G.GroupName, G.GroupDes, O.OrganizationName, O.OrganizationDes, C.CityName
                             order by DATEPART(yyyy, R.RideDate)DESC, DATEPART(mm, R.RideDate)DESC,  " + data3 + @" DESC ;"; // ReadFromDataBase Group Ranking
                     break;
-                case 17:
+                case 17: //Organization Rank
                     data2 = (data2 == "Days" ? "Num_Of_Days_Riden" : (data2 == "Kilometers" ? "Organization_KM" : "Organization_Points"));
                     selectStr = @" SELECT " + (data3 != "" ? "TOP 10" : "") + @" DATEPART(yyyy, R.RideDate) AS [Year], DATEPART(mm, R.RideDate) AS [Month], O.OrganizationName, O.OrganizationDes, Sum(R.[RideLength]) As Organization_KM, COUNT(R.RideDate) As Num_of_Rides, COUNT(distinct R.RideDate) As Num_Of_Days_Riden, Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS Organization_Points, Sum(R.[RideLength])*0.16 As Organization_CO2_Kilograms_Saved, Sum(R.[RideLength])*25 As Organization_Calories, C.CityName
                             FROM Groups G, Organizations O, Users U, Rides R, Cities C
@@ -534,7 +535,32 @@ public class DBservices
                 dbS.dd = dd;
             }
             /**************END OF******* Select Querry of all of the data in the DB  *******END OF**************/
+            else if ( (select == 16) || (select == 17) )
+            {
+                string date = (select == 16 ? data4 : data3);
+                if (date != "")
+                {
+                    foreach (DataRow dr in dt.Rows)
+                    {
+                        string grpkm = (select == 16 ? dr[6].ToString() : dr[4].ToString());
 
+                        data1 = (select == 16 ? dr[3].ToString() : "%");
+                        data2 = (select == 16 ? dr[5].ToString() : dr[3].ToString());
+                        data1 = data1.Replace("'", "''");
+                        data2 = data2.Replace("'", "''");
+                        countdaysstr = CountNumdistinctdays(data1, data2, date);
+                        SqlDataAdapter dar = new SqlDataAdapter(countdaysstr, con); // create the data adapter  
+                        DataSet dsr = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                        dar.Fill(dsr);
+                        string countdays = dsr.Tables[0].Rows[0].ItemArray[0].ToString();
+                        if (select == 16)
+                            dr[9] = (Convert.ToDouble(grpkm)) + 20 * (Convert.ToDouble(countdays));
+                        else
+                            dr[7] = (Convert.ToDouble(grpkm)) + 20 * (Convert.ToDouble(countdays));
+
+                    }
+                }
+            }
             /******************************* Handle the Rank of the User / Group / Organization ********************/
 
             else if (select == 19)
@@ -548,7 +574,22 @@ public class DBservices
                 selectStr1 = BuildUserrankCommand(data1, data4);
                 selectStr2 = BuildGrouprankCommand(data2, data3, data4);
                 selectStr3 = BuildOrganizationrankCommand(data3, data4);
-
+                
+                // distinct days group
+                countdaysstr = CountNumdistinctdays(data2, data3, data4);
+                SqlDataAdapter dar = new SqlDataAdapter(countdaysstr, con); // create the data adapter  
+                DataSet dsr = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                dar.Fill(dsr);
+                string countdays = dsr.Tables[0].Rows[0].ItemArray[0].ToString();
+                double grpnumofdays = 20 * (Convert.ToDouble(countdays));
+                
+                // distinct days organization
+                countdaysstr = CountNumdistinctdays("%", data3, data4);
+                SqlDataAdapter dara = new SqlDataAdapter(countdaysstr, con); // create the data adapter  
+                DataSet dsra = new DataSet(); // create a DataSet and give it a name (not mandatory) as defualt it will be the same name as the DB
+                dara.Fill(dsra);
+                string countdaysorg = dsra.Tables[0].Rows[0].ItemArray[0].ToString();
+                double orgnumofdays = 20 * (Convert.ToDouble(countdaysorg));
 
                 SqlDataAdapter dj = new SqlDataAdapter(selectStr1, con); // create the data adapter 
                 SqlDataAdapter db = new SqlDataAdapter(selectStr2, con);
@@ -583,10 +624,10 @@ public class DBservices
                 string userpoint = (dt1.Rows.Count != 0 ? dt1.Rows[0].ItemArray[0].ToString() : "0");
                 int UserRanking = (Convert.ToDouble(userpoint) > 0 ? dt1.Rows.Count : dsba.Tables[0].Rows.Count + 1);
 
-                string groupoints = (dsb.Tables[0].Rows.Count != 0 ? dsb.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
+                string groupoints = (dsb.Tables[0].Rows.Count != 0 ? (Convert.ToDouble(dsb.Tables[0].Rows[0].ItemArray[0]) + grpnumofdays).ToString() : "0");
                 int GroupRanking = (Convert.ToDouble(groupoints) > 0 ? dsb.Tables[0].Rows.Count : dsca.Tables[0].Rows.Count + 1);
 
-                string orgpoints = (dsc.Tables[0].Rows.Count != 0 ? dsc.Tables[0].Rows[0].ItemArray[0].ToString() : "0");
+                string orgpoints = (dsc.Tables[0].Rows.Count != 0 ? (Convert.ToDouble(dsc.Tables[0].Rows[0].ItemArray[0]) + orgnumofdays).ToString() : "0");
                 int OrgRanking = (Convert.ToDouble(orgpoints) > 0 ? dsc.Tables[0].Rows.Count : dsfa.Tables[0].Rows.Count + 1);
 
 
@@ -871,7 +912,53 @@ public class DBservices
     #endregion
 
     #region Group/ Organization Rank AND Shuffle Method
-     private String CountNumUsersCommand(string data4)
+   private String CountNumdistinctdays(string grpname, string orgname, string date)
+     {
+        StringBuilder sb = new StringBuilder();
+        // use a string builder to create the dynamic string
+        String command = @"DECLARE @i int
+                            DECLARE @DistinctDays int
+                            DECLARE @numrows int
+                            DECLARE @Practitioner TABLE (
+                                idx smallint Primary Key IDENTITY(1,1)
+                                , Ride int
+                            )
+
+                            INSERT @Practitioner
+                            SELECT COUNT(distinct R.RideDate) As Num_Of_Days_Riden
+                            FROM Groups G, Organizations O,[Rides] R, Users U
+                            Where U.[User]<> 0
+                            AND R.[Ride] <> 0
+                            AND R.[USER] = U.[User]
+                            AND G.[group] <> 77
+                            And G.GroupDes like '"+grpname+@"'
+                            And O.OrganizationDes = '" + orgname + @"'
+                            AND G.Organization = O.Organization
+                            AND U.[User] in ( SELECT UG.[User]
+                                    FROM UsersGroups UG
+                                    WHERE G.[Group] = UG.[Group])
+                                    And U.Organization = O.Organization
+                            AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + date + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + date + @"')
+                            Group by U.[User]
+
+                            SET @DistinctDays = 0
+                            SET @i = 1
+                            SET @numrows = (SELECT COUNT(*) FROM @Practitioner)
+                            IF @numrows > 0
+                                WHILE (@i <= (SELECT MAX(idx) FROM @Practitioner))
+                                BEGIN
+
+                                    SET @DistinctDays = @DistinctDays + (SELECT Ride FROM @Practitioner Where idx=@i)
+                                    SET @i = @i + 1
+                                     --Do something with Id here
+                                    PRINT @DistinctDays
+                            END
+                            Select @DistinctDays";
+        /**/
+        return command;
+     }
+    
+    private String CountNumUsersCommand(string data4)
      {
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
@@ -990,7 +1077,7 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS GroupRanking, G.GroupDes
+        String command = @"SELECT Sum(R.[RideLength]) 
                                 FROM Groups G, Users U, Rides R
                                 Where G.[group] <> 77
                                 AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
@@ -999,9 +1086,9 @@ public class DBservices
                                             FROM UsersGroups UG
                                             WHERE G.[Group] = UG.[Group])
                                 group by G.GroupDes
-                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >=
+                                having Sum(R.[RideLength])  >=
 			                                (
-			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
+			                                SELECT Sum(R.[RideLength]) 
 			                                FROM Groups G, Organizations O, Users U, Rides R
 			                                Where G.[group] <> 77
 			                                AND G.Organization = O.Organization
@@ -1014,7 +1101,7 @@ public class DBservices
 			                                AND R.[User] = U.[User] 
 			                                group by G.GroupName )
 		  
-                                order by Sum( R.[RideLength]) + 20 * COUNT(distinct R.RideDate) ASC;";
+                                order by Sum( R.[RideLength])  ASC;";
         return command;
     }
 
@@ -1023,7 +1110,7 @@ public class DBservices
 
         StringBuilder sb = new StringBuilder();
         // use a string builder to create the dynamic string
-        String command = @"SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) AS OrganizationRanking, O.OrganizationDes,  'x' AS Organization_Points
+        String command = @"SELECT Sum(R.[RideLength]) AS OrganizationRanking, O.OrganizationDes,  'x' AS Organization_Points
                                 FROM Groups G, Organizations O, Users U, Rides R
                                 Where G.[group] <> 77
                                 AND G.Organization = O.Organization
@@ -1033,9 +1120,9 @@ public class DBservices
                                 AND R.[User] = U.[User] 
                                 AND DATEPART(yyyy, R.RideDate) like DATEPART(yyyy, '" + data4 + @"') AND DATEPART(mm, R.RideDate) like DATEPART(mm, '" + data4 + @"')
                                 group by O.OrganizationDes
-                                having Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate) >=
+                                having Sum(R.[RideLength]) >=
 			                                (
-			                                SELECT Sum(R.[RideLength]) + 20 * COUNT(distinct R.RideDate)
+			                                SELECT Sum(R.[RideLength]) 
 			                                FROM Groups G, Organizations O, Users U, Rides R
 			                                Where G.[group] <> 77
 			                                AND G.Organization = O.Organization
@@ -1731,8 +1818,13 @@ public class DBservices
                               ,[SilverUser] = " + (cmpt.SilverUser != "" ? "'" + cmpt.SilverUser + "'" : "[SilverUser]") + @"
                               ,[BronzeUser] = " + (cmpt.BronzeUser != "" ? "'" + cmpt.BronzeUser + "'" : "[BronzeUser]") + @"
                          WHERE [CompetitionDate] = '" + CompetitionDate + "' ";
+        String command2 = @" IF NOT EXISTS(Select 'x' From Competition Where CompetitionDate =  ( select CONVERT(char(7), DATEADD(Month,1,GETDATE()) ,126)) )
+                                BEGIN
+                                    INSERT INTO [Competition]([CompetitionDate])
+                                    ( Select CONVERT(char(7), DATEADD(Month,1,GETDATE()) ,126) from Users where [User]=0 )
+                                END";
 
-        return command;
+        return command + command2;
     }
 
        #endregion
