@@ -236,105 +236,104 @@
                                 <label><strong style="color:black">סינון תוצאות</strong></label>
                             </div>
                         </div>
-                        <div class="col-md-3 pull-right" style="margin-bottom:20px;">
-                            <label><strong>ארגון</strong></label>
-                            <div class="form-control">
-                                <select ng-model="orgGrpMgmt"
-                                        class="pull-right"
-                                        ng-options="value for value in filterOptions[4].values"
-                                        style="border:none" />
-                                <span class="glyphicon glyphicon-filter pull-left"
-                                      ng-class="{'cancelFilter' : orgGrpMgmt}"
-                                      ng-click="orgGrpMgmt=undefined"></span>
-                            </div>
-                            <hr />
+                        <div class="row">
+                            <div class="col-md-4 pull-right">
+                                <label><strong>ארגון</strong></label>
+                                <div class="form-control">
+                                    <select ng-model="orgGrpMgmt"
+                                            class="pull-right"
+                                            ng-options="value for value in filterOptions[4].values"
+                                            style="border:none" />
+                                    <span class="glyphicon glyphicon-filter pull-left"
+                                          ng-class="{'cancelFilter' : orgGrpMgmt}"
+                                          ng-click="orgGrpMgmt=undefined"></span>
+                                </div>
+                            </div>                            
                         </div>
 
+                        <div class="row" style="margin-top:20px">
+                            <div id="orgBlock" class="col-md-10 pull-right"
+                                 ng-repeat="org in organizationsHolder | groupsOrgFilter:orgGrpMgmt |orderBy:'OrganizationDes'"
+                                 data-spacer
+                                 style="border:solid 1px;">
+                                <div>
 
-
-
-                        <div id="orgBlock" class="col-md-10 pull-right"
-                             ng-repeat="org in organizationsHolder | groupsOrgFilter:orgGrpMgmt |orderBy:'OrganizationDes'"
-                             data-spacer
-                             style="border:solid 1px;">
-                            <div>
-
-                                <table class="table" style="table-layout: fixed; ">
-                                    <tr>
-                                        <td style="border-top: none"><span><strong style="font-size:20px">{{org.OrganizationDes}}</strong></span></td>
-                                        <td style="width: 120px; border-top: none">
-                                            <img src="{{org.OrganiztionImage}}" class="img-responsive img-rounded" />
-                                        </td>
-                                    </tr>
-                                </table>
-
-                            </div>
-
-
-                            <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in filteredGroups = ( groupsHolder |  orderBy:'OrganizationDes')">
-                                <div data-accordion-group data-is-open="statusGroup.open">
-                                    <div data-accordion-heading>
-                                        <span ng-click="undoDemote()">{{group.GroupDes}}</span>
-                                        <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': statusGroup.open, 'glyphicon-chevron-right pull-left': !statusGroup.open}" ng-click="undoDemote()"></i>
-                                    </div>
-
-                                    <table class="table table-responsive table-condensed">
+                                    <table class="table" style="table-layout: fixed; ">
                                         <tr>
-                                            <td>שם הקבוצה</td>
-                                            <td class="userAttribute">{{group.GroupDes}}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>שם הארגון</td>
-                                            <td class="userAttribute">{{group.OrganizationDes}}</td>
-
-                                        </tr>
-                                        <tr>
-                                            <td>קפטן הקבוצה</td>
-                                            <td class="userAttribute">{{group.DisplayName}}</td>
-                                        </tr>
-                                        <tr>
-                                            <td>מספר רוכבים</td>
-                                            <td class="userAttribute">{{group.GroupHeadCount}}</td>
-                                        </tr>
-
-
-                                        <tr ng-if="replaceCaptainFlag">
-                                            <td><strong>בחר קפטן חדש</strong></td>
-                                            <td>
-                                                <select ng-model="newCaptain"
-                                                        class="pull-right"
-                                                        ng-options="newCaptain.UserDisplayName for newCaptain  in riderPerGroup" />
-                                                &nbsp;<i class="glyphicon glyphicon-save"
-                                                         ng-click="saveNewCaptain(group.Captain_UserName,newCaptain)"
-                                                         title="עדכן"
-                                                         style="color:green"></i>
-                                                &nbsp;<i class="glyphicon glyphicon-remove-circle"
-                                                         ng-click="undoDemote()"
-                                                         title="בטל"
-                                                         style="color:red"></i>
+                                            <td style="border-top: none"><span><strong style="font-size:20px">{{org.OrganizationDes}}</strong></span></td>
+                                            <td style="width: 120px; border-top: none">
+                                                <img src="{{org.OrganiztionImage}}" class="img-responsive img-rounded" />
                                             </td>
                                         </tr>
-
                                     </table>
 
-                                    <button class="btn btn-default pull-left"
-                                            ng-click="removeGroup(group.GroupName, group.OrganizationName)">
-                                        <i class="glyphicon glyphicon-remove" style="color:red"></i>
-                                        <span>מחיקת קבוצה</span>
-                                    </button>
-                                    <button class="btn btn-default pull-left"
-                                            ng-click="demoteCaptain(group.GroupName, group.OrganizationName)">
-                                        <i class="glyphicon glyphicon-flag" style="color:blue"></i>
-                                        <span>החלפת קפטן</span>
-                                    </button>
-
                                 </div>
+
+
+                                <div ng-if="org.OrganizationDes == group.OrganizationDes" data-accordion ng-repeat="group in filteredGroups = ( groupsHolder |  orderBy:'OrganizationDes')">
+                                    <div data-accordion-group data-is-open="statusGroup.open">
+                                        <div data-accordion-heading>
+                                            <span ng-click="undoDemote()">{{group.GroupDes}}</span>
+                                            <i class="glyphicon" ng-class="{'glyphicon-chevron-down pull-left': statusGroup.open, 'glyphicon-chevron-right pull-left': !statusGroup.open}" ng-click="undoDemote()"></i>
+                                        </div>
+
+                                        <table class="table table-responsive table-condensed">
+                                            <tr>
+                                                <td>שם הקבוצה</td>
+                                                <td class="userAttribute">{{group.GroupDes}}</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>שם הארגון</td>
+                                                <td class="userAttribute">{{group.OrganizationDes}}</td>
+
+                                            </tr>
+                                            <tr>
+                                                <td>קפטן הקבוצה</td>
+                                                <td class="userAttribute">{{group.DisplayName}}</td>
+                                            </tr>
+                                            <tr>
+                                                <td>מספר רוכבים</td>
+                                                <td class="userAttribute">{{group.GroupHeadCount}}</td>
+                                            </tr>
+
+
+                                            <tr ng-if="replaceCaptainFlag">
+                                                <td><strong>בחר קפטן חדש</strong></td>
+                                                <td>
+                                                    <select ng-model="newCaptain"
+                                                            class="pull-right"
+                                                            ng-options="newCaptain.UserDisplayName for newCaptain  in riderPerGroup" />
+                                                    &nbsp;<i class="glyphicon glyphicon-save"
+                                                             ng-click="saveNewCaptain(group.Captain_UserName,newCaptain)"
+                                                             title="עדכן"
+                                                             style="color:green"></i>
+                                                    &nbsp;<i class="glyphicon glyphicon-remove-circle"
+                                                             ng-click="undoDemote()"
+                                                             title="בטל"
+                                                             style="color:red"></i>
+                                                </td>
+                                            </tr>
+
+                                        </table>
+
+                                        <button class="btn btn-default pull-left"
+                                                ng-click="removeGroup(group.GroupName, group.OrganizationName)">
+                                            <i class="glyphicon glyphicon-remove" style="color:red"></i>
+                                            <span>מחיקת קבוצה</span>
+                                        </button>
+                                        <button class="btn btn-default pull-left"
+                                                ng-click="demoteCaptain(group.GroupName, group.OrganizationName)">
+                                            <i class="glyphicon glyphicon-flag" style="color:blue"></i>
+                                            <span>החלפת קפטן</span>
+                                        </button>
+
+                                    </div>
+                                </div>
+                                <hr />
+
                             </div>
-                            <hr />
-
                         </div>
-
 
 
 

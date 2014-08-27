@@ -9,3 +9,5 @@ The Organizations LOG file
 The statement has been terminated.
 09:08:33 : The Organization Amimon was Deleted from the Event
 09:09:30 : The Organization Reshet was Deleted from the Event
+23:06:51 : The Organization cd was Deleted from the Event
+23:44:21 : The Organization קקל was Deleted from the Event

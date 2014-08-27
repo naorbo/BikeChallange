@@ -163,10 +163,15 @@
 
                             <form ng-submit="addNewRoute(newRoute)" name="newRoute" ng-if="addNewRouteFlag" style="width:50%" novalidate>
                                 <br />
-                                <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם מסלול" required /><br /> <!-- Route Name Replacement-->
+                                <label>שם המסלול</label>
+                                <input type="text" class="form-control" ng-model="newRoute.type" placeholder="שם המסלול" required /><br /> <!-- Route Name Replacement-->
+                                <label>מקור</label>
                                 <input type="text" class="form-control" ng-model="newRoute.source" placeholder="מקור" required /><br />
+                                <label>יעד</label>
                                 <input type="text" class="form-control" ng-model="newRoute.destination" placeholder="יעד" required /><br />
+                                <label>אורך המסלול</label>
                                 <input type="number" class="form-control" ng-model="newRoute.lenght" placeholder="אורך המסלול" min="0" required /><br />
+                                <label>הערות</label>
                                 <input type="text" class="form-control" ng-model="newRoute.comments" placeholder="הערות" /><br />
                                 <button type="submit" class="btn btn-success" ng-disabled="newRoute.$invalid">הוסף מסלול</button>
                             </form>
