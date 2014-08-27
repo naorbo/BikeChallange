@@ -27,16 +27,19 @@ namespace BikeChallengeApp.Controllers
     {
         // The Data From:
         // api/Rider -> Get ALL RIDERS
-
         // api/Report?type=Users
+
+        // api/Organization -> Get ALL RIDERS
+        // api/Report?type=Organizations
         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
         {
         
             LogFiles lf = new LogFiles();
             try
             {        
-                string[] hstr = { "Email", "שם משתמש", "שם פרטי", "שם משפחה", "ת.לידה", "ת.הצטרפות", "עיר", "קבוצה", "ארגון" };
-                int ColNum = hstr.Length;
+                string[] userstr = { "Email", "שם משתמש", "שם פרטי", "שם משפחה", "ת.לידה", "ת.הצטרפות", "עיר", "קבוצה", "ארגון" };
+                string[] orgstr = { "ארגון", "סוג ארגון", "עיר", "מספר קבוצות", "מספר רוכבים" };
+                int ColNum = (type == "Users" ? userstr.Length : orgstr.Length ) ;
                 string location = "~\\Reports\\" + type + "\\";
                 string slocation = "~\\sources\\reports\\" ;
                 string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
@@ -74,7 +77,7 @@ namespace BikeChallengeApp.Controllers
                     htable.RunDirection = PdfWriter.RUN_DIRECTION_RTL;
                 }
                 //Title
-                PdfPCell head = new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח רוכבים ", fontB));
+                PdfPCell head = (type == "Users" ? new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח רוכבים ", fontB)) : new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח ארגונים ", fontB)));
                 head.Border = Rectangle.NO_BORDER;
                 head.Colspan = ColNum;
                 htable.AddCell(head);
@@ -85,7 +88,7 @@ namespace BikeChallengeApp.Controllers
                 for (int x = 0; x < ColNum; x++)
                 {
                     //Create a cell and add text to it 
-                    PdfPCell text = new PdfPCell(new Phrase(hstr[x], font));
+                    PdfPCell text = (type == "Users" ? new PdfPCell(new Phrase(userstr[x], font)) : new PdfPCell(new Phrase(orgstr[x], font)));
                     //Ensure that wrapping is on, otherwise Right to Left text will not display 
                     text.NoWrap = false;
 
