@@ -9,6 +9,7 @@ The statement has been terminated.
 21:23:55 : The DELETE statement conflicted with the REFERENCE constraint "FK__UsersGrou__Group__1E3A7A34". The conflict occurred in database "igroup1_prod", table "dbo.UsersGroups", column 'Group'.
 The statement has been terminated.
 21:23:55 : The Group החלוצים was Deleted from the Event
+<<<<<<< HEAD
 23:19:15 : The DELETE statement conflicted with the REFERENCE constraint "FK__UsersGrou__Group__1E3A7A34". The conflict occurred in database "igroup1_prod", table "dbo.UsersGroups", column 'Group'.
 The statement has been terminated.
 23:19:15 : The Group g&a was Deleted from the Event
@@ -24,3 +25,8 @@ The statement has been terminated.
 23:23:53 : The DELETE statement conflicted with the REFERENCE constraint "FK__UsersGrou__Group__1E3A7A34". The conflict occurred in database "igroup1_prod", table "dbo.UsersGroups", column 'Group'.
 The statement has been terminated.
 23:23:53 : The Group Mobile was Deleted from the Event
+=======
+23:34:00 : Incorrect syntax near 'ANDg'.
+23:35:03 : The Group g&a was Deleted from the Databse
+23:35:31 : The Group g&a was Deleted from the Databse
+>>>>>>> origin/master
