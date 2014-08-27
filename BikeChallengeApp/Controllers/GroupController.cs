@@ -79,7 +79,7 @@ namespace BikeChallengeApp.Controller
         }
         // DELETE Group 
         // api/Group?grpname=groupname&orgname=organizationanme
-        [Authorize(Users = "bcadministrator")]
+        //[Authorize(Users = "bcadministrator")]
         public string DeleteGroup(string grpname, string orgname)
         {
             int return_val = 0;
@@ -98,7 +98,7 @@ namespace BikeChallengeApp.Controller
                 lf.Main("Groups", Response);
                 return "Error";
             }
-            Response = "The Group " + grpname + " was Deleted from the Event";
+            Response = "The Group " + grpname + " was Deleted from the Databse";
             lf.Main("Groups", Response);
             if (return_val == 0) { return "Error"; }
             return "Success";

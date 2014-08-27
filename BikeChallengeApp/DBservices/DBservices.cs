@@ -1736,11 +1736,11 @@ public class DBservices
     }
     private String BuildDelteGroupCommand(string grpname, string orgname)
     {
-        //String command = @"  DELETE FROM [UsersGroups] Where [Group] = ( Select [group] From Groups where GroupDes =  '" + grpname + @"') ;";
+        String command = @"  DELETE FROM [UsersGroups] Where [Group] = ( Select [group] From Groups g, Organizations o where g.organization = o .organization AND O.OrganizationDes = '" + orgname + @"' AND g.GroupDes =  '" + grpname + @"') ;";
 
         String prefix = @"  DELETE FROM [Groups] Where [GroupDes] = '" + grpname + @"' AND Organization = ( Select Organization From Organizations where OrganizationDes =  '" + orgname + @"') ;";
 
-        return prefix;
+        return command + prefix;
     }
 
     private String BuildDelteOrganizationCommand(string orgname)
