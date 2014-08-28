@@ -93,7 +93,7 @@ namespace BikeChallengeApp.Controllers
             }
              Response = "The Rider " + username +" was Deleted from the Database";
              lf.Main("Users", Response);
-             if (return_val == 0) { return "Error"; } 
+             if (return_val <= 0) { return "Error"; } 
             return "Success";
         }
 

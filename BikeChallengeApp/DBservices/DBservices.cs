@@ -142,7 +142,7 @@ public class DBservices
                     break;
                 case 7:
                     if (data1 == "Organizations")
-                        selectStr = @"SELECT O.OrganizationName, O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, ( Select COUNT(gg.[group]) From Groups gg Where gg.Organization = O.Organization ) OrgGroupCount, ( SELECT Count(UG.[User])-1
+                        selectStr = @"SELECT O.OrganizationName, O.OrganizationDes, o.OrganizationType, o.OrganiztionImage, C.CityName, ( Select COUNT(gg.[group]) From Groups gg Where gg.Organization = O.Organization ) OrgGroupCount, ( SELECT Count(UG.[User])
 																																																						FROM UsersGroups UG, Groups G1
 																																																						WHERE G1.[Group] = UG.[Group]
 																																																						AND G1.Organization = O.Organization
@@ -1384,17 +1384,34 @@ public class DBservices
         String command;
         StringBuilder sb = new StringBuilder();
         String prefix = @"Declare @val int;
+                        Declare @id nvarchar(128)
+                        Declare @grp int;
                         Set @val = 0;
-                        SET @val = ( SELECT u.[User]
-				                        FROM [Users] u , [AspNetUsers] asp
-				                        Where asp.UserName = '" + username + @"'
-				                        AND   asp.ID = u.id
+                        Set @id ='';
+                        Set @grp = 0;
+                        ( SELECT @val = u.[User], @id = asp.[id]
+                                        FROM [Users] u , [AspNetUsers] asp
+                                        Where asp.UserName = '" + username + @"'
+                                        AND   asp.ID = u.id
                                         AND   u.[User] <> 0 );
+                        (Select @grp =[group] From UsersGroups Where [user]=@val);
                         if @val <> 0
+                        begin 			            
+                        DELETE FROM [Routes] Where [USER] = @val;
+                        DELETE FROM [Rides] Where [USER] = @val;
+                        DELETE FROM [UsersEvents] Where [USER] = @val;
+                        if exists ( Select 'x' from [UsersGroups] ug Where [User]<>@val  And [Group]=@grp )
                         begin
-			                   DELETE FROM [UsersGroups] Where [USER] = @val;
+	                        DELETE FROM [UsersGroups] Where [USER] = @val;
+                        end
+                        else
+                        begin
+	                        UPDATE [UsersGroups] SET [User] = 0 where [USER] = @val;
+                        end
                         DELETE FROM [Users] Where [USER] = @val;
+                        DELETE FROM [AspNetUsers] Where [id] = @id;
                         end";
+       
         command = prefix;
         return command;
     }
