@@ -30,3 +30,23 @@ The statement has been terminated.
 23:35:03 : The Group g&a was Deleted from the Databse
 23:35:31 : The Group g&a was Deleted from the Databse
 >>>>>>> origin/master
+00:07:32 : The Group Mobile was Deleted from the Databse
+20:50:26 : The Group חיפוש was Deleted from the Databse
+20:50:30 : The Group הנהלה בכירה was Deleted from the Databse
+20:50:34 : The Group DevOps was Deleted from the Databse
+20:51:30 : The Group א&ב was Deleted from the Databse
+20:51:36 : The Group groupName was Deleted from the Databse
+20:51:41 : The Group admingroup was Deleted from the Databse
+20:51:47 : The Group בדיקונת was Deleted from the Databse
+20:51:55 : The Group Ops was Deleted from the Databse
+20:52:09 : The Group דואר was Deleted from the Databse
+20:52:15 : The Group סניף חיפה was Deleted from the Databse
+20:52:24 : The Group צופציק בדיקה was Deleted from the Databse
+20:52:28 : The Group צ''ופתיקון בדיקה was Deleted from the Databse
+20:52:53 : The Group ההרירה הטבעית! was Deleted from the Databse
+20:53:22 : The Group חממה חדשה was Deleted from the Databse
+20:53:40 : The Group מפוחי רוח was Deleted from the Databse
+20:53:58 : The Group נוזלים was Deleted from the Databse
+20:54:27 : The Group אנוצה was Deleted from the Databse
+20:54:42 : The Group הנהלה בכירה was Deleted from the Databse
+20:55:18 : The Group טעימות was Deleted from the Databse

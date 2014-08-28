@@ -8,3 +8,9 @@ The statement has been terminated.
 23:52:37 : Conversion failed when converting date and/or time from character string.
 23:55:10 : The Rider llalla was Deleted from the Database
 23:55:17 : The Rider ahmedt was Deleted from the Database
+21:40:37 : Conversion failed when converting date and/or time from character string.
+21:40:37 : The Rider undefined was Deleted from the Database
+21:44:49 : Conversion failed when converting date and/or time from character string.
+21:47:52 : The Rider undefined was Deleted from the Database
+21:48:30 : Conversion failed when converting date and/or time from character string.
+21:48:56 : The Rider chick4 was Deleted from the Database

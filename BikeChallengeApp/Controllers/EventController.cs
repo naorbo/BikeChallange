@@ -18,7 +18,7 @@ namespace BikeChallengeApp.Controllers
     {
        
         // GET api/event?username=[The name of the username]
-       // [Authorize]
+        [Authorize]
         public DataTable Get(string username)
         {
             DBservices dbs = new DBservices();

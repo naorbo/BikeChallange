@@ -16,13 +16,16 @@ using iTextSharp.text.pdf;
 using System.IO;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
-using System.Web.Mvc;
 using System.Web.Script.Serialization;
 using System.Text.RegularExpressions;
 using System.Diagnostics;
 
+
+
+
 namespace BikeChallengeApp.Controllers
 {
+    [Authorize(Users = "bcadministrator")]
     public class ReportController : ApiController
     {
         // The Data From:
@@ -34,6 +37,8 @@ namespace BikeChallengeApp.Controllers
 
         // api/Organization -> Get ALL Organizations
         // api/Report?type=Organizations
+
+        
         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
         {
         

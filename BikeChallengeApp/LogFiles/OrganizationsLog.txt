@@ -11,3 +11,13 @@ The statement has been terminated.
 09:09:30 : The Organization Reshet was Deleted from the Event
 23:06:51 : The Organization cd was Deleted from the Event
 23:44:21 : The Organization קקל was Deleted from the Event
+20:49:23 : The Organization a was Deleted from the Event
+20:49:53 : The Organization a&i was Deleted from the Event
+20:50:48 : The Organization Amimon was Deleted from the Event
+20:55:30 : The Organization שמעון מוסכים was Deleted from the Event
+21:01:48 : The DELETE statement conflicted with the REFERENCE constraint "fk_Organization". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Organization'.
+The statement has been terminated.
+21:01:48 : The Organization מוטי מזגנים was Deleted from the Event
+21:02:25 : The DELETE statement conflicted with the REFERENCE constraint "fk_Organization". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Organization'.
+The statement has been terminated.
+21:02:25 : The Organization מוטי מזגנים was Deleted from the Event

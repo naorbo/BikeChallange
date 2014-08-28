@@ -1456,7 +1456,7 @@ app.controller('loginController', function ($rootScope, $scope, authFactory, AUT
 
 
 
-app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
+app.controller('signUpController', function ($rootScope, $scope, $http, $timeout, $upload, $location, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
 
     $scope.pleaseWait = false;
     $scope.disableSubmit = false;
@@ -1532,7 +1532,8 @@ app.controller('signUpController', function ($rootScope, $scope, $http, $timeout
                      });
 
         }
-        }
+    }
+
 
     // Organization Handling 
 

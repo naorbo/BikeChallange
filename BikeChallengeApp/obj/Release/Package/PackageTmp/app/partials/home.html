@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="he">
+
 <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title></title>
 
     <style>
@@ -19,15 +21,13 @@
                 right: 0;
                 padding: 8px 27px;
             }
-
-
     </style>
 </head>
-<body >
+<body>
     <div class="content-background">
-        <div  class="container" style="padding-top:50px">
+        <div class="container" style="padding-top:50px">
             <div id="homeSignIn" class="col-md-4">
-                
+
                 <form ng-submit="signIn()" name="loginDetails" novalidate>
                     <label class="col-md-offset-2" style="font-size:15px; color:white"><strong>כבר רוכבים לעבודה?</strong></label>
                     <div class="row">
@@ -50,8 +50,8 @@
                         </div>
                         <label class="col-md-offset-4" style="font-size:12px; color:white"><strong><a href="#forgotPassword">שכחת סיסמא?</a></strong></label>
                     </div>
-                   
-                    
+
+
                     <div class="row">
                         <div class="pull-left">
                             <button type="submit" class="btn btn-primary" ng-disabled="loginDetails.$invalid">התחבר</button>
@@ -61,9 +61,9 @@
                         </div>
                     </div>
                 </form>
-</div>
-  
-        
+            </div>
+
+
 
             <div class="jumbotron col-md-8 pull-right">
                 <span class="col-md-12" style="font-size:75px; font-weight:bolder">רוכבים לעבודה</span>
@@ -71,7 +71,7 @@
                 <div style="padding-bottom:40px">
                     <span class="col-md-12" style="font-size:25px; font-weight:bold">עדיין לא הצטרפתם ? אל תשארו תקועים בפקקים, הצטרפו לפרויקט, תתחילו לפדל ותחסכו זמן וכסף!</span>
                 </div>
-                    <br /><br /><br /><br />
+                <br /><br /><br /><br />
                 <div style="padding-top:60px">
                     <a class="btn btn-success btn-lg pull-left" style="font-weight: bold; font-size:20px;" href="#userRegistration">גם אני רוכב לעבודה !</a>
                 </div>
@@ -87,14 +87,14 @@
                         ng-class="{'hoverstats': isActiveCol[0]}"
                         ng-mouseover="isActiveCol[0]=true"
                         ng-mouseleave="isActiveCol[0]=false">
-                        <i ng-class="{'fa fa-spinner fa-spin' : !contentLoader}" ></i>
+                        <i ng-class="{'fa fa-spinner fa-spin' : !contentLoader}"></i>
                         <span>{{globalStats.NumOfUsers}}</span>
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[1]}"
                         ng-mouseover="isActiveCol[1]=true"
                         ng-mouseleave="isActiveCol[1]=false">
-                        <i ng-class="{'fa fa-spinner fa-spin' : !contentLoader}" ></i>
+                        <i ng-class="{'fa fa-spinner fa-spin' : !contentLoader}"></i>
                         <span>{{globalStats.NumOfGroups}}</span>
                     </td>
                     <td class='stats-cell'
@@ -229,14 +229,14 @@
                         ng-mouseover="isActiveCol[5]=true"
                         ng-mouseleave="isActiveCol[5]=false">
                         <span>ק"ג של CO2</span>
-                        
+
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[6]}"
                         ng-mouseover="isActiveCol[6]=true"
                         ng-mouseleave="isActiveCol[6]=false">
                         <span>ליטרים של דלק</span>
-                       
+
                     </td>
                     <td class='stats-cell'
                         ng-class="{ 'hoverstats': isActiveCol[7]}"
@@ -248,89 +248,89 @@
             </table>
         </div>
     </div>
-    
-        <div class="container">
-            <div class="content-example " style="padding-top:70px;">
-                <div class="row">
-                    <img class="col-md-6" src="sources/images/bc_cover_trans.png" />
 
-                    <div class="col-md-6">
+    <div class="container">
+        <div class="content-example " style="padding-top:70px;">
+            <div class="row">
+                <img class="col-md-6" src="sources/images/bc_cover_trans.png" />
 
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row my-icon">
-                                    <div class="circle-border">
-                                        <i class="fa fa-group fa-3x "></i>
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row" style="text-align: center;">
-                                    <span><strong class="text4icon">רוכבים לעבודה,  </strong></span>
-                                    <br />
-                                    <span><strong class="text4icon"> יחד עם החברים</strong></span>
+                <div class="col-md-6">
 
-                                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row my-icon">
+                                <div class="circle-border">
+                                    <i class="fa fa-group fa-3x "></i>
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="row my-icon">
-                                    <div class="circle-border">
-                                        <i class="fa fa-globe fa-3x "></i>
-                                    </div>
-                                </div>
+                            <br />
+                            <div class="row" style="text-align: center;">
+                                <span><strong class="text4icon">רוכבים לעבודה,  </strong></span>
                                 <br />
-                                <div class="row" style="text-align: center;">
-                                    <span><strong class="text4icon">שומרים על סביבה ירוקה, </strong></span>
-                                    <br />
-                                    <span><strong class="text4icon"> חוסכים זמן וכסף! </strong></span>
+                                <span><strong class="text4icon"> יחד עם החברים</strong></span>
 
-                                    <br />
-                                </div>
+                                <br />
                             </div>
                         </div>
-                        <br />
-                        <br />
-                        <div class="row">
-                            <div class="col-md-6">
-                                <div class="row my-icon">
-                                    <div class="circle-border">
-                                        <i class="fa fa-calendar fa-3x "></i>
 
-                                    </div>
-                                </div>
-                                <br />
-                                <div class="row" style="text-align: center;">
-                                    <span><strong class="text4icon">מדווחים , משתפרים </strong></span><br />
-                                    <span><strong class="text4icon">ועוקבים אחרי המדדים האישיים</strong></span>
-                                    <br />
+                        <div class="col-md-6">
+                            <div class="row my-icon">
+                                <div class="circle-border">
+                                    <i class="fa fa-globe fa-3x "></i>
                                 </div>
                             </div>
-
-                            <div class="col-md-6">
-                                <div class="row my-icon">
-                                    <div class="circle-border">
-                                        <i class="fa fa-flag-checkered fa-3x "></i>
-                                    </div>
-                                </div>
+                            <br />
+                            <div class="row" style="text-align: center;">
+                                <span><strong class="text4icon">שומרים על סביבה ירוקה, </strong></span>
                                 <br />
-                                <div class="row" style="text-align: center;">
-                                    <span><strong class="text4icon">מגיעים לעבודה בזמן! </strong></span><br />
-                                    <span><strong class="text4icon">זוכים בפרסים </strong></span>
-                                    <br />
-                                </div>
+                                <span><strong class="text4icon"> חוסכים זמן וכסף! </strong></span>
+
+                                <br />
                             </div>
-
-
                         </div>
+                    </div>
+                    <br />
+                    <br />
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="row my-icon">
+                                <div class="circle-border">
+                                    <i class="fa fa-calendar fa-3x "></i>
+
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="text-align: center;">
+                                <span><strong class="text4icon">מדווחים , משתפרים </strong></span><br />
+                                <span><strong class="text4icon">ועוקבים אחרי המדדים האישיים</strong></span>
+                                <br />
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="row my-icon">
+                                <div class="circle-border">
+                                    <i class="fa fa-flag-checkered fa-3x "></i>
+                                </div>
+                            </div>
+                            <br />
+                            <div class="row" style="text-align: center;">
+                                <span><strong class="text4icon">מגיעים לעבודה בזמן! </strong></span><br />
+                                <span><strong class="text4icon">זוכים בפרסים </strong></span>
+                                <br />
+                            </div>
+                        </div>
+
 
                     </div>
 
-
                 </div>
+
+
             </div>
         </div>
-    
-    
+    </div>
+
+
 </body>
 </html>

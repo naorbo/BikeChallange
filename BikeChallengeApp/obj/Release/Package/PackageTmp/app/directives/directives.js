@@ -161,7 +161,7 @@ app.directive('emailValidate', function (dataFactory) {
         link: function ($scope, $element, $attrs, $ctrl) {
             $ctrl.$parsers.push(function (viewValue) {
                 $ctrl.$setValidity('emailValidate', true);
-                if($ctrl.$valid) {
+                if (!$ctrl.$error.email && $ctrl.$viewValue != "") {
                     $ctrl.$setValidity('checkingEmail', false);
                     console.log("Got the Direc");
                 
