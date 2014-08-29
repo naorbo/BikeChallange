@@ -517,8 +517,8 @@ public class DBservices
 
                 DataRow newRow = dt.NewRow();
                 newRow["NumOfUsers"] = dt.Rows[0].ItemArray[0];
-                newRow["NumOfGroups"] = dt.Rows[1].ItemArray[1];
-                newRow["NumOforganizations"] = dt.Rows[2].ItemArray[2];
+                newRow["NumOforganizations"] = dt.Rows[1].ItemArray[1];
+                newRow["NumOfGroups"] = dt.Rows[2].ItemArray[2];
                 newRow["NumOfRides"] = dt.Rows[3].ItemArray[3];
                 newRow["TotalKM"] = dt.Rows[3].ItemArray[4];
                 newRow["TotalCO2"] = dt.Rows[3].ItemArray[5];

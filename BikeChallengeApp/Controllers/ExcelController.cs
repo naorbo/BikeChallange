@@ -21,123 +21,12 @@ using System.Web.Script.Serialization;
 using iTextSharp.text.html; 
 using iTextSharp.text.html.simpleparser;
 using System.Web.UI.HtmlControls;
+using System.Text.RegularExpressions;
 
 namespace BikeChallengeApp.Controllers
 {
     public class ExcelController : ApiController
     {
-        public void Post(HttpResponse Response, [FromBody]DataTable dt)
-        {
 
-            GridView grid = new GridView();
-            grid.DataSource = dt;
-
-            string filename = DateTime.Now.ToString("0:yyyyMMddhhmmss") + ".csv";
-            Response.Clear();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=" + filename);
-            Response.Charset = "";
-            Response.ContentType = "application/text";
-            grid.AllowPaging = false;
-            StringBuilder sb = new StringBuilder();
-            for (int k = 0; k < grid.Columns.Count; k++)
-            {
-                sb.Append(grid.Columns[k].HeaderText + ',');
-            }
-            sb.Append("\r\n");
-            for (int i = 0; i < grid.Rows.Count; i++)
-            {
-                for (int k = 0; k < grid.Columns.Count; k++)
-                {
-                    sb.Append(grid.Rows[i].Cells[k].Text + ',');
-                }
-                sb.Append("\r\n");
-            }
-            Response.Output.Write(sb.ToString());
-            Response.Flush();
-            Response.End();
-        }
-
-       /* public ActionResult HttpResponseMessage(string type, [FromBody]DataTable mlist)
-        {
-            GridView gv = new GridView();
-            gv.DataSource = mlist.Rows[0].ItemArray[0];
-            gv.DataBind();
-            Response.ClearContent();
-            Response.Buffer = true;
-            Response.AddHeader("content-disposition", "attachment; filename=Marklist.xls");
-            Response.ContentType = "application/ms-excel";
-            Response.Charset = "";
-            StringWriter sw = new StringWriter();
-            HtmlTextWriter htw = new HtmlTextWriter(sw);
-            gv.RenderControl(htw);
-            Response.Output.Write(sw.ToString());
-            Response.Flush();
-            Response.End();
-
-            return RedirectToAction("StudentDetails");
-        }
-
-         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
-        {
-            try
-            {
-                int ColNum = mlist.Columns.Count;
-                string location = "~\\Reports\\" + type + "\\";
-                string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
-                var root = HttpContext.Current.Server.MapPath(location);
-
-                Directory.CreateDirectory(root);
-                Document document = new Document();
-                
-                PdfWriter.GetInstance(document, new FileStream(root + filename, FileMode.Create));
-                PdfPTable table = new PdfPTable(ColNum);
-                iTextSharp.text.Image logo = iTextSharp.text.Image.GetInstance(root + "Logo.jpg");
-
-                table.WidthPercentage = 90;
-                //fix the absolute width of the table
-                table.LockedWidth = true;
-
-                //relative col widths in proportions - 1/3 and 2/3
-                float[] widths = new float[] { 10, 10, 10, 10, 20, 10, 10, 10, 10, };
-                table.SetWidths(widths);
-                table.HorizontalAlignment = 1;
-                //leave a gap before and after the table
-                table.SpacingBefore = 10f;
-                table.SpacingAfter = 10f;
-
-                PdfPCell cell = new PdfPCell(new Phrase(type));
-                cell.Colspan = ColNum;
-                cell.HorizontalAlignment = 1; //0=Left, 1=Centre, 2=Right
-                table.AddCell(cell);
-
-
-                foreach (DataColumn c in mlist.Columns)
-                {
-                    table.AddCell(c.ColumnName.ToString());
-                }
-
-                foreach (DataRow r in mlist.Rows)
-                {
-                    int i = 0;
-                    foreach (DataColumn c in mlist.Columns)
-                    {
-                        table.AddCell(r.ItemArray[i].ToString());
-                        i++;
-                    }
-                }
-
-                document.Open();
-                document.Add(logo);
-                document.Add(table);
-
-
-
-                document.Close();
-                return Request.CreateResponse(HttpStatusCode.OK, root + filename);
-
-            }
-            catch { return Request.CreateResponse(HttpStatusCode.InternalServerError, "Catch"); }
-        }*/
-    }
+}
 }

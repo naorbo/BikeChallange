@@ -91,10 +91,20 @@ namespace BikeChallengeApp.Controllers
                  lf.Main("Users", Response);
                 return "Error";
             }
-             Response = "The Rider " + username +" was Deleted from the Database";
+             
              lf.Main("Users", Response);
-             if (return_val <= 0) { return "Error"; } 
-            return "Success";
+             if (return_val <= 0)
+             {
+                 Response = "The Rider " + username + " was not Deleted from the Database";
+                 lf.Main("Users", Response); 
+                 return "Error";
+             }
+             else
+             {
+                 Response = "The Rider " + username + " was Deleted from the Database";
+                 lf.Main("Users", Response); 
+                 return "Success";
+             }
         }
 
         // PUT api/Rider?username=[UserName you want to update]

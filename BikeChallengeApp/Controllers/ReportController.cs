@@ -34,6 +34,7 @@ namespace BikeChallengeApp.Controllers
 
         // api/Organization -> Get ALL Organizations
         // api/Report?type=Organizations
+        // [Authorize(Users = "bcadministrator")]
         public HttpResponseMessage Post(string type, [FromBody]DataTable mlist)
         {
         
@@ -176,7 +177,7 @@ namespace BikeChallengeApp.Controllers
                         htable.RunDirection = PdfWriter.RUN_DIRECTION_RTL;
                     }
                     //Title
-                    PdfPCell head = (type == "Users" ? new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח אירועים ", fontB)) : new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח ארגונים ", fontB)));
+                    PdfPCell head =  new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח אירועים ", fontB));
                     head.Border = Rectangle.NO_BORDER;
                     head.Colspan = ColNum;
                     htable.AddCell(head);

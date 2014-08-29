@@ -5,3 +5,12 @@ The statement has been terminated.
 The statement has been terminated.
 00:42:16 : The DELETE statement conflicted with the REFERENCE constraint "FK_Routes_Users". The conflict occurred in database "igroup1_prod", table "dbo.Routes", column 'User'.
 The statement has been terminated.
+19:19:29 : Conversion failed when converting the nvarchar value '00910b83-bbb8-4215-829b-8f69f5a20887' to data type int.
+19:21:16 : The DELETE statement conflicted with the REFERENCE constraint "fk_Id". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Id'.
+The statement has been terminated.
+19:23:50 : The DELETE statement conflicted with the REFERENCE constraint "fk_Id". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Id'.
+The statement has been terminated.
+19:38:06 : The DELETE statement conflicted with the REFERENCE constraint "fk_Id". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Id'.
+The statement has been terminated.
+20:07:10 : The DELETE statement conflicted with the REFERENCE constraint "fk_Id". The conflict occurred in database "igroup1_prod", table "dbo.Users", column 'Id'.
+The statement has been terminated.
