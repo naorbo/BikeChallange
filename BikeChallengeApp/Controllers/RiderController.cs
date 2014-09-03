@@ -73,7 +73,7 @@ namespace BikeChallengeApp.Controllers
 
         // DELETE 
         // api/Rider?username=[UserName]
-      //  [Authorize(Users = "bcadministrator")]
+        [Authorize(Users = "bcadministrator")]
         public string Delete(string username)
         {
             int return_val = 0;

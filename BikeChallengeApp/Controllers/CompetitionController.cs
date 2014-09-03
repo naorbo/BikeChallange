@@ -59,7 +59,7 @@ namespace BikeChallengeApp.Controllers
 
         // PUT api/Competition?CompetitionDate=07-2014
         // {"OrgWin":"","GrpWin":"","GrpOrgWin":"", "PlatinumUser":"","GoldUser":"","SilverUser":"","BronzeUser":""}
-        //[Authorize(Users = "bcadministrator")]
+        [Authorize(Users = "bcadministrator")]
         public string Put(string CompetitionDate, [FromBody]Competition cmpt)
         {
             string userName = string.Empty;

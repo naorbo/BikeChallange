@@ -26,7 +26,7 @@ namespace BikeChallengeApp.Controller
         DBservices dbs = new DBservices();
         // GET organization 
         // api/Organization?orgname=[The name of the organization] - Not case sensative
-       // [Authorize]
+        [Authorize]
         public DataTable GetUser(string orgname)
         {
             orgname = orgname.Replace("'", "''");
@@ -34,6 +34,7 @@ namespace BikeChallengeApp.Controller
             return dbs.dt;
         }
 
+        [Authorize]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();
@@ -43,7 +44,7 @@ namespace BikeChallengeApp.Controller
 
         // POST / Insert organization into the DB 
         //{ "Organizationname":"MedaTech", "OrganizationCity": "טירת הכרמל", "OrganizationImage":"[Image Location]" , "OrganizationType":"הייטק"}
-      //  [Authorize]
+        [Authorize]
         public string updateDB([FromBody]Organization org)
         {
             List<Object> mlist = new List<Object>();
@@ -64,7 +65,7 @@ namespace BikeChallengeApp.Controller
 
         // DELETE Organization 
         // api/Organization?orgname=organizationanme
-        //[Authorize(Users = "bcadministrator")]
+        [Authorize(Users = "bcadministrator")]
         public string DeleteOrganization(string orgname)
         {
             int return_val = 0;

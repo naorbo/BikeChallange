@@ -1,6 +1,8 @@
 ﻿<!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html lang="he">
+
 <head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
     <title></title>
 
 </head>
@@ -56,7 +58,9 @@
                         <p ng-show="regDetails.confirmPassword.$dirty && regDetails.confirmPassword.$error.noMatch" class="help-block">אימות הססמא אינו תואם את הססמא שנבחרה</p>
                     </div>
                     <!-- SUBMIT BUTTON -->
-                    <button type="submit" class="btn btn-primary" ng-disabled="regDetails.$invalid">הרשם</button>
+                    <button type="submit" 
+                            class="btn btn-primary" 
+                            ng-disabled="(regDetails.$invalid)||(disableSubmit)">הרשם</button>
                     <p ng-show="pleaseWait">אנא המתן...<i class="fa fa-spinner fa-spin"></i></p>
                 </form>
 
@@ -125,6 +129,7 @@
                                data-tooltip-placement="right"
                                required />
                         <p ng-show="personalDetails.email.$error.unique" class="help-block">כתובת הדואר האלקטרוני קיימת במערכת</p>
+                        <p ng-show="personalDetails.email.$error.email" class="help-block">הזן כתובת דואר אלקטרוני תקנית</p>
                     </div>
 
                     <!-- Profile Image-->
@@ -306,7 +311,7 @@
                     </div>
                 </div>
             </div>
-            
+
 
             <!-- Organization Creator Modal Window  -->
             <div class="modal fade" id="myNewOrgModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -319,12 +324,12 @@
                         <div class="modal-body row">
                             <br />
 
-                            <input type="text"  class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
+                            <input type="text" class="form-control" ng-model="newOrg.OrganizationName" placeholder="שם הארגון" required /><br />
                             <label><strong>עיר</strong></label>
                             <select id="citySelect" class="form-control" ng-model="newOrg.OrganizationCity" ng-options="c.CityName for c in citiesHolder" required> </select>
                             <br />
-                            
-                            
+
+
                             <!--<input type="text" class="form-control" ng-model="newOrg.OrganizationDes" placeholder="תיאור הארגון" required /><br />-->
                             <input type="text" class="form-control" ng-model="newOrg.OrganizationType" placeholder="אופי הארגון (תעשייה, חברת תוכנה, מכללה, וכו'...')" required />
                             <br />

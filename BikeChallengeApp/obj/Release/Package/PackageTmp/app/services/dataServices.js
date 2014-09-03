@@ -22,9 +22,18 @@ app.factory('dataFactory', function ($rootScope, $http, session, serverBaseUrl) 
             }
             else {
                 console.log("In Flag");
+                
+                var find = '%20';
+                var re = new RegExp(find, 'g');
+                var preEncodeURL = par.replace(re, ' ');
+
+                var encodedUrl = serverBaseUrl + '/api/' + urlPath + '?' + preEncodeURL;
+                encodedUrl = encodeURI(encodedUrl);
+
                 return $http({
                     method: 'GET',
-                    url: serverBaseUrl + '/api/' + urlPath + '?' + par,
+                    url: encodedUrl,
+                    //url: serverBaseUrl + '/api/' + urlPath + '?' + par,
                     headers: { 'Authorization': 'Bearer ' + session.id },
                 });
 
@@ -49,6 +58,7 @@ app.factory('dataFactory', function ($rootScope, $http, session, serverBaseUrl) 
                 method: 'POST',
                 url: serverBaseUrl + '/api/' + urlPath + "?" + par,
                 headers: { 'Authorization': 'Bearer ' + session.id },
+                data: dataObj
             });
         }
 

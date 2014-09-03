@@ -34,7 +34,6 @@ namespace BikeChallengeApp.Controller
         }
 
         // GET api/Group?grpname=[The name of the group]&orgname=[The name of the organization] - Not case sensative
-        // [Authorize(Users = "almazak")]
         [Authorize]
         public DataTable GetGroup(string grpname, string orgname)
         {
@@ -46,7 +45,7 @@ namespace BikeChallengeApp.Controller
         }
 
         // GET api/Group
-       // [Authorize]
+        [Authorize]
         public DataTable GetAll()
         {
             DBservices dbs = new DBservices();
@@ -79,7 +78,7 @@ namespace BikeChallengeApp.Controller
         }
         // DELETE Group 
         // api/Group?grpname=groupname&orgname=organizationanme
-        //[Authorize(Users = "bcadministrator")]
+        [Authorize(Users = "bcadministrator")]
         public string DeleteGroup(string grpname, string orgname)
         {
             int return_val = 0;
