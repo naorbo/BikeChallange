@@ -166,6 +166,20 @@ font-weight:bold;
             
         }
 
+/* Placeholders */
+
+input::-webkit-input-placeholder {
+            text-align:right;
+        }
+input::-moz-placeholder {
+            text-align:right;
+}
+input:-moz-placeholder {
+            text-align:right;
+}
+input:-ms-input-placeholder {
+            text-align:right;
+}
 /****************************************************************************/        
 /* *********************** Forms Validators ***************************/
 /****************************************************************************/

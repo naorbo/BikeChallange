@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm, session) {
+app.controller('adminConsoleController', function ($rootScope, $scope, $window, $modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm, session) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -533,11 +533,17 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
         dataFactory.postValues('Report', data2Export, true,"type="+type)
              .success(function (response) {
                  console.log(response);
+                 $window.open(angular.fromJson(response));
              })
              .error(function (error) {
                  alert("שגיאה");
              });
 
+    }
+
+    $scope.openReport = function () {
+        $window.open($scope.myLink);
+        $scope.myLink = undefined;
     }
 
     // Broadcast a message

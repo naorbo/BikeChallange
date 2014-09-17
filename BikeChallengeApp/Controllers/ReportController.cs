@@ -51,8 +51,8 @@ namespace BikeChallengeApp.Controllers
                     string[] orgstr = { "ארגון", "סוג ארגון", "עיר", "מספר קבוצות", "מספר רוכבים" };
 
                     int ColNum = (type == "Users" ? userstr.Length : orgstr.Length);
-                    string location = "~\\Reports\\" + type + "\\";
-                    string slocation = "~\\sources\\reports\\";
+                    string location = "~/Reports/" + type + "/";
+                    string slocation = "~/sources/reports/";
                     string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
                     var root = HttpContext.Current.Server.MapPath(location);
                     var sroot = HttpContext.Current.Server.MapPath(slocation);
@@ -134,18 +134,20 @@ namespace BikeChallengeApp.Controllers
                     //Add the table to the document 
                     document.Add(table);
                     document.Close();
-                    Process AcrobatReader = new Process();
-                    AcrobatReader.StartInfo.FileName = root + filename;
-                    AcrobatReader.Start();
-                    return Request.CreateResponse(HttpStatusCode.OK, root + filename);
+                    //Process AcrobatReader = new Process();
+                    //AcrobatReader.StartInfo.FileName = root + filename;
+                    //AcrobatReader.Start();
+                    //return Request.CreateResponse(HttpStatusCode.OK, root + filename);
+                    return Request.CreateResponse(HttpStatusCode.OK, "http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/Reports/" + type + "/" + filename);
+                    
                 }
                 else
                 {
                     string[] evtstr = { "שם אירוע", "תאריך", "סוג אירוע", "עיר", "מס' רשומים", "שעה","כתובת",  "תוכן האירוע" };
 
                     int ColNum = evtstr.Length;
-                    string location = "~\\Reports\\" + type + "\\";
-                    string slocation = "~\\sources\\reports\\";
+                    string location = "~/Reports/" + type + "/";
+                    string slocation = "~/sources/reports/";
                     string filename = type + DateTime.Now.ToString("dd_MM_yy_hh_mm_ss") + ".pdf";
                     var root = HttpContext.Current.Server.MapPath(location);
                     var sroot = HttpContext.Current.Server.MapPath(slocation);
@@ -181,7 +183,7 @@ namespace BikeChallengeApp.Controllers
                         htable.RunDirection = PdfWriter.RUN_DIRECTION_RTL;
                     }
                     //Title
-                    PdfPCell head = (type == "Users" ? new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח אירועים ", fontB)) : new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח ארגונים ", fontB)));
+                    PdfPCell head = (type == "Users" ? new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח אירועים ", fontB)) : new PdfPCell(new Phrase(" רוכבים לעבודה - דו''ח אירועים ", fontB)));
                     head.Border = Rectangle.NO_BORDER;
                     head.Colspan = ColNum;
                     htable.AddCell(head);
@@ -228,9 +230,10 @@ namespace BikeChallengeApp.Controllers
                     document.Add(table);
                     document.Close();
                     Process AcrobatReader = new Process();
-                    AcrobatReader.StartInfo.FileName = root + filename;
-                    AcrobatReader.Start();
-                    return Request.CreateResponse(HttpStatusCode.OK, root + filename);
+                    //AcrobatReader.StartInfo.FileName = root + filename;
+                    //AcrobatReader.StartInfo.FileName = "http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/Reports/" + type + "/" + filename;
+                    //AcrobatReader.Start();
+                    return Request.CreateResponse(HttpStatusCode.OK, "http://proj.ruppin.ac.il/igroup1/prod/BikeChallenge/Reports/" + type + "/" + filename);
                 }
                 
 

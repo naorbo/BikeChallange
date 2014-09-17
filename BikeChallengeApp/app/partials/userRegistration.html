@@ -25,6 +25,7 @@
                                ng-readonly="showDetails"
                                ng-minlength="6"
                                ng-maxlength="20"
+                               dir="ltr"
                                data-username-validate
                                required>
                         <p ng-show="regDetails.userName.$error.minlength" class="help-block">שם המשתמש קצר משישה תווים</p>
@@ -40,6 +41,7 @@
                                ng-model="password"
                                placeholder="סיסמא"
                                ng-readonly="showDetails"
+                               dir="ltr"
                                ng-minlength="6"
                                required>
                         <p ng-show="regDetails.password.$error.minlength" class="help-block">הססמא קצרה משישה תווים</p>
@@ -52,6 +54,7 @@
                                ng-model="confirmPassword"
                                placeholder="אימות סיסמא"
                                ng-readonly="showDetails"
+                               dir="ltr"
                                ng-minlength="6"
                                data-valid-password-c
                                required>
@@ -127,6 +130,7 @@
                                data-tooltip="כתובת דואר אלקטרוני"
                                data-tooltip-trigger="focus"
                                data-tooltip-placement="right"
+                               dir="ltr"
                                required />
                         <p ng-show="personalDetails.email.$error.unique" class="help-block">כתובת הדואר האלקטרוני קיימת במערכת</p>
                         <p ng-show="personalDetails.email.$error.email" class="help-block">הזן כתובת דואר אלקטרוני תקנית</p>

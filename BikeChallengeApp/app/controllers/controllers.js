@@ -4,7 +4,7 @@
 // #########################################                adminConsoleController               ################################################################ // 
 // ####################################################################################################################################################### // 
 
-app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm, session) {
+app.controller('adminConsoleController', function ($rootScope, $scope, $window, $modal, $http, $timeout, $location, $upload, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, confirm, session) {
 
     //Load data - init 
     $scope.loadData = function () {
@@ -533,11 +533,17 @@ app.controller('adminConsoleController', function ($rootScope, $scope,$modal, $h
         dataFactory.postValues('Report', data2Export, true,"type="+type)
              .success(function (response) {
                  console.log(response);
+                 $window.open(angular.fromJson(response));
              })
              .error(function (error) {
                  alert("שגיאה");
              });
 
+    }
+
+    $scope.openReport = function () {
+        $window.open($scope.myLink);
+        $scope.myLink = undefined;
     }
 
     // Broadcast a message
@@ -2908,6 +2914,345 @@ app.controller('dashboardController', function ($rootScope, $scope, $filter, dat
 
 
 
+
+});
+
+
+
+// ####################################################################################################################################################### // 
+// #########################################                workController               ############################################################### // 
+// ####################################################################################################################################################### // 
+
+
+
+app.controller('workController', function ($rootScope, $scope, $http, $timeout, $upload, $location, dataFactory, authFactory, AUTH_EVENTS, serverBaseUrl, session) {
+
+    $scope.pleaseWait = false;
+    $scope.disableSubmit = false;
+    //SignUp function - register the user with the ASP.NET EF
+    $scope.signUp = function () {
+        console.log("Trying to EF");
+        $scope.pleaseWait = true;
+        $scope.disableSubmit = true;
+        authFactory.register($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue, $scope.regDetails.confirmPassword.$viewValue).then(function () {
+            console.log("Signup successfull (EF), BCing success");
+            $scope.pleaseWait = false;
+            $rootScope.$broadcast(AUTH_EVENTS.registrationSuccessEF);
+            $scope.loadCities();
+        }, function () {
+            $rootScope.$broadcast(AUTH_EVENTS.registrationFailed);
+            console.log("Registration Failure ");
+        }
+        )
+    };
+
+
+    //userRegistration - register the new user with BC DB 
+
+
+
+    $scope.userRegistration = function (personalDetails) {
+
+        if (personalDetails.org == undefined || personalDetails.org == null) { alert("לא נבחרה קבוצה, בחר קבוצה ונסה שנית") }
+        else {
+
+            var userDetails = {};
+
+            userDetails.RiderEmail = personalDetails.email.$viewValue;
+            userDetails.RiderFname = personalDetails.firstName.$viewValue;
+            userDetails.RiderLname = personalDetails.lastName.$viewValue;
+            userDetails.Gender = personalDetails.gender.$viewValue;
+            userDetails.RiderAddress = personalDetails.address.$viewValue;
+            userDetails.City = personalDetails.city.$viewValue.CityName;
+            userDetails.RiderPhone = personalDetails.phone.$viewValue;
+            userDetails.BicycleType = personalDetails.bikeType.$viewValue;
+            if (personalDetails.imagePath == undefined)
+            { userDetails.ImagePath = "ProfileImages\\Users\\defaultUser\\defaultUserImage.jpg" }
+            else
+            { userDetails.ImagePath = personalDetails.imagePath; }
+            userDetails.BirthDate = personalDetails.bDay.$viewValue;
+            userDetails.UserName = $scope.regDetails.userName.$viewValue;
+
+            // Captain Flag 
+            if ($scope.newOrgFlag || $scope.newTeamFlag) { userDetails.Captain = "1"; }
+            else { userDetails.Captain = "0"; };
+
+            userDetails.Organization = personalDetails.org;
+            userDetails.Group = personalDetails.team.$viewValue.GroupName;
+
+            userDetails = angular.toJson(userDetails, true);
+
+
+
+            // Post to Server
+
+            dataFactory.postValues('Rider', userDetails, false)
+                     .success(function (values) {
+                         if (angular.fromJson(values) == "Error")
+                         { alert(" בדוק את הפרטים שהזנת ונסה בשנית ,ההרשמה נכשלה!"); }
+                         else
+                         {
+                             alert("ההרשמה הסתיימה בהצלחה!");
+                             $rootScope.$broadcast(AUTH_EVENTS.registrationSuccess);
+                         }
+
+                     })
+                     .error(function (error) {
+                         alert("ההרשמה נכשלה!");
+                     });
+
+        }
+    }
+
+
+    // Organization Handling 
+
+    // Save & Close - Modal Window - Passes selected Org from modal windows to attribute 
+    $scope.myOrg = function (chosenOrg) {
+        console.log("org is " + chosenOrg);
+        $scope.$$childHead.personalDetails.org = chosenOrg;
+        $('#myModal').modal('hide');
+        $scope.getTeamByOrg(chosenOrg);
+        return;
+    }
+
+
+    //Refresh orgs list from DB
+    $scope.refreshOrgs = function () {
+        console.log("Inside refresher orgs");
+
+        $scope.orgHolder = angular.fromJson(dataFactory.getValues('Organization', false, 0));
+        console.log("This is the data :" + $scope.orgHolder);
+
+    }
+
+    $scope.getOrgs = function () {
+        dataFactory.getValues('Organization', false, 0)
+             .success(function (values) {
+                 $scope.orgs = angular.fromJson(values);
+                 console.log($scope.orgs);
+
+
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to load Orgs data: ' + error.message;
+             });
+    }
+
+    //Clears org selection
+    $scope.clearSelection = function () {
+        console.log("Im reseting this one ");
+        $scope.$$childHead.personalDetails.org = null;
+        $scope.$$childHead.personalDetails.team = null;
+        return;
+    };
+
+    // New Organization Creator 
+
+    $scope.regNewOrg = function (newOrgObj) {
+
+        if (newOrgObj.imagePath == undefined) {
+            newOrgObj.imagePath = "ProfileImages\\Organizations\\defaultOrg\\defaultOrgImage.jpg";
+        }
+
+        var newOrg = {
+            OrganizationName: newOrgObj.OrganizationName,
+            OrganizationCity: newOrgObj.OrganizationCity.CityName,
+            OrganizationType: newOrgObj.OrganizationType,
+            OrganizationImage: newOrgObj.imagePath
+
+        };
+
+        dataFactory.getValues("OrganizationExists", 1, "orgname=" + newOrg.OrganizationName)
+                    .success(function (response) {
+                        console.log(response);
+                        if (response == '"NOT EXISTS\"') {
+                            console.log("organization is available");
+
+                            dataFactory.postValues('Organization', newOrg, false)
+                            .success(function (response) {
+                                console.log(response);
+                                $scope.newOrgFlag = true;
+                                alert("  הארגון  " + newOrg.OrganizationName + "  נוצר בהצלחה ! ");
+                                // Closing Modal window 
+                                $scope.$$childHead.personalDetails.org = newOrg.OrganizationName;
+                                $('#myNewOrgModal').modal('hide');
+                            })
+                            .error(function (error) {
+                                $scope.status = 'Unable to load Orgs data: ' + error.message;
+                                alert("שגיאה ביצירת ארגון חדש");
+                            });
+                        }
+
+                        else {
+                            console.log("organization is NA");
+                            alert("שם הארגון קיים, אנא בחר שם יחודי או הצטרף לארגון קיים")
+                        }
+                    })
+                     .error(function (error) {
+                         console.log("Unable to fetch organization existance");
+                     }
+                        );
+    }
+
+    $scope.newOrgFlag = false;
+    $scope.newTeamFlag = false;
+
+    $scope.flagReset = function () {
+        if ($scope.newOrgFlag == false)
+            $scope.newOrgFlag = true;
+        else
+            $scope.newOrgFlag = false;
+
+    }
+
+    // Team Handlers 
+
+    // Fetch team per Org
+    $scope.getTeamByOrg = function (orgName) {
+        console.log('trying to get teams')
+        dataFactory.getValues('Group', true, 'orgname=' + orgName)
+            .success(function (values) {
+                $scope.teamPerOrg = angular.fromJson(values);
+            })
+    }
+
+    // Register a new team 
+
+    $scope.regNewTeam = function (newTeamObj, org) {
+        console.log("This is the Org PAssed" + $scope.$$childHead.personalDetails.org)
+        newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
+        dataFactory.postValues('Group', newTeamObj, false)
+             .success(function (response) {
+                 console.log(response);
+                 newTeamObj.OrganizationName = $scope.$$childHead.personalDetails.org;
+                 $scope.newTeamFlag = true;
+                 alert("  הקבוצה  " + newTeamObj.GroupName + "  נוצרה בהצלחה ! ");
+                 // Closing Modal window 
+                 //$scope.$$childHead.personalDetails.team = newTeamObj;
+                 //$scope.$$childHead.personalDetails.team = newTeamObj.GroupName;
+                 $('#myNewTeamModal').modal('hide');
+                 $scope.getTeamByOrg(newTeamObj.OrganizationName);
+             })
+             .error(function (error) {
+                 $scope.status = 'Unable to create a new team: ' + error.message;
+                 alert("שגיאה ביצירת קבוצה חדשה");
+             });
+    }
+
+    // Upload image handling for user profile 
+
+
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelect = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: serverBaseUrl + "/api/UserImage?UserName=" + $scope.regDetails.userName.$viewValue, // webapi url
+                    method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.$$childHead.personalDetails.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
+
+
+    // Upload image handling for Org profile 
+
+    // api/OrganizationImage?OrgName=[orgname]
+    $scope.upload = [];
+    $scope.fileUploadObj = { testString1: "Test string 1", testString2: "Test string 2" };
+
+    $scope.onFileSelectOrg = function ($files) {
+        //$files: an array of files selected, each file has name, size, and type.
+        for (var i = 0; i < $files.length; i++) {
+            var $file = $files[i];
+            (function (index) {
+                $scope.upload[index] = $upload.upload({
+                    url: serverBaseUrl + "/api/OrganizationImage?OrgName=" + $scope.newOrg.OrganizationName, // webapi url
+                    method: "POST",
+                    headers: { 'Authorization': 'Bearer ' + session.id },
+                    data: { fileUploadObj: $scope.fileUploadObj },
+                    file: $file
+                }).progress(function (evt) {
+                    // get upload percentage
+                    console.log('percent: ' + parseInt(100.0 * evt.loaded / evt.total));
+                }).success(function (data, status, headers, config) {
+                    // file is uploaded successfully
+                    console.log(data);
+                    $scope.newOrg.imagePath = data.returnData;
+                }).error(function (data, status, headers, config) {
+                    // file failed to upload
+                    console.log(data);
+                });
+            })(i);
+        }
+    }
+
+    $scope.abortUpload = function (index) {
+        $scope.upload[index].abort();
+    }
+
+
+    //Get City list
+
+    $scope.loadCities = function () {
+        console.log('trying to get teams');
+        dataFactory.getValues('Cities', false, 0)
+            .success(function (values) {
+                $scope.citiesHolder = angular.fromJson(values);
+            })
+    }
+
+
+
+    // Event Handlers
+
+    $scope.$on('reg-success-ef', function () {
+        $scope.showDetails = true;
+        authFactory.login($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue).then(function () {
+            console.log("Initial Login");
+        })
+        // Add here disable main form of registration 
+
+    })
+
+    $scope.$on('reg-success', function () {
+        //login and redirection to userpage after successfull registration
+        // authFactory.login($scope.regDetails.userName.$viewValue, $scope.regDetails.password.$viewValue).then(function () {
+        $rootScope.$broadcast(AUTH_EVENTS.loginSuccess);
+        //   console.log("Event BC - user logged ");
+    }, function () {
+        $rootScope.$broadcast(AUTH_EVENTS.loginFailed);
+        console.log("Event BC - bad login ");
+        $scope.failFlag = true;
+    })
+
+
+    $scope.$on('update-org'), function () {
+        $scope.personalDetails.org = $scope.orgSelection;
+        console.log($scope.personalDetails.org);
+    }
 
 });
 

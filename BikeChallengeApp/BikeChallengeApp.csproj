@@ -266,6 +266,7 @@
     <Content Include="app\services\appservices.js" />
     <Content Include="app\services\dataServices.js" />
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="Content\angucomplete.css" />
     <Content Include="Content\appStyles.css" />
     <Content Include="Content\bootstrap-rtl.css" />
     <Content Include="Content\bootstrap-theme.css" />
@@ -290,6 +291,7 @@
     <Content Include="Models\mailTemplates\contactTemplate.html" />
     <Content Include="ProfileImages\Organizations\defaultOrg\defaultOrgImage.jpg" />
     <Content Include="ProfileImages\Users\defaultUser\defaultUserImage.jpg" />
+    <Content Include="Scripts\angucomplete.js" />
     <Content Include="Scripts\angular-animate.js" />
     <Content Include="Scripts\angular-animate.min.js" />
     <Content Include="Scripts\angular-cookies.js" />
@@ -685,6 +687,7 @@
     <Content Include="sources\images\socialIcons\yt_black.png" />
     <Content Include="sources\images\socialIcons\yt_color.png" />
     <Content Include="sources\images\test.jpg" />
+    <Content Include="sources\reports\Logo.png" />
     <Content Include="Web.config">
       <SubType>Designer</SubType>
     </Content>
@@ -704,6 +707,14 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\version.json" />
     <Content Include="skins\square\Thumbs.db" />
+    <Content Include="sources\reports\ariali.ttf" />
+    <Content Include="sources\reports\ARIALN.TTF" />
+    <Content Include="sources\reports\ARIALNB.TTF" />
+    <Content Include="sources\reports\ARIALNBI.TTF" />
+    <Content Include="sources\reports\ARIALNI.TTF" />
+    <Content Include="sources\reports\ariblk.ttf" />
+    <Content Include="sources\reports\mriam.ttf" />
+    <Content Include="sources\reports\Thumbs.db" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
